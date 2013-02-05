@@ -1,20 +1,37 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
+        <title>Open Duka</title>
+        <meta name="description" content="Open Duka">
+        <meta name="author" content="Open Institute">
         <meta name="viewport" content="width=device-width">
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        
+        <style>
+        	html, body {
+        		background: #ffffff; /* Old browsers */
+        		background: -moz-radial-gradient(center, ellipse cover,  #ffffff 0%, #eeeeee 100%); /* FF3.6+ */
+        		background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#ffffff), color-stop(100%,#eeeeee)); /* Chrome,Safari4+ */
+        		background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#eeeeee 100%); /* Chrome10+,Safari5.1+ */
+        		background: -o-radial-gradient(center, ellipse cover,  #ffffff 0%,#eeeeee 100%); /* Opera 12+ */
+        		background: -ms-radial-gradient(center, ellipse cover,  #ffffff 0%,#eeeeee 100%); /* IE10+ */
+        		background: radial-gradient(ellipse at center,  #ffffff 0%,#eeeeee 100%); /* W3C */
+        		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        		height: 100%;
+        	}
+        </style>
+        
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -22,16 +39,47 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+        <table align="center" style="width: 100%; height: 100%; text-align: center;">
+        	<tr><td valign="middle">
+        		<h1 style="font-size: 50px;">
+        			<span style="font-weight: normal;">Open </span>Duka
+        		</h1>
+        		<br />
+        		
+        		<div style="max-width:400px; margin: 0 auto;">
+        			<p class="lead">We are working hard on awesome stuff. Sign up for upcoming announcements.</p>
+        		</div>
+        		
+        		<!-- Begin MailChimp Signup Form -->
+        		<div id="mc_embed_signup">
+        			<form action="http://openinstitute.us6.list-manage1.com/subscribe/post?u=65e5825507b3cec760f272e79&amp;id=b7fae70cb2" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" target="_blank" novalidate>
+        				
+        				<div class="mc-field-group">
+        					<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email Address">
+        					<button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn">Subscribe</button>
+        				</div>
+        				<div id="mce-responses" class="clear">
+        					<div class="response" id="mce-error-response" style="display:none"></div>
+        					<div class="response" id="mce-success-response" style="display:none"></div>
+        				</div>
+        			</form>
+        		</div>
+        		
+        		<!--End mc_embed_signup-->
+        		
+        		<p style="font-style: italic;">An <a href="http://openinstitute.com">Open Institute</a> project!</p>
+        	</td></tr>
+        </table>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.0.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            var _gaq=[['_setAccount','UA-34157316-3'],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
             s.parentNode.insertBefore(g,s)}(document,'script'));

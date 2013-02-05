@@ -4,6 +4,8 @@
 # TEAM
 
     <name> -- <role> -- <twitter>
+    <David Lemayian> -- <Lead> -- <@DavidLemayian>
+    <Nick Hargreaves> -- <Dev> -- <@nickhargreaves>
 
 # THANKS
 
