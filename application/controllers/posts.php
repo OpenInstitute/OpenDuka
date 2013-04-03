@@ -55,20 +55,13 @@ class Posts extends CI_Controller {
 		}
 	}
 	function submit_pdf(){
-
-//extract data from the post
 		extract($_POST);
 		$url = 'https://www.documentcloud.org/api/upload.json';
-		//$url = 'http://www.pichanoma.com/docupload.php';
 		$fields = 		array (
-						'username' => '', 
-						'password' => '', 
-						'file'=>'http://labs.appligent.com/presentations/recognizing_malformed_pdf_f.pdf', 
-						'access'=>'private', 
-						'source'=>'Some Very Confidential Source', 
-						'title'=>'Test Upload via Curl');
-		 
-
+						'file'=>$_POST['file'], 
+						'access'=>'public',
+						'title'=>$_POST['title']
+						);
 		//url-ify the data for the POST
 		$fields_string = '';
 		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; } rtrim($fields_string, '&');
@@ -77,10 +70,8 @@ class Posts extends CI_Controller {
 		$ch = curl_init();
 
 		//set the url, number of POST vars, POST data
-		curl_setopt($ch,CURLOPT_URL, $url);
-		//curl_setopt($ch, CURLOPT_HEADER, 1); 
-		curl_setopt($ch, CURLOPT_USERPWD, 'nick@openinstitute.com' . ":" . 'Einstein/149378');
-		//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded', 'Authorization: Basic'));        
+		curl_setopt($ch,CURLOPT_URL, $url); 
+		curl_setopt($ch, CURLOPT_USERPWD, 'user:pass');       
 		curl_setopt($ch, CURLOPT_POST, count($fields));
 		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -93,9 +84,33 @@ class Posts extends CI_Controller {
 
 		//close connection
 		curl_close($ch);
-
-		//print_r($result);
-		echo $result;
+		$result = json_decode($result, true);
+		
+		$data = array(
+		'doc_id'=>$result['id'],
+		'title'=>$result['title'],
+		'pages'=>$result['pages'],
+		//'description' => $result['description'],
+		//'source' => $result['source'],
+		'created_at' => $result['created_at'],
+		'updated_at' => $result['updated_at'],
+		'canonical_url' => $result['canonical_url'],
+		'contributor' => $result['contributor'],
+		'contributor_organization' => $result['contributor_organization'],
+		'pdf' => $result['resources']['pdf'],
+		'text' => $result['resources']['text'],
+		'thumbnail' => $result['resources']['thumbnail'],
+		'search' => $result['resources']['search'],
+		'pagetext' => $result['resources']['page']['text'],
+		'pageimage' => $result['resources']['page']['image']
+		);
+		
+		if($this->db->insert("Uploaded", $data)){
+			print "Saved to database!";
+		}else{
+			print "kuna shida db";
+		}
+		
 	}
 				///---------------------
 	function do_post_request($data, $optional_headers = null) 
