@@ -54,7 +54,45 @@ class Posts extends CI_Controller {
 			//	$this->load->view('upload_success', $data);
 		}
 	}
-	
+	function submit_pdf(){
+		//extract data from the post
+		extract($_POST);
+		//$url = 'https://www.documentcloud.org/api/upload.json';
+		$url = 'http://www.pichanoma.com/docupload.php';
+		$fields = 		array (
+						'username' => '', 
+						'password' => '', 
+						'file'=>'http://labs.appligent.com/presentations/recognizing_malformed_pdf_f.pdf', 
+						'access'=>'private', 
+						'source'=>'Some Very Confidential Source', 
+						'title'=>'Test Upload via Curl');
+		 
+
+		//url-ify the data for the POST
+		$fields_string = '';
+		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; } rtrim($fields_string, '&');
+
+		//open connection
+		$ch = curl_init();
+
+		//set the url, number of POST vars, POST data
+		curl_setopt($ch,CURLOPT_URL, $url);
+		curl_setopt($ch,CURLOPT_POST, count($fields));
+		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+		curl_setopt($ch, CURLOPT_VERBOSE, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+		//execute post
+		$result = curl_exec($ch);
+
+		//close connection
+		curl_close($ch);
+
+		//print_r($result);
+		echo $result;
+	}
 				///---------------------
 	function do_post_request($data, $optional_headers = null) 
 	{ 
