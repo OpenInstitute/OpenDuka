@@ -15,7 +15,7 @@
 |
 */
 //$config['base_url']	= 'index.php';
-$config['base_url']    = "http://".$_SERVER['HTTP_HOST'].'/tesseract';
+$config['base_url']    = "http://".$_SERVER['HTTP_HOST'].'/OpenDuka';
 //$config['base_path']    = "http://".$_SERVER['HTTP_HOST'].'/tesseract';
 
 /*
