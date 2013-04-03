@@ -55,10 +55,11 @@ class Posts extends CI_Controller {
 		}
 	}
 	function submit_pdf(){
-		//extract data from the post
+
+//extract data from the post
 		extract($_POST);
-		//$url = 'https://www.documentcloud.org/api/upload.json';
-		$url = 'http://www.pichanoma.com/docupload.php';
+		$url = 'https://www.documentcloud.org/api/upload.json';
+		//$url = 'http://www.pichanoma.com/docupload.php';
 		$fields = 		array (
 						'username' => '', 
 						'password' => '', 
@@ -77,12 +78,15 @@ class Posts extends CI_Controller {
 
 		//set the url, number of POST vars, POST data
 		curl_setopt($ch,CURLOPT_URL, $url);
-		curl_setopt($ch,CURLOPT_POST, count($fields));
+		//curl_setopt($ch, CURLOPT_HEADER, 1); 
+		curl_setopt($ch, CURLOPT_USERPWD, 'nick@openinstitute.com' . ":" . 'Einstein/149378');
+		//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded', 'Authorization: Basic'));        
+		curl_setopt($ch, CURLOPT_POST, count($fields));
 		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
 		//execute post
 		$result = curl_exec($ch);
