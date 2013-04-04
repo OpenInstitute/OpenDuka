@@ -22,8 +22,8 @@ class Projects extends CI_Controller {
 	{
 			$params = array(
                		'http'=>array(
-	               		'username' => 'benjamin@openinstitute.com',
-	               		'password' => 'private123456'
+	               		'username' => 'username',
+	               		'password' => 'password'
 	               		)
 				); 
 			$context = stream_context_create($params);
