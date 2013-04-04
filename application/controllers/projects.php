@@ -53,7 +53,7 @@ echo $representation;*/
         $method = strtoupper($method);
         $headerType = strtoupper($headerType);
         $session = curl_init();
-        curl_setopt($session, CURLOPT_USERPWD, "benjamin@openinstitute.com:private123456"); 
+        curl_setopt($session, CURLOPT_USERPWD, "username:password"); 
         curl_setopt($session, CURLOPT_URL, $url);
         if ($method == "GET") {
             curl_setopt($session, CURLOPT_HTTPGET, 1);
@@ -128,7 +128,7 @@ echo $representation;*/
 		$DocID = $this->post->insert_document($doc_data);
 		
 		
-		$apikey = "sp3u4wvyqbpx34zauxqp7qr2";
+		$apikey = "sp3u4wvyqbpx34zauxqp7qr2s";
 		$oc = new OpenCalais($apikey);
 		
 		$entities = $oc->getEntities($context);
