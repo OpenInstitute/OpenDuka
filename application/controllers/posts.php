@@ -57,11 +57,12 @@ class Posts extends CI_Controller {
 	function submit_pdf(){
 		extract($_POST);
 		$url = 'https://www.documentcloud.org/api/upload.json';
-		$fields = 		array (
-						'file'=>$_POST['file'], 
-						'access'=>'public',
-						'title'=>$_POST['title']
-						);
+//echo $_POST['title-0'];
+		$fields = 	array (
+				'file'=>$_FILES['file-0'], 
+				'access'=>'public',
+				'title'=>$_POST['title-0']
+				);
 		//url-ify the data for the POST
 		$fields_string = '';
 		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; } rtrim($fields_string, '&');
@@ -71,7 +72,7 @@ class Posts extends CI_Controller {
 
 		//set the url, number of POST vars, POST data
 		curl_setopt($ch,CURLOPT_URL, $url); 
-		curl_setopt($ch, CURLOPT_USERPWD, 'user:pass');       
+		curl_setopt($ch, CURLOPT_USERPWD, 'username:pass');       
 		curl_setopt($ch, CURLOPT_POST, count($fields));
 		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -105,7 +106,7 @@ class Posts extends CI_Controller {
 		'pageimage' => $result['resources']['page']['image']
 		);
 		
-		if($this->db->insert("Uploaded", $data)){
+		if($this->db->insert("DocUploaded", $data)){
 			print "Saved to database!";
 		}else{
 			print "kuna shida db";
@@ -195,16 +196,6 @@ class Posts extends CI_Controller {
 	}
 	 
 
-	
-	function do_process1($filedata){
-		$src=array('project'=>'' ,'access'=>'private');
-	$fileName=$filedata['file_name'];
-	$BaseProductUri = "https://www.documentcloud.org/api/upload.json";
-	$responseStream = uploadFileBinary($BaseProductUri, $fileName, "");
-	echo $responseStream ; 	
-
-
-	}
 	/*function do_process($filedata)
 	{
 		//
