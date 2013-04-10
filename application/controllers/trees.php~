@@ -15,10 +15,10 @@ class Trees extends CI_Controller {
 		//echo 'trees';exit;
 		
 		//$id = $_REQUEST['ID'];	
-		echo $id;exit;
+		//echo $id;exit;
 		$File_Name = $_POST['filename'];		
 		//echo $context;exit;
-		$doc_data = array('DocName' => $File_Name,'DocText' => $context );
+		$doc_data = array('title' => $File_Name,'DocText' => $context );
 		$DocID = $this->post->insert_document($doc_data);
 		
 		

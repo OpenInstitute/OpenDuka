@@ -12,16 +12,39 @@ class Project extends CI_Model {
         parent::__construct();
     }
     
-    function get_last_ten_entries($Tag,$Var)
+    function get_documents($num=20,$start=0)
     {
 		$this->db->select();
 		$this->db->from('DocUploaded');  
-		$this->db->order_by('date_added','desc');  
-		$this->db->limit('DocUploaded');     
-        $query = $this->db->get(10,0);
+		$this->db->order_by('doc_id','desc');  
+		$this->db->limit($num, $start);
+		$query = $this->db->get();
+        
         return $query->result_array();
     }
-
+    
+    function get_document_entry($id)
+    {
+		$this->db->select();
+		$this->db->from('DocUploaded');    
+		$this->db->where('ID', $id);   
+        	$query = $this->db->get();
+        return $query->row_array();
+    }
+    
+    function get_doc_count(){
+    		$this->db->select('doc_id');
+		$this->db->from('DocUploaded');
+		$query = $this->db->get();
+     
+     return $query->num_rows();
+   }
+    
+    function checkDoc($val){
+	$this->db->where('doc_id',$val);    
+      return $this->db->count_all_results('DocUploaded');
+    }
+    
     function insert_document($data)
     {
         $this->db->insert('DocUploaded', $data);
@@ -30,7 +53,7 @@ class Project extends CI_Model {
     
     function update_document($data)
     {
-	  $this->db->where('DocID', $data['DocID']);        
+	  $this->db->where('ID', $data['ID']);        
         $this->db->update('DocUploaded', $data);
     }
    
@@ -83,5 +106,7 @@ class Project extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+    
+    
 
 }

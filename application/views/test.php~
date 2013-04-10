@@ -1,13 +1,14 @@
 	<p><b>Data Extraction:: Confirmation</b></p>
 	<p><i><?php echo $error; ?></i></p>
 	<p><b>Content from</b>  : <?php echo $filename; ?> </p>
-	<?php if (strlen($error)==0){ ?>
-	<form name="calais" action="<?php echo base_url() . index_page();?>/posts/entity" method="post"  enctype="multipart/form-data"> 
-	<p><textarea name="content" id="detail" style="width:80%; height:600px;"><?php echo $content;?></textarea>
+<div align='center'>
+	<form name="calais" action="<?php echo base_url() . index_page();?>/projects/do_doc_update" method="post"> 
+	<p><textarea name="content" id="detail"><?php echo $content;?></textarea>
 	<script language="javascript">generate_wysiwyg('detail');</script></p>
-	<p><input type="submit" name="submit" value="Get Tags!" />
+	<p><input type="submit" name="submit" value="UPDATE" />
+	<input type="hidden" name="ID" testedvvvvvvvvalue="<?php echo $ID; ?>" />
 	<input type="hidden" name="filename" value="<?php echo $filename; ?>" /></p>
 	</form>
-	<?php } else { ?>
-	<p><a href="/">Try again </a> </p>
-	<?php } ?>
+</div>	
+	<p><a href="<?php echo base_url() . index_page();?>/projects">Back to list </a> </p>
+

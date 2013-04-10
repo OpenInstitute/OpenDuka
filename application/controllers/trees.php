@@ -15,14 +15,14 @@ class Trees extends CI_Controller {
 		//echo 'trees';exit;
 		
 		//$id = $_REQUEST['ID'];	
-		echo $id;exit;
+		//echo $id;exit;
 		$File_Name = $_POST['filename'];		
 		//echo $context;exit;
-		$doc_data = array('DocName' => $File_Name,'DocText' => $context );
+		$doc_data = array('title' => $File_Name,'DocText' => $context );
 		$DocID = $this->post->insert_document($doc_data);
 		
 		
-		$apikey = "sp3u4wvyqbpx34zauxqp7qr2";
+		$apikey = "sp3u4wvyqbpx34zauxqp7qr";
 		$oc = new OpenCalais($apikey);
 		
 		$entities = $oc->getEntities($context);

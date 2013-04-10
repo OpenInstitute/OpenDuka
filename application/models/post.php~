@@ -12,14 +12,13 @@ class Post extends CI_Model {
         parent::__construct();
     }
     
-    function get_last_ten_entries($Tag,$Var)
+    function get_document_entry($id)
     {
-		$this->db->select();
-		$this->db->from('DocUploaded');  
-		$this->db->order_by('date_added','desc');  
-		$this->db->limit('DocUploaded');     
-        $query = $this->db->get(10,0);
-        return $query->result_array();
+		$this->db->select('DocText');
+		$this->db->from('DocUploaded');    
+		$this->db->where('ID', $id);   
+        $query = $this->db->get();
+        return $query->result_row();
     }
 
     function insert_document($data)

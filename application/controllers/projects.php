@@ -9,32 +9,45 @@ class Projects extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form','url'));
 		$this->load->database();
-		//$this->load->library('jquery');
+		//$this->load->config();
+		//$this->load->library('javascript');
 		$this->load->model('project');
 	}
 
-	function index()
+	function index($start=0)
 	{
-		$this->load->view('project', array('error' => ''));
+		$data_head = array('page_title' => 'Project list!');
+		$content =$this->project->get_documents(20,$start);
+		
+		$this->load->library('pagination');
+		$config['base_url'] = base_url() . index_page().'/projects/index';
+		$config['total_rows'] = $this->project->get_doc_count();
+		$config['per_page'] = 20; 
+		$this->pagination->initialize($config); 
+		$pages = $this->pagination->create_links();
+
+		$this->load->view('header',$data_head);
+		$this->load->view('project', array('content' => $content,'pages'=>$pages,'error' => ''));
+		$this->load->view('footer');
 	}
 
 	function do_retrieve()
 	{
 			$params = array(
                		'http'=>array(
-	               		'username' => 'benjamin@openinstitute.com',
-	               		'password' => 'private123456'
+	               		'username' => 'username',
+	               		'password' => 'password'
 	               		)
 				); 
 			$context = stream_context_create($params);
 
 			// Open the file using the HTTP headers set above
 			$file = $this->processCommand('https://www.documentcloud.org/api/projects.json');
-			
+			//echo $file;
 			$projects = json_decode($file,true);
 			echo count($projects['projects'][0]['document_ids']);
 			$content = $this->array_extract($projects['projects'][0]['document_ids']);
-			/*
+		/*	
 			$entities = $this->processCommand('https://www.documentcloud.org/api/documents/'.$projects['projects'][0]['document_ids'][0].'/entities.json');
 echo $entities;
 	$representation = $this->processCommand('https://www.documentcloud.org/api/documents/'.$projects['projects'][0]['document_ids'][0].'.json');
@@ -53,7 +66,7 @@ echo $representation;*/
         $method = strtoupper($method);
         $headerType = strtoupper($headerType);
         $session = curl_init();
-        curl_setopt($session, CURLOPT_USERPWD, "benjamin@openinstitute.com:private123456"); 
+        curl_setopt($session, CURLOPT_USERPWD, "username:password"); 
         curl_setopt($session, CURLOPT_URL, $url);
         if ($method == "GET") {
             curl_setopt($session, CURLOPT_HTTPGET, 1);
@@ -80,33 +93,43 @@ echo $representation;*/
 
 	function array_extract($arr){
 		$str ='';
+		$str =0;
 		foreach ($arr as $key => $val){
+		//---check if document already exists in db to avoid double entry ----
+		//echo $this->project->checkDoc('0');
+ 
+		if ($this->project->checkDoc($val)){$cnt += 1;}
+		else {
+		
 			$str.= '<b>'.$key .':</b>';
 			if(is_array($val)){
 				$str.= $this->array_extract($val);
 			}else{
 				$str.= $val.'<br/>';
-				$entities= $this->processCommand('https://www.documentcloud.org/api/documents/'.$val.'/entities.json').'<br/>	';//entities
-				$representation=$this->processCommand('https://www.documentcloud.org/api/documents/'.$val.'.json').'<br/>'; //representation
-				
-				$result = json_decode($representation, true);
+				$entities= $this->processCommand('https://www.documentcloud.org/api/documents/'.$val.'/entities.json');//entities
+				$representation=$this->processCommand('https://www.documentcloud.org/api/documents/'.$val.'.json'); //representation
+				//echo $representation;
+				$result = json_decode($representation,true);
+			//	echo $result["document"]["title"]; 
+
 				$data = array(
-				'doc_id'=>$result['id'],
-				'title'=>$result['title'],
-				'pages'=>$result['pages'],
+				'doc_id'=>$result["document"]['id'],
+				'title'=>$result["document"]['title'],
+				'pages'=>$result["document"]['pages'],
 				//'description' => $result['description'],
 				//'source' => $result['source'],
-				'created_at' => $result['created_at'],
-				'updated_at' => $result['updated_at'],
-				'canonical_url' => $result['canonical_url'],
-				'contributor' => $result['contributor'],
-				'contributor_organization' => $result['contributor_organization'],
-				'pdf' => $result['resources']['pdf'],
-				'text' => $result['resources']['text'],
-				'thumbnail' => $result['resources']['thumbnail'],
-				'search' => $result['resources']['search'],
-				'pagetext' => $result['resources']['page']['text'],
-				'pageimage' => $result['resources']['page']['image'],
+				'created_at' => $result["document"]['created_at'],
+				'updated_at' => $result["document"]['updated_at'],
+				'canonical_url' => $result["document"]['canonical_url'],
+				'contributor' => $result["document"]['contributor'],
+				'contributor_organization' => $result["document"]['contributor_organization'],
+				'pdf' => $result["document"]['resources']['pdf'],
+				'text' => $result["document"]['resources']['text'],
+				'thumbnail' => $result["document"]['resources']['thumbnail'],
+				'search' => $result["document"]['resources']['search'],
+				'pagetext' => $result["document"]['resources']['page']['text'],
+				'pageimage' => $result["document"]['resources']['page']['image'],
+				'DocText' => processCommand($result["document"]['resources']['text']),
 				'entities' => $entities,
 				'representation' => $representation 
 				);
@@ -115,8 +138,52 @@ echo $representation;*/
 
 	 		}
 	 	}
+	 	}
 	 	return $str;
 	 }
+	 
+	 			///---------------------
+	function do_doc_request($id) 
+	{ 
+		$context =$this->project->get_document_entry($id);
+		//echo $context['DocText'];exit;
+		$content=array();
+		$content['ID']  = $context['ID'];
+		$content['filename']  = $context['title'];
+		if ($context['DocText']==''){
+			$content['content'] = $this->processCommand($context['text']);
+			$content['error'] = 'text got from documentcloud';
+		} else {
+			$content['content'] = $context['DocText'];
+			$content['error'] = 'Text from local database';
+		}
+		
+		$data_head = array('page_title'     => 'Entity Extraction');
+
+		$this->load->view('header_entity',$data_head);
+		$this->load->view('test',$content);
+		$this->load->view('footer');
+	}
+	
+	function do_doc_update() 
+	{ 
+		$data=array();
+		$data['ID'] = $_POST['ID'];	
+		$data['DocText'] = $_POST['content'];
+		
+		$this->project->update_document($data);
+		
+		$data_head = array('page_title'  => 'Content Update');
+		$content=array();
+		$content['ID']  = $_POST['ID'];
+		$content['filename'] = $_POST['filename'];
+		$content['content'] = $_POST['content'];
+		$content['error']  = 'Content saved in database';
+		
+		$this->load->view('header_entity',$data_head);
+		$this->load->view('test',$content);
+		$this->load->view('footer');
+	}
 	
 	function entity()
 	{
@@ -128,7 +195,7 @@ echo $representation;*/
 		$DocID = $this->post->insert_document($doc_data);
 		
 		
-		$apikey = "sp3u4wvyqbpx34zauxqp7qr2";
+		$apikey = "sp3u4wvyqbpx34zauxqp7qr";
 		$oc = new OpenCalais($apikey);
 		
 		$entities = $oc->getEntities($context);
@@ -148,7 +215,7 @@ echo $representation;*/
 		}
 
 		$entity_data = array('DocType' => $entity_type_db, 'DocID' => $DocID);
-		$this->post->update_document($entity_data);
+		$this->project->update_document($entity_data);
 		
 		$entity_type_db = "";
 		

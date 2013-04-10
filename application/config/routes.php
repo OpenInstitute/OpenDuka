@@ -37,7 +37,8 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-$route['trees/:num'] = "trees/index";
+$route['trees/(:num)'] = "trees/index";
+$route['posts/(:num)'] = "posts/do_post_request/$1";
 $route['default_controller'] = "index";
 
 $route['404_override'] = '';

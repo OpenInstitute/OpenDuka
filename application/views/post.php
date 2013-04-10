@@ -3,7 +3,6 @@
 	<div id="body">
 	<i><?php echo $error;?></i>
 	<p><b>Data Extraction:: Select file</b></p>
-<<<<<<< HEAD
 
 		<div id="pdfupload">
 		<form enctype="multipart/form-data" action="" method="post" class="putImages">
@@ -17,19 +16,6 @@
 	</div>
 
 	
-=======
-	<!--<form name="calais" id="calais" action="<?php echo base_url() . index_page();?>/posts/do_upload" method="post"  enctype="multipart/form-data"> 
-
-		<input type="file" name="docurl" size="20" id="docurl" />
-		
-		<br /><br />
-		
-		<input type="submit" id="loadDoc" value="upload file" />
-		
-	</form>
-	-->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
->>>>>>> dd8466408aa9bed34ea3232e30088a1aa3d914d6
     <script>                          
                 function myCall() {
 			var data = new FormData($('input[name^="file"]'),$('input[name^="title"]'));     
@@ -74,17 +60,5 @@
                 }
              
     </script>
-<<<<<<< HEAD
-=======
-	<div id="pdfupload">
-	<input type="text" id="file" name="file" value="http://labs.appligent.com/presentations/recognizing_malformed_pdf_f.pdf"><br>
-	<input type="text" id="title" name="title" value="testUploaddocument"><br>
-	</div>
-	<div id="mybox">     
-     </div>
-    <input type="button" value="Submit" onclick="myCall()" />	
-	</div>
-
->>>>>>> dd8466408aa9bed34ea3232e30088a1aa3d914d6
 	
 	

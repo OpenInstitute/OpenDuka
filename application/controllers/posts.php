@@ -16,7 +16,10 @@ class Posts extends CI_Controller {
 
 	function index()
 	{
-		$this->load->view('post', array('error' => ''));
+		$data = array('page_title'     => 'Test the document!');
+			$this->load->view('header',$data);
+			$this->load->view('post', array('error' => ''));
+			$this->load->view('footer');
 	}
 
 	function do_upload()
@@ -72,7 +75,7 @@ class Posts extends CI_Controller {
 
 		//set the url, number of POST vars, POST data
 		curl_setopt($ch,CURLOPT_URL, $url); 
-		curl_setopt($ch, CURLOPT_USERPWD, 'username:pass');       
+		curl_setopt($ch, CURLOPT_USERPWD, 'username:password');       
 		curl_setopt($ch, CURLOPT_POST, count($fields));
 		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -113,63 +116,7 @@ class Posts extends CI_Controller {
 		}
 		
 	}
-				///---------------------
-	function do_post_request($data, $optional_headers = null) 
-	{ 
-				$fileHandle = fopen("./uploads/".$data['file_name'], "rb");
-				$fileContents = stream_get_contents($fileHandle);
-				 //  echo  $fileContents;
-				fclose($fileHandle);
-				
-				
-				
-				$params = array(
-				//'project' => '7877',
-               		//'access' => 	'private',
-               		'title' => $data['file_name'],
-               		'username' => 'benjamin@openinstitute.com',
-               		'password' => 'private',
-      //         		'authenticity_token' => 'y9NZyEWHEK5dcTFgBu3RqBJDCJvRQdMDO62cLbmR0zs=',
-				'file' => $fileContents
-				); 
-  
-				
-				$data = http_build_query($params);
-			//	echo $data;
-				//$cred = sprintf('Authorization: Basic %s', base64_encode('benjamin@openinstitute.com:private'));
-				
-				$cont = array(
-				'http' => array (
-					'method' => 'POST',
-					'header'=>"enctype: multipart/form-data\r\n Content-Transfer-Encoding: binary",
-					'content' => $data
-				      )
-				 );
-				   $url = "https://www.documentcloud.org/api/upload.json";
-				   $ctx = stream_context_create($cont);
-				  // echo $ctx;
-				   $fp = fopen($url, 'rb', false, $ctx);
-				   
-				
-				$response = stream_get_contents($fp);			
-				return $response;		
-			
-				/*
-				if ($optional_headers!== null) { 
-				$params['http']['header'] = $optional_headers; 
-				} 
-				$ctx = stream_context_create($params); 
-				$fp = @fopen($url, 'rb', false, $ctx); 
-				if (!$fp) { 
-				throw new Exception("Problem with $url, $php_errormsg"); 
-				} 
-				$response = @stream_get_contents($fp); 
-				if ($response === false) { 
-				throw new Exception("Problem reading data from $url, $php_errormsg"); 
-				} 
-				return $response; 
-				*/
-	}
+	
 			///---------------------
 	function do_process() {
 
@@ -247,8 +194,8 @@ class Posts extends CI_Controller {
 		{
 		//include './libraries/saaspose.php';	
 			
-		$AppSID  = "9a7ad154-c42d-4896-9c86-d06274518e85";
-		$AppKey = "9931ee02a636e3b8c2382b47ddf82c0e";
+		$AppSID  = "9a7ad154-c42d-4896-9c86-d0627451885";
+		$AppKey = "9931ee02a636e3b8c2382b47ddf82c0";
 		$BaseProductUri = "http://api.saaspose.com/v1.0";
 		
 		//web server location to save file
@@ -341,11 +288,11 @@ class Posts extends CI_Controller {
 		$context = $_POST['content'];	
 		$File_Name = $_POST['filename'];		
 		//echo $context;exit;
-		$doc_data = array('DocName' => $File_Name,'DocText' => $context );
+		$doc_data = array('title' => $File_Name,'DocText' => $context );
 		$DocID = $this->post->insert_document($doc_data);
 		
 		
-		$apikey = "sp3u4wvyqbpx34zauxqp7qr2";
+		$apikey = "sp3u4wvyqbpx34zauxqp7qr";
 		$oc = new OpenCalais($apikey);
 		
 		$entities = $oc->getEntities($context);
