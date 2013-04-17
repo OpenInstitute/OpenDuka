@@ -7,6 +7,7 @@
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/wysiwyg.js"></script>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/>
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"/>
 </head>
 <body>
 
