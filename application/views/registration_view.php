@@ -1,16 +1,15 @@
 <div id="content">
+<div style="border-bottom:1px solid #f6f6f6;padding:10px;"><h3>Login</h3></div>
 <div class="signup_wrap">
 <div class="signin_form">
  <?php echo form_open("user/login"); ?>
-  <label for="email">Email:</label>
-  <input type="text" id="email" name="email" value="" />
-  <label for="password">Password:</label>
-  <input type="password" id="pass" name="pass" value="" />
+  <input type="text" id="email" name="email" value="" placeholder="Email"/>
+  <input type="password" id="pass" name="pass" value="" placeholder="password"/>
   <input type="submit" class="btn btn-primary" value="Sign in"  style="margin-top: -8px;"/>
  <?php echo form_close(); ?>
-</div><!--<div class="signin_form">-->
-</div><!--<div class="signup_wrap">-->
-<div class="reg_form">
+</div>
+<!--<div class="signup_wrap">-->
+<div class="reg_form" style="display:none;">
 <div class="form_title">Sign Up</div>
 <!--<div class="form_sub_title">It's free and anyone can join</div>-->
  <?php echo validation_errors('<p class="error">'); ?>

@@ -5,22 +5,25 @@ class Admin extends CI_Controller {
        {
             parent::__construct();
             // Your own constructor code
+			if(($this->session->userdata('user_name')==""))
+			{
+				redirect('/user');
+			}
        }
        
 	public function index()
 	{
-		if(($this->session->userdata('user_name')!=""))
-		{	
 			$data['page_title'] = 'Admin Dashboard';		
-			$this->load->view('header',$data);
+			$this->load->view('header_admin',$data);
 			$this->load->view('admin', $data);
 			$this->load->view('footer', $data);
-			
-		}
-		else
-		{
-			redirect('/user');
-		}
+	}
+	public function manage_users(){
+	
+		$data['page_title'] = 'Manage Users';
+		$this->load->view('header_admin', $data);
+		$this->load->view('footer', $data);
+		
 	}
 
 }

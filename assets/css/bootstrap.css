@@ -6163,7 +6163,9 @@ a.badge:focus {
 .signup_wrap{
 height:35px;
 padding:5px;
-border-bottom:1px solid #f6f6f6;
+/*border-bottom:1px solid #f6f6f6;*/
+margin: 0 auto;
+width: 580px;
 }
 .signin_form{
 
@@ -6239,4 +6241,19 @@ text-align:center;
 background: #454546; 
 height: 20px;
 clear:both;
+}
+.content{
+padding:10px;
+}
+#admin_menu{
+width:100%;
+height:30px;
+}
+#admin_menu ul{
+list-style:none;
+float:right;
+}
+#admin_menu ul li{
+float:left;
+padding:10px;
 }
