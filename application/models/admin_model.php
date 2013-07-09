@@ -17,7 +17,7 @@ class Admin_model extends CI_Model {
     {
 		$this->db->select('ID');
 		$this->db->from('DocUploaded');    
-		$this->db->where('title', $DocName);   
+		$this->db->where('title', trim($DocName));   
         	$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
@@ -34,8 +34,8 @@ class Admin_model extends CI_Model {
     {
     
     	$data = array (
-    		'title' => $DocName,
-    		'doc_id' => $DocName
+    		'title' => trim($DocName),
+    		'doc_id' => date("Ymd") .'-'.$DocName
     	);
         $this->db->insert('DocUploaded', $data);
         return $this->db->insert_id();
@@ -49,65 +49,93 @@ class Admin_model extends CI_Model {
    
     function insert_entity_root($data,$DocID)
     {
-
-	$this->db->select('ID');
-	$this->db->from('Entity');
-    	$this->db->where('Name', $data['Name']);
-    	$this->db->where('UniqueInfo', $data['UniqueInfo']);
-   	$Entity = $this->db->get();
- 
-    	if ($Entity->num_rows() > 0){
-
-    	 	$row = $Entity->row();
-    	 	$this->db->where('ID', $row->ID);
-    		$this->db->set('DocID', 'CONCAT(DocID,"||",'. $DocID .')', FALSE);
-    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $row->ID .')', FALSE);
-    		$this->db->update('Entity');
-    		return  $row->ID;
-    		
-    	 } else {
-    	 	//$data = array_push("DocID" , "CONCAT(DocID,'||',". $DocID .")");
+	if ($data['UniqueInfo']=="") {
+	
+		//$data = array_push("DocID" , "CONCAT(DocID,'||',". $DocID .")");
 	    	$this->db->set('DocID', "CONCAT(DocID,'||','".$DocID."')", FALSE);
     		$this->db->insert('Entity', $data);
     		$rowID = $this->db->insert_id();
     		
     		return $rowID;
-    	} 	    	
+    	}
+	else {
+		$this->db->select('ID');
+		$this->db->from('Entity');
+	    	$this->db->where('Name', $data['Name']);
+	    	$this->db->where('UniqueInfo', $data['UniqueInfo']);
+	   	$Entity = $this->db->get();
+	 	
+	    	if ($Entity->num_rows() > 0){
+
+	    	 	$row = $Entity->row();
+	    	 	$this->db->where('ID', $row->ID);
+	    		$this->db->set('DocID', 'CONCAT(DocID,"||",'. $DocID .')', FALSE);
+	    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $row->ID .')', FALSE);
+	    		$this->db->update('Entity');
+	    		return  $row->ID;
+	    		
+	    	 } else {
+	    	 	//$data = array_push("DocID" , "CONCAT(DocID,'||',". $DocID .")");
+		    	$this->db->set('DocID', "CONCAT(DocID,'||','".$DocID."')", FALSE);
+	    		$this->db->insert('Entity', $data);
+	    		$rowID = $this->db->insert_id();
+	    		
+	    		return $rowID;
+	   	} 	
+	} 	    	
     }
     
      function insert_entity($data,$DocID,$rootID)
     {
     	//Benjamin,22
-	$this->db->select('ID');
-	$this->db->from('Entity');
-    	$this->db->where('Name', $data['Name']);
-    	$this->db->where('UniqueInfo', $data['UniqueInfo']);
-   	$Entity = $this->db->get();
- 
-    	if ($Entity->num_rows() > 0){
-    	 $row = $Entity->row();
-    	 	$this->db->where('ID', $row->ID);
-    		$this->db->set('DocID', 'CONCAT(DocID,"||",'. $DocID .')', FALSE);
-    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rootID.')', FALSE);
 
-    		$this->db->update('Entity');
-    		$rowID = $row->ID;
-    		
-    		$this->db->where('ID', $rootID);
-    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rowID .')', FALSE);
-    		$this->db->update('Entity');
-    		
-    	 } else {
-	    	$this->db->set('DocID', "CONCAT(DocID,'||','".$DocID."')", FALSE);
-	    	$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rootID.')', FALSE);
-    		$this->db->insert('Entity',$data);
-    		$rowID = $this->db->insert_id();
-    		
-    		$this->db->where('ID', $rootID);
-    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rowID .')', FALSE);
-    		$this->db->update('Entity');
-    	}
-    		
+	if ($data['UniqueInfo']=="") {
+	
+			$this->db->set('DocID', "CONCAT(DocID,'||','".$DocID."')", FALSE);
+		    	$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rootID.')', FALSE);
+	    		$this->db->insert('Entity',$data);
+	    		$rowID = $this->db->insert_id();
+	    		
+	    		$this->db->where('ID', $rootID);
+	    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rowID .')', FALSE);
+	    		$this->db->update('Entity');
+	    		
+	    		return $rowID;
+    	} else {
+
+		$this->db->select('ID');
+		$this->db->from('Entity');
+	    	$this->db->where('Name', $data['Name']);
+	    	$this->db->where('UniqueInfo', $data['UniqueInfo']);
+	   	$Entity = $this->db->get();
+	 
+	    	if ($Entity->num_rows() > 0){
+	    	 	$row = $Entity->row();
+	    	 	$this->db->where('ID', $row->ID);
+	    		$this->db->set('DocID', 'CONCAT(DocID,"||",'. $DocID .')', FALSE);
+	    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rootID.')', FALSE);
+	    		$this->db->update('Entity');
+	    		$rowID = $row->ID;
+	    		
+	    		$this->db->where('ID', $rootID);
+	    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rowID .')', FALSE);
+	    		$this->db->update('Entity');
+	    		
+	    		return $rowID;
+	    		
+	    	 } else {
+		    	$this->db->set('DocID', "CONCAT(DocID,'||','".$DocID."')", FALSE);
+		    	$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rootID.')', FALSE);
+	    		$this->db->insert('Entity',$data);
+	    		$rowID = $this->db->insert_id();
+	    		
+	    		$this->db->where('ID', $rootID);
+	    		$this->db->set('EntityMap', 'CONCAT(EntityMap,"||",'. $rowID .')', FALSE);
+	    		$this->db->update('Entity');
+	    		
+	    		return $rowID;
+	    	}
+    	}	
     }
 
     function get_entries($tag,$var)

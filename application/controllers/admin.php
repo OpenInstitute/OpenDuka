@@ -37,7 +37,8 @@ class Admin extends CI_Controller {
 				
 			$items=$this->input->post('items');
 			$DocName = $this->input->post('src0');
-		
+			$Appointer = $this->input->post('appointer0');
+			
 			$DocID = $this->admin_model->get_document_entry($DocName) ? : $this->admin_model->insert_document($DocName);
 			//echo $items; // exit;
 		
@@ -49,16 +50,23 @@ class Admin extends CI_Controller {
 				'UniqueInfo' => $this->input->post('address'.$i),
 				'EffectiveDate' => $this->input->post('startdate'.$i) . ' : ' . $this->input->post('enddate'.$i),
 				'Verb' => $this->input->post('verb'.$i),
+				
 				'UserID' => $this->session->userdata('user_id')
 				);
-				//var_dump($data);echo 'toko';exit;
+				//var_dump($data);echo 'tuko';exit;
 				if ($i==0){
+					$data['Appointer'] = $Appointer;
+					//var_dump($data);exit;
 					$rootID = $this->admin_model->insert_entity_root($data, $DocID);
 					//echo $rootID; exit;
 				} else {
-			
-				//var_dump($data); exit;
-					$this->admin_model->insert_entity($data,$DocID,$rootID);
+					if ($i==1){
+						$belongto = $this->input->post('belong');
+						$rowID = $this->admin_model->insert_entity($data,$DocID,$rootID);
+						if ($belongto=="on") {$rootID = $rowID;}
+					} else {
+						$this->admin_model->insert_entity($data,$DocID,$rootID);
+					}
 				}
 			}
 					

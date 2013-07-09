@@ -30,13 +30,9 @@ class User_model extends CI_Model {
  }
  
  
- public function add_user()
+ public function add_user($data)
  {
-  $data=array(
-    'username'=>$this->input->post('user_name'),
-    'email'=>$this->input->post('email_address'),
-    'password'=>md5($this->input->post('password'))
-  );
+ 
   $this->db->insert('user',$data);
  }
 }

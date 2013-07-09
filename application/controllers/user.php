@@ -39,22 +39,29 @@ class User extends CI_Controller{
  
  public function registration()
  {
-  $this->load->library('form_validation');
+//  $this->load->library('form_validation');
   // field name, error message, validation rules
-  $this->form_validation->set_rules('user_name', 'User Name', 'trim|required|min_length[4]|xss_clean');
-  $this->form_validation->set_rules('email_address', 'Your Email', 'trim|required|valid_email');
-  $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
-  $this->form_validation->set_rules('con_password', 'Password Confirmation', 'trim|required|matches[password]');
+ // $this->form_validation->set_rules('user_name', 'User Name', 'trim|required|min_length[4]|xss_clean');
+ // $this->form_validation->set_rules('email_address', 'Your Email', 'trim|required|valid_email');
+//  $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
+  //$this->form_validation->set_rules('con_password', 'Password Confirmation', 'trim|required|matches[password]');
 
-  if($this->form_validation->run() == FALSE)
+ /* if($this->form_validation->run() == FALSE)
   {
-   $this->index();
+   //$this->index();
+   redirect('/admin');
   }
   else
-  {
-   $this->user_model->add_user();
+  {*/
+  $data=array(
+    'username'=>$this->input->post('user_name'),
+    'email'=>$this->input->post('email_address'),
+    'password'=>md5($this->input->post('password'))
+  );
+  //var_dump($data); exit;
+   $this->user_model->add_user($data);
    $this->thank();
-  }
+ // }
  }
  
  public function logout()
