@@ -19,3 +19,6 @@
 	<li><?php echo anchor('user/logout', 'Logout'); ?></li>
 </ul>
 </div>
+<div class="content">
+  <b>Welcome <?php echo $this->session->userdata('user_id'); ?>!</b><br />
+  <h3>Administration Dashboard</h3>
