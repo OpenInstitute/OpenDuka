@@ -1,1 +1,6 @@
 _site/
+
+app
+vendor
+bootstrap
+composer*
