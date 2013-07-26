@@ -7,8 +7,9 @@
 	<!--<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/jquery.js"></script>-->
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/wysiwyg.js"></script>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
-	<script type="text/javascript" src="<?php echo base_url();?>assets/d3.js"></script>
-    	<script type="text/javascript" src="<?php echo base_url();?>assets/d3.layout.js"></script>
+	<!--<script type="text/javascript" src="<?php echo base_url();?>assets/d3.js"></script>
+    	<script type="text/javascript" src="<?php echo base_url();?>assets/d3.layout.js"></script> -->
+    	<script type="text/javascript" src="<?php echo base_url();?>assets/jit-yc.js"></script>
     	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/d3.css"/>
     	
 </head>

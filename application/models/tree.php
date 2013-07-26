@@ -57,27 +57,35 @@ class Tree extends CI_Model {
     	is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
 		$this->db->select();
 		$this->db->from('Entity');
-		
-		//$this->db->limit(20);   
+		//$this->db->limit(10);   
 		//if($this->db->count_all_results()>0){  
 	        $query = $this->db->get();
 	        return $query->result_array();
 	      //} else {return '';}
     }
     
-    function get_entry_cont($field,$var)
+    function get_node($nodeid)
     {
     	//is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
 		$this->db->select();
 		$this->db->from('Entity');
-		$this->db->like($field,$var);
-		$this->db->limit(20);   
+		$this->db->where('ID',$nodeid);
 		//if($this->db->count_all_results()>0){  
 	        $query = $this->db->get();
 	        return $query->result_array();
 	      //} else {return '';}
     }
-	
+
+    function get_entry_cont($tag,$entityname)
+    {
+		$this->db->select();
+		$this->db->from('Entity');
+		$this->db->like($tag,$entityname);  
+		$this->db->limit(20);     
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
     function get_entry2($tag,$docid)
     {
 		$this->db->select();
