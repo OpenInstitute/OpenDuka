@@ -18,6 +18,12 @@ class api extends CI_Controller {
 		$this->load->view('api/request_key', $data);
 		$this->load->view('api/footer');
 	}
+	public function documentation(){
+		$data['title'] = "Documentation";
+		$this->load->view('api/header', $data);
+		$this->load->view('api/documentation', $data);
+		$this->load->view('api/footer', $data);
+	}
 	public function confirm(){
 		$this->load->model('api_m');
 		$data['title'] = 'Confirmation';
@@ -50,7 +56,7 @@ class api extends CI_Controller {
 						$list = array("name"=>$content[$i]['Name'], "id"=>$content[$i]['ID'])+$list; 
 					}		
 				}
-				print (json_encode($content));
+				print "<pre>".(json_encode($content))."</pre>";
 			}else{
 				$result = array("error"=>"key provided is not valid");
 				print (json_encode($result));

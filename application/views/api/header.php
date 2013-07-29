@@ -57,7 +57,7 @@ document.getElementById("form1").submit();
                     </form>
                     <ul class="nav pull-right">
                     	
-                       <li><a href="">Documentation</a></li>
+                       <li><a href="<?php echo base_url();?>index.php/api/documentation">Documentation</a></li>
                       <li><a href="">Blog</a></li>
                       <li class="divider-vertical"></li>
                       <li><a href="">Downloads</a></li>
