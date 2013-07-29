@@ -28,5 +28,21 @@ class api extends CI_Controller {
 		$this->load->view('api/request_key', $data);
 		$this->load->view('api/footer');
 	}
+	public function search(){
+		if((!isset($_GET['key']))||(!isset($_GET['term']))){
+			$result = array("error"=>"missing key and or search term");
+			print (json_encode($result));
+		}else{
+			
+		}
+	}
+	public function entity(){
+		if((!isset($_GET['key']))||(!isset($_GET['id']))){
+			$result = array("error"=>"missing key and or entity id");
+			print (json_encode($result));
+		}else{
+			
+		}
+	}
 }
 ?>
