@@ -56,7 +56,7 @@ class api extends CI_Controller {
 						$list = array("name"=>$content[$i]['Name'], "id"=>$content[$i]['ID'])+$list; 
 					}		
 				}
-				print "<pre>".(json_encode($content))."</pre>";
+				print (json_encode($content));
 			}else{
 				$result = array("error"=>"key provided is not valid");
 				print (json_encode($result));
@@ -65,6 +65,7 @@ class api extends CI_Controller {
 	}
 	public function entity(){
 		$this->load->model('api_m');
+		$this->load->model('tree');
 		if((!isset($_GET['key']))||(!isset($_GET['id']))){
 			$result = array("error"=>"missing key and or entity id");
 			print (json_encode($result));
@@ -72,7 +73,8 @@ class api extends CI_Controller {
 			//check key validity
 			if($this->api_m->valid_key($_GET['key']))
 			{
-				
+				$result = $this->tree->get_entries('ID',$_GET['id']);
+				print (json_encode($result));
 			}else{
 				$result = array("error"=>"key provided is not valid");
 				print (json_encode($result));

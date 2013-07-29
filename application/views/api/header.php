@@ -38,10 +38,10 @@
                     <span class="icon-bar"></span>
                   </a>
                   
-                  <a class="brand" href="#">OpenDuka API</a>
+                  <a class="brand" href="<?php echo base_url();?>index.php/api">OpenDuka API</a>
                   <div class="nav-collapse collapse navbar-responsive-collapse">
                     <ul class="nav">
-                      <li><a href=""><i class="icon-home"></i></a></li>
+                      <li><a href="<?php echo base_url();?>index.php/api"><i class="icon-home"></i></a></li>
                     </ul>
                     <form class="navbar-search pull-left" action="" method="post" id="form1">
                     <div class="input-append">
@@ -59,8 +59,9 @@ document.getElementById("form1").submit();
                     	
                        <li><a href="<?php echo base_url();?>index.php/api/documentation">Documentation</a></li>
                       <li><a href="">Blog</a></li>
+                      <li><a href="http://github.com/OpenInstitute/OpenDuka" target="_blank">Github</a></li>
                       <li class="divider-vertical"></li>
-                      <li><a href="">Downloads</a></li>
+                      <li><a href="<?php echo base_url();?>">OpenDuka</a></li>
                     </ul>
                   </div><!-- /.nav-collapse -->
                 </div>

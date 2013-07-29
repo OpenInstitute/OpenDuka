@@ -37,6 +37,8 @@
 			</pre>
 			The above query returns a list of results like so:
 			<pre>
+				
+[{"ID":"120","Name":"Betty Chepkemoi Koech (ms.): Resident Magistrate At Mombasa ","EntityTypeID":"22","EntityContext":"","DocID":"||682","EntityMap":"||119","EntityOrganisation":"","EffectiveDate":"1\/01\/2012 : ","GazetteDate":"","GazetteAppointer":"","GazetteOffice":"","UniqueInfo":"","Verb":"appointed","Appointer":"","UserID":"7","EntryDate":"0000-00-00 00:00:00"}]
 			</pre>
 		</section>
       </div>
