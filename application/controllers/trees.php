@@ -41,6 +41,7 @@ class Trees extends CI_Controller {
 	}
 	
 	function clean_array($arr){
+	//var_dump($arr);
 		if(is_array($arr)){
 			$arr = array_unique($arr);
 			$arr = array_filter($arr);
@@ -52,189 +53,165 @@ class Trees extends CI_Controller {
 		return $new_arr;
 	}
 	
-	function tree_build($branch,$stem,$weed,$col='#6FB1FC',$alpha=1){
-		
-		//$t = array();
+	function tree_build($branch,$stem,$node_array,$col='#6FB1FC',$alpha=1){
+		//var_dump($node_array); exit;
+		$fruit= array();
 		$tree = array();
-		$tree['t'] = array();
+		$j=0;
+		
+		//$tree['node_arr'] = $node_array;
+		
 		$root = $this->tree->get_entries('ID',$stem);
 		$child = empty($branch)? NULL : $this->tree->get_entries('ID',$branch);
 		
 		$root_Name = explode(':',$root[0]['Name']);
-		//var_dump($weed); echo "<br>";
-		$nodes = "";
-		if(!in_array($stem, $weed)){
-		$nodes = "'".str_replace(" ","_",$root_Name[0]) ."':{ 'color':'".$col."', 'shape':'rectangle', 'radius':30, 'alpha': ".$alpha.", 'label': '".str_replace(" ","_",$root_Name[0])."', 'nodeid':'".$stem."'},\n";
-		}
+		
+		//$nodes = "";
 		$edges = "";
+		
+	//	echo (!in_array(array($stem), explode(',',$node_array)))?  'true - '.$stem:  'false';
 
- 		if(sizeof($child)>0){
- 		$edges .= "'" . str_replace(" ","_",$root_Name[0]) . "': {";
-	 		for($i=0; $i < sizeof($child); $i++){
+ 		if((sizeof($child)>0) && (!in_array(array($stem), explode(',',$node_array)))){
+ 		$node_array .= $stem . ',';
+ 		$edges .= "'" . str_replace(".","",str_replace(" ","_",$root_Name[0])) . "': {";
+
+	 	   for($i=0; $i < sizeof($child); $i++){
 	 		$child_Name = explode(':',$child[$i]['Name']);
-			$edges .= "'". str_replace(" ","_",$child_Name[0])."':{},";
+			$edges .= "'". str_replace(".","",str_replace(" ","_",$child_Name[0])) ."':{},";
 			
-			//$tree['t'][] = array("'".str_replace(" ","_",$root_Name[0])."'" => "'".str_replace(" ","_",$child_Name[0])."'");
-			$tree['t'][] = array($root_Name[0] => $child_Name[0]);
-			}
+			$node_array .=  $child[$i]['ID'] . ',' ;
+			$tree['fruit'][]= $child[$i]['ID'];
+			
+			if(++$j==10) break;
+		    }
+		    
 		$edges .= "},";
-		
 		}
-		
-		$tree['nodes'] = $nodes;
+		//var_dump(explode(',',$node_array)); exit;
+		//var_dump($tree['node_arr']); exit;
+		//$tree['nodes'] = $nodes;
+		$tree['node_arr'] = $node_array;
 		$tree['edges'] = $edges;
-		//$tree['t'] = $t;
+		//var_dump($tree['t']);
 		return $tree;
 			//}//end for root loop
 	}
 
-	function tree($v0_) {
-		//	$this->output->enable_profiler(TRUE);  
-		//echo $context;exit;
+
+	function tree($v0) {
+		//$this->output->enable_profiler(TRUE);  
 		$weed = array();
-		$one=array();
-		$two=array();
-		$three=array();
-		$four=array();
-		$five=array();
-		$child0_ =$this->tree->get_entries('ID',$v0_);
-		$nodetitle = $child0_[0]['Name'];
-		$child0 = explode(',',$child0_[0]['EntityMap']);
+		$fruit = array();
+		$node_arr = "";
+		$alpha = 1;
+		
 		$nodes = "{";
 		$edges = "{";
+		$one = $this->tree_schema($v0, $node_arr,'#00a650');
+		$nodetitle = $one['nodetitle'];
+		//$nodes .= $one['nodes'];
+		$edges .= $one['edges'];
+		
+		$node_arr=$one['nodearray'];
+	//var_dump($node_arr); exit;
+		//echo sizeof($node_arr);
+		if (sizeof($one['fruit'])>0) {
+			for($i=0; $i< (sizeof($one['fruit'])); $i++){
+				$two = $this->tree_schema($one['fruit'][$i], $node_arr,'#00CCCC');
+				$edges .= $two['edges'];
+				//$nodes .= $two['fruit'];
+				$node_arr = $two['nodearray'];
+				
+				if (sizeof($two['fruit'])>0) {
+					for($j=0; $j< (sizeof($two['fruit'])); $j++){
+						$three = $this->tree_schema($two['fruit'][$j],  $node_arr,'#00CCCC');
+						$edges .= $three['edges'];
+						//$nodes .= $three['fruit'];
+						$node_arr = $three['nodearray'];
+						//$weed[]= $two['weed'];
+					}
+		
+				}			
+			}
+		
+		}
+		
+		//echo $node_arr;
+		$node_arr= $this->clean_array(explode(',',$node_arr)); 
+		$valz=array();
+		//var_dump($node_arr);exit;
+		/*for($i=0; $i<sizeof($node_arr);$i++){
+			foreach($node_arr[$i] as $key => $val){
+				$valz[] = $val;
+			}
+		}
+		*/
+		//var_dump($valz);exit;
+
+		$n = $this->tree->get_entries('ID',$node_arr);
+		foreach($n as $nd){
+			$NodeName = explode(':',$nd['Name']);
+			
+			if($nd['ID'] == $v0){
+			$col='#00a650';
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) ."':{ 'color':'".$col."', 'shape':'rectangle', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
+			} else {
+			
+			$col = '#6FB1FC';
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) ."':{ 'color':'".$col."', 'shape':'rectangle', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
+			}
+		}
+		
+		$nodes .= "}";
+		$edges .= "}";
+		
+		$nodes = str_replace(",}","}",$nodes);
+		$edges = str_replace(",}","}",$edges);
+	
+		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle);
+		$data_head = array('page_title' => 'Tree Map');
+
+	$this->load->view('header',$data_head);
+	$this->load->view('tree',$content);
+	$this->load->view('footer');
+		
+	}
+	
+	function tree_schema($v, $node_arr, $col){
+		
+		$node_array = $node_arr . ',';
+		$nodes = "";
+		$edges = "";
+		//$node_arr = $this->clean_array($node_arr);
+		$child0_ = $this->tree->get_entries('ID',$v);
+		$nodetitle = $child0_[0]['Name'];
+		$child0 = explode(',',$child0_[0]['EntityMap']);
+	
 		foreach($child0 as $key => $v0) {
 		$child_0 = explode('||',$v0)? : $v0;
 		$child_0 = $this->clean_array($child_0);
-//var_dump($child_0);
-		//$child_0 = array_diff(array($id),$v0);
+//var_dump($child_0); exit;
 			if (sizeof($child_0)>0){
-				//level 1	
-				$tree = $this->tree_build($child_0,$v0_,$weed,"#00a650","1"); //color green
-				$nodes .= $tree['nodes'];
+				$tree = $this->tree_build($child_0,$v,$node_arr,$col,"1");
+				$node_array .= $tree['node_arr'];
 				$edges .= $tree['edges'];
-				$one[] = isset($tree['t'][0]) ? $tree['t'][0] : NULL;
-				array_push($weed,$v0_);
-				$i =0;
-				foreach ($child_0 as $key => $v1_) {
-				  $child1_ = $this->tree->get_entries('ID',$v1_);
-				  $child1 = explode(',',$child1_[0]['EntityMap']);
-				  $child1 = $this->clean_array($child1);
-//var_dump($child1);
-				    if (sizeof($child1)>0) {
-				    
-				     foreach ($child1 as $key => $v1){
-				       $child_1 = explode('||',$v1)? : $v1;
-				       $child_1 = $this->clean_array($child_1);
-
-//var_dump($child_1); echo " - ".$v0_;	echo "<br>";			       				       
-				       $child_1 = array_diff($child_1,array($v0_));
-//var_dump($child_1); 				       
-					$tree = $this->tree_build($child_1,$v1_,$weed,"#00a650","1"); //color green
-					$nodes .= $tree['nodes'];
-					$edges .= $tree['edges'];
-					$two[] = isset($tree['t'][0]) ? $tree['t'][0] : NULL;
-					array_push($weed,$v1_);
-					
-					foreach($child_1 as $key => $v2_){
-					$child2_ = $this->tree->get_entries('ID',$v2_);
-				        $child2 = explode(',',$child2_[0]['EntityMap']);
-				        $child2 = $this->clean_array($child2);
-
-				        if (sizeof($child2)>0) {
-				          foreach($child2 as $key => $v2){
-				         $child_2 = explode('||',$v2)? : $v2;
-					 $child_2 = $this->clean_array($child_2);
-					 $child_2 = array_diff(array($v1_),$child_2);
-					 
-					 $tree = $this->tree_build($child_2,$v2_,$weed,"#00a650","1"); //color green
-					
-					 $nodes .= $tree['nodes'];
-					 $edges .= $tree['edges'];
-					 $three[] = isset($tree['t'][0]) ? $tree['t'][0] : NULL;
-					 array_push($weed,$v2_);
-					   foreach($child_2 as $key => $v3_){
-					   
-					   	$child3_ = $this->tree->get_entries('ID',$v3_);
-				        	$child3 = explode(',',$child3_[0]['EntityMap']);
-				        	$child3 = $this->clean_array($child3);
-				        	
-						if (sizeof($child3)>0){
-						foreach($child3 as $key => $v3){
-						$child_3 = explode('||',$v3)? : $v3;
-					 	$child_3 = $this->clean_array($child_3);
-					 	$child_3 = array_diff(array($v2_),$child_3);
-					 	
-					 	$tree = $this->tree_build($child_3,$v3_,$weed,"#00a650","1"); //color green
-					 	$nodes .= $tree['nodes'];
-					 	$edges .= $tree['edges'];
-					 	$four[] = isset($tree['t'][0]) ? $tree['t'][0] : NULL;
-					 	array_push($weed,$v3_);
-						$j =0;
-						 foreach ($child_3 as $key => $v4_) {
-						   $child4_ = $this->tree->get_entries('ID',$v4_);
-						   $child4 = explode(',',$child4_[0]['EntityMap']);
-						   $child4 = $this->clean_array($child4);
-						   
-						   if (sizeof($child4)>0){
-							foreach($child4 as $key => $v4){
-							$child_4 = explode('||',$v4)? : $v4;
-						 	$child_4 = $this->clean_array($child_4);
-						 	$child_4 = array_diff(array($v3_),$child_4);
-						 	
-						 	$tree = $this->tree_build($child_4,$v4_,$weed,"#00a650","1"); //color green
-						 	$nodes .= $tree['nodes'];
-						 	$edges .= $tree['edges'];
-						 	$five[] = isset($tree['t'][0]) ? $tree['t'][0] : NULL;
-							array_push($weed,$v4_);
-							if (++$j == 10) break;
-							}
-						      }
-						   }
-						}
-					      }
-					   }
-					  }
-					   
-					}
-				      }
-				    }
-				  }
-				if (++$i == 10) break;
-			    }
+				//array_push($weed,$v);		
 			}
-			
 		}
-			$nodes .= "}";
-			$edges .= "}";
-	//echo is_array($one);		
-
-$one = (sizeof($one)>0)? $this->comb_array($one): NULL;
-$two = (sizeof($two)>0)? $this->comb_array($two): NULL;
-$three = (sizeof($three)>0)? $this->comb_array($three): NULL;
-$four = (sizeof($four)>0)? $this->comb_array($four): NULL;
-$five = (sizeof($five)>0)? $this->comb_array($five): NULL;
-array_push($one, $two);
-echo sizeof($one);
-//var_dump($two);
-$tree_= $this->clean_tree($one);
-
-$edges = $tree_;
-//$edges = str_replace(array("{","}",":"), array("array(","}","=>"), $edges);
-   // echo phpStringArray;
-		
-		$nodes = str_replace(",}","}",$nodes);
-		//$edges = str_replace(",}","}",$edges);
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0_, 'node_title' => $nodetitle);
-		$data_head = array('page_title' => 'Tree Map');
-
-
-		$this->load->view('header',$data_head);
-		$this->load->view('tree',$content);
-		$this->load->view('footer');
-		
+	//$node_array = $this->comb_array($node_array);
+//$nodes = substr($nodes, 0, -1);
+	//var_dump($node_array); exit;
+	$level= array();
+	$level['nodetitle']=$nodetitle;
+	$level['nodearray']= $node_array;
+	//$level['nodes']=$nodes;
+	$level['edges']=$edges;
+	$level['fruit']=$tree['fruit'];
+//	$level['weed']=$weed;
+	return $level;
 	}
 			
-	function array_push_before($src,$in,$pos){
+	function array_push_before($src,$in,$pos=1){
 	    if(is_int($pos)) $R=array_merge(array_slice($src,0,$pos), $in, array_slice($src,$pos));
 	    else{
 	        foreach($src as $k=>$v){
@@ -244,61 +221,57 @@ $edges = $tree_;
 	    }return $R;
 	}
 	
+	//-------------------- compress array values to keys in same level  -----------//
 	function comb_array($arr){
+	//echo  '<br>'.sizeof($arr);
 		$t_ = array();
-		foreach ( $arr as $data ) {
+		
+		foreach($arr as $data) {
 		  if($data != NULL){
-			foreach ( $data as $key => $value ) {
+		    for($i=0; $i<sizeof($data);$i++){
+		   // var_dump($data[$i]); exit;
+			foreach($data[$i] as $key => $value) {
 				if ( !isset($t_[$key]) ) {
-				$t_[$key] = array();
+				  $t_[$key] = array();
+				//$t_[$key][] = "{";
 				}
-			$t_[$key][] = "{'" . $value . "': {}}";
+			// var_dump($value);	
+			$t_[$key][] .=   "'". $value ."':{}";
+			
 			}
+			//$t_[$key][] = "}";
+		    }
 		  }
 		}
-		return $t_;
+		return $t_ ;
 	}
 	
+	/* --------------- format edge array to visualisation needs --------- */	
 	function clean_tree($arr){
 	$tree_ = array();
-	
-		 // if($arr != NULL){
-	/*		while (list($key, $val) = each($arr)) {
-			$tree_ .=  $key ." : {'" . is_array($val) ? $this->clean_tree($val) : $val ."' : {}}";
-			}
-		 // }
-	*/	 
-		//foreach ($arr as $v) {
-		//
-	  // foreach ($arr as $key => $val) {
-	/*	var_dump($arr);
-		for ($i=0; $i<sizeof($arr); $i++){
-		  foreach ($arr[$i] as $key => $val) {
-		   $tree_ .= "'". $key ."' : {'". is_array($val[$i]) ? $this->clean_tree($val[$i]) : $val[$i] ."' : {}},";
-		 }
-	   }
-		//}*/
-		
 	$i = 0;
-	//$string = '';
-	
-	foreach ($arr as $index => $value ){
-		if($i != count($arr)-1){
-		var_dump($value); 
-		//$value = is_array($value[0]) ? $this->clean_tree($value[0]) : $value[0];
-		      $string .= "'$index'- : ".$this->clean_tree($value).",";
-		}else {
-		//$value = is_array($value[0]) ? $this->clean_tree($value[0]) : $value[0];
-			$string .= "'$index' :$value";}
-		$i++;
-	}
-	
-	$string = '{'.$string.'}';
-	
+	$string="";
+		foreach ($arr as $index => $value ){
+	//echo sizeof($value);
+			if($i != count($arr)-1){
+		//$string .= '{';	
+			$value = is_array($value[0]) ? $this->clean_tree($value[0]) : $value[0];
+			      $string .= "{'$index': { $value,";
+			}else {
+				$string .= "'$index': {";
+				for($j=0; $j<count($value);$j++){
+					//$value[$j] = is_array($value[$j]) ? $this->clean_tree($value[$j]) : $value[$j];
+					//if ($j==count($value)-1) {$string .= "{";}
+					$string .= "$value[$j]";
+					if ($j==count($value)-1) {$string .= "}";} else { $string .= ",";}
+				}	 
+				$string .= '}';
+			}
+			if ($i==count($arr)-1) {$string .= "}";} else { $string .= "},";}
+			$i++;
+		}
+		//$string .= '}';
 	return  $string;
-
-	//return $tree_;
-		
 	}
 	
 	function node_data(){

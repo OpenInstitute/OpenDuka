@@ -250,10 +250,10 @@ class Admin_model extends CI_Model {
 
 		$Entity = $EntityRow->row();
 
-		$this->db->set('DocID', 'CONCAT(DocID,"'.$Entity->DocID.'")', FALSE);
-	    	$this->db->set('Appointer', "CONCAT(Appointer,'".$Entity->Appointer."')", FALSE);
-	    	$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,'".$Entity->EffectiveDate."')", FALSE);
-	    	$this->db->set('Verb', "CONCAT(Verb,'".$Entity->Verb."')", FALSE);
+		$this->db->set('DocID', 'CONCAT(DocID,",'.$Entity->DocID.'")', FALSE);
+	    	$this->db->set('Appointer', "CONCAT(Appointer,',".$Entity->Appointer."')", FALSE);
+	    	$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,',".$Entity->EffectiveDate."')", FALSE);
+	    	$this->db->set('Verb', "CONCAT(Verb,',".$Entity->Verb."')", FALSE);
 	    	$this->db->set('EntityMap', "CONCAT(EntityMap,',".$Entity->EntityMap."')", FALSE);
 	    		
 		$this->db->where('ID', $ID);

@@ -38,10 +38,10 @@ if (!empty($nodes)){
 <script>
 
 
-     var data= {
-       nodes: <?php echo $nodes; ?>,
-       edges: <?php echo $edges; ?>    
-     }
+     var data = {
+     		nodes: <?php echo $nodes; ?>,
+     		edges: <?php echo $edges; ?>
+     		}
     
   // Initialise arbor
     var sys = arbor.ParticleSystem()

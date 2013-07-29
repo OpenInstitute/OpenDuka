@@ -185,12 +185,12 @@ class Admin extends CI_Controller {
 	$list="";
     		if (is_array($content)){
 	    		
-    			$list="<form id='EntityMerge' action='' method='post'><div class='spacer'><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div><div class='datefield'>Start:End Date</div></div>";
+    			$list="<form id='EntityMerge' action='' method='post'><div class='spacer'><div style='width: 400px;'>Entity</div><div style='width: 200px;'>Unique Box <br/>'P.O. Box NNN'</div><div style='width: 200px;'>Start:End Date</div></div>";
 			for($i=0;$i< count($content);$i++)
 			{
-			$list .= "<div class='spacer'><input type='checkbox' name='Merge[]' value='".$content[$i]['ID']."'>";
+			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><input style='width: 20px;' type='checkbox' name='Merge[]' value='".$content[$i]['ID']."'>";
 			
-			$list .= "<div class='textfield'>" . $content[$i]['Name'] . "</div><div class='addrfield'>" . $content[$i]['UniqueInfo'] ."</div><div class='datefield'>" .$content[$i]['EffectiveDate'] .'</div></div>'; 
+			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'>" . $content[$i]['UniqueInfo'] ."</div><div style='width: 200px;'>" .$content[$i]['EffectiveDate'] .'</div></div>'; 
 			
 			}		
 			$list.='<input type="hidden" value="" name="EntityIDS"/><input type="button" class="EntityUpdate" value="Submit" onclick="EntityMerge()"/></form>';
