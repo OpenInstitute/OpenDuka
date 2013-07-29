@@ -33,7 +33,14 @@ class api extends CI_Controller {
 			$result = array("error"=>"missing key and or search term");
 			print (json_encode($result));
 		}else{
-			
+			//check key validity
+			if($this->api_m->valid_key($_GET['key']))
+			{
+				
+			}else{
+				$result = array("error"=>"key provided is not valid");
+				print (json_encode($result));
+			}
 		}
 	}
 	public function entity(){
@@ -41,7 +48,14 @@ class api extends CI_Controller {
 			$result = array("error"=>"missing key and or entity id");
 			print (json_encode($result));
 		}else{
-			
+			//check key validity
+			if($this->api_m->valid_key($_GET['key']))
+			{
+				
+			}else{
+				$result = array("error"=>"key provided is not valid");
+				print (json_encode($result));
+			}
 		}
 	}
 }

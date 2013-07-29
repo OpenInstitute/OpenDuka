@@ -59,4 +59,13 @@ class Api_m extends CI_Model {
 			redirect(base_url().'index.php/api');
 		}
 	}
+	public function valid_key($key){
+		$query = $this->db->query("select * from api_users where au_key='$key'");
+		$query = $query->result_array();
+		if($query->num_rows()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
