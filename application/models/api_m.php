@@ -61,7 +61,7 @@ class Api_m extends CI_Model {
 	}
 	public function valid_key($key){
 		$query = $this->db->query("select * from api_users where au_key='$key'");
-		$query = $query->result_array();
+		//$query = $query->result_array();
 		if($query->num_rows()>0){
 			return true;
 		}else{

@@ -29,6 +29,8 @@ class api extends CI_Controller {
 		$this->load->view('api/footer');
 	}
 	public function search(){
+		$this->load->model('api_m');
+		$this->load->model('tree');
 		if((!isset($_GET['key']))||(!isset($_GET['term']))){
 			$result = array("error"=>"missing key and or search term");
 			print (json_encode($result));
@@ -36,7 +38,19 @@ class api extends CI_Controller {
 			//check key validity
 			if($this->api_m->valid_key($_GET['key']))
 			{
-				
+				//return result
+				$EntityName = $_GET['term'];		
+				//echo $context;exit;
+				$content = $this->tree->get_entry_cont('Name',$EntityName);
+				//var_dump($content[0]);
+				$list = array();
+				if (is_array($content)){
+					for($i=0;$i< count($content);$i++)
+					{
+						$list = array("name"=>$content[$i]['Name'], "id"=>$content[$i]['ID'])+$list; 
+					}		
+				}
+				print (json_encode($content));
 			}else{
 				$result = array("error"=>"key provided is not valid");
 				print (json_encode($result));
@@ -44,6 +58,7 @@ class api extends CI_Controller {
 		}
 	}
 	public function entity(){
+		$this->load->model('api_m');
 		if((!isset($_GET['key']))||(!isset($_GET['id']))){
 			$result = array("error"=>"missing key and or entity id");
 			print (json_encode($result));
