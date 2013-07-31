@@ -16,8 +16,13 @@
 <body>
 
 <div id="container">
-
-<div id="header"></div>
-
+	<div id="top-cont">
+		<div id="header"></div>
+		<div class="menu-spacer"></div>
+		<div class="menu">About Us</div>
+		<div class="menu last">How it works</div>
+		<div class="menu last">Blog</div>
+		<div class="menu last">Contact</div>
+	</div>
 	
 <div id="body">

@@ -95,5 +95,18 @@ class Tree extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+    
+    function get_doc($docid)
+    {
+    
+    	//is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
+		$this->db->select();
+		$this->db->from('DocUploaded');
+		$this->db->where('ID', $docid);
+		//if($this->db->count_all_results()>0){  
+	        $query = $this->db->get();
+	        return $query->result_array();
+	      //} else {return '';}
+    }
 
 }

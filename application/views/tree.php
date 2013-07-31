@@ -1,14 +1,9 @@
-
-
-<h1>Entity Visualization</h1>
-<?php 
-if (isset($list))
-{	
-	echo $list;
-} 
-else
+<?php
+if(!isset($list) && empty($nodes))
 {
 ?>
+<div id="tagline"></div>
+<h1>SEARCH</h1>
 	<div id="search">
 		<p><?php echo $error;?></p>
 		<?php // echo language(); ?>
@@ -17,14 +12,23 @@ else
 		<input type="submit" name="submit" value="SEARCH" />
 		</form>
 	</div>
-<?php
+
+<?php 
 }
+
+if (isset($list))
+{	
+?>
+<h1>SEARCH RESULTS</h1>
+<?php
+	echo $list;
+} 
 
 if (!empty($nodes)){	
  //echo $tree;
 
 ?>
-<div id="titlenode"><?php echo $node_title; ?></div>
+<h1><?php echo $node_title; ?></h1>
 <div id="container_vis">
 	<div id="center-container">
 	    	 <canvas id="cy" width="740" height="560"></canvas>
@@ -34,7 +38,7 @@ if (!empty($nodes)){
 	</div>
 	
 </div>
-
+<div id="mytimeline"></div>
 <script>
 
 
@@ -75,8 +79,29 @@ if (!empty($nodes)){
 		  $("#result").html('there is error while submit');
 	      }
 	    });
-		
+		//TimeLine(nodeid);
 	}
+	
+
+var events = [<?php echo $events; ?>];
+var sections = [<?php echo $sections; ?>];
+
+       var timeline1 = new Chronoline(document.getElementById("mytimeline"), events, {
+		visibleSpan: DAY_IN_MILLISECONDS * 366,
+		animated: true,
+		tooltips: true,
+		defaultStartDate: new Date(2012, 3, 5),
+		sections: sections,
+		sectionLabelAttrs: {'fill': '#997e3d', 'font-weight': 'bold'},
+		labelInterval: isHalfMonth,
+		hashInterval: isHalfMonth,
+		scrollLeft: prevQuarter,
+		scrollRight: nextQuarter,
+		floatingSubLabels: false,
+		});
+
+	$('#to-today').click(function(){timeline1.goToToday();});
+   
 </script>
 
 <?php } ?>
