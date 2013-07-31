@@ -47,11 +47,21 @@
 
 $active_group = 'default';
 $active_record = TRUE;
+//localhost
+/*
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'pass';
+$db['default']['database'] = 'opendata_db';
+*/
+//alpha server
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = '';
-$db['default']['password'] = '';
-$db['default']['database'] = '';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'pass';
+$db['default']['database'] = 'openduka_alpha';
+
+
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
