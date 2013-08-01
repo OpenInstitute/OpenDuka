@@ -58,8 +58,8 @@ $db['default']['database'] = 'opendata_db';
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'root';
-$db['default']['database'] = 'openduka';
+$db['default']['password'] = 'pass';
+$db['default']['database'] = 'openduka_alpha';
 
 
 $db['default']['dbdriver'] = 'mysql';

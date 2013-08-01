@@ -187,7 +187,8 @@ class Admin_model extends CI_Model {
 		    	$row = $query->row();
 		    	$this->db->select();
 			$this->db->from('Entity');    
-			$this->db->like('DocID ',  '||'.$row->ID);
+			$this->db->like('DocID ' ,  ','. $row->ID .',');
+			$this->db->or_like('DocID ' ,  $row->ID.',' , 'after');
 			$this->db->order_by("ID", "desc"); 
 			$query1 = $this->db->get();
 			
@@ -250,7 +251,7 @@ class Admin_model extends CI_Model {
 
 		$Entity = $EntityRow->row();
 
-		$this->db->set('DocID', 'CONCAT(DocID,"'.$Entity->DocID.',")', FALSE);
+		$this->db->set('DocID', "CONCAT(DocID,'".$Entity->DocID.",')", FALSE);
 	    	$this->db->set('Appointer', "CONCAT(Appointer,',".$Entity->Appointer."')", FALSE);
 	    	$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,',".$Entity->EffectiveDate."')", FALSE);
 	    	$this->db->set('Verb', "CONCAT(Verb,',".$Entity->Verb."')", FALSE);

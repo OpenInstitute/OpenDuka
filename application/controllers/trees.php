@@ -113,17 +113,18 @@ class Trees extends CI_Controller {
 			$NodeName = explode(':',$nd['Name']);
 			$cid=(int)$nd['EntityTypeID'];
 			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
-			if ($cid==21){$col='#00CCCC';} else {$col='#00a650';};
+			if ($cid==21){$col='#00CCCC'; $shape='dot';} else {$col='#00a650'; $shape='rectangle';}
 			
 			if($nd['ID'] == $v0){
 			$col='#FF0000';
-			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) ."':{ 'color':'".$col."', 'shape':'rectangle', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) ."':{ 'color':'".$col."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
 			} else {
 			//exit;
 			//$c=$col[$cid];
 			//$col = '#6FB1FC';
-			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) ."':{ 'color':'". $col ."', 'shape':'rectangle', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) ."':{ 'color':'". $col ."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
 			}
+			
 		}
 		
 		$nodes .= "}";
@@ -133,8 +134,10 @@ class Trees extends CI_Controller {
 		$edges = str_replace(",}","}",$edges);
 		
 		$timeline = $this->timeline_data($v0);
+		
+		$vis_filter = $this->filter_data($node_arr);
 	
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'events' => $timeline['events'], 'sections' => $timeline['sections']);
+		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'events' => $timeline['events'], 'sections' => $timeline['sections'], 'filter_form'=> $vis_filter);
 		
 		$data_head = array('page_title' => 'Tree Map');
 
@@ -360,7 +363,22 @@ class Trees extends CI_Controller {
 	$chrono = array('events' => $events,'sections' => $sections);
 	return $chrono;
 	}
-
+	
+	function filter_data($var){
+	
+	//var_dump($var);
+	$this->output->enable_profiler(false); 
+		$form_filter = $this->tree->get_mapped_entries($var);
+		$form_f ="";
+		
+		for($j=0; $j<count($form_filter);$j++){
+		
+		$form_f .= "<input style='width: 20px;' type='checkbox' checked name='Filter[]' value='". $form_filter[$j]['EntityTypeID'] ."' class='FilterForm'> ". $form_filter[$j]['EntityType'] ;
+		
+		}
+		
+	return $form_f;	
+	}
 }
 
 /* End of file posts.php */

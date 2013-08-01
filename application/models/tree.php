@@ -64,6 +64,18 @@ class Tree extends CI_Model {
 	      //} else {return '';}
     }
     
+     function get_mapped_entries($var)
+    	{
+    	is_array($var) ? $this->db->where_in('Entity.ID',$var) : $this->db->where('Entity.ID',$var); 
+		$this->db->select('EntityType.EntityTypeID, EntityType.EntityType');
+		$this->db->distinct();
+		$this->db->from('Entity');
+		$this->db->join('EntityType','Entity.EntityTypeID = EntityType.EntityTypeID');
+	        $query = $this->db->get();
+	        return $query->result_array();
+
+    }
+    
     function get_node($nodeid)
     {
     	//is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 

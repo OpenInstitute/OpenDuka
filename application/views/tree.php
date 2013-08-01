@@ -29,6 +29,14 @@ if (!empty($nodes)){
 
 ?>
 <h1><?php echo $node_title; ?></h1>
+<div id="vis_checkbox">Filter
+
+<?php echo form_open("tree/filter", array('id' => '')); ?>
+	<input type="hidden" value="" name="EntityIDS"/>
+	<?php echo $filter_form; ?>
+<?php echo form_close(); ?>
+
+</div>
 <div id="container_vis">
 	<div id="center-container">
 	    	 <canvas id="cy" width="740" height="560"></canvas>
@@ -38,13 +46,15 @@ if (!empty($nodes)){
 	</div>
 	
 </div>
-<div id="mytimeline"></div>
-<script>
 
+<div id="mytimeline"></div>
+
+<script>
 
      var data = {
      		nodes: <?php echo $nodes; ?>,
-     		edges: <?php echo $edges; ?>
+     		edges: <?php echo $edges; ?>,
+
      		}
     
   // Initialise arbor
@@ -102,6 +112,30 @@ var sections = [<?php echo $sections; ?>];
 
 	$('#to-today').click(function(){timeline1.goToToday();});
    
+   
+   $(".FilterForm").click(function() {
+	   
+	   var f = this;
+	   var val = $(this).attr('value');
+		//alert(val);
+	    // FILL DEFAULTS
+	//    alert(data.attr('nodes').length);
+	    var n = 'nodes';
+	    for(var attrname in data){
+	    
+	    alert(attrname);
+	    	if(n==attrname){
+	    	
+	    		for(var attr in n){
+	    		alert(attr);
+	    		}
+	    	//f[attrname] = data[attrname];
+	    	}
+	    //	
+	    	
+	    }
+    	
+   });
 </script>
 
 <?php } ?>
