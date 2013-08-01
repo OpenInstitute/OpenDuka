@@ -117,12 +117,12 @@ class Trees extends CI_Controller {
 			
 			if($nd['ID'] == $v0){
 			$col='#FF0000';
-			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) ."':{ 'color':'".$col."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID'] ."':{ 'color':'".$col."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
 			} else {
 			//exit;
 			//$c=$col[$cid];
 			//$col = '#6FB1FC';
-			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) ."':{ 'color':'". $col ."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID']  ."':{ 'color':'". $col ."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
 			}
 			
 		}
@@ -211,11 +211,11 @@ class Trees extends CI_Controller {
 		$node_array = $stem . ',';
  		if(sizeof($child)>0){
  		
- 		$edges .= "'" . str_replace(".","",str_replace(" ","_",$root_Name[0])) . "': {";
+ 		$edges .= "'" . str_replace(".","",str_replace(" ","_",$root_Name[0]))."_".$root[0]['ID'] . "': {";
 
 	 	   for($i=0; $i < sizeof($child); $i++){
 	 		$child_Name = explode(':',$child[$i]['Name']);
-			$edges .= "'". str_replace(".","",str_replace(" ","_",$child_Name[0])) ."':{},";
+			$edges .= "'". str_replace(".","",str_replace(" ","_",$child_Name[0])) ."_". $child[$i]['ID']."':{},";
 			
 			$node_array .=  $child[$i]['ID'] . ',' ;
 			$fruit[] = $child[$i]['ID'];
@@ -310,20 +310,26 @@ class Trees extends CI_Controller {
 	}
 	
 	function node_data(){
-		$this->output->enable_profiler(FALSE);  
+		$this->output->enable_profiler(false); 
+		$j=0; 
 		$n = $_POST['node'];
 		
 		$root_node = $this->tree->get_node($n);
 		$cont = "<h3><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a></h3>";
-		// $v = ($root_node[0]['Verb']=='0')? " has " : " was ";
-		// $cont .= $v ;
+		 
 		
 		$child_nodes = explode('||',$root_node[0]['EntityMap']);
 		$child_nodes = $this->clean_array($child_nodes);
 		$cont .= "<ul class='status'>";
+		//var_dump($child_nodes);
 		foreach($child_nodes as $c_id){
-	            $child_node = $this->tree->get_node($c_id);
-	            $cont .= "<li><p><span class='st-verb'>". $child_node[0]['Verb'] ."</span> <span class='st-name'>".$child_node[0]['Name']. "</span></p><p><span class='st-date'>Effected Date - ".$child_node[0]['EffectiveDate']. "</span></p></li>";
+		
+		$child_node = $this->tree->get_node($c_id);
+		
+		$v = ($root_node[0]['Verb']=='0')?  $child_node[0]['Verb'] : 'Was '. $root_node[0]['Verb'] .' by ' ;
+			            
+	            $cont .= "<li><p><span class='st-verb'>". $v."</span> <span class='st-name'>".$child_node[0]['Name']. "</span></p><p><span class='st-date'>Effected Date - ".$child_node[0]['EffectiveDate']. "</span></p></li>";
+	            //if(++$j==10) break;
 	        }
 		$cont .= "</ul>";
 	    echo $cont;

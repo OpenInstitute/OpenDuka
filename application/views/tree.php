@@ -195,7 +195,7 @@ if (!empty($nodes)){
 	    	if(n==attrname){
 	    	
 	    		for(var attr in n){
-	    		alert(attr);
+	    		//alert(attr);
 	    		}
 	    	//f[attrname] = data[attrname];
 	    	}

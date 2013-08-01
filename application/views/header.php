@@ -32,11 +32,11 @@
 	
 </head>
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
-	<div id="thenav" class="navbar navbar-fixed-top" style="background-position: 0px 0px;">
+    <div id="thenav" class="navbar navbar-fixed-top" style="background-position: 0px 0px;">
       	<div class="top-cont">
-        	<div class="container navigation-main">
-         		<div class="nav-collapse collapse">
-         			<div class="logo"></div>
+             <div class="container navigation-main">
+         	<div class="nav-collapse collapse">
+         		<div class="logo"></div>
             	</div>
             </div>
         </div>
