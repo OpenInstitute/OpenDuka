@@ -22,18 +22,25 @@
   	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/chronoline.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/>
+
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/docs.css"/>
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"/>
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-responsive.css"/>
+	<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Caudex:400,700|Lato:400,700|Raleway:400,500,700|Merriweather:400,300,700|Monteserrat:400,700|Istok+Web:400,700|Monda:400,700"/>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+
 	
 </head>
-<body>
-<div id="container">
-	<div id="top-cont">
-		<div id="header"></div>
-		<div class="menu-spacer"></div>
-		<div class="menu">About Us</div>
-		<div class="menu last">How it works</div>
-		<div class="menu last">Blog</div>
-		<div class="menu last">Contact</div>
-	</div>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+	<div id="thenav" class="navbar navbar-fixed-top" style="background-position: 0px 0px;">
+      	<div class="top-cont">
+        	<div class="container navigation-main">
+         		<div class="nav-collapse collapse">
+         			<div class="logo"></div>
+            	</div>
+            </div>
+        </div>
+    </div>
 	
-<div id="body">
+<div id="body" class="container">
 	<div id="content">

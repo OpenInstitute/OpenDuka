@@ -14,16 +14,16 @@ class Trees extends CI_Controller {
 	
 	function index($start=0)
 	{
-		$data_head = array('page_title' => 'Entity Search!');
+		$data_head = array('page_title' => 'Open Duka');
 
 		$this->load->view('header',$data_head);
-		$this->load->view('tree', array('entities' => '','error' => 'Type name to search'));
+		$this->load->view('tree', array('entities' => '','error' => ''));
 		$this->load->view('footer');
 	}
 	
 	function entitylist()
 	{
-		$data_head = array('page_title' => 'Search list!');
+		$data_head = array('page_title' => 'Search results');
 		$EntityName = $_POST['search_name'];		
 		//echo $context;exit;
 		$content = $this->tree->get_entry_cont('Name',$EntityName);
@@ -32,7 +32,7 @@ class Trees extends CI_Controller {
 		if (is_array($content)){
 			for($i=0;$i< count($content);$i++)
 			{
-				$list .= "<p>". $content[$i]['Name'] . "<a href=" .site_url('/trees/tree/'.$content[$i]['ID']). "> View Tree</a></p>"; 
+				$list .= "<li><a href=" .site_url('/trees/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></li>"; 
 			}		
 		}
 		$this->load->view('header',$data_head);
@@ -139,7 +139,7 @@ class Trees extends CI_Controller {
 	
 		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'events' => $timeline['events'], 'sections' => $timeline['sections'], 'filter_form'=> $vis_filter);
 		
-		$data_head = array('page_title' => 'Tree Map');
+		$data_head = array('page_title' => 'Visualisation');
 
 	$this->load->view('header',$data_head);
 	$this->load->view('tree',$content);
@@ -314,16 +314,16 @@ class Trees extends CI_Controller {
 		$n = $_POST['node'];
 		
 		$root_node = $this->tree->get_node($n);
-		$cont = "<b><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a></b><br/>";
-		$v = ($root_node[0]['Verb']=='0')? " has " : " was ";
-		$cont .= $v ;
+		$cont = "<h3><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a></h3>";
+		// $v = ($root_node[0]['Verb']=='0')? " has " : " was ";
+		// $cont .= $v ;
 		
 		$child_nodes = explode('||',$root_node[0]['EntityMap']);
 		$child_nodes = $this->clean_array($child_nodes);
-		$cont .= "<ul>";
+		$cont .= "<ul class='status'>";
 		foreach($child_nodes as $c_id){
 	            $child_node = $this->tree->get_node($c_id);
-	            $cont .= "<li><b>". $child_node[0]['Verb'] . "</b> ".$child_node[0]['Name']. " Effected Date - ".$child_node[0]['EffectiveDate']. "</li>";
+	            $cont .= "<li><p><span class='st-verb'>". $child_node[0]['Verb'] ."</span> <span class='st-name'>".$child_node[0]['Name']. "</span></p><p><span class='st-date'>Effected Date - ".$child_node[0]['EffectiveDate']. "</span></p></li>";
 	        }
 		$cont .= "</ul>";
 	    echo $cont;
