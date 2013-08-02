@@ -212,7 +212,7 @@ body {
 .topfive ol li {
   color: #666;
   font-size: 22px;
-  font-family: 'Monda';
+  font-family: 'Monda', sans-serif;
   font-weight: 700;
   line-height: 36px;
 }
@@ -220,7 +220,7 @@ body {
 .topfive a {
   color: #00AAD4;
   font-size: 20px;
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
 }
 
@@ -251,8 +251,8 @@ body {
 }
 
 #visualisation {
-  background: #FFF transparent;
-  padding-top: 60px;
+  background: url('../../assets/img/satinweave.png') repeat fixed transparent !important;
+  padding: 60px 10px 0 10px;
 }
 
 #visualisation h2 {
@@ -267,11 +267,22 @@ body {
 }
 
 #center-container {
-  background: url('../../assets/img/ticks.png') repeat fixed transparent !important;
+  background: transparent;
+/*  background: url('../../assets/img/ticks.png') repeat fixed transparent !important;
+  border: 1px solid #E6E6E6;
+  -webkit-box-shadow: 2px 2px 4px 3px rgba(237, 237, 237, 0.3);
+  box-shadow: 2px 2px 4px 3px rgba(237, 237, 237, 0.3);*/
 }
 
 #right-container {
+  /*display: none;*/
   float: none !important;
+}
+
+#left-container, 
+#right-container, 
+#center-container {
+  height: inherit;
 }
 
 #inner-details h4 {
@@ -292,7 +303,7 @@ body {
 
 #inner-details p {
   font-family: 'Istok Web', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 #inner-details ol, #inner-details ul, #inner-details li {

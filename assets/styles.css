@@ -365,7 +365,7 @@
 #left-container, 
 #right-container, 
 #center-container {
-    height:559px;
+/*    height:559px;*/
     position: relative;
     top:0;
 }

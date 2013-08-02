@@ -118,11 +118,11 @@ if (!empty($nodes)){
 		</div>
 
 		<!-- Visualisation -->
-		<div id="container_vis" class="row">
+		<div id="container_vis" class="row-fluid">
 			<div id="center-container" class="span8">
 				<canvas id="cy" width="740" height="560"></canvas>
 			</div>
-			<div id="right-container" class="span3">
+			<div id="right-container" class="span4">
 				<div id="inner-details">
 					<h4><i class="icon-info-sign icon-large"></i>&nbsp;&nbsp;&nbsp;Click on a node to get more information about it</h4>
 				</div>
