@@ -44,8 +44,8 @@ class Admin extends CI_Controller {
 	{
 	//$this->output->enable_profiler(TRUE); 			
 		$items=$this->input->post('items');
-		$DocName = $this->input->post('src0');
-		$Appointer = ucwords(strtolower($this->input->post('appointer0')));
+		$DocName =  str_replace("'","`",$this->input->post('src0'));
+		$Appointer = ucwords(strtolower(str_replace("'","`",$this->input->post('appointer0'))));
 	//alert($items);
 		
 		$this->form_validation->set_rules('src0', 'Source file', 'trim|required');
@@ -69,9 +69,9 @@ class Admin extends CI_Controller {
 				$data = array(
 				'DocID' => $DocID,
 				'EntityTypeID' => $this->input->post('type'.$i),
-				'Name' => ucwords(strtolower($this->input->post('entity'.$i))),
-				'UniqueInfo' => $this->input->post('address'.$i),
-				'EffectiveDate' => $this->input->post('startdate'.$i) . ' : ' . $this->input->post('enddate'.$i),
+				'Name' => ucwords(strtolower(str_replace("'","`",$this->input->post('entity'.$i)))),
+				'UniqueInfo' => str_replace("'","`",$this->input->post('address'.$i)),
+				'EffectiveDate' => str_replace("'","`",$this->input->post('startdate'.$i)) . ' : ' .  str_replace("'","`",$this->input->post('enddate'.$i)),
 				'Verb' => $this->input->post('verb'.$i),				
 				'UserID' => $this->session->userdata('user_id')
 				);
@@ -101,7 +101,7 @@ class Admin extends CI_Controller {
     
     function entityEdit()  {
     
-    
+    $this->output->enable_profiler(TRUE); 
     		$gazID=$this->input->post('gazID');
     		
     		$content = $this->admin_model->get_gazID($gazID);
@@ -144,22 +144,22 @@ class Admin extends CI_Controller {
     	$content = $this->admin_model->get_gazID($gazID);
 	$list="";
     		if (is_array($content)){
-    			$data=array();
-	    		for($i=0;$i< count($content);$i++) {
+    		$data=array();
+	    		for($i=0;$i<count($content);$i++) {
 			$data['ID'] = $this->input->post('ID'.$i);
 			$data['EntityTypeID'] = $this->input->post('type'.$i);
-			$data['Name'] = $this->input->post('entity'.$i);
-			$data['UniqueInfo'] = $this->input->post('address'.$i);
-			$data['EffectiveDate'] = $this->input->post('startdate'.$i);
+			$data['Name'] = trim(str_replace("'","`",$this->input->post('entity'.$i)));
+			$data['UniqueInfo'] = trim(str_replace("'","`",$this->input->post('address'.$i)));
+			$data['EffectiveDate'] = trim(str_replace("'","`",$this->input->post('startdate'.$i)));
 			$data['Verb'] = $this->input->post('verb'.$i);
 			
 			$this->admin_model->update_entity($data);
 			}
+    	$content = $this->admin_model->get_gazID($gazID);
     		
-    	$content = $this->admin_model->get_gazID($gazID);	
-    			$list="<form id='EntityUpdate' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div><div class='datefield'>Start:End Date</div><div class='select'>Verb</div></div>";
-			for($i=0;$i< count($content);$i++)
-			{
+    		$list="<form id='EntityUpdate' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div><div class='datefield'>Start:End Date</div><div class='select'>Verb</div></div>";
+			
+		for($i=0;$i< count($content);$i++) {
 			$list .= '<div class="spacer"><select class="select" name="type'.$i.'"><option value="22"';
 			
 				if ($content[$i]['EntityTypeID']==22){ $list .= "selected";}
@@ -169,11 +169,12 @@ class Admin extends CI_Controller {
 			
 			$list .= '>Organization</option></select><input type="text" id="entity'.$i.'" name="entity'.$i.'" value="'.$content[$i]['Name'].'"  class="textfield" required /><input type="text" id="address'.$i.'" name="address'.$i.'" value="'.$content[$i]['UniqueInfo'].'"  class="addrfield" /><input type="text" id="startdate'.$i.'" name="startdate'.$i.'" value="'.$content[$i]['EffectiveDate'].'" class="datefield"/><select class="select" name="verb'.$i.'"><option selected value="' . $content[$i]['Verb'] . '">' . $content[$i]['Verb'] . '</option>'. $this->verb_words() .'</select><input type="hidden" value="'.$content[$i]['ID'].'" name="ID'.$i.'"/></div>'; 
 			
-			}		
+			}
+				
 			$list.='<input type="hidden" value="'.$gazID.'" name="gazID"/><input type="button" class="EntityUpdate" value="Submit" onclick="EntityUpdate()"/></form>';
 		}
    		
-   		$list= empty($list) ? "Sorry No Data" : $list;
+   		$list = empty($list) ? "Sorry No Data" : $list;
    		echo $list;
     
     }
@@ -201,13 +202,17 @@ class Admin extends CI_Controller {
     
     }
     
-     function EntityMerge(){
-     //$this->output->enable_profiler(TRUE); 
-   	$MergeIds= explode(',',$this->input->post('MergeEnt'));
-   	//alert(count($MergeIds));
+     function EntityMerger(){
+   //  $this->output->enable_profiler(TRUE); 
+   
+   	$valz = $this->input->post('MergeEnt');
+     
+   	$MergeIds= explode(',',$valz);
+   	//var_dump($MergeIds);
     	//$data=array();
     	//var $Ids;
-    	for($i=0; $i<count($MergeIds); $i++){
+    	$j=0;
+    	for($i=0; $i<sizeof($MergeIds); $i++){
 	    	if($i==0){
 	    	  $RootID = $MergeIds[$i];
 	    	} else {
@@ -215,12 +220,11 @@ class Admin extends CI_Controller {
     	     	  $this->admin_model->merge_entity($MergeIds[$i], $RootID);
     	     	 // $this->admin_model->reference_entity($MergeIds[$i], $RootID);
     	     	}
-    	//$Ids .= $i;
+    	 ++$j;
     	}
     		
    		//$list= empty($list) ? "Sorry No Data" : $list;
-   		//echo $data['DocID'];
-    
+   		//echo $j . " Merged";
     }
 
 }

@@ -323,7 +323,7 @@ $("#EntityMergeName").keyup(function() {
 });
 
 function EntityMerge() {
-	var checked = []
+	var checked = [] ;
 	$("input[name='Merge[]']:checked").each(function ()
 	{
 	    checked.push(parseInt($(this).val()));
@@ -332,13 +332,13 @@ function EntityMerge() {
 	if (checked.length>1){
 	//alert(checked);
 		$.ajax({
-		      url: "<?php echo base_url();?>index.php/admin/EntityMerge",
+		      url: "<?php echo base_url();?>index.php/admin/EntityMerger",
 		      type: "post",
 		      async: false,
 		      data: {MergeEnt : checked+""},
-		      success:function(data){
+		      success:function(d){
 		      	//alert(data);
-			  $("#entity_merge").html(data);
+			  $("#entity_merge").html(d);
 		      },
 		      error:function(){
 			  alert("failure");

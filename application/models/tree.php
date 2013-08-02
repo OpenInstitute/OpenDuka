@@ -12,6 +12,27 @@ class Tree extends CI_Model {
         parent::__construct();
     }
     
+    function get_number_entity_group($var)
+    {
+    	
+		$this->db->select();
+		$this->db->from('Entity');
+		$this->db->where('EntityTypeID', $var);
+	       // $query = $this->db->get();
+	        return $this->db->count_all_results();
+	      //} else {return '';}
+    }
+    
+    function get_lastest_entry()
+    {
+		$this->db->select();
+		$this->db->from('Entity');  
+		$this->db->order_by('ID','desc'); 
+		$this->db->limit(6); 
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
     function get_last_ten_entries($Tag,$Var)
     {
 		$this->db->select();
@@ -62,6 +83,18 @@ class Tree extends CI_Model {
 	        $query = $this->db->get();
 	        return $query->result_array();
 	      //} else {return '';}
+    }
+    
+     function get_mapped_entries($var)
+    	{
+    	is_array($var) ? $this->db->where_in('Entity.ID',$var) : $this->db->where('Entity.ID',$var); 
+		$this->db->select('EntityType.EntityTypeID, EntityType.EntityType');
+		$this->db->distinct();
+		$this->db->from('Entity');
+		$this->db->join('EntityType','Entity.EntityTypeID = EntityType.EntityTypeID');
+	        $query = $this->db->get();
+	        return $query->result_array();
+
     }
     
     function get_node($nodeid)
