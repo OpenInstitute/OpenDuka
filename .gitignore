@@ -13,7 +13,6 @@ Raw/*
     
 # Security Purposes
 */config/database.php
-assets/*
 
 
 # Code Igniter Ignore

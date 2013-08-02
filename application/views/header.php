@@ -27,7 +27,7 @@
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-responsive.css"/>
 	<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Caudex:400,700|Lato:400,700|Raleway:400,500,700|Merriweather:400,300,700|Monteserrat:400,700|Istok+Web:400,700|Monda:400,700"/>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet"/>
 
 	
 </head>
@@ -36,11 +36,11 @@
       	<div class="top-cont">
         	<div class="container navigation-main">
          		<div class="nav-collapse collapse">
-         			<div class="logo"></div>
+         			<a href="<?php echo base_url()?>"><div class="logo"></div></a>
             	</div>
             </div>
         </div>
     </div>
 	
-<div id="body" class="container">
-	<div id="content">
+	<div id="body" class="container">
+		<div id="content">
