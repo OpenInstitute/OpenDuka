@@ -3,7 +3,7 @@
 	::moz-selection{ background-color: #E13300; color: white; }
 	::webkit-selection{ background-color: #E13300; color: white; }
 
-	body {
+	/*body {
 		background-color: #fff;
 		margin:0px;
 		font: 13px/20px normal Helvetica, Arial, sans-serif;
@@ -239,11 +239,11 @@
 	
 	div.elementAdd { color:blue; cursor:pointer; }
 	
-	div.elementDel { color:blue; cursor:pointer; }
+	div.elementDel { color:blue; cursor:pointer; }*/
 	
 	/*div.elementDel img{ width:20px; }*/
 	
-	div.AdminCont > div{
+	/*div.AdminCont > div{
 		display: block;
 		font-size: 10px;
 	}
@@ -343,8 +343,8 @@
 		height:340px;
 
 		margin-top: 20px;
-		
-	}
+	
+	}*/
 
 /* Visualisation scripts ----*/
 #infovis-canvaswidget {
@@ -371,27 +371,26 @@
 }
 
 #left-container, #right-container {
-    width:240px;
+/*    width:240px;*/
     color:#686c70;
     text-align: left;
     overflow: auto;
-    background-color:#fff;
+/*    background-color:#fff;*/
     background-repeat:no-repeat;
-    border:1px solid #000;
+/*    border:1px solid #000;*/
 }
 
 #left-container {
     left:0;
     background-image:url('col2.png');
     background-position:center right;
-    border-left:1px solid #ddd;
-    
-    
+/*    border-left:1px solid #ddd;*/
+  
 }
 
 #right-container {
     right:0;
-    border-right:1px solid #ddd;
+/*    border-right:1px solid #ddd;*/
     float:right;
     
 }
@@ -401,7 +400,7 @@
 }
 
 #center-container {
-    width:800px;
+/*    width:800px;*/
     background-color: #fff;
     color: #000;
 }
@@ -411,9 +410,9 @@
 }
 
 #inner-details {
-    font-size:0.8em;
+/*    font-size:0.8em;
     list-style:none;
-    margin:7px;
+    margin:7px;*/
 }
 
 #log {

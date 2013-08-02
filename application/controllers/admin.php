@@ -19,12 +19,12 @@ class Admin extends CI_Controller {
        
 	public function index()
 	{
-	///$verbs= $this->verb_words();
+	$verbs= $this->verb_words();
 	//echo $verbs;
 			$data['page_title'] = 'Admin Dashboard';
-		//	$data['verb_word'] = $verbs;		
-		//	$this->load->view('header');
-			$this->load->view('admin');
+			$data['verb_word'] = $verbs;		
+			$this->load->view('header');
+			$this->load->view('admin', $data);
 			$this->load->view('footer');
 	}
 	public function manage_users(){

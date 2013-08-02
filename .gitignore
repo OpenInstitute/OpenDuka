@@ -15,7 +15,6 @@ Raw/*
 */config/database.php
 
 
-
 # Code Igniter Ignore
 */config/development
 */logs/log-*.php

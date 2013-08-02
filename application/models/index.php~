@@ -1,5 +1,0 @@
-<?php
-
-class Post Extends CI_Model{
-	function mm
-	}
