@@ -12,6 +12,27 @@ class Tree extends CI_Model {
         parent::__construct();
     }
     
+    function get_number_entity_group($var)
+    {
+    	
+		$this->db->select();
+		$this->db->from('Entity');
+		$this->db->where('EntityTypeID', $var);
+	       // $query = $this->db->get();
+	        return $this->db->count_all_results();
+	      //} else {return '';}
+    }
+    
+    function get_lastest_entry()
+    {
+		$this->db->select();
+		$this->db->from('Entity');  
+		$this->db->order_by('ID','desc'); 
+		$this->db->limit(6); 
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
     function get_last_ten_entries($Tag,$Var)
     {
 		$this->db->select();

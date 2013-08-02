@@ -15,11 +15,22 @@ class Trees extends CI_Controller {
 	function index($start=0)
 	{
 		$data_head = array('page_title' => 'Open Duka');
-
+		$organisations = $this->tree->get_number_entity_group('21');
+		$persons = $this->tree->get_number_entity_group(22);
+		$latestlist = $this->tree->get_lastest_entry();
+		$list="";
+		if (is_array($latestlist)){
+			for($i=0;$i< count($latestlist);$i++)
+			{
+				$list .= "<li><a href=" .site_url('/trees/tree/'.$latestlist[$i]['ID']). ">". $latestlist[$i]['Name'] . "</a></li>"; 
+			}		
+		}
+		
 		$this->load->view('header',$data_head);
-		$this->load->view('tree', array('entities' => '','error' => ''));
+		$this->load->view('tree', array('organisations' => $organisations, 'persons' => $persons,'latest_list' => $list,'error' => ''));
 		$this->load->view('footer');
 	}
+	
 	
 	function entitylist()
 	{

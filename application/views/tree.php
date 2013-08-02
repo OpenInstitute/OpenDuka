@@ -29,7 +29,7 @@ if(!isset($list) && empty($nodes))
 				<div class="people span2">
 					<img src="<?php echo base_url();?>assets/img/people.png">
 					<h4>People</h4>
-					<h5>956</h5>
+					<h5><?php echo $persons;?></h5>
 				</div>
 				<div class="cases span2">
 					<img src="<?php echo base_url();?>assets/img/cases.png">
@@ -39,7 +39,7 @@ if(!isset($list) && empty($nodes))
 				<div class="organisations span2">
 					<img src="<?php echo base_url();?>assets/img/organisations.png">
 					<h4>Organisations</h4>
-					<h5>790</h5>
+					<h5><?php echo $organisations;?></h5>
 				</div>
 			</div>
 		</div>
@@ -47,11 +47,9 @@ if(!isset($list) && empty($nodes))
 			<h3>Latest</h3>
 			<div class="topfive">
 				<ol>
-					<li><a>Road Runner Industries</a></li>
-					<li><a>Alexandre Dumas, Le Compte de Monte-Cristo</a></li>
-					<li><a>Maya Angelou, I Know Why The Caged Bird Sings</a></li>
-					<li><a>Acme Corporation</a></li>
-					<li><a>Mark Twain, Adventures of Huckleberry Finn</a></li>
+					
+					<?php echo $latest_list;?>
+				
 				</ol>
 			</div>
 		</div>
@@ -66,8 +64,7 @@ if(!isset($list) && empty($nodes))
 
 	<div id="partners" class="section span12">
 		<h2>Launched in partnership with</h2>
-		<div id="partner-logos" class="span12">
-		</div>
+		<div id="partner-logos" class="span12"></div>
 	</div>
 
 <?php 
@@ -206,5 +203,5 @@ if (!empty($nodes)){
    });
 </script>
 
-		<?php } ?>
+<?php } ?>
 
