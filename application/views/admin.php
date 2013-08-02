@@ -1,13 +1,13 @@
 
 <?php 
-function verb_words(){
+/*function verb_words(){
 $verb = array("appointed","employed","nominated","temporary","suspended","reappoints","revoked");
 
 	for ($j=0; $j < sizeof($verb); $j++) {
 		echo "<option value=" . $verb[$j] . ">" . $verb[$j] ."</option>";
 	}
 	//return $v;
-}
+}*/
 ?>
 <div class="content">
 <h2>Administration Dashboard</h3>
@@ -38,7 +38,7 @@ $verb = array("appointed","employed","nominated","temporary","suspended","reappo
 	  	
 		<?php echo form_open("", array('id' => 'EntityAdd')); ?>
 		<div class="spacer"><select class="select" name="type0"><option value="22">Person</option><option value="21" selected>Organization</option></select><input type="text" id="entity0" name="entity0" value=""  class="textfield" required/><input type="text" id="address0" name="address0" value=""  class="addrfield" /><input type="text" id="startdate0" name="startdate0" value=""  class="datefield" required/><input type="text" id="enddate0" name="enddate0" value=""  class="datefield" /><input type="text" id="src0" name="src0" value=""  class="textfield" required/><input type="text" id="appointer0" name="appointer0" value=""  class="textfield"/> -- root entity</div> 
-		<div class="spacer"><select class="select" name="type1"><option value="22">Person</option><option value="21">Organization</option></select><input type="text" id="entity1" name="entity1" value=""  class="textfield" required /><input type="text" id="address1" name="address1" value=""  class="addrfield" /><input type="text" id="startdate1" name="startdate1" value=""  class="datefield" required/><input type="text" id="enddate1" name="enddate1" value=""  class="datefield" /><select class="select" name="verb1"><?php verb_words();?></select><input type="checkbox" name="belong" id="belong" /> -- if belongs to above</div>
+		<div class="spacer"><select class="select" name="type1"><option value="22">Person</option><option value="21">Organization</option></select><input type="text" id="entity1" name="entity1" value=""  class="textfield" required /><input type="text" id="address1" name="address1" value=""  class="addrfield" /><input type="text" id="startdate1" name="startdate1" value=""  class="datefield" required/><input type="text" id="enddate1" name="enddate1" value=""  class="datefield" /><select class="select" name="verb1"><?php echo $verb_word;?></select><input type="checkbox" name="belong" id="belong" /> -- if belongs to above</div>
 		  <input type="hidden" id="items" name="items" value="2"/>
 		 <div class="elementAdd" name="EInsert0"><img tag="Add text field" src="<?php echo base_url();?>assets/img/more.png" width="40%"/></div> <br/>
 		 <div class="center">&nbsp;<input type="button" class="EntityAdd btn-primary"  value="Submit" /></div>

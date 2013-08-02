@@ -269,4 +269,14 @@ class Admin_model extends CI_Model {
 	    	$this->db->query("DELETE FROM Entity WHERE ID = $MID"); 
     }
 
+   function get_verbs()
+    {
+		        	
+		$this->db->select();
+		$this->db->from('Verbs');
+		$this->db->where('Viewed', 1);
+	        $query = $this->db->get();
+	        return $query->result_array();
+	      
+    }
 }

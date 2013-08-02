@@ -19,10 +19,13 @@ class Admin extends CI_Controller {
        
 	public function index()
 	{
-			$data['page_title'] = 'Admin Dashboard';		
-			$this->load->view('header',$data);
-			$this->load->view('admin', $data);
-			$this->load->view('footer', $data);
+	///$verbs= $this->verb_words();
+	//echo $verbs;
+			$data['page_title'] = 'Admin Dashboard';
+		//	$data['verb_word'] = $verbs;		
+		//	$this->load->view('header');
+			$this->load->view('admin');
+			$this->load->view('footer');
 	}
 	public function manage_users(){
 	
@@ -33,7 +36,7 @@ class Admin extends CI_Controller {
 	}
 	
 	
-	function entityAdd1()
+	function entityAdd_test()
 	{
 		$data = array('items' => '3', 'submit' => '1', 'errors' => 'Tuko');
 		    //echo validation_errors();
@@ -129,10 +132,11 @@ class Admin extends CI_Controller {
     }
     
     function verb_words(){
-	$verb = array("appointed","employed","nominated","temporary","suspended","reappoints","revoked");
+	$verb = $this->admin_model->get_verbs();
 	$v = '';
+	//var_dump($verb);
 	for ($j=0; $j < sizeof($verb); $j++) {
-		$v .= "<option value=" . $verb[$j] . ">" . $verb[$j] ."</option>";
+		$v .= "<option value=" . $verb[$j]['Verb'] . ">" . $verb[$j]['Verb'] ."</option>";
 	}
 	return $v;
     }
