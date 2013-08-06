@@ -10,6 +10,11 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
+.navbar {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 #search input[type="text"] {
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
@@ -140,11 +145,6 @@ body {
   margin-left: 20px;
 }
 
-.results {
-  padding-left: 30px;
-}
-
-
 .results li {
   color: #333;
   font-size: 18px;
@@ -251,7 +251,7 @@ body {
 }
 
 #visualisation {
-  background: url('../../assets/img/satinweave.png') repeat fixed transparent !important;
+  background: url('../../assets/img/fabric_of_squares_gray.png') repeat fixed transparent !important;
   padding: 60px 10px 0 10px;
 }
 
@@ -260,6 +260,10 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 22px;
   font-weight: 400;
+}
+
+#vis_checkbox {
+  display: none;
 }
 
 #container_vis {
@@ -275,14 +279,23 @@ body {
 }
 
 #right-container {
-  /*display: none;*/
+  background: rgba(0,0,0,0.05);
+  border: 1px #E6E6E6 solid;
   float: none !important;
+}
+
+.hide {
+  display: none;
 }
 
 #left-container, 
 #right-container, 
 #center-container {
   height: inherit;
+}
+
+#inner-details {
+  padding: 0 10px 0 10px;
 }
 
 #inner-details h4 {

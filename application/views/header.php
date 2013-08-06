@@ -28,20 +28,23 @@
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-responsive.css"/>
 	<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Caudex:400,700|Lato:400,700|Raleway:400,500,700|Merriweather:400,300,700|Monteserrat:400,700|Istok+Web:400,700|Monda:400,700|Roboto:400,700"/>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet"/>
+
+	<script type="text/javascript">
+		function showDiv() {
+		   document.getElementById('vis_checkbox').style.display = "block";
+		   var element = document.getElementById('vis_checkbox');
+		  	element.scrollIntoView(true);
+		}
+	</script>
 	
 </head>
+
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
     <div id="thenav" class="navbar navbar-fixed-top" style="background-position: 0px 0px;">
       	<div class="top-cont">
-<<<<<<< HEAD
-             <div class="container navigation-main">
-         	<div class="nav-collapse collapse">
-         			<div class="logo"></div>
-=======
         	<div class="container navigation-main">
          		<div class="nav-collapse collapse">
          			<a href="<?php echo base_url()?>"><div class="logo"></div></a>
->>>>>>> 05d923ea243f059ae2dfcb8539d66b43eb8a3fad
             	</div>
             </div>
         </div>

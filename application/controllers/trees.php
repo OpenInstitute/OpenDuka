@@ -326,12 +326,12 @@ class Trees extends CI_Controller {
 		$n = $_POST['node'];
 		
 		$root_node = $this->tree->get_node($n);
-		$cont = "<h3><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a></h3>";
+		$cont = "<h3><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a>&nbsp;&nbsp;<span id='connections' class='badge pull-right'>1</span></h3>";
 		 
 		
 		$child_nodes = explode('||',$root_node[0]['EntityMap']);
 		$child_nodes = $this->clean_array($child_nodes);
-		$cont .= "<ul class='status'>";
+		$cont .= "<ul id='connected' class='status'>";
 		//var_dump($child_nodes);
 		foreach($child_nodes as $c_id){
 		
@@ -344,8 +344,7 @@ class Trees extends CI_Controller {
 	        }
 		$cont .= "</ul>";
 	    echo $cont;
-	}
-	
+	}	
 	
 	function timeline_data($n){
 		$this->output->enable_profiler(false);  

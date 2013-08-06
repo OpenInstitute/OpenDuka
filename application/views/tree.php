@@ -92,7 +92,22 @@ if (isset($list))
 	</div>
 
 <?php 
-	echo "<ul class='results'>".$list."</ul>"; }
+	echo "
+		<div class='results row-fluid span8'>
+			<ul>".$list."</ul>
+		</div>";
+	echo "		
+			<ul class='pagination offset3'>
+			  <li><a href='#'>&laquo;</a></li>
+			  <li><a href='#'>1</a></li>
+			  <li><a href='#'>2</a></li>
+			  <li><a href='#'>3</a></li>
+			  <li><a href='#'>4</a></li>
+			  <li><a href='#'>5</a></li>
+			  <li><a href='#'>&raquo;</a></li>
+			</ul>
+		";
+	}
 
 if (!empty($nodes)){	
  	//echo $tree;
@@ -105,26 +120,50 @@ if (!empty($nodes)){
 		<h2>Search results for "<?php echo $node_title; ?>"</h2>
 
 		<!-- Filter -->
-		<div id="vis_checkbox">
+		<button class="btn btn-success" onclick="showDiv()">Filter</button>
+		<div id="vis_checkbox" class="input-group">
+			<div id="filter">
 
 			<?php echo form_open("tree/filter", array('id' => 'signup')); ?>
 				<input type="hidden" value="" name="EntityIDS" />
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>People
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>Companies
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>Organisations
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>Cases
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>Grants
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp;
+					<label>People</label>
+				</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp;
+					<label>Companies</label>
+				</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp;
+					<label>Organisations</label>
+				</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp;
+					<label>Cases</label>
+				</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp; 
+					<label>Grants</label>
+				</span>
 			<?php echo form_close(); ?>
+
+			</div>
 		</div>
 
 		<!-- Visualisation -->
 		<div id="container_vis" class="row-fluid">
-			<div id="center-container" class="span8">
+			<div id="center-container" class="span8 offset2">
 				<canvas id="cy" width="740" height="560"></canvas>
 			</div>
-			<div id="right-container" class="span4">
+			<div id="right-container" class="offset0 hide">
 				<div id="inner-details">
-					<h4><i class="icon-info-sign icon-large"></i>&nbsp;&nbsp;&nbsp;Click on a node to get more information about it</h4>
+					<!-- <h4><i class="icon-info-sign icon-large"></i>&nbsp;&nbsp;&nbsp;Click on a node to get more information about it</h4> -->
 				</div>
 			</div>
 		</div>
@@ -167,6 +206,9 @@ if (!empty($nodes)){
 	      //	alert(d);
 		//  $("#entity_edit").html(data);
 		  $("#inner-details").html(d);
+		  $('#center-container').removeClass("offset2").addClass("offset0");
+		  $('#right-container').removeClass("offset0 hide").addClass("span4");
+		  	;
 	      },
 	      error:function(){
 		  alert("failure");
