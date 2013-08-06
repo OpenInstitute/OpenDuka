@@ -124,7 +124,7 @@ class Trees extends CI_Controller {
 			$NodeName = explode(':',$nd['Name']);
 			$cid=(int)$nd['EntityTypeID'];
 			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
-			if ($cid==21){$col='#00CCCC'; $shape='dot';} else {$col='#00a650'; $shape='rectangle';}
+			if ($cid==22){$col='#00CCCC'; $shape='dot';} else {$col='#00a650'; $shape='rectangle';}
 			
 			if($nd['ID'] == $v0){
 			$col='#FF0000';
@@ -321,28 +321,53 @@ class Trees extends CI_Controller {
 	}
 	
 	function node_data(){
-		$this->output->enable_profiler(false); 
+		$this->output->enable_profiler(true); 
 		$j=0; 
 		$n = $_POST['node'];
 		
 		$root_node = $this->tree->get_node($n);
+		$root_verb = explode(',', $root_node[0]['Verb']);		
+		
 		$cont = "<h3><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a></h3>";
-		 
-		
-		$child_nodes = explode('||',$root_node[0]['EntityMap']);
-		$child_nodes = $this->clean_array($child_nodes);
 		$cont .= "<ul class='status'>";
+		
+		$root_maps = explode(',', $root_node[0]['EntityMap']);
+
 		//var_dump($child_nodes);
-		foreach($child_nodes as $c_id){
+		if (sizeof($root_maps>0)){
 		
-		$child_node = $this->tree->get_node($c_id);
+		 for($i=0; $i<sizeof($root_maps); $i++){
+		// var_dump($child_nodes[$i]);
+		   $child_ns = explode('||', $root_maps[$i]);
+		  
+		   if(sizeof($child_ns>0)){
+		  // echo $child_ns[$i];
+			$child_node = $this->tree->get_node($child_ns);
+			var_dump($child_node);
+			
+				for($j=0; $j<sizeof($child_node); $j++){
 		
-		$v = ($root_node[0]['Verb']=='0')?  $child_node[0]['Verb'] : 'Was '. $root_node[0]['Verb'] .' by ' ;
-			            
-	            $cont .= "<li><p><span class='st-verb'>". $v."</span> <span class='st-name'>".$child_node[0]['Name']. "</span></p><p><span class='st-date'>Effected Date - ".$child_node[0]['EffectiveDate']. "</span></p></li>";
-	            //if(++$j==10) break;
-	        }
+		
+			$child_verb = explode(',', $child_node[$i]['Verb']);
+		   $child_dates = explode(',',$child_node[$i]['EffectiveDate']);		   
+		   $v = ($root_verb[$i]=='0')?  $child_verb : 'Was '. $root_verb[$i] .' by ' ;	
+		   
+
+					    
+				$cont .= "<li><p><span class='st-verb'>". $v."</span> <span class='st-name'>".$child_node[$j]['Name']. "</span></p><p><span class='st-date'>Effected Date - ".$child_dates[0]. "</span></p></li>";
+			    //if(++$j==10) break;
+			    }
+		  }
+	        
+		 }
+		}
 		$cont .= "</ul>";
+		//$child_nodes = explode('||',$root_node[0]['EntityMap']);
+		//$child_nodes = $this->clean_array($child_nodes);
+		
+		//var_dump($child_nodes);
+		
+		
 	    echo $cont;
 	}
 	

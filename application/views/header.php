@@ -7,7 +7,7 @@
 	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/wysiwyg.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.validate.js"></script>
-	<!--<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/cytoscape.js"></script>-->
+	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/jquery.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor-tween.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/graphics.js"></script>
@@ -34,15 +34,9 @@
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
     <div id="thenav" class="navbar navbar-fixed-top" style="background-position: 0px 0px;">
       	<div class="top-cont">
-<<<<<<< HEAD
-             <div class="container navigation-main">
-         	<div class="nav-collapse collapse">
-         			<div class="logo"></div>
-=======
         	<div class="container navigation-main">
          		<div class="nav-collapse collapse">
          			<a href="<?php echo base_url()?>"><div class="logo"></div></a>
->>>>>>> 05d923ea243f059ae2dfcb8539d66b43eb8a3fad
             	</div>
             </div>
         </div>

@@ -99,10 +99,10 @@ class Tree extends CI_Model {
     
     function get_node($nodeid)
     {
-    	//is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
+    	is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid); 
 		$this->db->select();
 		$this->db->from('Entity');
-		$this->db->where('ID',$nodeid);
+		//$this->db->where('ID',$nodeid);
 		//if($this->db->count_all_results()>0){  
 	        $query = $this->db->get();
 	        return $query->result_array();

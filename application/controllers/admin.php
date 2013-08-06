@@ -22,11 +22,11 @@ class Admin extends CI_Controller {
 	$verbs= $this->verb_words();
 	//echo $verbs;
 			$data['page_title'] = 'Admin Dashboard';
-			$data['verb_word'] = $verbs;		
-			$this->load->view('header');
-			$this->load->view('admin', $data);
+			$this->load->view('header',$data);
+			$this->load->view('admin', array('verb_word'=> $verbs));
 			$this->load->view('footer');
 	}
+	
 	public function manage_users(){
 	
 		$data['page_title'] = 'Manage Users';

@@ -55,6 +55,7 @@
 		float: right;
 		
 	}
+	*/
 	
 	code {
 		font-family: Consolas, Monaco, Courier New, Courier, monospace;
@@ -239,11 +240,11 @@
 	
 	div.elementAdd { color:blue; cursor:pointer; }
 	
-	div.elementDel { color:blue; cursor:pointer; }*/
+	div.elementDel { color:blue; cursor:pointer; }
 	
-	/*div.elementDel img{ width:20px; }*/
+	div.elementDel img{ width:20px; }
 	
-	/*div.AdminCont > div{
+	div.AdminCont > div{
 		display: block;
 		font-size: 10px;
 	}
@@ -344,7 +345,7 @@
 
 		margin-top: 20px;
 	
-	}*/
+	}
 
 /* Visualisation scripts ----*/
 #infovis-canvaswidget {

@@ -125,7 +125,7 @@ body {
   text-transform: uppercase;
 }
 
-#search-results {
+#search-results, #admin-board {
   background: #fff;
   margin: 0;
   padding-left: 20px;

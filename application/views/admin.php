@@ -1,15 +1,4 @@
-
-<?php 
-/*function verb_words(){
-$verb = array("appointed","employed","nominated","temporary","suspended","reappoints","revoked");
-
-	for ($j=0; $j < sizeof($verb); $j++) {
-		echo "<option value=" . $verb[$j] . ">" . $verb[$j] ."</option>";
-	}
-	//return $v;
-}*/
-?>
-<div class="content">
+<div id="admin-board" class="section">
 <h2>Administration Dashboard</h3>
   <h3>Welcome <?php echo $this->session->userdata('user_name'); ?>! <span class="logoff"><?php echo form_open("user/logout", array('id' => 'logoff')); ?><input type="submit" value="Log Off"/> <?php echo form_close(); ?> </span></h3>
   
@@ -101,8 +90,8 @@ $verb = array("appointed","employed","nominated","temporary","suspended","reappo
 		<div id="entity_merge"></div>
 	 </div>
  </div>
- 
-</div><!--<div class="content">-->
+ </div>
+
 
 <script>
 $('.formdata').hide();
@@ -203,7 +192,7 @@ $(".elementAdd").click(function() {
 
 	var name = $(this).attr('name'); 
 	//$('input#password').after(newInput);
-	var newSet = ('<div class="spacer spacer'+ currentItem +'"> <select class="select" name="type'+ currentItem +'"><option value="22">Person</option><option value="21">Organization</option></select><input type="text" id="entity'+ currentItem +'" name="entity'+ currentItem +'" value="" class="textfield"><input type="text" id="address'+ currentItem +'" name="address'+ currentItem +'" value=""  class="addrfield"><input type="text" id="startdate'+ currentItem +'" name="startdate'+ currentItem +'" value=""  class="datefield" required><input type="text" id="enddate'+ currentItem +'" name="enddate'+ currentItem +'" value=""  class="datefield"><select class="select" name="verb'+ currentItem +'"><?php verb_words();?></select><div class="elementDel" onclick="elementDel(\'spacer'+ currentItem +'\');" name="spacer'+ currentItem +'"><img tag="Del row" src="<?php echo base_url();?>assets/img/less.png" width="20px"></div></div>');
+	var newSet = ('<div class="spacer spacer'+ currentItem +'"> <select class="select" name="type'+ currentItem +'"><option value="22">Person</option><option value="21">Organization</option></select><input type="text" id="entity'+ currentItem +'" name="entity'+ currentItem +'" value="" class="textfield"><input type="text" id="address'+ currentItem +'" name="address'+ currentItem +'" value=""  class="addrfield"><input type="text" id="startdate'+ currentItem +'" name="startdate'+ currentItem +'" value=""  class="datefield" required><input type="text" id="enddate'+ currentItem +'" name="enddate'+ currentItem +'" value=""  class="datefield"><select class="select" name="verb'+ currentItem +'"><?php echo $verb_word; ?></select><div class="elementDel" onclick="elementDel(\'spacer'+ currentItem +'\');" name="spacer'+ currentItem +'"><img tag="Del row" src="<?php echo base_url();?>assets/img/less.png" width="20px"></div></div>');
 	//alert(newSet);
 	
 currentItem++;
@@ -282,8 +271,9 @@ function EntityUpdate() {
 
 $("#EntityMergeName").keyup(function() {
   $("#result").html('');
-	 // Allow: backspace, delete, tab, escape, and enter
-        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || event.keyCode == 17 || event.keyCode == 18 ||
+  //alert(event.keyCode);
+	 // Allow: backspace, delete, tab, escape, and enter event.keyCode == 8 
+        if ( event.keyCode == 46 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || event.keyCode == 17 || event.keyCode == 18 ||
              // Allow: Ctrl+A
             (event.keyCode == 65 && event.ctrlKey === true) || 
              // Allow: home, end, left, right
@@ -296,7 +286,7 @@ $("#EntityMergeName").keyup(function() {
             var chr = String.fromCharCode( event.keyCode );
             //alert(chr);
             
-            if( (/^[a-zA-Z\s'-]*$/.test(chr)) ) {
+            if( (/^[a-zA-Z\s'-]*$/.test(chr)) || event.keyCode == 8  ) {
                 event.preventDefault();
            	// alert($("#EntityMergeName").val());  
               /*clear result div*/
