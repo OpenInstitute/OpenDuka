@@ -92,7 +92,22 @@ if (isset($list))
 	</div>
 
 <?php 
-	echo "<ul class='results'>".$list."</ul>"; }
+	echo "
+		<div class='results row-fluid span8'>
+			<ul>".$list."</ul>
+		</div>";
+	echo "		
+			<ul class='pagination offset3'>
+			  <li><a href='#'>&laquo;</a></li>
+			  <li><a href='#'>1</a></li>
+			  <li><a href='#'>2</a></li>
+			  <li><a href='#'>3</a></li>
+			  <li><a href='#'>4</a></li>
+			  <li><a href='#'>5</a></li>
+			  <li><a href='#'>&raquo;</a></li>
+			</ul>
+		";
+	}
 
 if (!empty($nodes)){	
  	//echo $tree;
@@ -105,26 +120,51 @@ if (!empty($nodes)){
 		<h2>Search results for "<?php echo $node_title; ?>"</h2>
 
 		<!-- Filter -->
-		<div id="vis_checkbox">
+		<button class="btn btn-success" onclick="showDiv()">Filter</button>
+		<div id="vis_checkbox" class="input-group">
+			<div id="filter">
 
 			<?php echo form_open("tree/filter", array('id' => 'signup')); ?>
 				<input type="hidden" value="" name="EntityIDS" />
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>People
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>Companies
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>Organisations
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>Cases
-				<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>Grants
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp;
+					<label>People</label>
+				</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp;
+					<label>Companies</label>
+				</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp;
+					<label>Organisations</label>
+				</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp;
+					<label>Cases</label>
+				</span>
+				<span class="input-group-addon">
+					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
+					&nbsp; &nbsp; 
+					<label>Grants</label>
+				</span>
 			<?php echo form_close(); ?>
+
+			</div>
 		</div>
 
 		<!-- Visualisation -->
-		<div id="container_vis" class="row">
-			<div id="center-container" class="span8">
+		<div id="container_vis" class="row-fluid">
+			<div id="center-container" class="span8 offset2">
 				<canvas id="cy" width="740" height="560"></canvas>
 			</div>
-			<div id="right-container" class="span3">
+			<div id="right-container" class="offset0 hide">
+				<div id="inner-header"></div>
 				<div id="inner-details">
-					<h4><i class="icon-info-sign icon-large"></i>&nbsp;&nbsp;&nbsp;Click on a node to get more information about it</h4>
+					<!-- <h4><i class="icon-info-sign icon-large"></i>&nbsp;&nbsp;&nbsp;Click on a node to get more information about it</h4> -->
 				</div>
 			</div>
 		</div>
@@ -144,7 +184,7 @@ if (!empty($nodes)){
   // Initialise arbor
     var sys = arbor.ParticleSystem()
     sys.parameters({stiffness:900, repulsion:2000, gravity:false, dt:0.015})
-    sys.renderer = Renderer("#cy");
+    sys.renderer = Renderer("#cy", '<?php echo base_url() ;?>assets/img/');
     sys.graft(data);
     /*
     var nav = Nav("#nav")
@@ -161,21 +201,49 @@ if (!empty($nodes)){
 	    $.ajax({
 	      url: "<?php echo base_url();?>index.php/trees/node_data",
 	      type: "POST",
-	      async: false, 
 	      data: {node: nodeid},
+	      dataType: "json",
+	     // contentType: "application/json",
 	      success:function(d){
 	      //	alert(d);
+	      	d = JSON.parse(d);
 		//  $("#entity_edit").html(data);
-		  $("#inner-details").html(d);
+		//alert(d.data[1].header[0].Link);
+		l = d.data[1].header[0].Link;
+		pn = d.data[1].header[0].Name;
+		pv = d.data[1].header[0].Verb;
+		$('#inner-details').html("<ul/>");
+		$.each(d.data[0].posts, function(i,post){
+			e = post.EntMap.split(",");
+			v = post.Verb.split(",");
+			d = post.EffectiveDate.split(",");
+				$.each(e, function(index, value) {
+				 // alert(index + ': ' + value);
+					m = value.split("||");
+					// alert(m.indexOf(nodeid));
+						if (m.indexOf(nodeid)>-1){
+							i = index;
+							//alert(v[i]);
+							t = v[i];
+							if (t == "0" || t == "0,") {t = pv +' by ';}
+							da = d[i];
+						};
+				});
+			
+		  $("#inner-details ul").append('<li><p><span class="st-verb">'+ t +'</span> <span class="st-name">'+ post.Name +'</span></p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li>');
+		});
+		  $("#inner-header").html('<h3><a href="'+ l +'">'+ pn +'"</a>&nbsp;&nbsp;<span id="connections" class="badge pull-right">1</span></h3>');
+		  $('#center-container').removeClass("offset2").addClass("offset0");
+		  $('#right-container').removeClass("offset0 hide").addClass("span4");
+		  	
 	      },
-	      error:function(){
-		  alert("failure");
-		  $("#result").html('there is error while submit');
-	      }
+	      error: function(xhr, status, error) {
+		 alert(xhr.status);
+	       }
 	    });
-		//TimeLine(nodeid);
+
 	}
-	
+	/*
 
 var events = [<?php echo $events; ?>];
 var sections = [<?php echo $sections; ?>];
@@ -195,7 +263,7 @@ var sections = [<?php echo $sections; ?>];
 		});
 
 	$('#to-today').click(function(){timeline1.goToToday();});
-   
+   */
 </script>
 
 <?php } ?>

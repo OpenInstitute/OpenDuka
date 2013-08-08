@@ -124,16 +124,16 @@ class Trees extends CI_Controller {
 			$NodeName = explode(':',$nd['Name']);
 			$cid=(int)$nd['EntityTypeID'];
 			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
-			if ($cid==22){$col='#00CCCC'; $shape='dot';} else {$col='#00a650'; $shape='rectangle';}
+			if ($cid==22){$col='#00CCCC'; $shape='dot'; $img = 'people.png';} else {$col='#00a650'; $shape='rectangle'; $img = 'organisations.png';}
 			
 			if($nd['ID'] == $v0){
 			$col='#FF0000';
-			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID'] ."':{ 'color':'".$col."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID'] ."':{ 'color':'".$col."', 'shape':'".$shape."', 'radius':10, 'alpha': ".$alpha.", 'label': '". $NodeName[0] ."', 'nodeid':'".$nd['ID']."','image':'".$img."','image_h':30,'image_w':30},";
 			} else {
 			//exit;
 			//$c=$col[$cid];
 			//$col = '#6FB1FC';
-			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID']  ."':{ 'color':'". $col ."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". str_replace(" ","_",$NodeName[0])."', 'nodeid':'".$nd['ID']."'},";
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID']  ."':{ 'color':'". $col ."', 'shape':'".$shape."', 'radius':10, 'alpha': ".$alpha.", 'label': '". $NodeName[0] ."', 'nodeid':'".$nd['ID']."','image':'".$img."','image_h':30,'image_w':30},";
 			}
 			
 		}
@@ -321,56 +321,36 @@ class Trees extends CI_Controller {
 	}
 	
 	function node_data(){
-		$this->output->enable_profiler(true); 
-		$j=0; 
+	//	$this->output->enable_profiler(true); 
+
 		$n = $_POST['node'];
+		//$cont="";
+//alert($n);	
 		
-		$root_node = $this->tree->get_node($n);
-		$root_verb = explode(',', $root_node[0]['Verb']);		
+		//$cont = "<h3><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a>&nbsp;&nbsp;<span id='connections' class='badge pull-right'>1</span></h3>";
 		
-		$cont = "<h3><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a></h3>";
-		$cont .= "<ul class='status'>";
-		
-		$root_maps = explode(',', $root_node[0]['EntityMap']);
-
-		//var_dump($child_nodes);
-		if (sizeof($root_maps>0)){
-		
-		 for($i=0; $i<sizeof($root_maps); $i++){
-		// var_dump($child_nodes[$i]);
-		   $child_ns = explode('||', $root_maps[$i]);
-		  
-		   if(sizeof($child_ns>0)){
-		  // echo $child_ns[$i];
-			$child_node = $this->tree->get_node($child_ns);
-			var_dump($child_node);
-			
-				for($j=0; $j<sizeof($child_node); $j++){
-		
-		
-			$child_verb = explode(',', $child_node[$i]['Verb']);
-		   $child_dates = explode(',',$child_node[$i]['EffectiveDate']);		   
-		   $v = ($root_verb[$i]=='0')?  $child_verb : 'Was '. $root_verb[$i] .' by ' ;	
-		   
-
-					    
-				$cont .= "<li><p><span class='st-verb'>". $v."</span> <span class='st-name'>".$child_node[$j]['Name']. "</span></p><p><span class='st-date'>Effected Date - ".$child_dates[0]. "</span></p></li>";
-			    //if(++$j==10) break;
-			    }
-		  }
-	        
-		 }
+		$child_node = $this->tree->get_node($n);
+		$maps= '{"data":[{"posts":[';
+		//var_dump($root_node);
+		for($i=0; $i<sizeof($child_node); $i++){
+			//$keys = array_flip(array_keys($root_node));
+			//$cont .= isset($keys[$n]) ? $keys[$n] : 'not found' ;
+			//echo $keystr ;
+		$maps .= ' {"ID":"'. $child_node[$i]['ID'] .'", "Name":"'. $child_node[$i]['Name'] . '", "EntMap":"'. $child_node[$i]['EntityMap']. '", "Verb":"'. $child_node[$i]['Verb'] .'", "EffectiveDate":"'. $child_node[$i]['EffectiveDate'] .'"},';	
+						
 		}
-		$cont .= "</ul>";
-		//$child_nodes = explode('||',$root_node[0]['EntityMap']);
-		//$child_nodes = $this->clean_array($child_nodes);
+		$maps .= ']}';
 		
-		//var_dump($child_nodes);
+		$root_node = $this->tree->get_entries('ID',$n);
 		
+		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/trees/tree/'.$n) . '"}]}]}';
 		
-	    echo $cont;
-	}
-	
+		$maps = str_replace(",]","]",$maps);
+		
+		echo json_encode($maps) ;
+
+	    
+	}	
 	
 	function timeline_data($n){
 		$this->output->enable_profiler(false);  

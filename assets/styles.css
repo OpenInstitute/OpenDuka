@@ -366,7 +366,7 @@
 #left-container, 
 #right-container, 
 #center-container {
-    height:559px;
+/*    height:559px;*/
     position: relative;
     top:0;
 }
@@ -410,10 +410,8 @@
     margin: 7px;
 }
 
-#inner-details {
-/*    font-size:0.8em;
-    list-style:none;
-    margin:7px;*/
+#inner-header {
+    margin:7px;
 }
 
 #log {

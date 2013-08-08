@@ -99,14 +99,22 @@ class Tree extends CI_Model {
     
     function get_node($nodeid)
     {
-    	is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid); 
+    	//is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid); 
 		$this->db->select();
 		$this->db->from('Entity');
-		//$this->db->where('ID',$nodeid);
+		$this->db->like('EntityMap', $nodeid .'|', 'after');
+		$this->db->or_like('EntityMap ',  $nodeid .',' , 'after');
+		$this->db->or_like('EntityMap ', ','. $nodeid .',' , 'match');
+		$this->db->or_like('EntityMap ', '|'. $nodeid .',' , 'match');
+		$this->db->or_like('EntityMap ', '|'. $nodeid .'|' , 'match');
+		$this->db->or_like('EntityMap ', ','. $nodeid .'|' , 'match');
+		$this->db->or_like('EntityMap ', '|'. $nodeid  , 'before');
 		//if($this->db->count_all_results()>0){  
 	        $query = $this->db->get();
 	        return $query->result_array();
 	      //} else {return '';}
+	      
+	   //   "SELECT `ID`,EntityMap, Verb FROM `Entity` where `EntityMap`  like '2717,%' or `EntityMap`  like '%,2717,%' or `EntityMap`  like ',2717|%' or `EntityMap`  like '%|2717|%' or `EntityMap`  like  '%|2717' or `EntityMap`  like '2717|%'"
     }
 
     function get_entry_cont($tag,$entityname)

@@ -1,29 +1,31 @@
 (function(){
   
-  Renderer = function(canvas){
+  Renderer = function(canvas, path){
+
     var dom = $(canvas)
     var canvas = dom.get(0)
     var ctx = canvas.getContext("2d")
     var gfx = arbor.Graphics(canvas)
     var particleSystem = null
-    var imagepath = './graphics/'
+    var imagepath = path
 
     var selected = null,
         nearest = null,
         _mouseP = null;
-           
+         
     // Main output section
     var that = {
       init:function(system){
         particleSystem = system
         particleSystem.screenSize(canvas.width, canvas.height)
-        particleSystem.screenPadding(20, 20,20,20)
+        particleSystem.screenPadding(40, 40,40,40)
 
         that.initMouseHandling()
 
         // Preload all images into the node object
         particleSystem.eachNode(function(node, pt) {
-          if(node.data.image) {
+          if(node.data.image) {  
+         // alert(imagepath + node.data.image);
             node.data.imageob = new Image()
             node.data.imageob.src = imagepath + node.data.image
           }
@@ -63,7 +65,7 @@
           // determine the box size and round off the coords if we'll be 
           // drawing a text label (awful alignment jitter otherwise...)
           var label = node.data.label||""
-          var w = 20//ctx.measureText(""+label).width + 10
+          var w = ctx.measureText(""+label).width + 10
           if(w < radius) {
             w = radius;
           }
@@ -82,8 +84,8 @@
           // Draw the object        
           if (node.data.shape=='dot'){
             // Check if it's a dot
-            gfx.oval(pt.x-w/2, pt.y-w/2, w,w, {fill:ctx.fillStyle, alpha:node.data.alpha})
-            nodeBoxes[node.name] = [pt.x-w/2, pt.y-w/2, w,w]
+          /*  gfx.oval(pt.x-w/2, pt.y-w/2, w,w, {fill:ctx.fillStyle, alpha:node.data.alpha})
+            nodeBoxes[node.name] = [pt.x-w/2, pt.y-w/2, w,w] */
             // Does it have an image?      
             if (imageob){
               // Images are cached 
@@ -91,8 +93,13 @@
             }
           }else {
             // If none of the above, draw a rectangle
-            gfx.rect(pt.x-w/2, pt.y-10, w,20, 4, {fill:ctx.fillStyle, alpha:node.data.alpha})
+           /* gfx.rect(pt.x-w/2, pt.y-10, w,20, 4, {fill:ctx.fillStyle, alpha:node.data.alpha})
             nodeBoxes[node.name] = [pt.x-w/2, pt.y-11, w, 22]
+            */
+            if (imageob){
+              // Images are cached 
+              ctx.drawImage(imageob, pt.x-(imageW/2), pt.y+radius/2, imageW, imageH)
+            }
           }
 
           // Draw the text
@@ -101,7 +108,7 @@
             ctx.textAlign = "center"
             ctx.fillStyle = "green"
             if (node.data.color=='none') ctx.fillStyle = '#333333'
-            ctx.fillText(label||"", pt.x, pt.y+20)
+            ctx.fillText(label||"", pt.x, pt.y)
             // ctx.fillText(label||"", pt.x, pt.y+4)
           }
           

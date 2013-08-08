@@ -56,7 +56,7 @@ $db['default']['database'] = 'opendata_db';
 */
 //alpha server
 
-$db['default']['hostname'] = 'localhost:8888';
+$db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = 'pass';
 $db['default']['database'] = 'openduka_alpha';
