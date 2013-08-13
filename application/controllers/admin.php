@@ -257,21 +257,30 @@ class Admin extends CI_Controller {
     function ListField(){
      //$this->output->enable_profiler(TRUE); 
      	$stabs = $this->input->post('STab');
-   	$list="<form id='DatasetInsert' action='' method='post'><div class='spacer'><div style='width: 300px;'>Select field to Extract Entity</div></div>";
+   	$list="<form id='DatasetInsert' action='' method='post'>";
+   	
+   	$doctype = $this->admin_model->get_doctype();
+   	//var_dump($doctype);
+   	$list .= "<div class='spacer'>";
+   	$list .= "Document Type  <select name='DocumentType'";
+   	for($j=0;$j< count($doctype);$j++)
+	{
+		$list .= "<option value='". $doctype[$j]['DocTypeName']."'>". $doctype[$j]['DocTypeName'] ."</option>";
+	}
+   	$list .= '</select></div>';
+   	$list .= "<div style='width: 300px;'>Select field to Extract Entity</div>";
    	$viwanja = $this->admin_model->get_fields($stabs);
-   	//var_dump($viwanja);
-   	//echo count($viwanja);
     	foreach ($viwanja as $kiwanja)
 	{
 		if ($kiwanja->type == "text" || $kiwanja->type == "varchar") {
-			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><input style='width: 20px;' type='checkbox' name='Extract[]' value='".$kiwanja->name."'><div style='width: 200px;'>";
-	   		$list .= $kiwanja->name .'</div></div>';
+			$list .= "<div class='spacer'><input style='width: 20px;' type='checkbox' name='Extract[]' value='".$kiwanja->name."'>";
+	   		$list .= $kiwanja->name .'</div>';
 	   	}
 	 
-	}
+	}	
 	//  echo $kiwanja->type;
-	 //  echo $kiwanja->max_length;
-	 //  echo $kiwanja->primary_key;
+	//  echo $kiwanja->max_length;
+	//  echo $kiwanja->primary_key;
 	 $list.='<input type="hidden" value="'. $stabs .'" name="tablename"/><input type="button" class="EntityExtract" value="Submit" onclick="EntityExtract()"/></form>';
 	
 	$list = empty($list) ? "Sorry No Data" : $list;
@@ -284,14 +293,16 @@ class Admin extends CI_Controller {
    //  $this->output->enable_profiler(TRUE); 
    
    	$table_name = $this->input->post('tablename');
+   	$DocumentType = $this->input->post('DocumentType');
    	$viwanja = $this->input->post('Extract');	
+   	
 
     	$list ="";
 
     	for($i=0; $i<sizeof($viwanja); $i++){
 
-	$list .= $this->admin_model->fieldcheck($viwanja[$i], $table_name);
-    	     	 // $this->admin_model->reference_entity($MergeIds[$i], $RootID);
+		$this->admin_model->fieldcheck($viwanja[$i], $table_name);
+    	     	$this->admin_model->extract_entity($viwanja[$i], $RootID);
     	}
     		
 	$list = empty($list) ? "Sorry No Data" : $list;

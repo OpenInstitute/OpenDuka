@@ -301,13 +301,49 @@ class Admin_model extends CI_Model {
 		return  $this->db->field_data($tab);
 	      
     }
+    
+
+    function get_doctype()
+    {        	
+		$this->db->select('DocTypeName');
+		$this->db->from('DocumentType');
+		$this->db->where('Viewed', '1');
+	        $query = $this->db->get();
+	        return $query->result_array();
+    }
      
     function fieldcheck($fil,$tab)
     {
-    	$list=$fil. "_ column exists ";
-	if(!$this->db->field_exists($fil.'_',$tab)){
-		$list = $fil.'_ ';
+	if(!$this->db->field_exists($fil.'_E_',$tab)){
+		$fieldname = $fil.'_E_';
+		$this->db->query("ALTER TABLE $tab  ADD COLUMN $fieldname INT NOT NULL DEFAULT 0");	
 	}
-	      return $list;
+	      
     }
+    
+    function extract_entity($fil,$tab)
+    {
+	$this->db->select($fil);
+	$this->db->distinct();
+	$this->db->from($tab);  
+	$query = $this->db->get();
+
+	if ($query->num_rows() > 0)
+	{
+	    foreach ($query->result() as $entity)
+	      {
+		$data['DocID'] = $data['DocID'] . ",";
+
+	    	$data['Verb'] = $data['Verb']."||";
+		$data['EntityMap'] =  $rootID.",";
+	    //	$this->db->insert('Entity',$data);
+	    //	$rowID = $this->db->insert_id();
+	    		
+	      }
+	}
+
+	return null;
+	      
+    }
+    
 }
