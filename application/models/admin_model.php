@@ -278,4 +278,36 @@ class Admin_model extends CI_Model {
 	        return $query->result_array();
 	      
     }
+    
+     function get_sys_tables()
+    {
+		        	
+		$this->db->select();
+		$this->db->from('SysTables');
+		$this->db->where('Viewed', '1');
+	        $query = $this->db->get();
+	        return $query->result_array();
+	
+    }
+    
+    function get_tables()
+    {
+		return  $this->db->list_tables();
+	      
+    }
+    
+    function get_fields($tab)
+    {
+		return  $this->db->field_data($tab);
+	      
+    }
+     
+    function fieldcheck($fil,$tab)
+    {
+    	$list=$fil. "_ column exists ";
+	if(!$this->db->field_exists($fil.'_',$tab)){
+		$list = $fil.'_ ';
+	}
+	      return $list;
+    }
 }

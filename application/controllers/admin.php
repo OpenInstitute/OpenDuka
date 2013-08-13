@@ -230,5 +230,74 @@ class Admin extends CI_Controller {
    		//$list= empty($list) ? "Sorry No Data" : $list;
    		//echo $j . " Merged";
     }
+    
+    
+    function ListTable(){
+     //$this->output->enable_profiler(TRUE); 
+   	$meza = $this->admin_model->get_tables();
+    	if (is_array($meza)){
+    	$sys_tables = $this->admin_model->get_sys_tables();
+    	
+    	for($j=0;$j< count($sys_tables);$j++){ $systable[] = $sys_tables[$j]['TableName'];}
+    	
+    	
+    	$meza = array_merge(array_diff($meza, $systable));
+    	//var_dump($meza);
+    		$list = "<option value='' selected>Select Table</option>";
+		for($i=0;$i< count($meza);$i++){		
+    	     	  $list .= "<option value='" . $meza[$i] ."'>" . $meza[$i] . "</option>";
+    	     	}
+    	}
+    		
+	$list = empty($list) ? "Sorry No Data" : $list;
+	echo $list;
+    }
+    
+    
+    function ListField(){
+     //$this->output->enable_profiler(TRUE); 
+     	$stabs = $this->input->post('STab');
+   	$list="<form id='DatasetInsert' action='' method='post'><div class='spacer'><div style='width: 300px;'>Select field to Extract Entity</div></div>";
+   	$viwanja = $this->admin_model->get_fields($stabs);
+   	//var_dump($viwanja);
+   	//echo count($viwanja);
+    	foreach ($viwanja as $kiwanja)
+	{
+		if ($kiwanja->type == "text" || $kiwanja->type == "varchar") {
+			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><input style='width: 20px;' type='checkbox' name='Extract[]' value='".$kiwanja->name."'><div style='width: 200px;'>";
+	   		$list .= $kiwanja->name .'</div></div>';
+	   	}
+	 
+	}
+	//  echo $kiwanja->type;
+	 //  echo $kiwanja->max_length;
+	 //  echo $kiwanja->primary_key;
+	 $list.='<input type="hidden" value="'. $stabs .'" name="tablename"/><input type="button" class="EntityExtract" value="Submit" onclick="EntityExtract()"/></form>';
+	
+	$list = empty($list) ? "Sorry No Data" : $list;
+	
+	echo $list;
+    }
+    
+    
+    function EntityExtract(){
+   //  $this->output->enable_profiler(TRUE); 
+   
+   	$table_name = $this->input->post('tablename');
+   	$viwanja = $this->input->post('Extract');	
+
+    	$list ="";
+
+    	for($i=0; $i<sizeof($viwanja); $i++){
+
+	$list .= $this->admin_model->fieldcheck($viwanja[$i], $table_name);
+    	     	 // $this->admin_model->reference_entity($MergeIds[$i], $RootID);
+    	}
+    		
+	$list = empty($list) ? "Sorry No Data" : $list;
+	echo $list;
+    }
+    
+    
 
 }

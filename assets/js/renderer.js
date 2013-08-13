@@ -43,7 +43,7 @@
           // edge: {source:Node, target:Node, length:#, data:{}}
           // pt1:  {x:#, y:#}  source position in screen coords
           // pt2:  {x:#, y:#}  target position in screen coords
-         
+
           // Don't draw lines that shouldn't be there
           if (edge.source.data.alpha * edge.target.data.alpha == 0) return
           gfx.line(pt1, pt2, {stroke:'#F8BF43', width:2, alpha:edge.target.data.alpha})
@@ -65,7 +65,7 @@
           // determine the box size and round off the coords if we'll be 
           // drawing a text label (awful alignment jitter otherwise...)
           var label = node.data.label||""
-          var w = ctx.measureText(""+label).width + 10
+          var w = 5 //ctx.measureText(""+label).width + 10
           if(w < radius) {
             w = radius;
           }
@@ -84,14 +84,14 @@
           // Draw the object        
           if (node.data.shape=='dot'){
             // Check if it's a dot
-          /*  gfx.oval(pt.x-w/2, pt.y-w/2, w,w, {fill:ctx.fillStyle, alpha:node.data.alpha})
+         /*   gfx.oval(pt.x-w/2, pt.y-w/2, w,w, {fill:ctx.fillStyle, alpha:node.data.alpha})
             nodeBoxes[node.name] = [pt.x-w/2, pt.y-w/2, w,w] */
             // Does it have an image?      
             if (imageob){
               // Images are cached 
               ctx.drawImage(imageob, pt.x-(imageW/2), pt.y+radius/2, imageW, imageH)
             }
-          }else {
+          } else {
             // If none of the above, draw a rectangle
            /* gfx.rect(pt.x-w/2, pt.y-10, w,20, 4, {fill:ctx.fillStyle, alpha:node.data.alpha})
             nodeBoxes[node.name] = [pt.x-w/2, pt.y-11, w, 22]
@@ -104,9 +104,9 @@
 
           // Draw the text
           if (label){
-            ctx.font = "10px Helvetica"
+            ctx.font = "13px Helvetica"
             ctx.textAlign = "center"
-            ctx.fillStyle = "green"
+            ctx.fillStyle = "gray"
             if (node.data.color=='none') ctx.fillStyle = '#333333'
             ctx.fillText(label||"", pt.x, pt.y)
             // ctx.fillText(label||"", pt.x, pt.y+4)
