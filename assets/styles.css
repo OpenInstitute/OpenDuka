@@ -68,7 +68,7 @@
 		padding: 12px 10px 12px 10px;
 	}
 	
-	#top-cont, #body {
+	/*#top-cont, #body {
 		padding-left:50px;
 		padding-right:50px;
 	}
@@ -346,7 +346,7 @@
 		margin-top: 20px;
 	
 	}
-
+*/
 /* Visualisation scripts ----*/
 #infovis-canvaswidget {
   margin:25px 0 0 25px;
@@ -356,7 +356,7 @@
     height:600px;
     position: relative;
     top:0;
-   // border: 1px solid #000;
+	/*border: 1px solid #000;*/
     clear: both;
 }
 #container_vis div{
@@ -410,10 +410,10 @@
     margin: 7px;
 }
 
-#inner-header {
+/*#inner-header {
     margin:7px;
 }
-
+*/
 #log {
     position:absolute;
     top:10px;
@@ -437,7 +437,6 @@
 	width: 740px; 
 	height:560px; 
 	border:#000 1px solid;
-
 }
 
 /*TOOLTIPS*/

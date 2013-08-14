@@ -12,8 +12,6 @@ Raw/*
 *.[oa]
     
 # Security Purposes
-*/config/database.php
-
 
 # Code Igniter Ignore
 */config/development
@@ -21,13 +19,11 @@ Raw/*
 */logs/!index.html
 */cache/*
 */cache/!index.html
-*/application/config/database.php
 *.project
 /Raw
 /user_guide
 /assets/Gazettes
-/application/config/database.php
-/application/config/config.php
 *~
 
 application/config/database.php
+application/config/config.php
