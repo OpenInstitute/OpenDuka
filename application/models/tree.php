@@ -28,7 +28,7 @@ class Tree extends CI_Model {
 		$this->db->select();
 		$this->db->from('Entity');  
 		$this->db->order_by('ID','desc'); 
-		$this->db->limit(6); 
+		$this->db->limit(10); 
         $query = $this->db->get();
         return $query->result_array();
     }

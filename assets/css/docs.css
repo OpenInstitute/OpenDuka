@@ -10,6 +10,11 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
+hr {
+  margin-bottom: 15px !important;
+  margin-top: 15px !important;
+}
+
 .navbar {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -23,12 +28,28 @@ body {
   width: 400px !important;
 }
 
+.query input[type="text"] {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  height: 36px;
+  margin: 0px 20px 10px 0;
+  width: 280px;
+}
+
 #search input[type="submit"] {
   color: #fff;
   font-family: 'Lato', sans-serif;
   font-size: 22px;
   height: 42px;
   width: 100px;
+}
+
+.query input[type="submit"] {
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
+  height: 36px;
+  width: 75px;
 }
 
 .top-cont {
@@ -78,7 +99,6 @@ body {
   background-size: cover;
   height: 340px;
   margin-left: 0px;
-  /*margin-top: 20px;*/
   position: relative;
 }
 
@@ -119,6 +139,12 @@ body {
   font-family: 'Istok Web', sans-serif;
   font-weight: 400;
   padding-top: 40px;
+  text-align: center;
+}
+
+.query {
+  font-family: 'Istok Web', sans-serif;
+  font-weight: 400;
   text-align: center;
 }
 
@@ -200,6 +226,18 @@ body {
   color: #FF5555;
 }
 
+.tenders {
+  color: #37abc8;
+}
+
+.land {
+  color: #419ce8;
+}
+
+.grants {
+  color: #ff510a;
+}
+
 .figures {
   margin-top: 20px;
 }
@@ -219,7 +257,7 @@ body {
 
 .topfive a {
   color: #00AAD4;
-  font-size: 20px;
+  font-size: 22px;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
 }
@@ -272,10 +310,6 @@ body {
 
 #center-container {
   background: transparent;
-/*  background: url('../../assets/img/ticks.png') repeat fixed transparent !important;
-  border: 1px solid #E6E6E6;
-  -webkit-box-shadow: 2px 2px 4px 3px rgba(237, 237, 237, 0.3);
-  box-shadow: 2px 2px 4px 3px rgba(237, 237, 237, 0.3);*/
 }
 
 #right-container {
@@ -294,8 +328,13 @@ body {
   height: inherit;
 }
 
+#inner-header {
+  padding-left: 20px;
+}
+
 #inner-details {
-  padding: 0 10px 0 10px;
+  margin-top: 10px;
+  padding: 0 10px 0 30px;
 }
 
 #inner-details h4 {
@@ -319,9 +358,14 @@ body {
   font-size: 14px;
 }
 
+#inner-details li {
+  border-bottom: 1px solid #FAFAFA;
+  margin: 0 0 20px 0;
+}
+
 #inner-details ol, #inner-details ul, #inner-details li {
   list-style: none;
-  margin: 0 !important;
+  padding: 0;
 }
 
 #inner-details .status .st-verb {

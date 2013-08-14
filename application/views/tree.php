@@ -38,9 +38,9 @@ if(!isset($list) && empty($nodes))
 					<h4>People</h4>
 					<h5><?php echo $persons;?></h5>
 				</div>
-				<div class="cases span2">
-					<img src="<?php echo base_url(); ?>assets/img/cases.png">
-					<h4>Cases</h4>
+				<div class="tenders span2">
+					<img src="<?php echo base_url(); ?>assets/img/tenders.png">
+					<h4>Tenders</h4>
 					<h5>42</h5>
 				</div>
 				<div class="organisations span2">
@@ -49,11 +49,29 @@ if(!isset($list) && empty($nodes))
 					<h5><?php echo $organisations;?></h5>
 				</div>
 			</div>
+			<br />
+			<div class="figures row">
+				<div class="cases span2">
+					<img src="<?php echo base_url(); ?>assets/img/cases.png">
+					<h4>Cases</h4>
+					<h5>12</h5>
+				</div>
+				<div class="grants span2">
+					<img src="<?php echo base_url(); ?>assets/img/grants.png">
+					<h4>Grants</h4>
+					<h5>67</h5>
+				</div>
+				<div class="land span2">
+					<img src="<?php echo base_url(); ?>assets/img/land.png">
+					<h4>Land</h4>
+					<h5>90</h5>
+				</div>
+			</div>
 		</div><!-- .stats -->
 
 		<!-- Latest -->
 		<div class="popular span5">
-			<h3>Latest Entitites</h3>
+			<h3>Latest Entries</h3>
 			<div class="topfive">
 				<ol>
 					
@@ -64,7 +82,7 @@ if(!isset($list) && empty($nodes))
 		</div><!-- .popular -->
 
 		<!-- Disclaimer -->
-		<div class="disclaimer section span10 offset1">
+		<div class="disclaimer section span9 offset1">
 			<p>
 				Our database contains information on people, companies and organisations, as well as their linkages at specified periods of time.
 				While we make every attempt to make this information as accurate as possible, we take no responsibility for its authenticity.
@@ -90,6 +108,13 @@ if (isset($list))
 	<div id="search-results" class="section">
 		<h2>Search results</h2>
 	</div>
+	<!-- Search -->
+	<div class="query">
+		<form name="oi" action="<?php echo base_url() . index_page();?>/trees/entitylist" method="post"> 
+			<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
+			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
+		</form>
+	</div> <!-- #search -->
 
 <?php 
 	echo "
@@ -117,10 +142,18 @@ if (!empty($nodes)){
 <!-- Visualisation & Timeline --> 
 
 	<div id="visualisation" class="section">
+		<!-- Search -->
+		<div class="query">
+			<form name="oi" action="<?php echo base_url() . index_page();?>/trees/entitylist" method="post"> 
+				<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
+				<input type="submit" name="submit" value="Go" class="btn btn-warning" />
+			</form>
+		</div> <!-- #search -->
+
 		<h2>Search results for "<?php echo $node_title; ?>"</h2>
 
 		<!-- Filter -->
-		<button class="btn btn-success" onclick="showDiv()">Filter</button>
+		<!-- <button class="btn btn-success" onclick="showDiv()">Filter</button>
 		<div id="vis_checkbox" class="input-group">
 			<div id="filter">
 
@@ -154,7 +187,7 @@ if (!empty($nodes)){
 			<?php echo form_close(); ?>
 
 			</div>
-		</div>
+		</div> -->
 
 		<!-- Visualisation -->
 		<div id="container_vis" class="row-fluid">
@@ -163,7 +196,7 @@ if (!empty($nodes)){
 			</div>
 			<div id="right-container" class="offset0 hide">
 				<div id="inner-header"></div>
-				<div id="inner-details">
+				<div id="inner-details" class="span11">
 					<!-- <h4><i class="icon-info-sign icon-large"></i>&nbsp;&nbsp;&nbsp;Click on a node to get more information about it</h4> -->
 				</div>
 			</div>
@@ -230,9 +263,9 @@ if (!empty($nodes)){
 						};
 				});
 			
-		  $("#inner-details ul").append('<li><p><span class="st-verb">'+ t +'</span> <span class="st-name">'+ post.Name +'</span></p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li>');
+		  $("#inner-details ul").append('<li><p><span class="st-verb">'+ t +'</span> <span class="st-name">'+ post.Name +'</span></p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li><hr>');
 		});
-		  $("#inner-header").html('<h3><a href="'+ l +'">'+ pn +'"</a>&nbsp;&nbsp;<span id="connections" class="badge pull-right">1</span></h3>');
+		  $("#inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a></h3>');
 		  $('#center-container').removeClass("offset2").addClass("offset0");
 		  $('#right-container').removeClass("offset0 hide").addClass("span4");
 		  	
