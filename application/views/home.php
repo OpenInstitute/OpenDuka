@@ -34,17 +34,17 @@ if(!isset($list) && empty($nodes))
 			<h3>In Our Database</h3>
 			<div class="figures row">
 				<div class="people span2">
-					<img src="<?php echo base_url(); ?>assets/img/people.png">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
 					<h4>People</h4>
 					<h5><?php echo $persons;?></h5>
 				</div>
 				<div class="tenders span2">
-					<img src="<?php echo base_url(); ?>assets/img/tenders.png">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
 					<h4>Tenders</h4>
 					<h5>42</h5>
 				</div>
 				<div class="organisations span2">
-					<img src="<?php echo base_url(); ?>assets/img/organisations.png">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
 					<h4>Organisations</h4>
 					<h5><?php echo $organisations;?></h5>
 				</div>
@@ -52,17 +52,17 @@ if(!isset($list) && empty($nodes))
 			<br />
 			<div class="figures row">
 				<div class="cases span2">
-					<img src="<?php echo base_url(); ?>assets/img/cases.png">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
 					<h4>Cases</h4>
 					<h5>12</h5>
 				</div>
 				<div class="grants span2">
-					<img src="<?php echo base_url(); ?>assets/img/grants.png">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
 					<h4>Grants</h4>
 					<h5>67</h5>
 				</div>
 				<div class="land span2">
-					<img src="<?php echo base_url(); ?>assets/img/land.png">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
 					<h4>Land</h4>
 					<h5>90</h5>
 				</div>
@@ -94,7 +94,10 @@ if(!isset($list) && empty($nodes))
 	<!-- Partners -->
 	<div id="partners" class="section span12">
 		<h2>Launched in partnership with</h2>
-		<div id="partner-logos" class="span12"></div>
+		<div id="partner-logos">
+			<a href="http://www.africatti.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" style="margin-left:-10px;"></a>
+			<a href="http://www.kenyalaw.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg"></a>
+		</div>
 	</div><!-- #partners -->
 
 <?php 
@@ -105,11 +108,11 @@ if (isset($list))
 ?>
 
 <!-- Results -->
-	<div id="search-results" class="section">
+	<div id="search-results" class="section span6">
 		<h2>Search results</h2>
 	</div>
 	<!-- Search -->
-	<div class="query">
+	<div class="query span6">
 		<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
 			<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
 			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
@@ -132,15 +135,18 @@ if (!empty($nodes)){
 <!-- Visualisation & Timeline --> 
 
 	<div id="visualisation" class="section">
-		<!-- Search -->
-		<div class="query">
-			<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
-				<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
-				<input type="submit" name="submit" value="Go" class="btn btn-warning" />
-			</form>
-		</div> <!-- #search -->
-
-		<h2>Search results for "<?php echo $node_title; ?>"</h2>
+		<div class="row-fluid">
+			<div class="pull-left span7">
+				<h2>Search results for "<?php echo $node_title; ?>"</h2>
+			</div>
+			<!-- Search -->
+			<div class="query pull-right">
+				<form name="oi" action="<?php echo base_url() . index_page();?>/trees/entitylist" method="post"> 
+					<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
+					<input type="submit" name="submit" value="Go" class="btn btn-warning" />
+				</form>
+			</div> <!-- #search -->
+		</div>
 
 		<!-- Filter -->
 		<!-- <button class="btn btn-success" onclick="showDiv()">Filter</button>
@@ -191,10 +197,10 @@ if (!empty($nodes)){
 				</div>
 			</div>
 		</div>
-
+</div>
 		<!-- Timeline -->
 
-		<div id="mytimeline"></div>
+		<!-- <div id="mytimeline"></div> -->
 
 <script>
 

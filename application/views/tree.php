@@ -33,36 +33,36 @@ if(!isset($list) && empty($nodes))
 		<div class="stats span6">
 			<h3>In Our Database</h3>
 			<div class="figures row">
-				<div class="people span2">
-					<img src="<?php echo base_url(); ?>assets/img/people.png">
+				<div class="people .col-md-2 .col-xs-3">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
 					<h4>People</h4>
 					<h5><?php echo $persons;?></h5>
 				</div>
-				<div class="tenders span2">
-					<img src="<?php echo base_url(); ?>assets/img/tenders.png">
+				<div class="tenders .col-md-2 .col-xs-3">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
 					<h4>Tenders</h4>
 					<h5>42</h5>
 				</div>
-				<div class="organisations span2">
-					<img src="<?php echo base_url(); ?>assets/img/organisations.png">
+				<div class="organisations .col-md-2 .col-xs-3">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
 					<h4>Organisations</h4>
 					<h5><?php echo $organisations;?></h5>
 				</div>
 			</div>
 			<br />
 			<div class="figures row">
-				<div class="cases span2">
-					<img src="<?php echo base_url(); ?>assets/img/cases.png">
+				<div class="cases .col-md-2 .col-xs-3">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
 					<h4>Cases</h4>
 					<h5>12</h5>
 				</div>
-				<div class="grants span2">
-					<img src="<?php echo base_url(); ?>assets/img/grants.png">
+				<div class="grants .col-md-2 .col-xs-3">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
 					<h4>Grants</h4>
 					<h5>67</h5>
 				</div>
-				<div class="land span2">
-					<img src="<?php echo base_url(); ?>assets/img/land.png">
+				<div class="land .col-md-2 .col-xs-3">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
 					<h4>Land</h4>
 					<h5>90</h5>
 				</div>
@@ -95,8 +95,8 @@ if(!isset($list) && empty($nodes))
 	<div id="partners" class="section span12">
 		<h2>Launched in partnership with</h2>
 		<div id="partner-logos">
-			<a href="http://www.africatti.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" style="margin-left:-10px;"></a>
-			<a href="http://www.kenyalaw.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg"></a>
+			<a href="http://www.africatti.org/" target="blank"><img class="offset1 img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" style="margin-left:-10px;"></a>
+			<a href="http://www.kenyalaw.org/" target="blank"><img class="offset1 img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg"></a>
 		</div>
 	</div><!-- #partners -->
 

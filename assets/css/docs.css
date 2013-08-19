@@ -88,10 +88,6 @@ hr {
   width: 50%;
 }
 
-.menu-items {
-  margin-top: 2%;
-}
-
 .menu-items .nav-pills > li.active > a, .menu-items .nav-pills > li.active > a:hover, .menu-items .nav-pills > li.active > a:focus {
   background-color: #00A7AE;
   color: #FFFFFF !important;
@@ -99,6 +95,14 @@ hr {
 
 .menu-items .nav > li > a:hover, .menu-items .nav > li > a:focus {
   background-color: #D7DEE3;
+}
+
+.menu-items .nav-pills > li > a {
+  border-radius: 0; 
+}
+
+.menu-items .nav > li > a {
+  padding: 35px 15px 20px !important;
 }
 
 .menu-items a {
@@ -230,7 +234,7 @@ hr {
 
 .stats img {
   margin-bottom: 12px;
-  width: 30%;
+  max-width: 30%;
 }
 
 .stats h4 {
