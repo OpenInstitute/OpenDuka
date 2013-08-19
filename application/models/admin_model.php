@@ -29,7 +29,7 @@ class Admin_model extends CI_Model {
     }
 
 
-    function insert_document($DocName)
+    function insert_document($DocName, $DocType=1)
     {
     
     	$data = array (
@@ -278,4 +278,92 @@ class Admin_model extends CI_Model {
 	        return $query->result_array();
 	      
     }
+    
+     function get_sys_tables()
+    {
+		        	
+		$this->db->select();
+		$this->db->from('SysTables');
+		$this->db->where('Viewed', '1');
+	        $query = $this->db->get();
+	        return $query->result_array();
+	
+    }
+    
+    function get_tables()
+    {
+		return  $this->db->list_tables();
+	      
+    }
+    
+    function field_iko($fild, $tab) 
+    {
+    		return $this->db->field_exists($fild, $tab);
+    		 
+    }
+    
+    function get_fields($tab)
+    {
+		return  $this->db->field_data($tab);
+	      
+    }
+    
+
+    function get_doctype()
+    {        	
+		$this->db->select('ID,DocTypeName');
+		$this->db->from('DocumentType');
+		$this->db->where('Viewed', '1');
+	        $query = $this->db->get();
+	        return $query->result_array();
+    }
+     
+    function fieldcheck($fil,$tab)
+    {
+	if(!$this->db->field_exists($fil.'_E_',$tab)){
+		$fieldname = $fil.'_E_';
+		$this->db->query("ALTER TABLE $tab  ADD COLUMN $fieldname INT NOT NULL DEFAULT 0");	
+	}
+	      
+    }
+    
+    function extract_entity($fild,$tab,$docid, $verb, $UID)
+    {
+    
+    $fieldname = $fild.'_E_';
+	$this->db->select($fild);
+	$this->db->distinct();
+	$this->db->from($tab); 
+	$this->db->where($fieldname,'0');
+	$query = $this->db->get();
+
+	if ($query->num_rows() > 0)
+	{
+	$k=0;
+	$entity=$query->result_array();
+	    for($i=0;$i<$query->num_rows(); $i++)
+	      {
+	      
+	     // echo($entity[2][$fild]); exit;
+		$data['DocID'] = $docid . ",";
+		$data['Name'] = $entity[$i][$fild];
+	    	$data['Verb'] = $verb ."||";
+		$data['EntityTypeID'] = 21;
+		$data['UserID'] = $UID;
+		
+	    	$this->db->insert('Entity',$data);
+	    	$rowID = $this->db->insert_id();
+
+	    	$dta = array($fieldname => $rowID);
+	    //	$this->db->set($fieldname, 11);
+	    	$this->db->where($fild, $entity[$i][$fild]);
+	    	$this->db->update($tab, $dta);
+	      $k++;
+	      }
+	}
+
+	return $k;
+	      
+    }
+    
 }

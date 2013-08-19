@@ -43,7 +43,7 @@
           // edge: {source:Node, target:Node, length:#, data:{}}
           // pt1:  {x:#, y:#}  source position in screen coords
           // pt2:  {x:#, y:#}  target position in screen coords
-         
+
           // Don't draw lines that shouldn't be there
           if (edge.source.data.alpha * edge.target.data.alpha == 0) return
           gfx.line(pt1, pt2, {stroke:'#F0AD4E', width:2, alpha:edge.target.data.alpha})
@@ -61,11 +61,11 @@
           var imageob = node.data.imageob
           var imageH = node.data.image_h
           var imageW = node.data.image_w
-          var radius = parseInt(node.data.radius)
+          var radius = parseInt(node.data.radius) 
           // determine the box size and round off the coords if we'll be 
           // drawing a text label (awful alignment jitter otherwise...)
           var label = node.data.label||""
-          var w = ctx.measureText(""+label).width + 10
+          var w = 10 //ctx.measureText(""+label).width + 10
           if(w < radius) {
             w = radius;
           }
@@ -84,14 +84,14 @@
           // Draw the object        
           if (node.data.shape=='dot'){
             // Check if it's a dot
-           // gfx.oval(pt.x-w/2, pt.y-w/2, w,w, {fill:ctx.fillStyle, alpha:node.data.alpha})
-           //  nodeBoxes[node.name] = [pt.x-w/2, pt.y-w/2, w,w]
+         /*   gfx.oval(pt.x-w/2, pt.y-w/2, w,w, {fill:ctx.fillStyle, alpha:node.data.alpha})
+            nodeBoxes[node.name] = [pt.x-w/2, pt.y-w/2, w,w] */
             // Does it have an image?      
             if (imageob){
               // Images are cached 
               ctx.drawImage(imageob, pt.x-(imageW/2), pt.y+radius/2, imageW, imageH)
             }
-          }else {
+          } else {
             // If none of the above, draw a rectangle
            /* gfx.rect(pt.x-w/2, pt.y-10, w,20, 4, {fill:ctx.fillStyle, alpha:node.data.alpha})
             nodeBoxes[node.name] = [pt.x-w/2, pt.y-11, w, 22]
@@ -174,12 +174,13 @@ if (edge.source.data.alpha * edge.target.data.alpha == 0) return
 	    if(!nearest.node){
 		return false;
 	    }
-
-	    selected = (nearest.distance < nearest.node.data.radius) ? nearest : null
-
+//alert(nearest.node.data.radius);
+	  //  selected = (nearest.distance < nearest.node.data.radius) ? nearest : null
+	    selected = (nearest.distance < 30) ? nearest : null
 	    // code for node that mouse is hovered on ('selected')
 	    
 	  },
+	  
 	  down:function(e){
 	    var pos = $(canvas).offset();
 	    _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
@@ -197,6 +198,7 @@ if (edge.source.data.alpha * edge.target.data.alpha == 0) return
 
 	    return false
 	  },
+	  
 	  dragged:function(e){
 	    var old_nearest = nearest && nearest.node._id
 	    var pos = $(canvas).offset();

@@ -10,7 +10,7 @@
   	<div class="col1 trigger" name="EInsert1">Add User</div>
   	<?php } ?>
   	<div class="col1 trigger" name="EInsert3">Entity Merge</div>
-  	<div class="col1"></div>
+  	<div class="col1 trigger" name="EInsert4">Insert Datasets</div>
   </div>
 
 <div class="backlink">
@@ -79,7 +79,7 @@
 	 </div>
 	 
 	 <div id="EInsert3" class="formdata">
-		<div class="reg_form" style="display:block;">
+	  <div class="reg_form" style="display:block;">
 
 		  <p>
 		  <label for="EntityMergeName" >Entity Name</label>
@@ -88,13 +88,32 @@
 
 		</div>
 		<div id="entity_merge"></div>
+	   </div>
+ 	</div>
+ 	 <div id="EInsert4" class="formdata">
+		<div id="Datasets" style="display:block;">
+		  <p>
+		  <label for="table_name" class="textfield">Table Name:</label>
+		  <select id="table_name" name="table_name" value="" /></select>
+		  </p>
+		  <div id="viwanja"></div>
+		</div>
 	 </div>
- </div>
  </div>
 
 
 <script>
 $('.formdata').hide();
+
+$("#table_name").change(function() {
+	$("#table_name option:selected").each(function() {
+	val = $(this).text();
+		if (val != 'Select Table'){
+			//alert(val);
+			field_list(val);
+		}
+	});
+});
 
 $(".trigger").click(function() {
  
@@ -118,6 +137,11 @@ $(".trigger").click(function() {
  	if (name=='EInsert3'){
  		$("#form_title").html('<h3>Entity Merge</h3>');
  	}
+ 	
+ 	if (name=='EInsert4'){
+ 		$("#form_title").html('<h3>Dataset Insert</h3>');
+ 		ListTables();
+ 	}
 	
 	$(".three_col").fadeOut("slow");
 	$(".backlink").fadeIn("slow");
@@ -134,7 +158,6 @@ $(".backlink").click(function() {
 
 
 $(".EntityAdd").click(function() {
-
 	
 // abort any pending request
     /*clear result div*/
@@ -343,4 +366,93 @@ function EntityMerge() {
 	}	
 			
 }
+
+function ListTables() {
+ 
+    $.ajax({
+      url: "<?php echo base_url();?>index.php/admin/ListTable",
+      type: "post",
+      async: false, 
+      data: "",
+      success:function(data){
+      	//alert(data);
+          $("#table_name").html(data);
+          $("#result").html("select table");
+      },
+      error:function(){
+          alert("failure");
+          $("#result").html('there is error while listing tables');
+      }
+    });	
+}
+
+function field_list(meza){
+	//alert(table);
+	$.ajax({
+	      url: "<?php echo base_url();?>index.php/admin/ListField",
+	      type: "post",
+	      async: false, 
+	      data: {STab : meza},
+	      success:function(data){
+	      	//alert(data);
+		  $("#viwanja").html(data);
+		  
+		   
+         $(".selectfield").click(function(){
+	
+	    var op = $(this).parent().find(':checkbox').attr('checked');
+	    $(':checkbox', this).each(function() {
+		this.checked = !this.checked;
+	    });
+	   var verbcont  = $("div#verbs").html();
+	    if (op) {
+   
+	    	$(this).parent().find('.selectverb').html(verbcont);
+	    } else { 
+	    	$(this).parent().find('.selectverb').html('');
+	    }
+//alert(verbcont);
+	});
+	
+		  $("#result").html("select fields");
+	      },
+	      error:function(){
+		  alert("failure");
+		  $("#result").html('there is error while listing fields');
+	      }
+	 });
+
+}
+
+
+function EntityExtract() {
+
+    $("#result").html('');
+    // setup some local variables
+    var $form = $("#DatasetInsert");
+	// let's select and cache all the fields
+    var $inputs = $form.find("input, select, textarea");
+    // serialize the data in the form
+    var serializedData = $form.serialize();
+     /* Send the data using post and put the results in a div */
+    $.ajax({
+      url: "<?php echo base_url();?>index.php/admin/EntityExtract",
+      type: "post",
+      async: false, 
+      data: serializedData,
+      success:function(dat){
+
+         $("#result").html(dat);
+        
+        // $("#result").html("Update Done");
+      },
+      error:function(d){
+          alert("failure"+d);
+          $("#result").html('there is error while submit');
+      }
+    });	
+}
+
+
+
 </script>
