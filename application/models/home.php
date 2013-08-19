@@ -117,12 +117,16 @@ class Home extends CI_Model {
 	   //   "SELECT `ID`,EntityMap, Verb FROM `Entity` where `EntityMap`  like '2717,%' or `EntityMap`  like '%,2717,%' or `EntityMap`  like ',2717|%' or `EntityMap`  like '%|2717|%' or `EntityMap`  like  '%|2717' or `EntityMap`  like '2717|%'"
     }
 
-    function get_entry_cont($tag,$entityname,$num=20,$start=0)
+    function get_entry_cont($tag,$entityname,$page_num=1, $results_per_page=15)
     {
+    	if ($page_num < 1)
+        {
+            $page_num = 1;
+        }
 		$this->db->select();
 		$this->db->from('Entity');
 		$this->db->like($tag,$entityname);  
-		$this->db->limit($num, $start);     
+		$this->db->limit($results_per_page, ($page_num - 1) * $results_per_page);     
         	$query = $this->db->get();
         return $query->result_array();
     }

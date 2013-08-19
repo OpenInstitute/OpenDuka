@@ -33,37 +33,39 @@ class Homes extends CI_Controller {
 	}
 	
 	
-	function entitylist($ent="",$start=0)
+	function entitylist($ent="",$page_num=1)
 	{
 	//echo $ent;
 	//$this->output->enable_profiler(TRUE);
 		$data_head = array('page_title' => 'Search results');
 		$EntityName = isset($_POST['search_name']) ? $_POST['search_name'] : $ent ;		
 		//echo $context;exit;
-		$perpage=20;
-		$content = $this->home->get_entry_cont('Name',$EntityName,$perpage,$start);
+		$results_per_page=15;
+		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page);
 		
 		$this->load->library('pagination');
 		$config['use_page_numbers'] = TRUE;
 		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'.$EntityName ;
 		$config['total_rows'] = $this->home->get_entry_count('Name',$EntityName);
-		$config['per_page'] = $perpage; 
+		$config['per_page'] = $results_per_page; 
 		$config['full_tag_open'] = '<ul class="pagination offset3">';
 		$config['full_tag_close'] = '</ul>';
-		
+		/*
 		$config['first_link'] = 'First';
 		$config['first_tag_open'] = '<li>';
 		$config['first_tag_close'] = '</li>';
+		*/
+		$config['next_link'] = '';
+		//$config['next_tag_open'] = '<li>';
+		//$config['next_tag_close'] = '</li>';
 		
-		$config['last_link'] = 'Last';
-		$config['last_tag_open'] = '<li>';
-		$config['last_tag_close'] = '</li>';
-		
-		$config['cur_tag_open'] = '<li><a href="#">';
+		$config['cur_tag_open'] = '<li><a href="1">';
 		$config['cur_tag_close'] = '</a></li>';
 		
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
+		$config['num_links'] = 10;
+       		$config['uri_segment'] = 3;
 		$this->pagination->initialize($config); 
 		$pages = $this->pagination->create_links();
 

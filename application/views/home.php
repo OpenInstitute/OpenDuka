@@ -117,12 +117,11 @@ if (isset($list))
 	</div> <!-- #search -->
 
 <?php 
-	echo "
-		<div class='results row-fluid span8'>
+	echo "	<div class='results row-fluid span8'>
 			<ul>".$list."</ul>
 		</div>";
 	  
-	echo $pages;
+	echo  $pages;
 	}
 
 if (!empty($nodes)){	
