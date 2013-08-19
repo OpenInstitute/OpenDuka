@@ -257,31 +257,34 @@ class Admin extends CI_Controller {
     function ListField(){
      //$this->output->enable_profiler(TRUE); 
      	$stabs = $this->input->post('STab');
-   	$list="<form id='DatasetInsert' action='' method='post'>";
+   	$list = "<form id='DatasetInsert' action='' method='post'>";
+   	$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
    	
    	$doctype = $this->admin_model->get_doctype();
    	//var_dump($doctype);
-   	$list .= "<div class='spacer'>";
-   	$list .= "Document Type  <select name='DocumentType'";
+   	$list .= "<div class='spacer'>Document Type  <select name='DocumentType'";
    	for($j=0;$j< count($doctype);$j++)
 	{
-		$list .= "<option value='". $doctype[$j]['DocTypeName']."'>". $doctype[$j]['DocTypeName'] ."</option>";
+		$list .= "<option value='". $doctype[$j]['ID']."'>". $doctype[$j]['DocTypeName'] ."</option>";
 	}
-   	$list .= '</select></div>';
-   	$list .= "<div style='width: 300px;'>Select field to Extract Entity</div>";
+   	$list .= "</select></div>";
+   	$list .= "<div class='spacer'></div>";
+   	$list .= "<div class='spacer'><div style='width: 300px;'>Select field to Extract Entity</div></div>";
    	$viwanja = $this->admin_model->get_fields($stabs);
     	foreach ($viwanja as $kiwanja)
 	{
 		if ($kiwanja->type == "text" || $kiwanja->type == "varchar") {
-			$list .= "<div class='spacer'><input style='width: 20px;' type='checkbox' name='Extract[]' value='".$kiwanja->name."'>";
-	   		$list .= $kiwanja->name .'</div>';
+		   $iko = ($this->admin_model->field_iko($kiwanja->name.'_E_', $stabs)==1) ? "checked" : null;
+			$list .= "<div class='spacer parent'><input style='width: 20px;' class='selectfield' type='checkbox' name='Extract[]' ".$iko." value='".$kiwanja->name."'>";
+	   		$list .= $kiwanja->name ."  <div class='selectverb'></div></div>";
 	   	}
-	 
 	}	
 	//  echo $kiwanja->type;
 	//  echo $kiwanja->max_length;
 	//  echo $kiwanja->primary_key;
-	 $list.='<input type="hidden" value="'. $stabs .'" name="tablename"/><input type="button" class="EntityExtract" value="Submit" onclick="EntityExtract()"/></form>';
+	 $list .= '<div class="spacer"><input type="hidden" value="'. $stabs .'" name="tablename"/><input type="button" class="EntityExtract" value="Submit" onclick="EntityExtract()"/></div>';
+	 $list .= '<div id="verbs" style="visibility:hidden;"><select name="Verb[]"><option value="" selected>No verb</option> '. $this->verb_words() .'</select></div>';
+	 $list .= '</form>';
 	
 	$list = empty($list) ? "Sorry No Data" : $list;
 	
@@ -290,22 +293,29 @@ class Admin extends CI_Controller {
     
     
     function EntityExtract(){
-   //  $this->output->enable_profiler(TRUE); 
+    $this->output->enable_profiler(TRUE); 
    
    	$table_name = $this->input->post('tablename');
    	$DocumentType = $this->input->post('DocumentType');
-   	$viwanja = $this->input->post('Extract');	
+   	$Verb = $this->input->post('Verb');
+   	$DocName = $this->input->post('DocName');
+   	$viwanja = $this->input->post('Extract');
    	
+   	$DocID = $this->admin_model->get_document_entry($DocName) ? : $this->admin_model->insert_document($DocName, $DocumentType);
+	
+	
+	//var_dump($viwanja);
+	//var_dump($Verb);
 
-    	$list ="";
-
+    	$list ="Records Submitted ";
+    	$l=0;
     	for($i=0; $i<sizeof($viwanja); $i++){
 
 		$this->admin_model->fieldcheck($viwanja[$i], $table_name);
-    	     	$this->admin_model->extract_entity($viwanja[$i], $RootID);
+    	     	$l .= $this->admin_model->extract_entity($viwanja[$i], $table_name, $DocID, $Verb[$i], $this->session->userdata('user_id'));
     	}
     		
-	$list = empty($list) ? "Sorry No Data" : $list;
+	$list = empty($list) ? "Sorry No Records Submitted" : $list .$l ;
 	echo $list;
     }
     

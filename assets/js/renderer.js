@@ -61,11 +61,11 @@
           var imageob = node.data.imageob
           var imageH = node.data.image_h
           var imageW = node.data.image_w
-          var radius = parseInt(node.data.radius)
+          var radius = parseInt(node.data.radius) 
           // determine the box size and round off the coords if we'll be 
           // drawing a text label (awful alignment jitter otherwise...)
           var label = node.data.label||""
-          var w = 5 //ctx.measureText(""+label).width + 10
+          var w = 10 //ctx.measureText(""+label).width + 10
           if(w < radius) {
             w = radius;
           }
@@ -174,12 +174,13 @@ if (edge.source.data.alpha * edge.target.data.alpha == 0) return
 	    if(!nearest.node){
 		return false;
 	    }
-
-	    selected = (nearest.distance < nearest.node.data.radius) ? nearest : null
-
+//alert(nearest.node.data.radius);
+	  //  selected = (nearest.distance < nearest.node.data.radius) ? nearest : null
+	    selected = (nearest.distance < 30) ? nearest : null
 	    // code for node that mouse is hovered on ('selected')
 	    
 	  },
+	  
 	  down:function(e){
 	    var pos = $(canvas).offset();
 	    _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
@@ -197,6 +198,7 @@ if (edge.source.data.alpha * edge.target.data.alpha == 0) return
 
 	    return false
 	  },
+	  
 	  dragged:function(e){
 	    var old_nearest = nearest && nearest.node._id
 	    var pos = $(canvas).offset();

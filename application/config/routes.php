@@ -40,7 +40,7 @@
 
 
 
-$route['default_controller'] = "trees";
+$route['default_controller'] = "homes";
 /*
 $controller_list = array('trees','products','posts');
 

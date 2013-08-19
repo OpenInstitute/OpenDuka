@@ -68,7 +68,7 @@
 		padding: 12px 10px 12px 10px;
 	}
 	
-	/*#top-cont, #body {
+	#top-cont, #body {
 		padding-left:50px;
 		padding-right:50px;
 	}
@@ -346,7 +346,7 @@
 		margin-top: 20px;
 	
 	}
-*/
+
 /* Visualisation scripts ----*/
 #infovis-canvaswidget {
   margin:25px 0 0 25px;

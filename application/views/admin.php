@@ -396,6 +396,24 @@ function field_list(meza){
 	      success:function(data){
 	      	//alert(data);
 		  $("#viwanja").html(data);
+		  
+		   
+         $(".selectfield").click(function(){
+	
+	    var op = $(this).parent().find(':checkbox').attr('checked');
+	    $(':checkbox', this).each(function() {
+		this.checked = !this.checked;
+	    });
+	   var verbcont  = $("div#verbs").html();
+	    if (op) {
+   
+	    	$(this).parent().find('.selectverb').html(verbcont);
+	    } else { 
+	    	$(this).parent().find('.selectverb').html('');
+	    }
+//alert(verbcont);
+	});
+	
 		  $("#result").html("select fields");
 	      },
 	      error:function(){
@@ -422,17 +440,19 @@ function EntityExtract() {
       type: "post",
       async: false, 
       data: serializedData,
-      success:function(data){
+      success:function(dat){
 
-         $("#result").html(data);
+         $("#result").html(dat);
+        
         // $("#result").html("Update Done");
       },
-      error:function(){
-          alert("failure");
+      error:function(d){
+          alert("failure"+d);
           $("#result").html('there is error while submit');
       }
     });	
 }
+
 
 
 </script>

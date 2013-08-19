@@ -29,7 +29,7 @@ class Admin_model extends CI_Model {
     }
 
 
-    function insert_document($DocName)
+    function insert_document($DocName, $DocType=1)
     {
     
     	$data = array (
@@ -296,6 +296,12 @@ class Admin_model extends CI_Model {
 	      
     }
     
+    function field_iko($fild, $tab) 
+    {
+    		return $this->db->field_exists($fild, $tab);
+    		 
+    }
+    
     function get_fields($tab)
     {
 		return  $this->db->field_data($tab);
@@ -305,7 +311,7 @@ class Admin_model extends CI_Model {
 
     function get_doctype()
     {        	
-		$this->db->select('DocTypeName');
+		$this->db->select('ID,DocTypeName');
 		$this->db->from('DocumentType');
 		$this->db->where('Viewed', '1');
 	        $query = $this->db->get();
@@ -321,28 +327,42 @@ class Admin_model extends CI_Model {
 	      
     }
     
-    function extract_entity($fil,$tab)
+    function extract_entity($fild,$tab,$docid, $verb, $UID)
     {
-	$this->db->select($fil);
+    
+    $fieldname = $fild.'_E_';
+	$this->db->select($fild);
 	$this->db->distinct();
-	$this->db->from($tab);  
+	$this->db->from($tab); 
+	$this->db->where($fieldname,'0');
 	$query = $this->db->get();
 
 	if ($query->num_rows() > 0)
 	{
-	    foreach ($query->result() as $entity)
+	$k=0;
+	$entity=$query->result_array();
+	    for($i=0;$i<$query->num_rows(); $i++)
 	      {
-		$data['DocID'] = $data['DocID'] . ",";
+	      
+	     // echo($entity[2][$fild]); exit;
+		$data['DocID'] = $docid . ",";
+		$data['Name'] = $entity[$i][$fild];
+	    	$data['Verb'] = $verb ."||";
+		$data['EntityTypeID'] = 21;
+		$data['UserID'] = $UID;
+		
+	    	$this->db->insert('Entity',$data);
+	    	$rowID = $this->db->insert_id();
 
-	    	$data['Verb'] = $data['Verb']."||";
-		$data['EntityMap'] =  $rootID.",";
-	    //	$this->db->insert('Entity',$data);
-	    //	$rowID = $this->db->insert_id();
-	    		
+	    	$dta = array($fieldname => $rowID);
+	    //	$this->db->set($fieldname, 11);
+	    	$this->db->where($fild, $entity[$i][$fild]);
+	    	$this->db->update($tab, $dta);
+	      $k++;
 	      }
 	}
 
-	return null;
+	return $k;
 	      
     }
     
