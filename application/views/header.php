@@ -42,13 +42,26 @@
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
     <div id="thenav" class="navbar navbar-fixed-top" style="background-position: 0px 0px;">
       	<div class="top-cont">
-        	<div class="container navigation-main">
-         		<div class="nav-collapse collapse">
-         			<a href="<?php echo base_url()?>"><div class="logo"></div></a>
+        	<div class="container navigation-main row-fluid">
+         		<div class="nav-collapse collapse span12">
+         			<div class="logo span6">
+         				<a href="<?php echo base_url()?>">
+         					<img src="<?php echo base_url(); ?>assets/img/od-temp-orange.png">
+         				</a>
+         			</div>
+         			<div class="menu-items">
+	            		<ul class="nav nav-pills pull-right">
+	            			<li class="active"><a href="#">Home</a></li>
+	            			<li><a href="#">About Us</a></li>
+	            			<li><a href="#">How It Works</a></li>
+	            			<li><a href="#">Blog</a></li>
+	            			<li><a href="#">Contact</a></li>
+	            		</ul>
+	            	</div>
             	</div>
             </div>
         </div>
     </div>
 	
 	<div id="body" class="container">
-		<div id="content">
+		<div id="content" class="span12">

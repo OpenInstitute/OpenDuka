@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Trees extends CI_Controller {
+class Homes extends CI_Controller {
 
     
        
@@ -9,45 +9,74 @@ class Trees extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form','url'));
 		$this->load->database();
-		$this->load->model('tree');
+		$this->load->model('home');
+
 	}
 	
 	function index($start=0)
 	{
 		$data_head = array('page_title' => 'Open Duka');
-		$organisations = $this->tree->get_number_entity_group('21');
-		$persons = $this->tree->get_number_entity_group(22);
-		$latestlist = $this->tree->get_lastest_entry();
+		$organisations = $this->home->get_number_entity_group('21');
+		$persons = $this->home->get_number_entity_group(22);
+		$latestlist = $this->home->get_lastest_entry();
 		$list="";
 		if (is_array($latestlist)){
 			for($i=0;$i< count($latestlist);$i++)
 			{
-				$list .= "<li><a href=" .site_url('/trees/tree/'.$latestlist[$i]['ID']). ">". $latestlist[$i]['Name'] . "</a></li>"; 
+				$list .= "<li><a href=" .site_url('/homes/tree/'.$latestlist[$i]['ID']). ">". $latestlist[$i]['Name'] . "</a></li>"; 
 			}		
 		}
 		
 		$this->load->view('header',$data_head);
-		$this->load->view('tree', array('organisations' => $organisations, 'persons' => $persons,'latest_list' => $list,'error' => ''));
+		$this->load->view('home', array('organisations' => $organisations, 'persons' => $persons,'latest_list' => $list,'error' => ''));
 		$this->load->view('footer');
 	}
 	
 	
-	function entitylist()
+	function entitylist($ent="",$start=0)
 	{
+	//echo $ent;
+	//$this->output->enable_profiler(TRUE);
 		$data_head = array('page_title' => 'Search results');
-		$EntityName = $_POST['search_name'];		
+		$EntityName = isset($_POST['search_name']) ? $_POST['search_name'] : $ent ;		
 		//echo $context;exit;
-		$content = $this->tree->get_entry_cont('Name',$EntityName);
+		$perpage=20;
+		$content = $this->home->get_entry_cont('Name',$EntityName,$perpage,$start);
+		
+		$this->load->library('pagination');
+		$config['use_page_numbers'] = TRUE;
+		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'.$EntityName ;
+		$config['total_rows'] = $this->home->get_entry_count('Name',$EntityName);
+		$config['per_page'] = $perpage; 
+		$config['full_tag_open'] = '<ul class="pagination offset3">';
+		$config['full_tag_close'] = '</ul>';
+		
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$config['cur_tag_open'] = '<li><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config); 
+		$pages = $this->pagination->create_links();
+
 	//	var_dump($content[0]);
 		$list = '';
 		if (is_array($content)){
 			for($i=0;$i< count($content);$i++)
 			{
-				$list .= "<li><a href=" .site_url('/trees/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></li>"; 
+				$list .= "<li><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></li>"; 
 			}		
 		}
 		$this->load->view('header',$data_head);
-		$this->load->view('tree', array('entities' => '','list' =>$list, 'error' => 'List of names found'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'pages'=>$pages,'error' => 'List of names found'));
 		$this->load->view('footer');
 	}
 	
@@ -115,7 +144,7 @@ class Trees extends CI_Controller {
 		//echo $node_arr;
 		$node_arr= $this->clean_array(explode(',',$node_arr)); 
 		
-		$n = $this->tree->get_entries('ID',$node_arr);
+		$n = $this->home->get_entries('ID',$node_arr);
 		$col = array();
 		$col['21']='#00CCCC';
 		$col['22']='#00a650';
@@ -128,12 +157,12 @@ class Trees extends CI_Controller {
 			
 			if($nd['ID'] == $v0){
 			$col='#FF0000';
-			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID'] ."':{ 'color':'".$col."', 'shape':'".$shape."', 'radius':10, 'alpha': ".$alpha.", 'label': '". $NodeName[0] ."', 'nodeid':'".$nd['ID']."','image':'".$img."','image_h':40,'image_w':40},";
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID'] ."':{ 'color':'".$col."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". $NodeName[0] ."', 'nodeid':'".$nd['ID']."','image':'".$img."','image_h':30,'image_w':30},";
 			} else {
 			//exit;
 			//$c=$col[$cid];
 			//$col = '#6FB1FC';
-			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID']  ."':{ 'color':'". $col ."', 'shape':'".$shape."', 'radius':10, 'alpha': ".$alpha.", 'label': '". $NodeName[0] ."', 'nodeid':'".$nd['ID']."','image':'".$img."','image_h':40,'image_w':40},";
+			$nodes .= "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$nd['ID']  ."':{ 'color':'". $col ."', 'shape':'".$shape."', 'radius':30, 'alpha': ".$alpha.", 'label': '". $NodeName[0] ."', 'nodeid':'".$nd['ID']."','image':'".$img."','image_h':30,'image_w':30},";
 			}
 			
 		}
@@ -144,16 +173,16 @@ class Trees extends CI_Controller {
 		$nodes = str_replace(",}","}",$nodes);
 		$edges = str_replace(",}","}",$edges);
 		
-		$timeline = $this->timeline_data($v0);
+		//$timeline = $this->timeline_data($v0);
 		
 		$vis_filter = $this->filter_data($node_arr);
-	
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'events' => $timeline['events'], 'sections' => $timeline['sections'], 'filter_form'=> $vis_filter);
+	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
+		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle,  'filter_form'=> $vis_filter);
 		
 		$data_head = array('page_title' => 'Visualisation');
 
 	$this->load->view('header',$data_head);
-	$this->load->view('tree',$content);
+	$this->load->view('home',$content);
 	$this->load->view('footer');
 		
 	}
@@ -165,7 +194,7 @@ class Trees extends CI_Controller {
 		$nodes = "";
 		$edges = "";
 		//$node_arr = $this->clean_array($node_arr);
-		$child0_ = $this->tree->get_entries('ID',$v);
+		$child0_ = $this->home->get_entries('ID',$v);
 		$nodetitle = $child0_[0]['Name'];
 		$child0 = explode(',',$child0_[0]['EntityMap']);
 	//var_dump($child0);
@@ -210,8 +239,8 @@ class Trees extends CI_Controller {
 		
 		//$tree['node_arr'] = $node_array;
 		
-		$root = $this->tree->get_entries('ID',$stem);
-		$child = empty($branch)? NULL : $this->tree->get_entries('ID',$branch);
+		$root = $this->home->get_entries('ID',$stem);
+		$child = empty($branch)? NULL : $this->home->get_entries('ID',$branch);
 		
 		$root_Name = explode(':',$root[0]['Name']);
 		
@@ -327,9 +356,9 @@ class Trees extends CI_Controller {
 		//$cont="";
 //alert($n);	
 		
-		//$cont = "<h3><a href=" . site_url('/trees/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a>&nbsp;&nbsp;<span id='connections' class='badge pull-right'>1</span></h3>";
+		//$cont = "<h3><a href=" . site_url('/homes/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a>&nbsp;&nbsp;<span id='connections' class='badge pull-right'>1</span></h3>";
 		
-		$child_node = $this->tree->get_node($n);
+		$child_node = $this->home->get_node($n);
 		$maps= '{"data":[{"posts":[';
 		//var_dump($root_node);
 		for($i=0; $i<sizeof($child_node); $i++){
@@ -341,9 +370,9 @@ class Trees extends CI_Controller {
 		}
 		$maps .= ']}';
 		
-		$root_node = $this->tree->get_entries('ID',$n);
+		$root_node = $this->home->get_entries('ID',$n);
 		
-		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/trees/tree/'.$n) . '"}]}]}';
+		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '"}]}]}';
 		
 		$maps = str_replace(",]","]",$maps);
 		
@@ -355,7 +384,9 @@ class Trees extends CI_Controller {
 	function timeline_data($n){
 		$this->output->enable_profiler(false);  
 		$events="";
-		$node = $this->tree->get_node($n);
+		$chrono="";
+		$node = $this->home->get_node($n);
+		if(count($node) > 0){
 		//var_dump($node); exit;
 		//echo $node[0]['DocID']; exit;
 		$DocIDs = explode(',', $node[0]['DocID']);
@@ -365,7 +396,7 @@ class Trees extends CI_Controller {
 		if (is_array($DocIDs)){
 		   for($i=0;$i<sizeof($DocIDs);$i++) {
 
-			$docs = $this->tree->get_doc($DocIDs[$i]);
+			$docs = $this->home->get_doc($DocIDs[$i]);
 			//var_dump($docs); 
 			if (sizeof($docs)>0){
 					
@@ -383,6 +414,7 @@ class Trees extends CI_Controller {
 		 $sections = '{"dates": [new Date('.$StartDate.')], "title": "Gazette Entries", "section": 0, "attrs": {"fill": "#d4e3fd"}}';
 		// echo $events; exit;
 	$chrono = array('events' => $events,'sections' => $sections);
+		}
 	return $chrono;
 	}
 	
@@ -390,7 +422,7 @@ class Trees extends CI_Controller {
 	
 	//var_dump($var);
 	$this->output->enable_profiler(false); 
-		$form_filter = $this->tree->get_mapped_entries($var);
+		$form_filter = $this->home->get_mapped_entries($var);
 		$form_f ="";
 		
 		for($j=0; $j<count($form_filter);$j++){

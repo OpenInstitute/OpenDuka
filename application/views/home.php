@@ -6,20 +6,20 @@ if(!isset($list) && empty($nodes))
 	<!-- Banner -->
 	<div id="cityscape" class="span12">
 		<div class="tagline span11">
-			<h2>The freely accessible database of information on all Kenyan entities</h2>
+			<h2>The freely accessible database of information on all Kenyan registered companies</h2>
 			<div class="description span11">
-				<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership
-				structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
+				<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
 			</div>
 		</div>
-	</div> <!-- #cityscape -->
+	</div> 
+	<!-- #cityscape -->
 
 	<!-- Search -->
 	<div id="search" class="section span12">
 		<h2>Search</h2>
 		<p><?php echo $error;?></p>
 		<?php // echo language(); ?>
-		<form name="oi" action="<?php echo base_url() . index_page();?>/trees/entitylist" method="post"> 
+		<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
 			<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
 			<br />
 			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
@@ -94,10 +94,7 @@ if(!isset($list) && empty($nodes))
 	<!-- Partners -->
 	<div id="partners" class="section span12">
 		<h2>Launched in partnership with</h2>
-		<div id="partner-logos">
-			<a href="http://www.africatti.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" style="margin-left:-10px;"></a>
-			<a href="http://www.kenyalaw.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg"></a>
-		</div>
+		<div id="partner-logos" class="span12"></div>
 	</div><!-- #partners -->
 
 <?php 
@@ -108,12 +105,12 @@ if (isset($list))
 ?>
 
 <!-- Results -->
-	<div id="search-results" class="section span6">
+	<div id="search-results" class="section">
 		<h2>Search results</h2>
 	</div>
 	<!-- Search -->
-	<div class="query span6">
-		<form name="oi" action="<?php echo base_url() . index_page();?>/trees/entitylist" method="post"> 
+	<div class="query">
+		<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
 			<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
 			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
 		</form>
@@ -124,6 +121,8 @@ if (isset($list))
 		<div class='results row-fluid span8'>
 			<ul>".$list."</ul>
 		</div>";
+	  
+	echo $pages;
 	}
 
 if (!empty($nodes)){	
@@ -134,18 +133,15 @@ if (!empty($nodes)){
 <!-- Visualisation & Timeline --> 
 
 	<div id="visualisation" class="section">
-		<div class="row-fluid">
-			<div class="pull-left span7">
-				<h2>Search results for "<?php echo $node_title; ?>"</h2>
-			</div>
-			<!-- Search -->
-			<div class="query pull-right">
-				<form name="oi" action="<?php echo base_url() . index_page();?>/trees/entitylist" method="post"> 
-					<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
-					<input type="submit" name="submit" value="Go" class="btn btn-warning" />
-				</form>
-			</div> <!-- #search -->
-		</div>
+		<!-- Search -->
+		<div class="query">
+			<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
+				<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
+				<input type="submit" name="submit" value="Go" class="btn btn-warning" />
+			</form>
+		</div> <!-- #search -->
+
+		<h2>Search results for "<?php echo $node_title; ?>"</h2>
 
 		<!-- Filter -->
 		<!-- <button class="btn btn-success" onclick="showDiv()">Filter</button>
@@ -196,7 +192,7 @@ if (!empty($nodes)){
 				</div>
 			</div>
 		</div>
-	</div>
+
 		<!-- Timeline -->
 
 		<div id="mytimeline"></div>
@@ -227,7 +223,7 @@ if (!empty($nodes)){
 	    // setup some local variables
 
 	    $.ajax({
-	      url: "<?php echo base_url();?>index.php/trees/node_data",
+	      url: "<?php echo base_url();?>index.php/homes/node_data",
 	      type: "POST",
 	      data: {node: nodeid},
 	      dataType: "json",
@@ -273,8 +269,8 @@ if (!empty($nodes)){
 	}
 	/*
 
-var events = [<?php echo $events; ?>];
-var sections = [<?php echo $sections; ?>];
+var events = [<?php // echo $events; ?>];
+var sections = [<?php // echo $sections; ?>];
 
        var timeline1 = new Chronoline(document.getElementById("mytimeline"), events, {
 		visibleSpan: DAY_IN_MILLISECONDS * 366,

@@ -18,7 +18,7 @@
       init:function(system){
         particleSystem = system
         particleSystem.screenSize(canvas.width, canvas.height)
-        particleSystem.screenPadding(40, 40,40,40)
+        particleSystem.screenPadding(50, 50,50,50)
 
         that.initMouseHandling()
 
@@ -46,7 +46,7 @@
          
           // Don't draw lines that shouldn't be there
           if (edge.source.data.alpha * edge.target.data.alpha == 0) return
-          gfx.line(pt1, pt2, {stroke:'#F8BF43', width:2, alpha:edge.target.data.alpha})
+          gfx.line(pt1, pt2, {stroke:'#F0AD4E', width:2, alpha:edge.target.data.alpha})
         })
         
         // draw the nodes
@@ -84,8 +84,8 @@
           // Draw the object        
           if (node.data.shape=='dot'){
             // Check if it's a dot
-          /*  gfx.oval(pt.x-w/2, pt.y-w/2, w,w, {fill:ctx.fillStyle, alpha:node.data.alpha})
-            nodeBoxes[node.name] = [pt.x-w/2, pt.y-w/2, w,w] */
+           // gfx.oval(pt.x-w/2, pt.y-w/2, w,w, {fill:ctx.fillStyle, alpha:node.data.alpha})
+           //  nodeBoxes[node.name] = [pt.x-w/2, pt.y-w/2, w,w]
             // Does it have an image?      
             if (imageob){
               // Images are cached 
@@ -104,11 +104,11 @@
 
           // Draw the text
           if (label){
-            ctx.font = "10px Helvetica"
+            ctx.font = "12px 'Roboto',sans-serif"
             ctx.textAlign = "center"
-            ctx.fillStyle = "green"
+            ctx.fillStyle = '#00A7AE'
             if (node.data.color=='none') ctx.fillStyle = '#333333'
-            ctx.fillText(label||"", pt.x, pt.y)
+            ctx.fillText(label||"", pt.x, pt.y+2)
             // ctx.fillText(label||"", pt.x, pt.y+4)
           }
           
