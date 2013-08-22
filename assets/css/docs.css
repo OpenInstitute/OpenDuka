@@ -14,10 +14,6 @@ a {
   color: #00A7AE !important;
 }
 
-hr {
-  margin-bottom: 0 !important;
-}
-
 .navbar {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -36,7 +32,7 @@ hr {
   font-size: 13px;
   height: 30px;
   margin: 0px 10px 5px 0;
-  width: 276px;
+  width: 295px;
 }
 
 #search input[type="submit"] {
@@ -156,7 +152,9 @@ hr {
 .description {
   background-color: rgba(50, 50, 50,.7);
   position: absolute;
-  bottom: 6%;
+  /*bottom: 6%;*/
+  top: 140px;
+
 }
 
 #search, #datapop {
@@ -216,6 +214,10 @@ hr {
 
 .results li a {
   color: #00AAD4;
+}
+
+.results-pages {
+  text-align: center;
 }
 
 #datapop h3 {
@@ -351,17 +353,25 @@ hr {
 }
 
 #container_vis {
+  clear: both;
   padding-top: 20px;
+  position: relative;
 }
 
-#center-container {
+#mobi-center-container, #desktop-center-container {
   background: transparent;
 }
 
-#right-container {
+#right-container, #top-container {
   background: rgba(0,0,0,0.05);
   border: 1px #E6E6E6 solid;
-  float: none !important;
+  overflow: auto; 
+  text-align: center;
+}
+
+#right-container {
+  float: right;
+  right: 0;
 }
 
 .hide {
@@ -370,20 +380,27 @@ hr {
 
 #left-container, 
 #right-container, 
-#center-container {
-  height: inherit;
+#mobi-center-container,
+#desktop-center-container {
+  height: 600px;
+  position: relative;
+  top: 0;
 }
 
-#inner-header {
+#top-container {
+  height: 160px;
+}
+
+.inner-header {
   padding-left: 20px;
 }
 
-#inner-details {
+.inner-details {
   margin-top: 10px;
   padding: 0 10px 0 30px;
 }
 
-#inner-details h4 {
+.inner-details h4 {
   color: #B0BC2A;
   font-family: 'Monda', sans-serif;
   font-size: 16px;
@@ -391,7 +408,7 @@ hr {
   text-align: center;
 }
 
-#inner-details h3 a {
+.inner-details h3 a {
   color: #00AAD4;
   font-family: 'Monda', sans-serif;
   font-size: 20px;
@@ -399,22 +416,22 @@ hr {
   text-align: center;
 }
 
-#inner-details p {
+.inner-details p {
   font-family: 'Istok Web', sans-serif;
   font-size: 14px;
 }
 
-#inner-details li {
+.inner-details li {
   border-bottom: 1px solid #FAFAFA;
   margin: 0 0 20px 0;
 }
 
-#inner-details ol, #inner-details ul, #inner-details li {
+.inner-details ol, .inner-details ul, .inner-details li {
   list-style: none;
   padding: 0;
 }
 
-#inner-details .status .st-verb {
+.inner-details .status .st-verb {
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -423,17 +440,21 @@ hr {
   font-weight: 700;
 }
 
-.st-name {
+html, body { height: 100%; }
 
+#body.container {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -10px;
 }
 
-.st-date {
-
-}
+.push { height: 63px; }
 
 #footer {
   border-top: 1px solid #e5e5e5;
   font-family: 'Istok Web', sans-serif;
+  height: 95px;
   margin-top: 10px;
   padding: 10px 0;
   text-align: center;
@@ -469,7 +490,7 @@ hr {
 
 body {
   position: relative;
-  padding-top: 40px;
+  padding-top: 60px;
 }
 
 /* Code in headings */

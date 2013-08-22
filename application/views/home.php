@@ -3,19 +3,19 @@ if(!isset($list) && empty($nodes))
 {
 ?>
 <!-- Home page -->
-	<!-- Banner -->
-	<div id="cityscape" class="span12">
-		<div class="tagline span11">
+	<!-- Banner --><div id="cityscape" class="col-md-12 col-lg-12">
+		<div class="tagline col-md-11 col-lg-12">
 			<h2>The freely accessible database of information on all Kenyan registered companies</h2>
-			<div class="description span11">
+			<div class="description col-md-11 col-lg-12">
 				<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
 			</div>
 		</div>
-	</div> 
+	</div>
+	 
 	<!-- #cityscape -->
 
 	<!-- Search -->
-	<div id="search" class="section span12">
+	<div id="search" class="section col-md-12 col-lg-12">
 		<h2>Search</h2>
 		<p><?php echo $error;?></p>
 		<?php // echo language(); ?>
@@ -27,23 +27,23 @@ if(!isset($list) && empty($nodes))
 	</div> <!-- #search -->
 
 	<!-- Stats and Latest -->
-	<div id="datapop" class="section span12">
+	<div id="datapop" class="section col-md-12 col-lg-12">
 
 		<!-- Stats -->
-		<div class="stats span6">
+		<div class="stats col-md-6 col-lg-6">
 			<h3>In Our Database</h3>
 			<div class="figures row">
-				<div class="people span2">
+				<div class="people col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
 					<h4>People</h4>
 					<h5><?php echo $persons;?></h5>
 				</div>
-				<div class="tenders span2">
+				<div class="tenders col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
 					<h4>Tenders</h4>
 					<h5>42</h5>
 				</div>
-				<div class="organisations span2">
+				<div class="organisations col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
 					<h4>Organisations</h4>
 					<h5><?php echo $organisations;?></h5>
@@ -51,17 +51,17 @@ if(!isset($list) && empty($nodes))
 			</div>
 			<br />
 			<div class="figures row">
-				<div class="cases span2">
+				<div class="cases col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
 					<h4>Cases</h4>
 					<h5>12</h5>
 				</div>
-				<div class="grants span2">
+				<div class="grants col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
 					<h4>Grants</h4>
 					<h5>67</h5>
 				</div>
-				<div class="land span2">
+				<div class="land col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
 					<h4>Land</h4>
 					<h5>90</h5>
@@ -70,7 +70,7 @@ if(!isset($list) && empty($nodes))
 		</div><!-- .stats -->
 
 		<!-- Latest -->
-		<div class="popular span5">
+		<div class="popular col-md-5 col-lg-6">
 			<h3>Latest Entries</h3>
 			<div class="topfive">
 				<ol>
@@ -82,7 +82,7 @@ if(!isset($list) && empty($nodes))
 		</div><!-- .popular -->
 
 		<!-- Disclaimer -->
-		<div class="disclaimer section span9 offset1">
+		<div class="disclaimer section col-md-9 col-lg-12">
 			<p>
 				Our database contains information on people, companies and organisations, as well as their linkages at specified periods of time.
 				While we make every attempt to make this information as accurate as possible, we take no responsibility for its authenticity.
@@ -92,7 +92,7 @@ if(!isset($list) && empty($nodes))
 	</div> <!-- #datapop -->
 
 	<!-- Partners -->
-	<div id="partners" class="section span12">
+	<div id="partners" class="section col-md-12 col-lg-12">
 		<h2>Launched in partnership with</h2>
 		<div id="partner-logos">
 			<a href="http://www.africatti.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" style="margin-left:-10px;"></a>
@@ -108,11 +108,11 @@ if (isset($list))
 ?>
 
 <!-- Results -->
-	<div id="search-results" class="section span6">
+	<div id="search-results" class="section col-md-6 col-lg-6">
 		<h2>Search results</h2>
 	</div>
 	<!-- Search -->
-	<div class="query span6">
+	<div class="query pull-right" style="padding-top: 80px; padding-right: 10px;">
 		<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
 			<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
 			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
@@ -120,11 +120,11 @@ if (isset($list))
 	</div> <!-- #search -->
 
 <?php 
-	echo "	<div class='results row-fluid span8'>
+	echo "	<div class='results col-md-11 col-lg-12'>
 			<ul>".$list."</ul>
 		</div>";
 	  
-	echo  $pages;
+	echo "<div class='results-pages col-md-12 col-lg-12'>".$pages."</div>";
 	}
 
 if (!empty($nodes)){	
@@ -135,8 +135,8 @@ if (!empty($nodes)){
 <!-- Visualisation & Timeline --> 
 
 	<div id="visualisation" class="section">
-		<div class="row-fluid">
-			<div class="pull-left span7">
+		<div class="row" style="margin: 0">
+			<div class="pull-left col-md-7 col-lg-7">
 				<h2>Search results for "<?php echo $node_title; ?>"</h2>
 			</div>
 			<!-- Search -->
@@ -186,15 +186,14 @@ if (!empty($nodes)){
 		</div> -->
 
 		<!-- Visualisation -->
-		<div id="container_vis" class="row-fluid">
-			<div id="center-container" class="span8 offset2">
+		<div id="container_vis" class="row" style="margin: 0">
+			<div id="center-container" class="col-md-8 col-lg-offset-2 col-lg-8">
 				<canvas id="cy" width="740" height="560"></canvas>
 			</div>
-			<div id="right-container" class="offset0 hide">
-				<div id="inner-header"></div>
-				<div id="inner-details" class="span11">
-					<!-- <h4><i class="icon-info-sign icon-large"></i>&nbsp;&nbsp;&nbsp;Click on a node to get more information about it</h4> -->
-				</div>
+			<div id="right-container" class="col-lg-offset-0 hide">
+				<div class="inner-header"></div>
+				<hr />
+				<div class="inner-details col-md-11 col-lg-12"></div>
 			</div>
 		</div>
 </div>
@@ -224,7 +223,7 @@ if (!empty($nodes)){
 		// abort any pending request
 	//alert(nodeid);
 	    /*clear result div*/
-	   $("#inner-details").html('');
+	   $(".inner-details").html('');
 	    // setup some local variables
 
 	    $.ajax({
@@ -241,7 +240,7 @@ if (!empty($nodes)){
 		l = d.data[1].header[0].Link;
 		pn = d.data[1].header[0].Name;
 		pv = d.data[1].header[0].Verb;
-		$('#inner-details').html("<ul/>");
+		$('.inner-details').html("<ul/>");
 		$.each(d.data[0].posts, function(i,post){
 			e = post.EntMap.split(",");
 			v = post.Verb.split(",");
@@ -259,11 +258,11 @@ if (!empty($nodes)){
 						};
 				});
 			
-		  $("#inner-details ul").append('<li><p><span class="st-verb">'+ t +'</span> <span class="st-name">'+ post.Name +'</span></p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li><hr>');
+		  $(".inner-details ul").append('<li><p><span class="st-verb">'+ t +'</span> <span class="st-name">'+ post.Name +'</span></p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li>');
 		});
-		  $("#inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a></h3>');
-		  $('#center-container').removeClass("offset2").addClass("offset0");
-		  $('#right-container').removeClass("offset0 hide").addClass("span4");
+		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a></h3>');
+		  $('#center-container').removeClass("offset2 col-lg-offset-2").addClass("offset0 col-lg-offset-0");
+		  $('#right-container').removeClass("offset0 hide col-lg-offset-0").addClass("span4 col-lg-4");
 		  	
 	      },
 	      error: function(xhr, status, error) {

@@ -41,19 +41,20 @@
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
-    <div id="thenav" class="navbar navbar-fixed-top" style="background-position: 0px 0px;">
+    <div id="thenav" class="navbar navbar-fixed-top navbar-default" style="background-position: 0px 0px;">
+    <div class="navbar-header"></div>
       	<div class="top-cont">
-        	<div class="container navigation-main row-fluid">
-         		<div class="nav-collapse collapse span12">
-         			<div class="logo span6">
+        	<div class="container navigation-main row" style="margin-left:auto;margin-right:auto;">
+         		<div class="navbar-collapse col-md-12">
+         			<div class="logo col-md-6 col-lg-6" style="margin-bottom: 0;">
          				<a href="<?php echo base_url()?>">
-         					<img src="<?php echo base_url(); ?>assets/img/od-temp-orange.png">
+         					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/od-temp-orange.png">
          				</a>
          			</div>
-         			<div class="menu-items">
-	            		<ul class="nav nav-pills pull-right">
-	            			<li class="active"><a href="#">Home</a></li>
-	            			<li><a href="#">About Us</a></li>
+         			<div class="menu-items pull-right">
+	            		<ul class="nav navbar-nav nav-pills">
+	            			<li><a href="<?php echo base_url() . index_page(); ?>">Home</a></li>
+	            			<li><a href="<?php echo base_url() . index_page(); ?>/about">About Us</a></li>
 	            			<li><a href="#">How It Works</a></li>
 	            			<li><a href="#">Blog</a></li>
 	            			<li><a href="#">Contact</a></li>
@@ -65,4 +66,5 @@
     </div>
 	
 	<div id="body" class="container">
-		<div id="content" class="span12">
+		<div id="content" class="col-md-12 col-lg-12" style="padding:0">
+
