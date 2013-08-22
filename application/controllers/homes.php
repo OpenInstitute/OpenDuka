@@ -48,7 +48,7 @@ class Homes extends CI_Controller {
 		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'.$EntityName ;
 		$config['total_rows'] = $this->home->get_entry_count('Name',$EntityName);
 		$config['per_page'] = $results_per_page; 
-		$config['full_tag_open'] = '<ul class="pagination offset3">';
+		$config['full_tag_open'] = '<ul class="pagination">';
 		$config['full_tag_close'] = '</ul>';
 		/*
 		$config['first_link'] = 'First';
