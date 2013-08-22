@@ -141,7 +141,7 @@ if (!empty($nodes)){
 			</div>
 			<!-- Search -->
 			<div class="query pull-right">
-				<form name="oi" action="<?php echo base_url() . index_page();?>/trees/entitylist" method="post"> 
+				<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
 					<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
 					<input type="submit" name="submit" value="Go" class="btn btn-warning" />
 				</form>

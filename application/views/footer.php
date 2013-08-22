@@ -7,10 +7,10 @@
     			<a>Get the code</a> &nbsp; |
     			<a>Support us</a> &nbsp;
     		</div>
-    		<div class="copyright span4 offset1">
-    			<p>Copyright © 2013 <a href="http://www.openinstitute.com/">Open Institute</a>. All rights reserved.</p>
+    		<div class="copyright span7 ">
+    			<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/80x15.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Open Duka</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="openinstitute.com" property="cc:attributionName" rel="cc:attributionURL">Open Institute</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.en_US">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="openduka.org" rel="dct:source">openduka.org</a></p>
     		</div>
-    		<div class="social-media span2 offset2">
+    		<div class="social-media span2">
     			<img src="<?php echo base_url(); ?>assets/img/facebook.png">
     			<img src="<?php echo base_url(); ?>assets/img/twitter.png">
     			<img src="<?php echo base_url(); ?>assets/img/googleplus.png">
