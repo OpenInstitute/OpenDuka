@@ -3,19 +3,20 @@ if(!isset($list) && empty($nodes))
 {
 ?>
 <!-- Home page -->
-	<!-- Banner --><div id="cityscape" class="col-md-12 col-lg-12">
-		<div class="tagline col-md-11 col-lg-12">
-			<h2>The freely accessible database of information on all Kenyan registered companies</h2>
-			<div class="description col-md-11 col-lg-12">
-				<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
-			</div>
+	<!-- Banner -->
+	<div id="cityscape" class="row">
+		<div class="tagline">
+			<h2>The freely accessible database of information on all Kenyan entities</h2>
+		</div>
+		<div class="description">
+			<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
 		</div>
 	</div>
 	 
 	<!-- #cityscape -->
 
 	<!-- Search -->
-	<div id="search" class="section col-md-12 col-lg-12">
+	<div id="search" class="section row">
 		<h2>Search</h2>
 		<p><?php echo $error;?></p>
 		<?php // echo language(); ?>
@@ -27,7 +28,7 @@ if(!isset($list) && empty($nodes))
 	</div> <!-- #search -->
 
 	<!-- Stats and Latest -->
-	<div id="datapop" class="section col-md-12 col-lg-12">
+	<div id="datapop" class="section row">
 
 		<!-- Stats -->
 		<div class="stats col-md-6 col-lg-6">
@@ -92,11 +93,15 @@ if(!isset($list) && empty($nodes))
 	</div> <!-- #datapop -->
 
 	<!-- Partners -->
-	<div id="partners" class="section col-md-12 col-lg-12">
+	<div id="partners" class="section row">
 		<h2>Launched in partnership with</h2>
 		<div id="partner-logos">
-			<a href="http://www.africatti.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" style="margin-left:-10px;"></a>
-			<a href="http://www.kenyalaw.org/" target="blank"><img class="offset1" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg"></a>
+			<a href="http://www.africatti.org/" target="blank">
+				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" style="margin-left:-10px;">
+			</a>
+			<a href="http://www.kenyalaw.org/" target="blank">
+				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg">
+			</a>
 		</div>
 	</div><!-- #partners -->
 
@@ -148,49 +153,12 @@ if (!empty($nodes)){
 			</div> <!-- #search -->
 		</div>
 
-		<!-- Filter -->
-		<!-- <button class="btn btn-success" onclick="showDiv()">Filter</button>
-		<div id="vis_checkbox" class="input-group">
-			<div id="filter">
-
-			<?php echo form_open("tree/filter", array('id' => 'signup')); ?>
-				<input type="hidden" value="" name="EntityIDS" />
-				<span class="input-group-addon">
-					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
-					&nbsp; &nbsp;
-					<label>People</label>
-				</span>
-				<span class="input-group-addon">
-					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
-					&nbsp; &nbsp;
-					<label>Companies</label>
-				</span>
-				<span class="input-group-addon">
-					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
-					&nbsp; &nbsp;
-					<label>Organisations</label>
-				</span>
-				<span class="input-group-addon">
-					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
-					&nbsp; &nbsp;
-					<label>Cases</label>
-				</span>
-				<span class="input-group-addon">
-					<input type="checkbox" name='Merge[]' value='".$content[$i]['ID']."'>
-					&nbsp; &nbsp; 
-					<label>Grants</label>
-				</span>
-			<?php echo form_close(); ?>
-
-			</div>
-		</div> -->
-
 		<!-- Visualisation -->
 		<div id="container_vis" class="row" style="margin: 0">
-			<div id="center-container" class="col-md-8 col-lg-offset-2 col-lg-8">
+			<div id="center-container" class="col-md-8 col-md-offset-2 col-lg-offset-2 col-lg-8">
 				<canvas id="cy" width="740" height="560"></canvas>
 			</div>
-			<div id="right-container" class="col-lg-offset-0 hide">
+			<div id="right-container" class="col-md-offset-0 col-lg-offset-0 hide">
 				<div class="inner-header"></div>
 				<hr />
 				<div class="inner-details col-md-11 col-lg-12"></div>
@@ -261,8 +229,8 @@ if (!empty($nodes)){
 		  $(".inner-details ul").append('<li><p><span class="st-verb">'+ t +'</span> <span class="st-name">'+ post.Name +'</span></p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li>');
 		});
 		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a></h3>');
-		  $('#center-container').removeClass("offset2 col-lg-offset-2").addClass("offset0 col-lg-offset-0");
-		  $('#right-container').removeClass("offset0 hide col-lg-offset-0").addClass("span4 col-lg-4");
+		  $('#center-container').removeClass("col-md-offset-2 col-lg-offset-2").addClass("col-md-offset-0 col-lg-offset-0");
+		  $('#right-container').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
 		  	
 	      },
 	      error: function(xhr, status, error) {
