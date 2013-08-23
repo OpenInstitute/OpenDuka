@@ -98,7 +98,9 @@ class Homes extends CI_Controller {
 
 	function tree($v0) {
 		//$this->output->enable_profiler(TRUE);  
-
+		
+		$noMerge = $this->home->get_entries('ID',$v0);
+		$v0 = ($noMerge[0]['Merged']==1)? $noMerge[0]['MergedTo'] : $v0;
 		$weed = array();
 		$fruit = array();
 		$node_arr = "";
@@ -113,7 +115,7 @@ class Homes extends CI_Controller {
 		array_push($weed,$v0);		
 		$edges .= $one['edges'];
 		$node_arr=$one['nodearray'];
-	//echo 'fruits ---';
+	//echo 'edges ---' . $edges;
 	//var_dump($node_arr); exit;
 		//echo sizeof($one['fruit']);
 		if (sizeof($one['fruit'])>0) {
@@ -150,13 +152,13 @@ class Homes extends CI_Controller {
 //var_dump($node_arr);
 		for($k=0; $k<count($node_arr); $k++){
 			$nDetail = explode('|',$node_arr[$k]);
-			//var_dump($nDetail);
+		//	var_dump($nDetail);
 			$id = $nDetail[0];
 			$dataset = $nDetail[1];
 			//echo $dataset;
 			$n = $this->home->get_entries('ID',$id);
 			//$nID[$id] = $id;
-			$nd = explode(',',$n[0]['EffectiveDate']);
+			$nd = explode('||',$n[0]['EffectiveDate']);
 			//var_dump($nd);
 			if ( !isset($nDate[$id]) ) {
 			  $nDate[$id] = array();
@@ -287,6 +289,7 @@ class Homes extends CI_Controller {
  		$edges .= "'" . str_replace(".","",str_replace(" ","_",$root_Name[0]))."_". $stm[0] . "':{";
 
 		}
+		//echo sizeof($branch). ',';
 		for($k=0;$k<count($branch); $k++){
 			$child = empty($branch[$k]['ID'])? NULL : $this->home->get_entries('ID',$branch[$k]['ID']);
 			
@@ -300,9 +303,10 @@ class Homes extends CI_Controller {
 				$node_array .=  $child[$i]['ID'] .'|'. $branch[$k]['dataset'] . ',' ;
 				$fruit[] = $child[$i]['ID'];
 			
-				if(++$j==10) break;
+				
 			    }
 			}
+			if($k==10) break;
 		}		
 		
 		if ( isset($stm) ) {

@@ -243,8 +243,8 @@ if (!empty($nodes)){
 		$('.inner-details').html("<ul/>");
 		$.each(d.data[0].posts, function(i,post){
 			e = post.EntMap.split(",");
-			v = post.Verb.split(",");
-			d = post.EffectiveDate.split(",");
+			v = post.Verb.split("||");
+			d = post.EffectiveDate.split("||");
 				$.each(e, function(index, value) {
 				 // alert(index + ': ' + value);
 					m = value.split("||");

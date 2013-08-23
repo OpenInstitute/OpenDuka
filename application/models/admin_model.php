@@ -1,7 +1,7 @@
 <?php
 
 class Admin_model extends CI_Model {
-
+//update  `Entity` set EffectiveDate = replace(EffectiveDate, ',', '||')
     var $title   = '';
     var $content = '';
     var $date    = '';
@@ -250,10 +250,10 @@ class Admin_model extends CI_Model {
 
 		$Entity = $EntityRow->row();
 
-		$this->db->set('DocID', "CONCAT(DocID,'".$Entity->DocID.",')", FALSE);
+		$this->db->set('DocID', "CONCAT(DocID,'".$Entity->DocID."')", FALSE);
 	    	$this->db->set('Appointer', "CONCAT(Appointer,',".$Entity->Appointer."')", FALSE);
-	    	$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,',".$Entity->EffectiveDate."')", FALSE);
-	    	$this->db->set('Verb', "CONCAT(Verb,',".$Entity->Verb."')", FALSE);
+	    	$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,'".$Entity->EffectiveDate."')", FALSE);
+	    	$this->db->set('Verb', "CONCAT(Verb,'".$Entity->Verb."')", FALSE);
 	    	$this->db->set('EntityMap', "CONCAT(EntityMap,',".$Entity->EntityMap."')", FALSE);
 	    		
 		$this->db->where('ID', $ID);
@@ -265,7 +265,7 @@ class Admin_model extends CI_Model {
 	    	$this->db->query("UPDATE Entity SET EntityMap = REPLACE(EntityMap, ',,' , ',')"); 
 	      /*--------delete to old row id */
 	    	
-	    	$this->db->query("DELETE FROM Entity WHERE ID = $MID"); 
+	    	$this->db->query("UPDATE Entity SET Merged = 1, MergedTo= $ID WHERE ID = $MID"); 
     }
 
    function get_verbs()
