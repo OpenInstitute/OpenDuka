@@ -208,11 +208,14 @@ if (!empty($nodes)){
 		l = d.data[1].header[0].Link;
 		pn = d.data[1].header[0].Name;
 		pv = d.data[1].header[0].Verb;
+		pt = d.data[1].header[0].EntPos.split("||");
 		$('.inner-details').html("<ul/>");
 		$.each(d.data[0].posts, function(i,post){
 			e = post.EntMap.split(",");
 			v = post.Verb.split("||");
 			d = post.EffectiveDate.split("||");
+			p = post.EntPos.split("||");
+			//alert(post.EntPos);
 				$.each(e, function(index, value) {
 				 // alert(index + ': ' + value);
 					m = value.split("||");
@@ -220,13 +223,15 @@ if (!empty($nodes)){
 						if (m.indexOf(nodeid)>-1){
 							i = index;
 							//alert(v[i]);
-							t = v[i];
-							if (t == "0" || t == "0,") {t = pv +' by ';}
+							verb = v[i];
+							postn = p[i];
+							if (verb == "0" || verb == "0,") {verb = pv +' by ';}
+							if (postn == "") {postn = ' as '+ pt[i];} else {postn = ' as '+ postn;}
 							da = d[i];
 						};
 				});
 			
-		  $(".inner-details ul").append('<li><p><span class="st-verb">'+ t +'</span> <span class="st-name">'+ post.Name +'</span></p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li>');
+		  $(".inner-details ul").append('<li><p><span class="st-verb">'+ verb +'</span> <span class="st-name">'+ post.Name +'</span> '+ postn +'</p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li>');
 		});
 		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a></h3>');
 		  $('#center-container').removeClass("col-md-offset-2 col-lg-offset-2").addClass("col-md-offset-0 col-lg-offset-0");

@@ -51,6 +51,7 @@ class Admin_model extends CI_Model {
 	if ($data['UniqueInfo']=="") {
 		$data['DocID'] = $data['DocID'] . ",";
 	    	$data['Appointer'] = $data['Appointer']."||";
+	    	$data['EntityPosition'] = $data['EntityPosition']."||";
 	    	$data['EffectiveDate'] = $data['EffectiveDate']."||";
 	    	$data['Verb'] = $data['Verb']."||";
 	    	//$data['EntityMap'] = ",";
@@ -73,6 +74,7 @@ class Admin_model extends CI_Model {
 	    	 	$this->db->where('ID', $row->ID);
 			$this->db->set('DocID', 'CONCAT(DocID,"'.$data['DocID'].'",",")', FALSE);
 	    		$this->db->set('Appointer', "CONCAT(Appointer,'".$data['Appointer']."','||')", FALSE);
+	    		$this->db->set('EntityPosition',"CONCAT(EntityPosition,'".$data['EntityPosition']."','||')", FALSE);
 	    		$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,'".$data['EffectiveDate']."','||')", FALSE);
 	    		$this->db->set('Verb', "CONCAT(Verb,'".$data['Verb']."','||')", FALSE);
 	    		$this->db->set('EntityMap', "CONCAT(EntityMap,',')", FALSE);
@@ -85,7 +87,7 @@ class Admin_model extends CI_Model {
 		    	$data['Appointer'] = $data['Appointer']."||";
 		    	$data['EffectiveDate'] = $data['EffectiveDate']."||";
 		    	$data['Verb'] = $data['Verb']."||";
-		    	//$data['EntityMap'] = ",";
+		    	$this->db->set('EntityPosition',"CONCAT(EntityPosition,'".$data['EntityPosition']."','||')", FALSE);
 	    		$this->db->insert('Entity', $data);
 	    		$rowID = $this->db->insert_id();
 	    		
@@ -113,6 +115,7 @@ class Admin_model extends CI_Model {
 	
 			$data['DocID'] = $data['DocID'] . ",";
 	    		$data['EffectiveDate'] = $data['EffectiveDate']."||";
+	    		$data['EntityPosition'] = $data['EntityPosition']."||";
 	    		$data['Verb'] = $data['Verb']."||";
 		    	$data['EntityMap'] =  $rootID.",";
 	    		$this->db->insert('Entity',$data);
@@ -139,6 +142,7 @@ class Admin_model extends CI_Model {
 	    	 	$row = $Entity->row();
 	    	 	$data['DocID'] = $data['DocID'] . ",";
 	    		$data['EffectiveDate'] = $data['EffectiveDate']."||";
+	    		$data['EntityPosition'] = $data['EntityPosition']."||";
 	    		$data['Verb'] = $data['Verb']."||";
 		    	$data['EntityMap'] =  $rootID.",";
 		    	
@@ -157,6 +161,7 @@ class Admin_model extends CI_Model {
 	    	 } else {
 			$data['DocID'] = $data['DocID'] . ",";
 	    		$data['EffectiveDate'] = $data['EffectiveDate']."||";
+	    		$data['EntityPosition'] = $data['EntityPosition']."||";
 	    		$data['Verb'] = $data['Verb']."||";
 		    	$data['EntityMap'] =  $rootID.",";
 	    		$this->db->insert('Entity',$data);
@@ -253,6 +258,7 @@ class Admin_model extends CI_Model {
 		$this->db->set('DocID', "CONCAT(DocID,'".$Entity->DocID."')", FALSE);
 	    	$this->db->set('Appointer', "CONCAT(Appointer,',".$Entity->Appointer."')", FALSE);
 	    	$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,'".$Entity->EffectiveDate."')", FALSE);
+	    	$this->db->set('EntityPosition', "CONCAT(EntityPosition,'".$Entity->EntityPosition."')", FALSE);
 	    	$this->db->set('Verb', "CONCAT(Verb,'".$Entity->Verb."')", FALSE);
 	    	$this->db->set('EntityMap', "CONCAT(EntityMap,',".$Entity->EntityMap."')", FALSE);
 	    		

@@ -72,6 +72,7 @@ class Admin extends CI_Controller {
 				$data = array(
 				'DocID' => $DocID,
 				'EntityTypeID' => $this->input->post('type'.$i),
+				'EntityPosition' => $this->input->post('position'.$i),
 				'Name' => ucwords(strtolower(str_replace("'","`",$this->input->post('entity'.$i)))),
 				'UniqueInfo' => str_replace("'","`",$this->input->post('address'.$i)),
 				'EffectiveDate' => str_replace("'","`",$this->input->post('startdate'.$i)) . ' : ' .  str_replace("'","`",$this->input->post('enddate'.$i)),
@@ -104,14 +105,14 @@ class Admin extends CI_Controller {
     
     function entityEdit()  {
     
-    $this->output->enable_profiler(TRUE); 
+    //$this->output->enable_profiler(TRUE); 
     		$gazID=$this->input->post('gazID');
     		
     		$content = $this->admin_model->get_gazID($gazID);
 		$list="";
 		
     		if (is_array($content)){
-    		$list="<form id='EntityUpdate' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div><div class='datefield'>Start:End Date</div><div class='select'>Verb</div></div>";
+    		$list="<form id='EntityUpdate' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Position</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div><div class='datefield'>Start:End Date</div><div class='select'>Verb</div></div>";
 			for($i=0;$i< count($content);$i++)
 			{
 			$list .= '<div class="spacer"><select class="select" name="type'.$i.'"><option value="22"';
@@ -121,7 +122,7 @@ class Admin extends CI_Controller {
 			$list .= '>Person</option><option value="21" ';
 			if ($content[$i]['EntityTypeID']==21){ $list .= "selected";}
 			
-			$list .= '>Organization</option></select><input type="text" id="entity'.$i.'" name="entity'.$i.'" value="'.$content[$i]['Name'].'"  class="textfield" required /><input type="text" id="address'.$i.'" name="address'.$i.'" value="'.$content[$i]['UniqueInfo'].'"  class="addrfield" /><input type="text" id="startdate'.$i.'" name="startdate'.$i.'" value="'.$content[$i]['EffectiveDate'].'" class="datefield"/><select class="select" name="verb'.$i.'"><option selected value="' . $content[$i]['Verb'] . '">' . $content[$i]['Verb'] . '</option>'. $this->verb_words() .'</select><input type="hidden" value="'.$content[$i]['ID'].'" name="ID'.$i.'"/></div>'; 
+			$list .= '>Organization</option></select><input type="text" id="entity'.$i.'" name="entity'.$i.'" value="'.$content[$i]['Name'].'"  class="textfield" required /><input type="text" id="position'.$i.'" name="position'.$i.'" value="'.$content[$i]['EntityPosition'].'"  class="addrfield" /><input type="text" id="address'.$i.'" name="address'.$i.'" value="'.$content[$i]['UniqueInfo'].'"  class="addrfield" /><input type="text" id="startdate'.$i.'" name="startdate'.$i.'" value="'.$content[$i]['EffectiveDate'].'" class="datefield"/><select class="select" name="verb'.$i.'"><option selected value="' . $content[$i]['Verb'] . '">' . $content[$i]['Verb'] . '</option>'. $this->verb_words() .'</select><input type="hidden" value="'.$content[$i]['ID'].'" name="ID'.$i.'"/></div>'; 
 			
 			}		
 		$list.='<input type="hidden" value="'.$gazID.'" name="gazID"/><input type="button" class="EntityUpdate" value="Submit" onclick="EntityUpdate()" /></form>';
@@ -151,6 +152,7 @@ class Admin extends CI_Controller {
     		$data=array();
 	    		for($i=0;$i<count($content);$i++) {
 			$data['ID'] = $this->input->post('ID'.$i);
+			$data['EntityPosition'] = $this->input->post('position'.$i);
 			$data['EntityTypeID'] = $this->input->post('type'.$i);
 			$data['Name'] = trim(str_replace("'","`",$this->input->post('entity'.$i)));
 			$data['UniqueInfo'] = trim(str_replace("'","`",$this->input->post('address'.$i)));
@@ -171,7 +173,7 @@ class Admin extends CI_Controller {
 			$list .= '>Person</option><option value="21" ';
 				if ($content[$i]['EntityTypeID']==21){ $list .= "selected";}
 			
-			$list .= '>Organization</option></select><input type="text" id="entity'.$i.'" name="entity'.$i.'" value="'.$content[$i]['Name'].'"  class="textfield" required /><input type="text" id="address'.$i.'" name="address'.$i.'" value="'.$content[$i]['UniqueInfo'].'"  class="addrfield" /><input type="text" id="startdate'.$i.'" name="startdate'.$i.'" value="'.$content[$i]['EffectiveDate'].'" class="datefield"/><select class="select" name="verb'.$i.'"><option selected value="' . $content[$i]['Verb'] . '">' . $content[$i]['Verb'] . '</option>'. $this->verb_words() .'</select><input type="hidden" value="'.$content[$i]['ID'].'" name="ID'.$i.'"/></div>'; 
+			$list .= '>Organization</option></select><input type="text" id="entity'.$i.'" name="entity'.$i.'" value="'.$content[$i]['Name'].'"  class="textfield" required /><input type="text" id="position'.$i.'" name="position'.$i.'" value="'.$content[$i]['EntityPosition'].'"  class="addrfield" /><input type="text" id="address'.$i.'" name="address'.$i.'" value="'.$content[$i]['UniqueInfo'].'"  class="addrfield" /><input type="text" id="startdate'.$i.'" name="startdate'.$i.'" value="'.$content[$i]['EffectiveDate'].'" class="datefield"/><select class="select" name="verb'.$i.'"><option selected value="' . $content[$i]['Verb'] . '">' . $content[$i]['Verb'] . '</option>'. $this->verb_words() .'</select><input type="hidden" value="'.$content[$i]['ID'].'" name="ID'.$i.'"/></div>'; 
 			
 			}
 				

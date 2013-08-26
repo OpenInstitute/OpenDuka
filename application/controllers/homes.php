@@ -289,7 +289,7 @@ class Homes extends CI_Controller {
  		$edges .= "'" . str_replace(".","",str_replace(" ","_",$root_Name[0]))."_". $stm[0] . "':{";
 
 		}
-		//echo sizeof($branch). ',';
+		//	echo sizeof($branch). ',';
 		for($k=0;$k<count($branch); $k++){
 			$child = empty($branch[$k]['ID'])? NULL : $this->home->get_entries('ID',$branch[$k]['ID']);
 			
@@ -413,17 +413,17 @@ class Homes extends CI_Controller {
 			//$keys = array_flip(array_keys($root_node));
 			//$cont .= isset($keys[$n]) ? $keys[$n] : 'not found' ;
 			//echo $keystr ;
-		$maps .= ' {"ID":"'. $child_node[$i]['ID'] .'", "Name":"'. $child_node[$i]['Name'] . '", "EntMap":"'. $child_node[$i]['EntityMap']. '", "Verb":"'. $child_node[$i]['Verb'] .'", "EffectiveDate":"'. $child_node[$i]['EffectiveDate'] .'"},';	
+		$maps .= ' {"ID":"'. $child_node[$i]['ID'] .'", "Name":"'. $child_node[$i]['Name'] . '", "EntMap":"'. $child_node[$i]['EntityMap']. '","EntPos":"'. $child_node[$i]['EntityPosition']. '", "Verb":"'. $child_node[$i]['Verb'] .'", "EffectiveDate":"'. $child_node[$i]['EffectiveDate'] .'"},';	
 						
 		}
 		$maps .= ']}';
 		
 		$root_node = $this->home->get_entries('ID',$n);
 		
-		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '"}]}]}';
+		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap']. '","EntPos":"'. $root_node[0]['EntityPosition']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '"}]}]}';
 		
 		$maps = str_replace(",]","]",$maps);
-		
+
 		echo json_encode($maps) ;
 
 	    
