@@ -5,10 +5,10 @@ if(!isset($list) && empty($nodes))
 <!-- Home page -->
 	<!-- Banner -->
 	<div id="cityscape" class="row">
-		<div class="tagline">
+		<div class="tagline col-md-12 col-lg-12">
 			<h2>The freely accessible database of information on all Kenyan entities</h2>
 		</div>
-		<div class="description">
+		<div class="description col-md-12 col-lg-12">
 			<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
 		</div>
 	</div>
@@ -16,7 +16,7 @@ if(!isset($list) && empty($nodes))
 	<!-- #cityscape -->
 
 	<!-- Search -->
-	<div id="search" class="section row">
+	<div id="search" class="row">
 		<h2>Search</h2>
 		<p><?php echo $error;?></p>
 		<?php // echo language(); ?>
@@ -28,7 +28,7 @@ if(!isset($list) && empty($nodes))
 	</div> <!-- #search -->
 
 	<!-- Stats and Latest -->
-	<div id="datapop" class="section row">
+	<div id="datapop" class="row">
 
 		<!-- Stats -->
 		<div class="stats col-md-6 col-lg-6">
@@ -83,7 +83,7 @@ if(!isset($list) && empty($nodes))
 		</div><!-- .popular -->
 
 		<!-- Disclaimer -->
-		<div class="disclaimer section col-md-9 col-lg-12">
+		<div class="disclaimer col-md-9 col-lg-12">
 			<p>
 				Our database contains information on people, companies and organisations, as well as their linkages at specified periods of time.
 				While we make every attempt to make this information as accurate as possible, we take no responsibility for its authenticity.
@@ -93,7 +93,7 @@ if(!isset($list) && empty($nodes))
 	</div> <!-- #datapop -->
 
 	<!-- Partners -->
-	<div id="partners" class="section row">
+	<div id="partners" class="row">
 		<h2>Launched in partnership with</h2>
 		<div id="partner-logos">
 			<a href="http://www.africatti.org/" target="blank">
@@ -113,7 +113,7 @@ if (isset($list))
 ?>
 
 <!-- Results -->
-	<div id="search-results" class="section col-md-6 col-lg-6">
+	<div id="search-results" class="col-md-6 col-lg-6">
 		<h2>Search results</h2>
 	</div>
 	<!-- Search -->
@@ -129,7 +129,7 @@ if (isset($list))
 			<ul>".$list."</ul>
 		</div>";
 	  
-	echo "<div class='results-pages col-md-12 col-lg-12'>".$pages."</div>";
+	echo "<div class='results-pages col-md-12 col-lg-12 text-center'>".$pages."</div>";
 	}
 
 if (!empty($nodes)){	
@@ -139,7 +139,7 @@ if (!empty($nodes)){
 
 <!-- Visualisation & Timeline --> 
 
-	<div id="visualisation" class="section">
+	<div id="visualisation">
 		<div class="row" style="margin: 0">
 			<div class="pull-left col-md-7 col-lg-7">
 				<h2>Search results for "<?php echo $node_title; ?>"</h2>

@@ -6,7 +6,7 @@
       <div class="container">
         <p>Designed and built by <a href="">OpenInstitute</a>.</p>
         <p>Code freely available on <a href="" target="_blank">Github</a></p>
-        <ul class="footer-links">
+        <ul class="api-footer footer-links">
           <li><a href="">API Terms</a></li>
           <li class="muted">&middot;</li>
           <li><a href="">Blog</a></li>
