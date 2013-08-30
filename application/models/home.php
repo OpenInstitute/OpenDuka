@@ -161,5 +161,47 @@ class Home extends CI_Model {
 	        return $query->result_array();
 	      //} else {return '';}
     }
+    
+    function get_dataset($tbl,$q,$id)
+    {
+    $ar=array();
+    $ra=array();
+    $flds = $this->db->field_data($tbl);
+	    foreach($flds as $f ) {
+	    	if (substr($f->name,-3,3)=='_E_') {
+	   	 $Entity_id[]= $f->name;
+	  	} else {
+	  	 $Entity_field[]= $f->name;
+	  	}
+    	    }
+    	$qu = ($q=='*') ? $Entity_field : $q;
+    
+		$this->db->select($qu);
+		$this->db->from($tbl);
+			foreach($Entity_id as $r){		
+			$this->db->or_where($r,$id); 
+			}     
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
+    function get_dataset_map($tbl, $id)
+    {
+    $Entity_id=array();
+    $Entity_name=array();
+    $flds = $this->db->field_data($tbl);
+	    foreach($flds as $f ) {
+	    	if (substr($f->name,-3,3)=='_E_') {
+	   	 $Entity_name[]= $f->name;
+	  	}
+    	    }
+	$this->db->select($Entity_name);
+	$this->db->from($tbl);
+		foreach($Entity_name as $r){		
+		$this->db->or_where($r, $id); 
+		}     
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 
 }

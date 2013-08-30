@@ -206,6 +206,43 @@
 		width: 800px;
 	}
 	
+	
+	div.row_head {
+		display: block;
+		width: 300px;
+		position: relative;
+		margin-top: 5px;
+		border-bottom: 1px #ccc solid;
+		clear: both;
+		
+	}
+	
+	div.col_head {
+		display: block;
+		clear: both;
+	}
+	
+	div.col_head div{
+		display: inline;
+	}
+	
+	div.col1_head{
+		float: left;
+		width: 95px;
+		text-align: left;
+		vertical-align:top;
+		padding: 3px;
+
+	}
+	
+	div.col2_head{
+		float: right;
+		width: 200px;
+		padding: 3px;
+		text-align: left;
+		vertical-align: top;
+	}
+	
 	p.footer{
 /*		text-align: right;
 		font-size: 11px;

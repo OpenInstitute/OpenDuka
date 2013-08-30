@@ -72,7 +72,7 @@ class Admin_model extends CI_Model {
 
 	    	 	$row = $Entity->row();
 	    	 	$this->db->where('ID', $row->ID);
-			$this->db->set('DocID', 'CONCAT(DocID,"'.$data['DocID'].'",",")', FALSE);
+			$this->db->set('DocID', "CONCAT(DocID,'".$data['DocID']."',',')", FALSE);
 	    		$this->db->set('Appointer', "CONCAT(Appointer,'".$data['Appointer']."','||')", FALSE);
 	    		$this->db->set('EntityPosition',"CONCAT(EntityPosition,'".$data['EntityPosition']."','||')", FALSE);
 	    		$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,'".$data['EffectiveDate']."','||')", FALSE);

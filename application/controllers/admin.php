@@ -265,16 +265,14 @@ class Admin extends CI_Controller {
    	$doctype = $this->admin_model->get_doctype();
    	//var_dump($doctype);
    	$list .= "<div class='spacer'>Document Type  <select name='DocumentType'";
-   	for($j=0;$j< count($doctype);$j++)
-	{
+   	for($j=0;$j< count($doctype);$j++){
 		$list .= "<option value='". $doctype[$j]['ID']."'>". $doctype[$j]['DocTypeName'] ."</option>";
 	}
    	$list .= "</select></div>";
    	$list .= "<div class='spacer'></div>";
    	$list .= "<div class='spacer'><div style='width: 300px;'>Select field to Extract Entity</div></div>";
    	$viwanja = $this->admin_model->get_fields($stabs);
-    	foreach ($viwanja as $kiwanja)
-	{
+    	foreach ($viwanja as $kiwanja) {
 		if ($kiwanja->type == "text" || $kiwanja->type == "varchar") {
 		   $iko = ($this->admin_model->field_iko($kiwanja->name.'_E_', $stabs)==1) ? "checked" : null;
 			$list .= "<div class='spacer parent'><input style='width: 20px;' class='selectfield' type='checkbox' name='Extract[]' ".$iko." value='".$kiwanja->name."'>";

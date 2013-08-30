@@ -105,9 +105,109 @@ class Homes extends CI_Controller {
 		$fruit = array();
 		$node_arr = "";
 		$alpha = 1;
-		
 		$nodes = "{";
 		$edges = "{";
+		
+		
+		$dta = $this->home->get_entries('ID',$v0);
+		$docs = explode(',', $dta[0]['DocID']);
+		//var_dump($docs); exit;
+		
+		foreach($docs as $d){
+			$doc = $this->home->get_doc($d);
+			
+			foreach($doc as $row){
+			$dt=$row['data_table'];
+			$q=$row['representation'];
+			
+			  $tree_data = ($dt == "") ? $this->tree_init($v0,$weed) : $this->dataset_extract($dt,$v0);
+			
+			}
+			//var_dump($tree_data);
+		}
+		
+		//exit;
+		
+		//var_dump($tree_data); exit;
+		$nodetitle = $tree_data['nodeTitle'];
+		$node_arr = $tree_data['nodes'];
+		$edges .= $tree_data['edges'];
+		
+		$cid[22]= array('col'=>'#00CCCC', 'shape'=>'dot', 'img'=>'people.png','selectedimg'=>'people-dark.png');
+		$cid[21]= array('col'=>'#00a650', 'shape'=>'rectangle', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
+		$node_arr= $this->clean_array(explode(',',$node_arr)); 
+//var_dump($node_arr);
+		for($k=0; $k<count($node_arr); $k++){
+			$nDetail = explode('|',$node_arr[$k]);
+		//	var_dump($nDetail);
+			$id = $nDetail[0];
+			$dataset = $nDetail[1];
+			//echo $dataset;
+			$n = $this->home->get_entries('ID',$id);
+			//$nID[$id] = $id;
+			$nd = explode('||',$n[0]['EffectiveDate']);
+			//var_dump($nd);
+			if ( !isset($nDate[$id]) ) {
+			  $nDate[$id] = array();
+			}
+			$nDate[$id][] = $nd[$dataset];
+			
+			$NodeName = explode(':',$n[0]['Name']);
+			$ne=(int)$n[0]['EntityTypeID'];
+			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
+			
+			if(!isset($nID[$id])){
+				$nID[$id] = array();
+				$nodeid[]=$id;
+				if($id == $v0){
+				//$col='#FF0000';
+				$node[$id][] = "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$id ."':{'color':'#FF0000','shape':'".$cid[$ne]['shape']."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['selectedimg']."','image_h':30,'image_w':30, 'label': '". $NodeName[0] ."'}";
+				 } else {
+				$node[$id][] = "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'".$cid[$ne]['shape']."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'image_w':30, 'label': '". $NodeName[0] ."'}";
+				 }				
+				
+			}
+			
+		}	
+		//var_dump($nodeid);	
+		
+		
+		for($k=0; $k<count($nodeid); $k++){
+		$nid = $nodeid[$k];
+		//var_dump($nDate[$nid]);
+		$Ed="";
+		$nd=explode(',',$nDate[$nid][0]);
+		//var_dump($nd);
+			for($j=0; $j<count($nd); $j++){ $Ed.= ' ['. $nd[$j] . ']'; }
+		 $nodes .= str_replace("'}", $Ed ."'}", $node[$nid][0]) . ',';
+		}
+		
+
+		$nodes .= "}";
+		$edges .= "}";
+		
+		$nodes = str_replace(",}","}",$nodes);
+		$edges = str_replace(",}","}",$edges);
+		//echo $nodes .'<br>'; 
+		//echo $edges;
+		//exit;
+		//$timeline = $this->timeline_data($v0);
+		
+		$vis_filter = $this->filter_data($node_arr);
+	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
+		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle,  'filter_form'=> $vis_filter);
+		
+		$data_head = array('page_title' => 'Visualisation');
+
+	$this->load->view('header',$data_head);
+	$this->load->view('home',$content);
+	$this->load->view('footer');
+		
+	}
+	
+	function tree_init($v0,$weed){
+	
+	$edges = "";
 		$one = $this->tree_schema($v0, $weed);
 		
 		$nodetitle = $one['nodetitle'];
@@ -145,79 +245,11 @@ class Homes extends CI_Controller {
 		
 		}
 		
-		
-		$cid[22]= array('col'=>'#00CCCC', 'shape'=>'dot', 'img'=>'people.png');
-		$cid[21]= array('col'=>'#00a650', 'shape'=>'rectangle', 'img'=> 'organisations.png');
-		$node_arr= $this->clean_array(explode(',',$node_arr)); 
-//var_dump($node_arr);
-		for($k=0; $k<count($node_arr); $k++){
-			$nDetail = explode('|',$node_arr[$k]);
-		//	var_dump($nDetail);
-			$id = $nDetail[0];
-			$dataset = $nDetail[1];
-			//echo $dataset;
-			$n = $this->home->get_entries('ID',$id);
-			//$nID[$id] = $id;
-			$nd = explode('||',$n[0]['EffectiveDate']);
-			//var_dump($nd);
-			if ( !isset($nDate[$id]) ) {
-			  $nDate[$id] = array();
-			}
-			$nDate[$id][] = $nd[$dataset];
-			
-			$NodeName = explode(':',$n[0]['Name']);
-			$ne=(int)$n[0]['EntityTypeID'];
-			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
-			
-			if(!isset($nID[$id])){
-				$nID[$id] = array();
-				$nodeid[]=$id;
-				if($id == $v0){
-				//$col='#FF0000';
-				$node[$id][] = "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_".$id ."':{'color':'#FF0000','shape':'".$cid[$ne]['shape']."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'image_w':30, 'label': '". $NodeName[0] ."'}";
-				 } else {
-				$node[$id][] = "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'".$cid[$ne]['shape']."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'image_w':30, 'label': '". $NodeName[0] ."'}";
-				 }				
-				
-			}
-			
-		}	
-		//var_dump($nodeid);	
-		
-		
-		for($k=0; $k<count($nodeid); $k++){
-		$nid = $nodeid[$k];
-		//var_dump($nDate[$nid]);
-		$Ed="";
-		$nd=explode(',',$nDate[$nid][0]);
-		//var_dump($nd);
-			for($j=0; $j<count($nd); $j++){ $Ed.= ' ['. $nd[$j] . ']'; }
-		 $nodes .= str_replace("'}", $Ed ."'}", $node[$nid][0]) . ',';
-		}
-
-			
-
-		$nodes .= "}";
-		$edges .= "}";
-		
-		$nodes = str_replace(",}","}",$nodes);
-		$edges = str_replace(",}","}",$edges);
-		//echo $nodes .'<br>'; 
-		//echo $edges;
-		//exit;
-		//$timeline = $this->timeline_data($v0);
-		
-		$vis_filter = $this->filter_data($node_arr);
-	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle,  'filter_form'=> $vis_filter);
-		
-		$data_head = array('page_title' => 'Visualisation');
-
-	$this->load->view('header',$data_head);
-	$this->load->view('home',$content);
-	$this->load->view('footer');
+		$tr = array('nodes'=>$node_arr, 'edges'=>$edges, 'nodeTitle' => $nodetitle);
+		return $tr;
 		
 	}
+	
 	
 	function tree_schema($v, $weed){
 		$fruit= array();
@@ -322,6 +354,37 @@ class Homes extends CI_Controller {
 		return $tree;
 
 	}
+	
+	
+	function dataset_extract($dt,$v0){
+	//$this->output->enable_profiler(TRUE);
+		$dta = $this->home->get_dataset_map($dt,$v0);
+//var_dump($dta); exit;
+		foreach($dta as $k => $d){
+			foreach($d as $j => $f){ $flds[]= $j; }
+			break;
+		}
+		foreach($flds as $f){
+			for($i=0; $i<sizeof($dta); $i++){
+		
+				$ids[] = $dta[$i][$f];
+			}
+		}
+		$ids = $this->clean_array($ids);
+		
+		foreach ($ids as $i){
+			if($i != $v0){
+		 	$valz[] = array('ID'=>$i,'dataset'=>'0');
+		 	}
+		}
+		
+		$one = $this->tree_build($valz,$v0,1);
+		//var_dump($one); exit;
+		$nt = $this->home->get_entries('ID',$v0);
+		$nodetitle = $nt[0]['Name'];
+		$tr = array('nodes'=>$one['node_arr'], 'edges'=>$one['edges'], 'nodeTitle' => $nodetitle);
+		return $tr;	
+	}
 
 	
 	function array_push_before($src,$in,$pos=1){
@@ -398,33 +461,141 @@ class Homes extends CI_Controller {
 	}
 	
 	function node_data(){
-	//	$this->output->enable_profiler(true); 
+		//$this->output->enable_profiler(true); 
 
 		$n = $_POST['node'];
 		//$cont="";
-//alert($n);	
 		
 		//$cont = "<h3><a href=" . site_url('/homes/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a>&nbsp;&nbsp;<span id='connections' class='badge pull-right'>1</span></h3>";
-		
+		$v=array();
 		$child_node = $this->home->get_node($n);
+		for($j=0; $j<sizeof($child_node); $j++){
+		$arraymap = explode(',',$child_node[$j]['EntityMap']);
+			foreach($arraymap as $key => $val){
+				$valz = explode('||',$val);
+				if(in_array($n, $valz)){ 
+					$v[] = array('ID' => $child_node[$j]['ID'], 'arraypoint' => $key );
+				}
+				
+			}
+		}
+		
+		//alert($v);
 		$maps= '{"data":[{"posts":[';
 		//var_dump($root_node);
-		for($i=0; $i<sizeof($child_node); $i++){
-			//$keys = array_flip(array_keys($root_node));
-			//$cont .= isset($keys[$n]) ? $keys[$n] : 'not found' ;
-			//echo $keystr ;
-		$maps .= ' {"ID":"'. $child_node[$i]['ID'] .'", "Name":"'. $child_node[$i]['Name'] . '", "EntMap":"'. $child_node[$i]['EntityMap']. '","EntPos":"'. $child_node[$i]['EntityPosition']. '", "Verb":"'. $child_node[$i]['Verb'] .'", "EffectiveDate":"'. $child_node[$i]['EffectiveDate'] .'"},';	
+		if(sizeof($v)>0){
+			for($i=0; $i<sizeof($v); $i++){
+			$id = $v[$i]['ID'];
+			$c_node = $this->home->get_entries('ID',$id);
+			$arraypoint = $v[$i]['arraypoint'];
+			
+				
+			$entMaps = explode(',',$c_node[0]['EntityMap']);
+			$entMap_ref = $entMaps[$arraypoint];
+			$entPos = explode('||',$c_node[0]['EntityPosition']);
+			$entPos_ref = $entPos[$arraypoint];
+			$entVerb = explode('||',$c_node[0]['Verb']);
+			$entVerb_ref = $entVerb[$arraypoint];
+			$entDate = explode('||',$c_node[0]['EffectiveDate']);
+			$entDate_ref = $entDate[$arraypoint];
+		
+		
+			$maps .= ' {"ID":"'. $c_node[0]['ID'] .'", "Name":"'. $c_node[0]['Name'] . '", "EntMap":"'. $entMap_ref. '","EntPos":"'. $entPos_ref. '", "Verb":"'. $entVerb_ref .'", "EffectiveDate":"'. $entDate_ref .'"},';	
 						
+			} 
+		} else {
+		$maps .= ' {"ID":"", "Name":"", "EntMap":"", "EntPos":"", "Verb":"", "EffectiveDate":""},';
 		}
 		$maps .= ']}';
 		
 		$root_node = $this->home->get_entries('ID',$n);
+		$doc_ids = explode(',',$root_node[0]['DocID']);
+		$d=0;
+		$extraData="";
 		
-		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap']. '","EntPos":"'. $root_node[0]['EntityPosition']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '"}]}]}';
+		for($i=0; $i<sizeof($doc_ids); $i++){
+		$doc_ref = $doc_ids[$i];
 		
-		$maps = str_replace(",]","]",$maps);
+		$dataset = $this->home->get_doc($doc_ref);
+		foreach($dataset as $row){
+		$dt=$row['data_table'];
+		//echo $dt;
+		   if($dt!=""){
+				$d=1; 
+				$ds=$row['representation'];
+				$q = ($ds=="")? '*' : $ds;
+			
+				$dta = $this->home->get_dataset($dt,$q,$n);
+				//var_dump($dta[0]);
 
-		echo json_encode($maps) ;
+				//echo sizeof($dta);
+				for($j=0; $j<sizeof($dta); $j++){
+					$extraData .= '<div class="row_head">';
+					foreach($dta[$j] as  $key => $val){
+						//foreach($cont as $key => $val){
+					  $extraData .= '<div class="col_head">';
+						$extraData .= '<div class="col1_head">'. $key .'</div>';
+						$extraData .= '<div class="col2_head">'. $val .'</div>';
+					  $extraData .= '</div>';
+						//}
+					}
+					$extraData .= '</div>';
+				}
+				//echo $extraData;
+			}
+		    }
+		}
+		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap'] . '","EntPos":"'. $root_node[0]['EntityPosition']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '", "ExtraData":"'. htmlspecialchars($extraData) .'", "E_D":"'. $d .'"}]}';
+
+		$rd = explode('||',$root_node[0]['EffectiveDate']);
+		$rv = explode('||',$root_node[0]['Verb']);
+		$rm = explode(',', $root_node[0]['EntityMap']);
+		for($k=0; $k<sizeof($rm); $k++){
+			$v = $rv[$k];
+			$d = $rd[$k];
+			$m = $rm[$k];
+			$rmap = explode('||',$m);
+			if(sizeof($rmap)>0){
+				for($l=0; $l<sizeof($rmap); $l++){
+					$nid = $rmap[$l];
+					//if ( !isset($r[$nid]) ) {
+					  $r[$nid][] = array('Verb'=>$v, 'Dated'=>$d);
+					//}
+					//$r[$nid]['Verb'][] = $v;
+					//$r[$nid]['Dated'][] = $d;
+				}
+			} else {
+				//if ( !isset($r[$m]) ) {
+				  $r[$m][] = array('Verb'=>$v, 'Dated'=>$d);
+				//}
+				//$r[$m]['Verb'][] = $v;
+				//$r[$m]['Dated'][] = $d;
+			}
+		}
+		
+		$vb = "";
+		foreach($r as $key => $val){
+			if ($key!=""){
+				$vb .= '{"_'.$key .'":[';
+				if (is_array($val)){
+				
+					foreach($val as $vk => $v){
+					$vb .= '{"Verb":"'. $v['Verb'].'","Dated":"'. $v['Dated']. '"},';
+					}
+				} 
+				
+				$vb .= ']},';
+			}	
+		}
+		
+		
+		
+		$maps .=', {"arraymap":['.$vb.']}'; 
+		$maps .=']}';
+		$maps = str_replace(",]","]",$maps);
+		$maps = str_replace(",}","}",$maps);
+
+		echo json_encode($maps);
 
 	    
 	}	

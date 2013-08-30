@@ -198,6 +198,7 @@ if (!empty($nodes)){
 	      url: "<?php echo base_url();?>index.php/homes/node_data",
 	      type: "POST",
 	      data: {node: nodeid},
+	     // async: false,
 	      dataType: "json",
 	     // contentType: "application/json",
 	      success:function(d){
@@ -205,45 +206,76 @@ if (!empty($nodes)){
 	      	d = JSON.parse(d);
 		//  $("#entity_edit").html(data);
 		//alert(d.data[1].header[0].Link);
+		$('.inner-details').html("<ul/>");
 		l = d.data[1].header[0].Link;
 		pn = d.data[1].header[0].Name;
-		pv = d.data[1].header[0].Verb;
+		pv = d.data[1].header[0].Verb.split("||");
 		pt = d.data[1].header[0].EntPos.split("||");
-		$('.inner-details').html("<ul/>");
+		pm = d.data[1].header[0].EntMap.split(",");
+		
+				
+		ed = d.data[1].header[0].E_D;
+		extradata = d.data[1].header[0].ExtraData;
+		extradata = rhtmlspecialchars(extradata);
+		if (ed==1){
+			$(".inner-details ul").append('<li>'+ extradata +'</li>');
+		}
+		//m = d.data[2].arraymap[0]._201.Verb;
+		am = d.data[2].arraymap[0];
+		
+	
 		$.each(d.data[0].posts, function(i,post){
-			e = post.EntMap.split(",");
-			v = post.Verb.split("||");
-			d = post.EffectiveDate.split("||");
-			p = post.EntPos.split("||");
-			//alert(post.EntPos);
-				$.each(e, function(index, value) {
-				 // alert(index + ': ' + value);
-					m = value.split("||");
-					// alert(m.indexOf(nodeid));
-						if (m.indexOf(nodeid)>-1){
-							i = index;
-							//alert(v[i]);
-							verb = v[i];
-							postn = p[i];
-							if (verb == "0" || verb == "0,") {verb = pv +' by ';}
-							if (postn == "") {postn = ' as '+ pt[i];} else {postn = ' as '+ postn;}
-							da = d[i];
-						};
-				});
+			id = '_'+post.ID;
+			//alert(id);
+			//alert(am._201.Verb);
+			e = post.EntMap;
+			v = post.Verb;
+			dc = post.EffectiveDate;
+			p = post.EntPos;
 			
-		  $(".inner-details ul").append('<li><p><span class="st-verb">'+ verb +'</span> <span class="st-name">'+ post.Name +'</span> '+ postn +'</p><p><span class="st-date">Effected Date - '+ da +'</span></p> </li>');
+			
+			
+			if (v == '0'){
+			v='';
+				m = am[id][0]['Verb'];
+				dr = am[id][0]['Dated'];
+				//alert(m);
+				$.each(am, function(j,mv){
+			 	v += 'was '+ m + ' on '+ dr+ '<br>';
+			 	});
+			 	
+		  $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span></li>');			 	
+			 } else {
+			 
+		  $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span><span class="st-verb"> '+ p +'</span></p><p><span class="st-date">Effected Date - '+ dc +'</span></li>');		
+		  	}
+			
+
 		});
+		
 		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a></h3>');
 		  $('#center-container').removeClass("col-md-offset-2 col-lg-offset-2").addClass("col-md-offset-0 col-lg-offset-0");
 		  $('#right-container').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
-		  	
+		  
+
 	      },
 	      error: function(xhr, status, error) {
-		 alert(xhr.status);
+		 alert(xhr.error);
 	       }
 	    });
 
 	}
+	
+function rhtmlspecialchars(str) {
+ if (typeof(str) == "string") {
+  str = str.replace(/&gt;/ig, ">");
+  str = str.replace(/&lt;/ig, "<");
+  str = str.replace(/&#039;/g, "'");
+  str = str.replace(/&quot;/ig, '"');
+  str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
+  }
+ return str;
+ }
 	/*
 
 var events = [<?php // echo $events; ?>];
