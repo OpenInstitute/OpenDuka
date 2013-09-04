@@ -1,3 +1,4 @@
+
 <div id="admin-board" class="section">
 <h2>Administration Dashboard</h3>
   <h3>Welcome <?php echo $this->session->userdata('user_name'); ?>! <span class="logoff"><?php echo form_open("user/logout", array('id' => 'logoff')); ?><input type="submit" value="Log Off"/> <?php echo form_close(); ?> </span></h3>
@@ -92,10 +93,28 @@
  	</div>
  	 <div id="EInsert4" class="formdata">
 		<div id="Datasets" style="display:block;">
-		  <p>
-		  <label for="table_name" class="textfield">Table Name:</label>
-		  <select id="table_name" name="table_name" value="" /></select>
+		
+		 <img id="loading" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
+		 <div class="reg_form" style="display:block;">
+		 <?php echo form_open_multipart("", array('id' => 'DatasetAdd')); ?>
+		 <p>
+		  <label for="cat_name" class="textfield">Category:</label>
+		  <select id="cat_name" name="cat_name" value="" /></select>
 		  </p>
+		  <p>
+		  <label for="TblName" class="textfield">Dataset Name:</label>
+		 <input type="text" id="TblName" name="TblName" value="" />
+		 </p>
+		  <p>
+		  Upload a comma separated CSV document. Please ensure that it has atleast 2 columns that contain Entity Names.	
+		   <label for="fileToUpload" class="textfield">Select File:</label>
+		   <input type="file" id="fileToUpload" name="fileToUpload" />
+		 </p>
+		 <p>
+		  <input type="button" class="DatasetAdd" value="Submit"/>
+		  </p>
+		 <?php echo form_close(); ?>
+		</div> 
 		  <div id="viwanja"></div>
 		</div>
 	 </div>
@@ -140,7 +159,7 @@ $(".trigger").click(function() {
  	
  	if (name=='EInsert4'){
  		$("#form_title").html('<h3>Dataset Insert</h3>');
- 		ListTables();
+ 		ListDocCat();
  	}
 	
 	$(".three_col").fadeOut("slow");
@@ -260,6 +279,74 @@ $(".EntityEdit").click(function() {
       }
     });
 
+});
+
+
+$(".DatasetAdd").click(function() {
+	// abort any pending request
+    /*clear result div*/
+   $("#result").html('');
+    // setup some local variables
+    $("#DatasetAdd")
+	.ajaxStart(function(){
+		$(this).show();
+	})
+	.ajaxComplete(function(){
+		$(this).hide();
+	});
+	if ($("#TblName").val().length<=4){
+	alert("The Table name needs to be more than 5 characters");
+	return false;
+	}
+  $.ajaxFileUpload ({
+		url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
+		secureuri:false,
+		fileElementId:'fileToUpload',
+		dataType: 'json',
+		data:{TblName: $("#TblName").val(), DocumentType:$("#cat_name").val()},
+		success: function (data, status)
+		{
+			if(typeof(data.error) != 'undefined')
+			{
+				if(data.error != '')
+				{
+					alert(data.error);
+				}else
+				{
+					alert(data.msg);
+				}
+			}
+		},
+		error: function (data, status, e)
+		{
+			alert(e);
+		}
+	})
+
+	return false;
+
+	// let's select and cache all the fields
+/*    var $inputs = $form.find("input, select, textarea"); /
+    // serialize the data in the form
+    var serializedData = $form.serialize();
+     /* Send the data using post and put the results in a div 
+     alert (serializedData);
+    $.ajax({
+      url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
+      type: "post",
+      enctype: 'multipart/form-data',
+      async: false, 
+      data: serializedData,
+      success:function(data){
+      	//alert(data);
+          $("#result").html(data);
+      },
+      error:function(){
+          alert("failure");
+          $("#result").html('there is error while submit');
+      }
+    });
+*/
 });
 
 function EntityUpdate() {
@@ -382,6 +469,26 @@ function ListTables() {
       error:function(){
           alert("failure");
           $("#result").html('there is error while listing tables');
+      }
+    });	
+}
+
+
+function ListDocCat() {
+ 
+    $.ajax({
+      url: "<?php echo base_url();?>index.php/admin/ListDocCat",
+      type: "post",
+      async: false, 
+      data: "",
+      success:function(data){
+      	//alert(data);
+          $("#cat_name").html(data);
+          $("#result").html("Select Category");
+      },
+      error:function(){
+          alert("failure");
+          $("#result").html('there is error while listing categories');
       }
     });	
 }

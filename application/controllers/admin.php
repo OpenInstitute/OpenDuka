@@ -233,6 +233,17 @@ class Admin extends CI_Controller {
    		//echo $j . " Merged";
     }
     
+     function ListDocCat(){
+  //   $this->output->enable_profiler(TRUE); 
+    	$doctype = $this->admin_model->get_doctype();
+    	$list = "<option value='' selected>Select Category</option>";
+// var_dump($doctype);
+	for($i=0;$i< count($doctype);$i++){		
+     	  $list .= "<option value='" . $doctype[$i]['ID'] ."'>" . $doctype[$i]['DocTypeName'] . "</option>";
+     	}
+    	$list = empty($list) ? "Sorry No Data" : $list;
+	echo $list;
+    }
     
     function ListTable(){
      //$this->output->enable_profiler(TRUE); 
@@ -293,7 +304,7 @@ class Admin extends CI_Controller {
     
     
     function EntityExtract(){
-    $this->output->enable_profiler(TRUE); 
+    //$this->output->enable_profiler(TRUE); 
    
    	$table_name = $this->input->post('tablename');
    	$DocumentType = $this->input->post('DocumentType');
@@ -320,5 +331,169 @@ class Admin extends CI_Controller {
     }
     
     
+    function DatasetAdd(){
+    //$this->output->enable_profiler(TRUE);
+    
+    //$this->load->library('upload');
+    
+    $allowed = "/[^a-z0-9\\040\\.\\-\\_\\\\]/i";
+   $TblName =  $this->input->post('TblName');
+    $TblName = preg_replace($allowed,"",$TblName);
+    
+  
+    $DocumentType = $this->input->post('DocumentType');
+    $error = "";
+    $msg = "";
+
+	//echo $TblName;
+	$table_check = $this->admin_model->get_tables();
+	if(in_array($TblName, $table_check)){
+		$msg .= "Sorry the table ".$TblName." already exists. Please insert another name.";
+	}
+	
+	$fileElementName = 'fileToUpload';
+	if(!empty($_FILES[$fileElementName]['error']))
+	{
+		switch($_FILES[$fileElementName]['error'])
+		{
+
+			case '1':
+				$error = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+				break;
+			case '2':
+				$error = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+				break;
+			case '3':
+				$error = 'The uploaded file was only partially uploaded';
+				break;
+			case '4':
+				$error = 'No file was uploaded here.';
+				break;
+
+			case '6':
+				$error = 'Missing a temporary folder';
+				break;
+			case '7':
+				$error = 'Failed to write file to disk';
+				break;
+			case '8':
+				$error = 'File upload stopped by extension';
+				break;
+			case '999':
+			default:
+				$error = 'No error code avaiable';
+		}
+	}elseif(empty($_FILES['fileToUpload']['tmp_name']) || $_FILES['fileToUpload']['tmp_name'] == 'none')
+	{
+		$error = 'No file was uploaded..';
+	} else {
+	
+	//		$msg .= " File Name: " . $_FILES['fileToUpload']['name'] . ", ";
+	//		$msg .= " File Size: " . @filesize($_FILES['fileToUpload']['tmp_name']);	
+		//for security reason, we force to remove all uploaded file
+	
+		if ($msg==""){
+		
+		/********************************/
+		/* Would you like to add an ampty field at the beginning of these records?
+		/* This is useful if you have a table with the first field being an auto_increment integer
+		/* and the csv file does not have such as empty field before the records.
+		/* Set 1 for yes and 0 for no. ATTENTION: don't set to 1 if you are not sure.
+		/* This can dump data in the wrong fields if this extra field does not exist in the table
+		/********************************/
+		$addauto = 1;
+		
+		$filename = $_FILES['fileToUpload']['tmp_name'];
+	  	$size = filesize($filename);
+	  	if (($handle = fopen($filename, "r")) !== FALSE) {
+	  	$data = fgetcsv($handle, 1000, ",");
+		    $i=0;
+		    $flds="";
+		    $num = count($data);
+	
+			for ($c=0; $c < $num; $c++) {
+			    $columnnames[]= "`".trim($data[$c])."` varchar(255)";
+			}
+   		fclose($handle);
+		   // echo $i;
+		}
+		
+		$columnames = implode(", ", $columnnames);
+		$columnames ="id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id),".$columnames;
+		// echo $columnames; exit;
+		$NewTable = $this->admin_model->create_table($TblName, $columnames);
+		//$NewTable=1;
+		if (!$NewTable){
+		$msg .= "error creating table";
+		}
+		else 
+		{
+		$lines = 0;
+		$queries = "";
+		$linearray = array();
+
+		//create table, columns
+		$columnnames = array();
+		$row = 1;
+		$fieldseparator = ",";
+		$lineseparator = "\n";
+		
+		$handle = fopen($filename, "r");
+		$csvcontent = fread($handle,$size);
+		foreach(explode($lineseparator,$csvcontent) as $line) {
+
+			$lines++;
+			$skipped=0;
+			if($lines>1){
+				$line = trim($line," \t");
+
+				$line = str_replace("\r","",$line);
+
+				/************************************
+				This line escapes the special character. remove it if entries are already escaped in the csv file
+				************************************/
+				$line = str_replace("'","\'",$line);
+				/*************************************/
+				
+				$linearray = explode($fieldseparator,$line);
+				$linearray = str_replace(",", "\,", $linearray);
+				$linearray = str_replace("'\," ,"'," ,$linearray);
+				//$linearray = preg_replace( "#[^a-zA-Z0-9,.]#", "", $linearray);
+				$linemysql = implode("','",$linearray);
+
+				if($addauto){
+					$query = "insert into $TblName values('','$linemysql');";
+					}
+				else
+				{
+					$query = "insert into $TblName values('$linemysql');";
+					}
+
+		//$queries .= $query . "\n";
+	//echo $queries; exit;
+				$insert = $this->admin_model->populate_table($query);
+
+				if(!$insert){ $skipped++;}
+
+			}
+		}
+		
+    		$q =  "insert into DocUploaded (title, doc_id DocTypeID) values('trim($TblName)', 'date(Ymd)-$TblName',$DocumentType);";
+    		$this->admin_model->populate_table($q);
+    		
+		 $msg .= "Successfully Imported";
+		 $error = "$skipped were not inserted";
+		//	var_dump($_FILES['fileToUpload']['tmp_name']);	
+		@unlink($_FILES['fileToUpload']);	
+		}	
+	}	
+	echo "{";
+	echo				"error: '" . $error . "',\n";
+	echo				"msg: '" . $msg . "'\n";
+	echo "}";
+	
+   //	exit;
+   	}
+    }
 
 }

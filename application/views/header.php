@@ -14,7 +14,7 @@
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/graphics.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
   	
-  	
+  	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
     	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.qtip.min.css" />
     	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.qtip.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/raphael-min.js"></script>

@@ -333,6 +333,25 @@ class Admin_model extends CI_Model {
 	      
     }
     
+    function create_table($tbl, $flds)
+    {
+    	return $this->db->query("CREATE TABLE $tbl ($flds)");    
+    }
+    
+    function alter_table($fild,$tbl)
+    {
+	if(!$this->db->field_exists($fild,$tbl)){
+		$this->db->query("ALTER TABLE $tbl  ADD COLUMN $fild  VARCHAR(250)");	
+	}
+	      
+    }
+    
+    function populate_table($query)
+    {
+
+	return $this->db->query($query);
+    }
+    
     function extract_entity($fild,$tab,$docid, $verb, $UID)
     {
     

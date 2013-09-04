@@ -13,18 +13,16 @@
 		<br />
 			The project aims to scrape data from various sources that range from shareholder information, procurement information, legal cases and company information. 
 		</p>
+		<p>
+			The current pilot is being launched in Kenya in partnership with the Kenya National Law Review and funded by A.T.T.I. 
+		</p>
 		<br />
 	</div>
-	<div class="jumbotron col-md-7 col-lg-8 pull-right">
-		<p>
-			The current pilot is being launched in Kenya in partnership with the Kenya National Law Review by scraping the Kenya Gazette for corporate information. 
-		</p>
-	</div>
-	<div class="col-md-3 col-md-offset-1 col-lg-3 col-lg-offset-1">
+	<div class="col-md-12 col-lg-12">
 		<a href="http://www.africatti.org/" target="blank">
 			<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg">
 		</a>
-		<br />
+		
 		<a href="http://www.kenyalaw.org/" target="blank">
 			<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg">
 		</a>
