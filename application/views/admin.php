@@ -67,29 +67,23 @@
 	 </div>
 	 <div id="EInsert2" class="formdata">
 		<div class="reg_form" style="display:block;">
-		 <?php echo form_open("", array('id' => 'EntityEdit')); ?>
 		  <p>
-		  <label for="user_name" >GAZ Number: '2013_GAZ123'</label>
-		  <input type="text" id="GazID" name="gazID" value="" />
-		   
-		  <input type="button" class="EntityEdit" value="Submit"/>
+		  <label for="EntityEditName" >Entity Name</label>
+		  <input type="text" id="EntityEditName" name="EntityEditName" value="" />
 		  </p>
-		 <?php echo form_close(); ?>
 		</div>
 		<div id="entity_edit"></div>
 	 </div>
 	 
 	 <div id="EInsert3" class="formdata">
-	  <div class="reg_form" style="display:block;">
-
+	  	<div class="reg_form" style="display:block;">
 		  <p>
 		  <label for="EntityMergeName" >Entity Name</label>
 		  <input type="text" id="EntityMergeName" name="EntityMergeName" value="" />
 		  </p>
-
 		</div>
 		<div id="entity_merge"></div>
-	   </div>
+	   
  	</div>
  	 <div id="EInsert4" class="formdata">
 		<div id="Datasets" style="display:block;">
@@ -253,33 +247,110 @@ function elementDel(val) {
 	}
 }
 
-$(".EntityEdit").click(function() {
+$("#EntityEditName").keyup(function() {
 	// abort any pending request
+    /*clear result div*/
+  $("#result").html('');
+  //alert(event.keyCode);
+	 // Allow: backspace, delete, tab, escape, and enter event.keyCode == 8 
+        if ( event.keyCode == 46 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || event.keyCode == 17 || event.keyCode == 18 ||
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        else {
+            // Allow only permitted chars
+            var chr = String.fromCharCode( event.keyCode );
+            //alert(chr);
+            
+            if( (/^[a-zA-Z\s'-]*$/.test(chr)) || event.keyCode == 8  ) {
+                event.preventDefault();
+           	// alert($("#EntityMergeName").val());  
+              /*clear result div*/
+     		
+		     /* Send the data using post and put the results in a div */
+		     $.ajax({
+		      url: "<?php echo base_url();?>index.php/admin/EntityEditSearch",
+		      type: "post",
+		      async: false,
+		      data: {STerm : $("#EntityEditName").val()},
+		      success:function(data){
+		      	//alert(data);
+			  $("#entity_edit").html(data);
+		      },
+		      error:function(){
+			  alert("failure");
+			  $("#result").html('there is error while submit');
+		      }
+		    });
+            }
+        }
+  
+
+});
+
+
+function EntityUpdate(id) {
+	// abort any pending request
+	//alert(id);
     /*clear result div*/
    $("#result").html('');
     // setup some local variables
-    var $form = $("#EntityEdit");
+    var $form = $("#EntityUpdate");
+	// let's select and cache all the fields
+    var $inputs = $form.find("input, select, textarea");
+    // serialize the data in the form
+    
+     /* Send the data using post and put the results in a div */
+    $.ajax({
+      url: "<?php echo base_url();?>index.php/admin/EntityUpdate",
+      type: "post",
+      async: false, 
+
+      data:{ID: id},
+      success:function(data){
+      	//alert(data);
+          $("#entity_edit").html(data);
+          $("#result").html("Update Done");
+      },
+      error:function(data){
+         // alert(data.error);
+          $("#result").html('there is error while submit');
+      }
+    });
+
+}
+
+function EntityUpdater() {
+
+    $("#result").html('');
+    // setup some local variables
+    var $form = $("#EntityUpdateForm");
 	// let's select and cache all the fields
     var $inputs = $form.find("input, select, textarea");
     // serialize the data in the form
     var serializedData = $form.serialize();
      /* Send the data using post and put the results in a div */
     $.ajax({
-      url: "<?php echo base_url();?>index.php/admin/entityEdit",
+      url: "<?php echo base_url();?>index.php/admin/EntityUpdater",
       type: "post",
       async: false, 
       data: serializedData,
-      success:function(data){
-      	//alert(data);
-          $("#entity_edit").html(data);
+      success:function(dat){
+
+     //    $("#result").html(dat);
+        
+         $("#result").html("Update Done");
       },
-      error:function(){
-          alert("failure");
+      error:function(d){
+          alert("failure"+d);
           $("#result").html('there is error while submit');
       }
-    });
-
-});
+    });	
+}
 
 
 $(".DatasetAdd").click(function() {
@@ -314,6 +385,7 @@ $(".DatasetAdd").click(function() {
 				}else
 				{
 					alert(data.msg);
+					field_list($("#TblName").val(), $("#cat_name").val());
 				}
 			}
 		},
@@ -349,35 +421,6 @@ $(".DatasetAdd").click(function() {
 */
 });
 
-function EntityUpdate() {
-	// abort any pending request
-//	alert('test');
-    /*clear result div*/
-   $("#result").html('');
-    // setup some local variables
-    var $form = $("#EntityUpdate");
-	// let's select and cache all the fields
-    var $inputs = $form.find("input, select, textarea");
-    // serialize the data in the form
-    var serializedData = $form.serialize();
-     /* Send the data using post and put the results in a div */
-    $.ajax({
-      url: "<?php echo base_url();?>index.php/admin/entityupdate",
-      type: "post",
-      async: false, 
-      data: serializedData,
-      success:function(data){
-      	//alert(data);
-          $("#entity_edit").html(data);
-          $("#result").html("Update Done");
-      },
-      error:function(){
-          alert("failure");
-          $("#result").html('there is error while submit');
-      }
-    });
-
-}
 
 $("#EntityMergeName").keyup(function() {
   $("#result").html('');
@@ -493,13 +536,13 @@ function ListDocCat() {
     });	
 }
 
-function field_list(meza){
+function field_list(meza,DocType){
 	//alert(table);
 	$.ajax({
 	      url: "<?php echo base_url();?>index.php/admin/ListField",
 	      type: "post",
 	      async: false, 
-	      data: {STab : meza},
+	      data: {STab : meza, DType : DocType},
 	      success:function(data){
 	      	//alert(data);
 		  $("#viwanja").html(data);

@@ -16,8 +16,13 @@ class Homes extends CI_Controller {
 	function index($start=0)
 	{
 		$data_head = array('page_title' => 'Open Duka');
+		$docs=array();
 		$organisations = $this->home->get_number_entity_group('21');
 		$persons = $this->home->get_number_entity_group(22);
+		$docTypes = $this->home->get_dataset_count();
+		
+		//echo serialize($docs); exit;
+		
 		$latestlist = $this->home->get_lastest_entry();
 		$list="";
 		if (is_array($latestlist)){
@@ -26,27 +31,32 @@ class Homes extends CI_Controller {
 				$list .= "<li><a href=" .site_url('/homes/tree/'.$latestlist[$i]['ID']). ">". $latestlist[$i]['Name'] . "</a></li>"; 
 			}		
 		}
-		
+
+		for($i=0;$i< count($docTypes);$i++)
+		{
+		 $docs= array_merge(array($docTypes[$i]['DocType'] =>  $docTypes[$i]['CatTot'], $docTypes[$i]['DocType'].'ID' =>  $docTypes[$i]['DocTypeID'] ), $docs);
+		}
+		$docs = array_merge(array('organisations' => $organisations, 'persons' => $persons,'latest_list' => $list,'error' => ''), $docs);
+//var_dump($docs); exit;
 		$this->load->view('header',$data_head);
-		$this->load->view('home', array('organisations' => $organisations, 'persons' => $persons,'latest_list' => $list,'error' => ''));
+		$this->load->view('home', $docs);
 		$this->load->view('footer');
 	}
 	
-	
-	function entitylist($ent="",$page_num=1)
+	function entityTypelist($ent="",$page_num=1)
 	{
 	//echo $ent;
 	//$this->output->enable_profiler(TRUE);
 		$data_head = array('page_title' => 'Search results');
-		$EntityName = isset($_POST['search_name']) ? $_POST['search_name'] : $ent ;		
+		$Type = isset($_GET['TypeID']) ? $_GET['TypeID'] : $ent ;		
 		//echo $context;exit;
 		$results_per_page=15;
-		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page);
+		$content = $this->home->get_entry_cont('EntityTypeID',$Type,$page_num, $results_per_page);
 		
 		$this->load->library('pagination');
 		$config['use_page_numbers'] = TRUE;
-		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'.$EntityName ;
-		$config['total_rows'] = $this->home->get_entry_count('Name',$EntityName);
+		$config['base_url'] = base_url() . index_page().'/homes/entityTypelist/'.$Type ;
+		$config['total_rows'] = $this->home->get_entry_count('EntityTypeID',$Type);
 		$config['per_page'] = $results_per_page; 
 		$config['full_tag_open'] = '<ul class="pagination">';
 		$config['full_tag_close'] = '</ul>';
@@ -82,12 +92,112 @@ class Homes extends CI_Controller {
 		$this->load->view('footer');
 	}
 	
+	function entityDoclist($ent="",$page_num=1)
+	{
+	//echo $ent;
+	//$this->output->enable_profiler(TRUE);
+		$data_head = array('page_title' => 'Search results');
+		$DocType = isset($_GET['docID']) ? $_GET['docID'] : $ent ;		
+		//echo $context;exit;
+		$results_per_page=15;
+		$content = $this->home->get_entry_cont('DocTypeID',$DocType,$page_num, $results_per_page);
+		
+		$this->load->library('pagination');
+		$config['use_page_numbers'] = TRUE;
+		$config['base_url'] = base_url() . index_page().'/homes/entityDoclist/'.$DocType ;
+		$config['total_rows'] = $this->home->get_entry_count('DocTypeID',$DocType);
+		$config['per_page'] = $results_per_page; 
+		$config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+		/*
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		*/
+		$config['next_link'] = '';
+		//$config['next_tag_open'] = '<li>';
+		//$config['next_tag_close'] = '</li>';
+		
+		$config['cur_tag_open'] = '<li><a href="1">';
+		$config['cur_tag_close'] = '</a></li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['num_links'] = 10;
+       		$config['uri_segment'] = 3;
+		$this->pagination->initialize($config); 
+		$pages = $this->pagination->create_links();
+
+	//	var_dump($content[0]);
+		$list = '';
+		if (is_array($content)){
+			for($i=0;$i< count($content);$i++)
+			{
+				$list .= "<li><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></li>"; 
+			}		
+		}
+		$this->load->view('header',$data_head);
+		$this->load->view('home', array('entities' => '','list' =>$list,'pages'=>$pages,'error' => 'List of names found'));
+		$this->load->view('footer');
+	}
+	
+	function entitylist($ent="",$page_num=1)
+	{
+	//echo $ent;
+	$this->output->enable_profiler(TRUE);
+		$data_head = array('page_title' => 'Search results');
+		$EntityName = isset($_POST['search_name']) ? $_POST['search_name'] : $ent ;		
+		$EntityName = str_replace(' ','',$EntityName);
+		echo $page_num;
+		$results_per_page=20;
+		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page);
+	/*	
+		$this->load->library('pagination');
+		$config['use_page_numbers'] = TRUE;
+		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'.$EntityName ;
+		$config['total_rows'] = $this->home->get_entry_count('Name',$EntityName);
+		$config['per_page'] = $results_per_page; 
+		$config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+		/*
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		
+		$config['next_link'] = '';
+		//$config['next_tag_open'] = '<li>';
+		//$config['next_tag_close'] = '</li>';
+		
+		$config['cur_tag_open'] = '<li><a href="1">';
+		$config['cur_tag_close'] = '</a></li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['num_links'] = 10;
+       		$config['uri_segment'] = 3;
+		$this->pagination->initialize($config); 
+		$pages = $this->pagination->create_links();
+*/
+	//	var_dump($content[0]);
+		$list = '';
+		if (is_array($content)){
+			for($i=0;$i< count($content);$i++)
+			{
+			  $list .= "<div class='post'><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></div>"; 
+			}		
+		}
+		$this->load->view('header',$data_head);
+		$this->load->view('home', array('entities' => '','list' =>$list,'term' => $EntityName, 'error' => 'List of names found'));
+		$this->load->view('footer');
+	}
+	
 	function clean_array($arr){
 	//var_dump($arr);
+	$new_arr = array();
 		if(is_array($arr)){
 			$arr = array_unique($arr);
 			$arr = array_filter($arr);
-			$new_arr = array();
+			
 			 foreach ($arr as $val){
 			 	$new_arr[] = $val;
 			 }	
@@ -262,7 +372,7 @@ class Homes extends CI_Controller {
 		$nodetitle = $child0_[0]['Name'];
 		$child0 = explode(',',$child0_[0]['EntityMap']);
 	//var_dump($v);
-	$k=0;
+	//$k=0;
 		foreach($child0 as $key => $v0) {
 		
 		$child_0 = explode('||',$v0)? : $v0;
@@ -274,12 +384,12 @@ class Homes extends CI_Controller {
 				for($i=0; $i< (sizeof($child_0)); $i++){
 				//$valz['ID'][]= $child_0[$i];
 				//$valz['dataset'][]= $i;
-				$valz[]=array('ID'=>$child_0[$i],'dataset'=>$k);
+				$valz[]=array('ID'=>$child_0[$i],'dataset'=>$key);
 				}
 			}
-			++$k;
+			//++$k;
 		}
-		//var_dump($valz); 
+	//	var_dump($valz); 
 		//echo count($valz);//exit;
 		$tree = $this->tree_build($valz,$v,"1");
 		$node_array = $tree['node_arr'];
@@ -357,6 +467,8 @@ class Homes extends CI_Controller {
 	
 	
 	function dataset_extract($dt,$v0){
+	
+	//echo $v0 . ' - ' . $dt; exit;
 	//$this->output->enable_profiler(TRUE);
 		$dta = $this->home->get_dataset_map($dt,$v0);
 //var_dump($dta); exit;
@@ -364,9 +476,9 @@ class Homes extends CI_Controller {
 			foreach($d as $j => $f){ $flds[]= $j; }
 			break;
 		}
+		
 		foreach($flds as $f){
 			for($i=0; $i<sizeof($dta); $i++){
-		
 				$ids[] = $dta[$i][$f];
 			}
 		}

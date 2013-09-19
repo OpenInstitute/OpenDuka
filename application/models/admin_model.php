@@ -117,6 +117,7 @@ class Admin_model extends CI_Model {
 	    		$data['EffectiveDate'] = $data['EffectiveDate']."||";
 	    		$data['EntityPosition'] = $data['EntityPosition']."||";
 	    		$data['Verb'] = $data['Verb']."||";
+	    		$data['DocTypeID'] = $data['DocTypeID'] . ",";
 		    	$data['EntityMap'] =  $rootID.",";
 	    		$this->db->insert('Entity',$data);
 	    		$rowID = $this->db->insert_id();
@@ -143,6 +144,7 @@ class Admin_model extends CI_Model {
 	    	 	$data['DocID'] = $data['DocID'] . ",";
 	    		$data['EffectiveDate'] = $data['EffectiveDate']."||";
 	    		$data['EntityPosition'] = $data['EntityPosition']."||";
+	    		$data['DocTypeID'] = $data['DocTypeID'] . ",";
 	    		$data['Verb'] = $data['Verb']."||";
 		    	$data['EntityMap'] =  $rootID.",";
 		    	
@@ -163,6 +165,7 @@ class Admin_model extends CI_Model {
 	    		$data['EffectiveDate'] = $data['EffectiveDate']."||";
 	    		$data['EntityPosition'] = $data['EntityPosition']."||";
 	    		$data['Verb'] = $data['Verb']."||";
+	    		$data['DocTypeID'] = $data['DocTypeID'] . ",";
 		    	$data['EntityMap'] =  $rootID.",";
 	    		$this->db->insert('Entity',$data);
 	    		$rowID = $this->db->insert_id();
@@ -239,7 +242,8 @@ class Admin_model extends CI_Model {
     {
 		$this->db->select();
 		$this->db->from('Entity');
-		$this->db->like('Name', $STerm);  
+		$this->db->like('Name', $STerm);
+		$this->db->where('Merged',0);
 		$this->db->limit(15);
 		$this->db->order_by("UniqueInfo", "desc");
         	$query = $this->db->get();
@@ -260,6 +264,7 @@ class Admin_model extends CI_Model {
 	    	$this->db->set('EffectiveDate', "CONCAT(EffectiveDate,'".$Entity->EffectiveDate."')", FALSE);
 	    	$this->db->set('EntityPosition', "CONCAT(EntityPosition,'".$Entity->EntityPosition."')", FALSE);
 	    	$this->db->set('Verb', "CONCAT(Verb,'".$Entity->Verb."')", FALSE);
+	    	$this->db->set('DocTypeID', "CONCAT(DocTypeID,'".$Entity->DocTypeID."')", FALSE);
 	    	$this->db->set('EntityMap', "CONCAT(EntityMap,',".$Entity->EntityMap."')", FALSE);
 	    		
 		$this->db->where('ID', $ID);
@@ -274,6 +279,44 @@ class Admin_model extends CI_Model {
 	    	$this->db->query("UPDATE Entity SET Merged = 1, MergedTo= $ID WHERE ID = $MID"); 
     }
 
+	
+   function reference_entity($MID,$ID){
+		
+		$this->db->select();
+		$this->db->from('Entity');
+		$this->db->where('ID ', $MID);
+	        $EntityRow = $this->db->get();
+
+		$Entity = $EntityRow->result_array();
+		
+		$docs = explode(',', $Entity[0]['DocID']);
+		
+		for($i=0;$i<count($docs); $i++){
+		  if ($docs[$i] != ""){
+	      		$this->db->select();
+			$this->db->from('DocUploaded');
+			$this->db->where('ID ', $docs[$i]);
+			$DocRow = $this->db->get();
+			$Doc = $DocRow->result_array();
+			//var_dump($Doc);
+			$dtable = $Doc[0]['data_table'];
+			
+			if ($dtable != ""){
+			  $viwanja = $this->db->field_data($dtable);
+			 // var_dump($viwanja);
+			  foreach ($viwanja as $kiwanja) {
+			    $fld = $kiwanja->name.'_E_';
+			    if($this->db->field_exists($fld, $dtable)){
+			   //  $fieldname = $flds[$j].'_E_';
+			     $this->db->query("UPDATE $dtable SET $fld = $ID WHERE $fld = $MID");	
+			    }
+
+			  }
+			}
+		  }
+	      	}
+    }
+    
    function get_verbs()
     {
 		        	
@@ -352,19 +395,19 @@ class Admin_model extends CI_Model {
 	return $this->db->query($query);
     }
     
-    function extract_entity($fild,$tab,$docid, $verb, $UID)
+    function extract_entity($fild,$tab,$docid, $verb, $UID, $DocTypeID)
     {
     
-    $fieldname = $fild.'_E_';
+    	$fieldname = $fild.'_E_';
 	$this->db->select($fild);
 	$this->db->distinct();
 	$this->db->from($tab); 
 	$this->db->where($fieldname,'0');
 	$query = $this->db->get();
-
+	$k=0;
 	if ($query->num_rows() > 0)
 	{
-	$k=0;
+	
 	$entity=$query->result_array();
 	    for($i=0;$i<$query->num_rows(); $i++)
 	      {
@@ -375,6 +418,7 @@ class Admin_model extends CI_Model {
 	    	$data['Verb'] = $verb ."||";
 		$data['EntityTypeID'] = 21;
 		$data['UserID'] = $UID;
+		$data['DocTypeID'] = $DocTypeID .',';
 		
 	    	$this->db->insert('Entity',$data);
 	    	$rowID = $this->db->insert_id();

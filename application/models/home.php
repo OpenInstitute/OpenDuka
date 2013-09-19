@@ -23,6 +23,29 @@ class Home extends CI_Model {
 	      //} else {return '';}
     }
     
+    function get_dataset_count()
+    {
+    $ar=array();
+    	$this->db->select();
+	$this->db->from('DocumentType');
+	$this->db->where('Viewed', '1');
+	$query = $this->db->get();
+    	$cats = $query->result_array();
+    	//var_dump($cats);
+	    for($f=0; $f<count($cats); $f++) {
+	    
+	    	$this->db->select();
+		$this->db->from('Entity');
+		$this->db->like('DocTypeID', $cats[$f]['ID'].',');
+		$catCount =  $this->db->count_all_results();
+		
+		$ar[] = array('DocType'=>$cats[$f]['DocTypeName'], 'CatTot' => $catCount, 'DocTypeID' => $cats[$f]['ID']);
+	    	
+    	    }
+    	return $ar;
+    }
+    
+    
     function get_lastest_entry()
     {
 		$this->db->select();
@@ -125,7 +148,9 @@ class Home extends CI_Model {
         }
 		$this->db->select();
 		$this->db->from('Entity');
-		$this->db->like($tag,$entityname);  
+		$this->db->where('Merged',0);
+		$this->db->order_by('Name'); 
+		$this->db->like($tag, $entityname);  
 		$this->db->limit($results_per_page, ($page_num - 1) * $results_per_page);     
         	$query = $this->db->get();
         return $query->result_array();

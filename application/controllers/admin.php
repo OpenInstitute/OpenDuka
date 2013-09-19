@@ -142,49 +142,70 @@ class Admin extends CI_Controller {
 	return $v;
     }
     
-    function EntityUpdate() {
-  //$this->output->enable_profiler(FALSE);  
-    	$gazID=$this->input->post('gazID');
+    function EntityEditSearch(){
+   	$SearchTerm=$this->input->post('STerm');
     	
-    	$content = $this->admin_model->get_gazID($gazID);
+    	$content = $this->admin_model->search_entry($SearchTerm);
 	$list="";
     		if (is_array($content)){
-    		$data=array();
-	    		for($i=0;$i<count($content);$i++) {
-			$data['ID'] = $this->input->post('ID'.$i);
-			$data['EntityPosition'] = $this->input->post('position'.$i);
-			$data['EntityTypeID'] = $this->input->post('type'.$i);
-			$data['Name'] = trim(str_replace("'","`",$this->input->post('entity'.$i)));
-			$data['UniqueInfo'] = trim(str_replace("'","`",$this->input->post('address'.$i)));
-			$data['EffectiveDate'] = trim(str_replace("'","`",$this->input->post('startdate'.$i)));
-			$data['Verb'] = $this->input->post('verb'.$i);
+	    		
+    			$list="<div class='spacer'><div style='width: 400px;'>Entity</div><div style='width: 200px;'>Unique Box <br/>'P.O. Box NNN'</div><div style='width: 200px;'>Start:End Date</div></div>";
+			for($i=0;$i< count($content);$i++)
+			{
+			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><a onclick='javascript:EntityUpdate(".$content[$i]['ID'].")' href='#'>Edit</a>";
 			
-			$this->admin_model->update_entity($data);
-			}
-    	$content = $this->admin_model->get_gazID($gazID);
-    		
-    		$list="<form id='EntityUpdate' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div><div class='datefield'>Start:End Date</div><div class='select'>Verb</div></div>";
+			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'>" . $content[$i]['UniqueInfo'] ."</div><div style='width: 200px;'>" .$content[$i]['EffectiveDate'] .'</div></div>'; 
 			
-		for($i=0;$i< count($content);$i++) {
-			$list .= '<div class="spacer"><select class="select" name="type'.$i.'"><option value="22"';
+			}		
 			
-				if ($content[$i]['EntityTypeID']==22){ $list .= "selected";}
-			
-			$list .= '>Person</option><option value="21" ';
-				if ($content[$i]['EntityTypeID']==21){ $list .= "selected";}
-			
-			$list .= '>Organization</option></select><input type="text" id="entity'.$i.'" name="entity'.$i.'" value="'.$content[$i]['Name'].'"  class="textfield" required /><input type="text" id="position'.$i.'" name="position'.$i.'" value="'.$content[$i]['EntityPosition'].'"  class="addrfield" /><input type="text" id="address'.$i.'" name="address'.$i.'" value="'.$content[$i]['UniqueInfo'].'"  class="addrfield" /><input type="text" id="startdate'.$i.'" name="startdate'.$i.'" value="'.$content[$i]['EffectiveDate'].'" class="datefield"/><select class="select" name="verb'.$i.'"><option selected value="' . $content[$i]['Verb'] . '">' . $content[$i]['Verb'] . '</option>'. $this->verb_words() .'</select><input type="hidden" value="'.$content[$i]['ID'].'" name="ID'.$i.'"/></div>'; 
-			
-			}
-				
-			$list.='<input type="hidden" value="'.$gazID.'" name="gazID"/><input type="button" class="EntityUpdate" value="Submit" onclick="EntityUpdate()"/></form>';
 		}
+   		
+   		$list= empty($list) ? "Sorry No Data" : $list;
+   		echo $list;
+    
+    }
+    
+    function EntityUpdate() {
+  //$this->output->enable_profiler(FALSE);  
+    	$id=$this->input->post('ID');
+    		
+    	$content = $this->admin_model->get_entity($id);	
+    	//var_dump($content);exit;
+    		$list="<form id='EntityUpdateForm' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div><div class='datefield'>Start:End Date</div><div class='select'>Verb</div></div>";
+		
+			$list .= "<div class='spacer'><select class='select' name='type'><option value='22'";
+			
+				if ($content[0]['EntityTypeID']==22){ $list .= "selected";}
+			
+			$list .= ">Person</option><option value='21'";
+				if ($content[0]['EntityTypeID']==21){ $list .= "selected";}
+			
+			$list .= ">Organization</option></select><input type='text' id='entity' name='entity' value='".$content[0]['Name']."'  class='textfield' required /><input type='text' id='position' name='position' value='".$content[0]['EntityPosition']."'  class='addrfield' /><input type='text' id='address' name='address' value='".$content[0]['UniqueInfo']."'  class='addrfield' /><input type='text' id='startdate' name='startdate' value='".$content[0]['EffectiveDate']."' class='datefield'/><select class='select' name='verb'><option selected value='" . $content[0]['Verb'] . "'>" . $content[0]['Verb'] . "</option>". $this->verb_words() ."</select><input type='hidden' value='".$content[0]['ID']."' name='ID'/>"; 
+				
+			$list.="<input type='button' class='EntityUpdate' value='Submit' onclick='EntityUpdater()'/></div>	</form>";	
+		
    		
    		$list = empty($list) ? "Sorry No Data" : $list;
    		echo $list;
     
     }
     
+    function EntityUpdater() {
+ // $this->output->enable_profiler(TRUE);  
+    	
+	$data['ID'] = $this->input->post('ID');
+	$data['EntityPosition'] = $this->input->post('position');
+	$data['EntityTypeID'] = $this->input->post('type');
+	$data['Name'] = trim(str_replace("'","`",$this->input->post('entity')));
+	$data['UniqueInfo'] = trim(str_replace("'","`",$this->input->post('address')));
+	$data['EffectiveDate'] = trim(str_replace("'","`",$this->input->post('startdate')));
+	$data['Verb'] = $this->input->post('verb');
+	
+	$this->admin_model->update_entity($data);
+
+    }
+	
+	
     function EntityMergeSearch(){
    	$SearchTerm=$this->input->post('STerm');
     	
@@ -224,7 +245,7 @@ class Admin extends CI_Controller {
 	    	} else {
 	    				
     	     	  $this->admin_model->merge_entity($MergeIds[$i], $RootID);
-    	     	 // $this->admin_model->reference_entity($MergeIds[$i], $RootID);
+    	     	  $this->admin_model->reference_entity($MergeIds[$i], $RootID);
     	     	}
     	 ++$j;
     	}
@@ -270,6 +291,7 @@ class Admin extends CI_Controller {
     function ListField(){
      //$this->output->enable_profiler(TRUE); 
      	$stabs = $this->input->post('STab');
+     	$dtype = $this->input->post('DocType');
    	$list = "<form id='DatasetInsert' action='' method='post'>";
    	$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
    	
@@ -293,7 +315,9 @@ class Admin extends CI_Controller {
 	//  echo $kiwanja->type;
 	//  echo $kiwanja->max_length;
 	//  echo $kiwanja->primary_key;
-	 $list .= '<div class="spacer"><input type="hidden" value="'. $stabs .'" name="tablename"/><input type="button" class="EntityExtract" value="Submit" onclick="EntityExtract()"/></div>';
+	 $list .= '<div class="spacer">
+	 <input type="hidden" value="'. $dtype .'" name="DocumentType"/>
+	 <input type="hidden" value="'. $stabs .'" name="tablename"/><input type="button" class="EntityExtract" value="Submit" onclick="EntityExtract()"/></div>';
 	 $list .= '<div id="verbs" style="visibility:hidden;"><select name="Verb[]"><option value="" selected>No verb</option> '. $this->verb_words() .'</select></div>';
 	 $list .= '</form>';
 	
@@ -323,7 +347,7 @@ class Admin extends CI_Controller {
     	for($i=0; $i<sizeof($viwanja); $i++){
 
 		$this->admin_model->fieldcheck($viwanja[$i], $table_name);
-    	     	$l .= $this->admin_model->extract_entity($viwanja[$i], $table_name, $DocID, $Verb[$i], $this->session->userdata('user_id'));
+    	     	$l .= $this->admin_model->extract_entity($viwanja[$i], $table_name, $DocID, $Verb[$i], $this->session->userdata('user_id'), $DocumentType);
     	}
     		
 	$list = empty($list) ? "Sorry No Records Submitted" : $list .$l ;
@@ -332,7 +356,7 @@ class Admin extends CI_Controller {
     
     
     function DatasetAdd(){
-    //$this->output->enable_profiler(TRUE);
+   // $this->output->enable_profiler(TRUE);
     
     //$this->load->library('upload');
     
@@ -349,6 +373,9 @@ class Admin extends CI_Controller {
 	$table_check = $this->admin_model->get_tables();
 	if(in_array($TblName, $table_check)){
 		$msg .= "Sorry the table ".$TblName." already exists. Please insert another name.";
+	}
+	if($DocumentType==0){
+		$msg .= "Please select a category.";
 	}
 	
 	$fileElementName = 'fileToUpload';
@@ -412,7 +439,7 @@ class Admin extends CI_Controller {
 		    $num = count($data);
 	
 			for ($c=0; $c < $num; $c++) {
-			    $columnnames[]= "`".trim($data[$c])."` varchar(255)";
+			    $columnnames[]= "`". str_replace(" ", "_", trim($data[$c]))."` varchar(255)";
 			}
    		fclose($handle);
 		   // echo $i;
@@ -440,6 +467,7 @@ class Admin extends CI_Controller {
 		
 		$handle = fopen($filename, "r");
 		$csvcontent = fread($handle,$size);
+		//var_dump(explode($lineseparator,$csvcontent));
 		foreach(explode($lineseparator,$csvcontent) as $line) {
 
 			$lines++;
@@ -460,36 +488,36 @@ class Admin extends CI_Controller {
 				$linearray = str_replace("'\," ,"'," ,$linearray);
 				//$linearray = preg_replace( "#[^a-zA-Z0-9,.]#", "", $linearray);
 				$linemysql = implode("','",$linearray);
-
-				if($addauto){
-					$query = "insert into $TblName values('','$linemysql');";
-					}
-				else
-				{
-					$query = "insert into $TblName values('$linemysql');";
-					}
-
+				if (strlen($linemysql)>=1){
+					if($addauto){
+						$query = "insert into $TblName values('','$linemysql');";
+						}
+					else
+					{
+						$query = "insert into $TblName values('$linemysql');";
+						}
+				}
 		//$queries .= $query . "\n";
 	//echo $queries; exit;
 				$insert = $this->admin_model->populate_table($query);
 
-				if(!$insert){ $skipped++;}
+				if(!$insert){ $skipped++; $error = "$skipped were not inserted";}
 
 			}
 		}
 		
-    		$q =  "insert into DocUploaded (title, doc_id DocTypeID) values('trim($TblName)', 'date(Ymd)-$TblName',$DocumentType);";
+    		$q =  "insert into DocUploaded (title, doc_id, DocTypeID,data_table) values('$TblName', '".date('Ymd')."-$TblName',$DocumentType,'$TblName');";
     		$this->admin_model->populate_table($q);
     		
 		 $msg .= "Successfully Imported";
-		 $error = "$skipped were not inserted";
+		 
 		//	var_dump($_FILES['fileToUpload']['tmp_name']);	
 		@unlink($_FILES['fileToUpload']);	
 		}	
 	}	
 	echo "{";
-	echo				"error: '" . $error . "',\n";
-	echo				"msg: '" . $msg . "'\n";
+	echo	"error: '" . $error . "',\n";
+	echo	"msg: '" . $msg . "'\n";
 	echo "}";
 	
    //	exit;
