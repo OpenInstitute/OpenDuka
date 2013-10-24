@@ -17,7 +17,10 @@
     var that = {
       init:function(system){
         particleSystem = system
+<<<<<<< HEAD
         alert(canvas.width);
+=======
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
         particleSystem.screenSize(canvas.width, canvas.height)
         particleSystem.screenPadding(50, 50,50,50)
 

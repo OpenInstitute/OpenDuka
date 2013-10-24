@@ -86,6 +86,29 @@ a {
   /*height: 70px;*/
 }
 
+<<<<<<< HEAD
+=======
+.api-top-cont {
+  background: #E0E0E0; /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjY2NjY2MiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #E0E0E0 0%, #F7F7F7 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#E0E0E0), color-stop(100%,#FFFFFF)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #E0E0E0 0%,#F7F7F7 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #E0E0E0 0%,#F7F7F7 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #E0E0E0 0%,#F7F7F7 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #E0E0E0 0%,#F7F7F7 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E0E0E0', endColorstr='#F7F7F7',GradientType=0 ); /* IE6-8 */
+
+  *zoom: 1;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+
+  /*height: 70px;*/
+}
+
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
 .navbar {
   margin-bottom: 0;
 }
@@ -509,6 +532,7 @@ body.api {
   font-size: 20px;
 }
 
+<<<<<<< HEAD
 .signup{
 position: relative;
 margin: 15px 0;
@@ -534,3 +558,93 @@ color: #9da0a4;
 -moz-border-radius: 4px 0 4px 0;
 border-radius: 4px 0 4px 0;
       }
+=======
+#api {
+  background: url('../../assets/img/escheresque_ste.png') repeat fixed transparent;
+  text-align: center;
+}
+
+#api .jumbotron {
+  background: transparent;
+  color: #eee;
+  margin-bottom: 10px !important;
+  text-shadow: 0 0 3px #000;
+}
+
+.ribbon {
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+}
+
+.ribbon h3 {
+  display: block;
+/*  margin: 10px 10px 10px -60px;
+  padding: 5px 10px;*/
+  position: relative;
+/*  color: #fff;
+  background: #f6f6f6;*/
+  font-size: 16px;
+}
+
+.ribbon h3::after {
+  content: ' ';
+  position: absolute;
+  height: 0; width: 0;
+  left: 0px; top: 100%;
+/*  border-width: 5px 10px;
+  border-style: solid;
+  border-color: #d8890e #d8890e transparent transparent;*/
+}
+
+.ribbon h3::before {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: -2px;
+  top: 0px;
+/*  border-width: 25px 26px;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;*/
+}
+
+.ribbon h3.flag:before {
+  /*border-color: transparent #fff transparent transparent;
+  left: auto;
+  right: 0;
+  top: 0;
+  width: 0;*/
+}
+
+.signup{
+  font-size: 14px;
+  position: relative;
+  padding: 39px 19px 14px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.signup:after{
+  content: "Signup for API key";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #9da0a4;
+  -webkit-border-radius: 4px 0 4px 0;
+  -moz-border-radius: 4px 0 4px 0;
+  border-radius: 4px 0 4px 0;
+}
+
+.controls input[type="text"], .controls input[type="url"], .controls textarea {
+  width: 450px;
+}
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76

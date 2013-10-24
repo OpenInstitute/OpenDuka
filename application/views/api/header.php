@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+<<<<<<< HEAD
+=======
+    <meta http-equiv="X-UA-Compatible" content="IE=9"> 
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
     <meta charset="utf-8">
     <title><?php echo $title.' | OpenDuka';?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +24,7 @@
     <![endif]-->
 
     <!-- Le fav and touch icons -->
+<<<<<<< HEAD
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo base_url();?>assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url();?>assets/ico/apple-touch-icon-114-precomposed.png">
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url();?>assets/ico/apple-touch-icon-72-precomposed.png">
@@ -32,13 +37,57 @@
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+=======
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo base_url();?>assets/ico/favicon-144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url();?>assets/ico/favicon-114.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url();?>assets/ico/favicon-72.png">
+                    <link rel="apple-touch-icon-precomposed" href="<?php echo base_url();?>assets/ico/favicon-57.png">
+                                   <link rel="shortcut icon" href="<?php echo base_url();?>assets/ico/favicon-16.png">
+<!--     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo base_url();?>assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url();?>assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url();?>assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="<?php echo base_url();?>assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="<?php echo base_url();?>assets/ico/favicon.png"> -->
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar" class="api">
+    <div class="navbar navbar-fixed-top navbar-default" style="background-position: 0px 0px;">
+        <div class="navbar-header">
+<!--           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+<<<<<<< HEAD
           <a class="navbar-brand" href="<?php echo base_url();?>index.php/api">Open Duka API</a>
         </div>
         <div class="pull-right">
+=======
+          <a class="navbar-brand" href="<?php echo base_url();?>index.php/api">Open Duka API</a> -->
+        </div>
+        <div class="api-top-cont row">
+          <div class="container navigation-main" style="margin-left:auto;margin-right:auto;">
+            <div class="navbar-collapse col-md-12">
+              <div class="logo col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 0;">
+                <a href="<?php echo base_url()?>/api">
+                  <img class="img-responsive" src="<?php echo base_url(); ?>assets/img/od-temp-orange.png">
+                </a>
+              </div>
+              <div class="menu-items pull-right">
+                  <ul class="nav navbar-nav nav-pills">
+                    <li><a href="<?php echo base_url() . index_page(); ?>/api/documentation">Documentation</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="https://www.github.com/OpenInstitute/OpenDuka">Github</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="<?php echo base_url() . index_page(); ?>">Open Duka</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- <div class="pull-right">
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
           <ul class="nav navbar-nav">
             <li><a href="<?php echo base_url();?>index.php/api/documentation">Documentation</a></li>
             <li><a href="#blog">Blog</a></li>
@@ -46,8 +95,12 @@
             <li class="divider-vertical"></li>
             <li><a href="<?php echo base_url();?>">Open Duka</a></li>
           </ul>
+<<<<<<< HEAD
         </div><!--/.nav-collapse -->
       </div>
+=======
+        </div> --><!--/.nav-collapse -->
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
     </div>
 
 <!--   	<div class="container" style="background:#fff;padding:5px">

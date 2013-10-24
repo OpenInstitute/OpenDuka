@@ -5,15 +5,24 @@
   
   
   <div class="three_col">
+<<<<<<< HEAD
 	<div class="col1 trigger" name="EInsert4">Insert Datasets</div>
   	<div class="col1 trigger" name="EInsert5">Manage Dataset</div>
   	
+=======
+  	<div class="col1 trigger" name="EInsert0">Entity Insert</div>
+  	<div class="col1 trigger" name="EInsert2">Entity Edit</div>
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
   	<?php if($this->session->userdata('user_id') ==1){ ?>
   	<div class="col1 trigger" name="EInsert1">Add User</div>
   	<?php } ?>
   	<div class="col1 trigger" name="EInsert3">Entity Merge</div>
+<<<<<<< HEAD
   <!--	<div class="col1 trigger" name="EInsert0">Entity Insert</div> -->
 	<div class="col1 trigger" name="EInsert2">Entity Edit</div>
+=======
+  	<div class="col1 trigger" name="EInsert4">Insert Datasets</div>
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
   </div>
 
 <div class="backlink">
@@ -87,7 +96,11 @@
 		<div id="entity_merge"></div>
 	   
  	</div>
+<<<<<<< HEAD
  	<div id="EInsert4" class="formdata">
+=======
+ 	 <div id="EInsert4" class="formdata">
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
 		<div id="Datasets" style="display:block;">
 		
 		 <img id="loading" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
@@ -114,6 +127,7 @@
 		  <div id="viwanja"></div>
 		</div>
 	 </div>
+<<<<<<< HEAD
 
 	<div id="EInsert5" class="formdata">
 		<div id="Datasets" style="display:block;">
@@ -130,6 +144,8 @@
 		  <div id="viwanjaEdit"></div>
 		</div>
 	 </div>
+=======
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
  </div>
 
 
@@ -146,6 +162,7 @@ $("#table_name").change(function() {
 	});
 });
 
+<<<<<<< HEAD
 $("#dataset_name").change(function() {
 	$("#dataset_name option:selected").each(function() {
 	val = $(this).text();
@@ -156,6 +173,8 @@ $("#dataset_name").change(function() {
 	});
 });
 
+=======
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
 $(".trigger").click(function() {
  
  $("#result").html('');
@@ -183,11 +202,14 @@ $(".trigger").click(function() {
  		$("#form_title").html('<h3>Dataset Insert</h3>');
  		ListDocCat();
  	}
+<<<<<<< HEAD
 
 	if (name=='EInsert5'){
  		$("#form_title").html('<h3>Manage Dataset</h3>');
  		ListDataset();
  	}
+=======
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
 	
 	$(".three_col").fadeOut("slow");
 	$(".backlink").fadeIn("slow");
@@ -402,8 +424,12 @@ $(".DatasetAdd").click(function() {
 	alert("The Table name needs to be more than 5 characters");
 	return false;
 	}
+<<<<<<< HEAD
   	
   	$.ajaxFileUpload ({
+=======
+  $.ajaxFileUpload ({
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
 		url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
 		secureuri:false,
 		fileElementId:'fileToUpload',
@@ -550,6 +576,7 @@ function ListTables() {
     });	
 }
 
+<<<<<<< HEAD
 function ListDataset() {
  
     $.ajax({
@@ -568,6 +595,8 @@ function ListDataset() {
       }
     });	
 }
+=======
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
 
 function ListDocCat() {
  
@@ -597,6 +626,7 @@ function field_list(meza,DocType){
 	      data: {STab : meza, DType : DocType},
 	      success:function(data){
 	      	//alert(data);
+<<<<<<< HEAD
 		 $("#viwanja").html(data);
 		   
 		 $(".selectfield").click(function(){
@@ -613,6 +643,26 @@ function field_list(meza,DocType){
 		    }
 	//alert(verbcont);
 		});
+=======
+		  $("#viwanja").html(data);
+		  
+		   
+         $(".selectfield").click(function(){
+	
+	    var op = $(this).parent().find(':checkbox').attr('checked');
+	    $(':checkbox', this).each(function() {
+		this.checked = !this.checked;
+	    });
+	   var verbcont  = $("div#verbs").html();
+	    if (op) {
+   
+	    	$(this).parent().find('.selectverb').html(verbcont);
+	    } else { 
+	    	$(this).parent().find('.selectverb').html('');
+	    }
+//alert(verbcont);
+	});
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
 	
 		  $("#result").html("select fields");
 	      },
@@ -621,6 +671,7 @@ function field_list(meza,DocType){
 		  $("#result").html('there is error while listing fields');
 	      }
 	 });
+<<<<<<< HEAD
 }
 
 function DatasetRead(){
@@ -672,6 +723,12 @@ function field_list_edit(meza){
 
 
 
+=======
+
+}
+
+
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
 function EntityExtract() {
 
     $("#result").html('');

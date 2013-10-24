@@ -146,6 +146,7 @@ class Home extends CI_Model {
         {
             $page_num = 1;
         }
+<<<<<<< HEAD
         $result = $this->db->query("SELECT * FROM Entity WHERE MATCH ($tag) AGAINST ('+$entityname' IN BOOLEAN MODE) ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
@@ -173,6 +174,18 @@ class Home extends CI_Model {
 	
     }
 
+=======
+		$this->db->select();
+		$this->db->from('Entity');
+		$this->db->where('Merged',0);
+		$this->db->order_by('Name'); 
+		$this->db->like($tag, $entityname);  
+		$this->db->limit($results_per_page, ($page_num - 1) * $results_per_page);     
+        	$query = $this->db->get();
+        return $query->result_array();
+    }
+    
+>>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
     function get_entry_count($tag,$entityname){
     		$this->db->select();
 		$this->db->from('Entity');
