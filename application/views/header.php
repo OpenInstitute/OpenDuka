@@ -20,7 +20,9 @@
     	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.qtip.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/raphael-min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/chronoline.js"></script>
-  	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.js"></script>
+
+  	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
 
   	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/chronoline.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
@@ -51,7 +53,18 @@
 		  	element.scrollIntoView(true);
 		}
 	</script>
-	
+	 <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.ias({
+                container : '.results',
+                item: '.post',
+                pagination: '#content .navigation',
+                next: '.next-posts a',
+                loader: '<img src="<?php echo base_url();?>assets/img/loader.gif"/>',
+                triggerPageThreshold: 2
+            });
+        });
+    </script>
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar">

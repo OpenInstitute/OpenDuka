@@ -37,4 +37,5 @@
    			<!-- <p>Page rendered in <strong>{elapsed_time}</strong> seconds</p> -->
    		</div><!-- .footer -->
 	</body>
+    <script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.js"></script>
 </html>

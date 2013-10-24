@@ -6,7 +6,7 @@ if(!isset($list) && empty($nodes))
 	<!-- Banner -->
 	<div id="cityscape" class="row">
 		<div class="tagline col-md-12 col-lg-12">
-			<h2>The freely accessible database of information on all Kenyan entities</h2>
+			<h2>The freely accessible database of information on Kenyan entities</h2>
 		</div>
 		<div class="description col-md-12 col-lg-12">
 			<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
@@ -36,17 +36,17 @@ if(!isset($list) && empty($nodes))
 			<div class="figures row">
 				<div class="people col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
-					<h4>People</h4>
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22">People</a></h4>
 					<h5><?php echo $persons;?></h5>
 				</div>
 				<div class="tenders col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
-					<h4>Tenders</h4>
-					<h5>42</h5>
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">Tenders</a></h4>
+					<h5><?php echo $Tenders;?></h5>
 				</div>
 				<div class="organisations col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
-					<h4>Organisations</h4>
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21">Organisations</a></h4>
 					<h5><?php echo $organisations;?></h5>
 				</div>
 			</div>
@@ -54,18 +54,18 @@ if(!isset($list) && empty($nodes))
 			<div class="figures row">
 				<div class="cases col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
-					<h4>Cases</h4>
-					<h5>12</h5>
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $CasesID; ?>">Cases</a></h4>
+					<h5><?php echo $Cases;?></h5>
 				</div>
 				<div class="grants col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
-					<h4>Grants</h4>
-					<h5>67</h5>
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>">Contracts</a></h4>
+					<h5><?php echo $Contracts;?></h5>
 				</div>
 				<div class="land col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
-					<h4>Land</h4>
-					<h5>90</h5>
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>">Land</a></h4>
+					<h5><?php echo $Land;?></h5>
 				</div>
 			</div>
 		</div><!-- .stats -->
@@ -125,11 +125,16 @@ if (isset($list))
 	</div> <!-- #search -->
 
 <?php 
-	echo "	<div class='results col-md-11 col-lg-12'>
-			<ul>".$list."</ul>
-		</div>";
-	  
-	echo "<div class='results-pages col-md-12 col-lg-12 text-center'>".$pages."</div>";
+	echo "
+	<div id='content'>
+		<div class='results col-md-11 col-lg-12' id>
+			$list
+		</div>
+		<div class='navigation col-md-12 col-lg-12 text-center'>
+		    <div class='previous-posts'><a href='". base_url() . index_page() ."/homes/entitylist/".$term."/'>1</div>
+		    <div class='next-posts'><a href='". base_url() . index_page() ."/homes/entitylist/".$term."/'>2</a></div>
+	      </div>
+	 </div>";
 	}
 
 if (!empty($nodes)){	
@@ -190,9 +195,12 @@ if (!empty($nodes)){
 	function NodeStory(nodeid) {
 		// abort any pending request
 	//alert(nodeid);
+	
+	$( "#cy" ).attr({width: "600" , height: "600" });
 	    /*clear result div*/
 	   $(".inner-details").html('');
 	    // setup some local variables
+	    
 
 	    $.ajax({
 	      url: "<?php echo base_url();?>index.php/homes/node_data",
