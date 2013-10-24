@@ -21,9 +21,15 @@
     		</div>
 
     		<div class="social-media pull-right">
-    			<img src="<?php echo base_url(); ?>assets/img/facebook.png">
-    			<img src="<?php echo base_url(); ?>assets/img/twitter.png">
-    			<img src="<?php echo base_url(); ?>assets/img/googleplus.png">
+    			<a href="https://www.facebook.com/OpenDuka"> 
+                    <img src="<?php echo base_url(); ?>assets/img/facebook.png">
+                </a>
+                <a href="https://www.twitter.com/OpenDuka">
+                    <img src="<?php echo base_url(); ?>assets/img/twitter.png">
+                </a>
+                <a href="https://plus.google.com/103250451649972917771/">
+                    <img src="<?php echo base_url(); ?>assets/img/googleplus.png">
+                </a>
     			<a href="https://github.com/OpenInstitute/OpenDuka/">
                     <img src="<?php echo base_url(); ?>assets/img/github.png">
                 </a>

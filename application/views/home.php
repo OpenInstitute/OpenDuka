@@ -241,7 +241,7 @@ if (!empty($nodes)){
 				dr = am[id][0]['Dated'];
 				//alert(m);
 				$.each(am, function(j,mv){
-			 	v += 'was '+ m + ' on '+ dr+ '<br>';
+			 	v += 'was '+ m + ' on '+ dr+ 'to: <br>';
 			 	});
 			 	
 		  $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span></li>');			 	
