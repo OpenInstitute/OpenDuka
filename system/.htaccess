@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/index\.php/
+RewriteRule ^index.php/(.*) /$1 [R,L]
