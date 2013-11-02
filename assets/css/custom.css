@@ -86,8 +86,7 @@ a {
   /*height: 70px;*/
 }
 
-<<<<<<< HEAD
-=======
+
 .api-top-cont {
   background: #E0E0E0; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -108,7 +107,7 @@ a {
   /*height: 70px;*/
 }
 
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
 .navbar {
   margin-bottom: 0;
 }
@@ -532,33 +531,7 @@ body.api {
   font-size: 20px;
 }
 
-<<<<<<< HEAD
-.signup{
-position: relative;
-margin: 15px 0;
-padding: 39px 19px 14px;
-background-color: #fff;
-border: 1px solid #ddd;
--webkit-border-radius: 4px;
--moz-border-radius: 4px;
-border-radius: 4px;
-      }
-      .signup:after{
-        content: "Signup for API key";
-position: absolute;
-top: -1px;
-left: -1px;
-padding: 3px 7px;
-font-size: 12px;
-font-weight: bold;
-background-color: #f5f5f5;
-border: 1px solid #ddd;
-color: #9da0a4;
--webkit-border-radius: 4px 0 4px 0;
--moz-border-radius: 4px 0 4px 0;
-border-radius: 4px 0 4px 0;
-      }
-=======
+
 #api {
   background: url('../../assets/img/escheresque_ste.png') repeat fixed transparent;
   text-align: center;
@@ -647,4 +620,4 @@ border-radius: 4px 0 4px 0;
 .controls input[type="text"], .controls input[type="url"], .controls textarea {
   width: 450px;
 }
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+

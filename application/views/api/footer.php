@@ -25,10 +25,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
     <script src="<?php echo base_url();?>assets/js/jquery.js"></script>
-<<<<<<< HEAD
-=======
+
     <script src="<?php echo base_url();?>assets/js/bootstrap.js"></script>
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
     <script src="<?php echo base_url();?>assets/js/bootstrap-transition.js"></script>
     <script src="<?php echo base_url();?>assets/js/bootstrap-alert.js"></script>
     <script src="<?php echo base_url();?>assets/js/bootstrap-modal.js"></script>

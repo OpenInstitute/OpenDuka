@@ -101,6 +101,7 @@ class Home extends CI_Model {
     	is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
 		$this->db->select();
 		$this->db->from('Entity');
+		$this->db->where('Merged', 0);
 		//$this->db->limit(10);   
 		//if($this->db->count_all_results()>0){  
 	        $query = $this->db->get();
@@ -122,19 +123,47 @@ class Home extends CI_Model {
     
     function get_node($nodeid)
     {
-    	//is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid); 
+    	is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid);
+    	$this->db->select();
+	$this->db->from('Entity'); 
+		//if (is_array($nid)){ echo 'true';} else { echo 'false';}
+		
+		/*if (is_array($nid)){
 		$this->db->select();
 		$this->db->from('Entity');
-		$this->db->like('EntityMap', $nodeid .'|', 'after');
-		$this->db->or_like('EntityMap ',  $nodeid .',' , 'after');
-		$this->db->or_like('EntityMap ', ','. $nodeid .',' , 'match');
-		$this->db->or_like('EntityMap ', '|'. $nodeid .',' , 'match');
-		$this->db->or_like('EntityMap ', '|'. $nodeid .'|' , 'match');
-		$this->db->or_like('EntityMap ', ','. $nodeid .'|' , 'match');
-		$this->db->or_like('EntityMap ', '|'. $nodeid  , 'before');
-		//if($this->db->count_all_results()>0){  
-	        $query = $this->db->get();
+			foreach($nid as $nodeid ) {
+			$where = "EntityMap like '$nodeid|%' AND Merged = 0";
+			$where .= " OR EntityMap like '$nodeid,%' AND Merged = 0";
+			$where .= " OR EntityMap like '%,$nodeid,%' AND Merged = 0";
+			$where .= " OR EntityMap like '%|$nodeid,%' AND Merged = 0";
+			$where .= " OR EntityMap like '%|$nodeid|%' AND Merged = 0";
+			$where .= " OR EntityMap like '%,$nodeid|%' AND Merged = 0";
+			$where .= " OR EntityMap like '%|$nodeid' AND Merged = 0";
+			}	
+		$this->db->where($where);
+		$query = $this->db->get();
 	        return $query->result_array();
+		} else {
+		
+		$this->db->select();
+		$this->db->from('Entity');
+			$where = "EntityMap like '$nid|%' AND Merged = 0";
+			$where .= " OR EntityMap like '$nid,%' AND Merged = 0";
+			$where .= " OR EntityMap like '%,$nid,%' AND Merged = 0";
+			$where .= " OR EntityMap like '%|$nid,%' AND Merged = 0";
+			$where .= " OR EntityMap like '%|$nid|%' AND Merged = 0";
+			$where .= " OR EntityMap like '%,$nid|%' AND Merged = 0";
+			$where .= " OR EntityMap like '%|$nid' AND Merged = 0";
+			echo $where;
+		$this->db->where($where);
+		$query = $this->db->get();
+	        return $query->result_array();
+		//}
+*/
+		$query = $this->db->get();
+	        return $query->result_array();
+		//if($this->db->count_all_results()>0){  
+	        
 	      //} else {return '';}
 	      
 	   //   "SELECT `ID`,EntityMap, Verb FROM `Entity` where `EntityMap`  like '2717,%' or `EntityMap`  like '%,2717,%' or `EntityMap`  like ',2717|%' or `EntityMap`  like '%|2717|%' or `EntityMap`  like  '%|2717' or `EntityMap`  like '2717|%'"
@@ -146,8 +175,8 @@ class Home extends CI_Model {
         {
             $page_num = 1;
         }
-<<<<<<< HEAD
-        $result = $this->db->query("SELECT * FROM Entity WHERE MATCH ($tag) AGAINST ('+$entityname' IN BOOLEAN MODE) ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+
+        $result = $this->db->query("SELECT * FROM Entity WHERE MATCH ($tag) AGAINST ('+$entityname' IN BOOLEAN MODE) AND Merged=0 ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }
@@ -174,18 +203,7 @@ class Home extends CI_Model {
 	
     }
 
-=======
-		$this->db->select();
-		$this->db->from('Entity');
-		$this->db->where('Merged',0);
-		$this->db->order_by('Name'); 
-		$this->db->like($tag, $entityname);  
-		$this->db->limit($results_per_page, ($page_num - 1) * $results_per_page);     
-        	$query = $this->db->get();
-        return $query->result_array();
-    }
-    
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
     function get_entry_count($tag,$entityname){
     		$this->db->select();
 		$this->db->from('Entity');
@@ -233,6 +251,7 @@ class Home extends CI_Model {
     
 		$this->db->select($qu);
 		$this->db->from($tbl);
+		$this->db->limit(10); 
 			foreach($Entity_id as $r){		
 			$this->db->or_where($r,$id); 
 			}     

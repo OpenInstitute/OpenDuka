@@ -394,8 +394,7 @@ class Admin_model extends CI_Model {
 
 	return $this->db->query($query);
     }
-    
-<<<<<<< HEAD
+ 
      function dataset_edit($tbl, $rep)
     {        	
 		$this->db->where('data_table', $tbl);
@@ -404,8 +403,8 @@ class Admin_model extends CI_Model {
 
     }
     
-=======
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
+
     function extract_entity($fild,$tab,$docid, $verb, $UID, $DocTypeID)
     {
     

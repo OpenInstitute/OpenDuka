@@ -358,20 +358,15 @@
 	#result {color: red;}
 	
 	div#cy {
-<<<<<<< HEAD
-=======
-	  height: 600px;
-	  width: 600px;
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+	width: 740px;
+	height: 560px;
 	  position: relative;
 	  left: 0;
 	  top: 0;
 	  display: block;
-<<<<<<< HEAD
-	  border: #000 2px solid;
-=======
+
 	  border: #000 1px solid;
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
 	}
 	
 	div#titlenode{
@@ -408,12 +403,9 @@
 #left-container, 
 #right-container, 
 #center-container {
-<<<<<<< HEAD
-    height:90%;
-    width: 80%;
-=======
+
 /*    height:559px;*/
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
 /*    position: relative;
     top:0;*/
 }
@@ -448,13 +440,11 @@
 }*/
 
 #center-container {
-<<<<<<< HEAD
-  /*  width:800px;
-    background-color: #fff;
-=======
+
+
 /*    width:800px;*/
     /*background-color: #fff;
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
     color: #000;*/
 }
 

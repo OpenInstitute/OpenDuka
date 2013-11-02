@@ -293,11 +293,9 @@ class Admin extends CI_Controller {
      	$stabs = $this->input->post('STab');
      	$dtype = $this->input->post('DocType');
    	$list = "<form id='DatasetInsert' action='' method='post'>";
-<<<<<<< HEAD
+
    	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
-=======
-   	$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
    	
    	$doctype = $this->admin_model->get_doctype();
    	//var_dump($doctype);
@@ -329,8 +327,7 @@ class Admin extends CI_Controller {
 	
 	echo $list;
     }
-<<<<<<< HEAD
-
+    
     function ListFieldEdit(){
      //$this->output->enable_profiler(TRUE); 
      	$stabs = $this->input->post('STab');
@@ -359,8 +356,6 @@ class Admin extends CI_Controller {
 	
 	echo $list;
     }
-=======
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
     
     
     function EntityExtract(){
@@ -383,18 +378,16 @@ class Admin extends CI_Controller {
     	for($i=0; $i<sizeof($viwanja); $i++){
 
 		$this->admin_model->fieldcheck($viwanja[$i], $table_name);
-<<<<<<< HEAD
+
     	     	$l += $this->admin_model->extract_entity($viwanja[$i], $table_name, $DocID, $Verb[$i], $this->session->userdata('user_id'), $DocumentType);
-=======
-    	     	$l .= $this->admin_model->extract_entity($viwanja[$i], $table_name, $DocID, $Verb[$i], $this->session->userdata('user_id'), $DocumentType);
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
     	}
     		
 	$list = empty($list) ? "Sorry No Records Submitted" : $list .$l ;
 	echo $list;
     }
     
-<<<<<<< HEAD
+
 
    function DatasetRead(){
    // $this->output->enable_profiler(TRUE); 
@@ -409,8 +402,6 @@ class Admin extends CI_Controller {
 
     }
     
-=======
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
     
     function DatasetAdd(){
    // $this->output->enable_profiler(TRUE);
@@ -418,11 +409,9 @@ class Admin extends CI_Controller {
     //$this->load->library('upload');
     
     $allowed = "/[^a-z0-9\\040\\.\\-\\_\\\\]/i";
-<<<<<<< HEAD
-    $TblName =  $this->input->post('TblName');
-=======
+
    $TblName =  $this->input->post('TblName');
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
     $TblName = preg_replace($allowed,"",$TblName);
     
   
@@ -500,11 +489,9 @@ class Admin extends CI_Controller {
 		    $num = count($data);
 	
 			for ($c=0; $c < $num; $c++) {
-<<<<<<< HEAD
+
 			    $columnnames[]= "`". str_replace(".","",str_replace("/","_", str_replace(" ", "_", trim($data[$c])))) ."` varchar(255)";
-=======
-			    $columnnames[]= "`". str_replace(" ", "_", trim($data[$c]))."` varchar(255)";
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
 			}
    		fclose($handle);
 		   // echo $i;
@@ -525,22 +512,18 @@ class Admin extends CI_Controller {
 		$linearray = array();
 
 		//create table, columns
-<<<<<<< HEAD
+
 		//$columnnames = array();
-=======
-		$columnnames = array();
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
 		$row = 1;
 		$fieldseparator = ",";
 		$lineseparator = "\n";
 		
 		$handle = fopen($filename, "r");
 		$csvcontent = fread($handle,$size);
-<<<<<<< HEAD
-		//var_dump(explode($lineseparator,$csvcontent)); exit;
-=======
+
 		//var_dump(explode($lineseparator,$csvcontent));
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
 		foreach(explode($lineseparator,$csvcontent) as $line) {
 
 			$lines++;
@@ -570,11 +553,9 @@ class Admin extends CI_Controller {
 						$query = "insert into $TblName values('$linemysql');";
 						}
 				}
-<<<<<<< HEAD
-	//$queries .= $query . "\n";
-=======
+
 		//$queries .= $query . "\n";
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
 	//echo $queries; exit;
 				$insert = $this->admin_model->populate_table($query);
 
