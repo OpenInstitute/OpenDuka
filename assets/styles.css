@@ -357,6 +357,8 @@
 	
 	#result {color: red;}
 	
+	#sortment {font-size: 14px; text-align: center; clear: both; display:block; position: relative;}
+	
 	div#cy {
 	width: 740px;
 	height: 560px;

@@ -169,36 +169,37 @@ class Home extends CI_Model {
 	   //   "SELECT `ID`,EntityMap, Verb FROM `Entity` where `EntityMap`  like '2717,%' or `EntityMap`  like '%,2717,%' or `EntityMap`  like ',2717|%' or `EntityMap`  like '%|2717|%' or `EntityMap`  like  '%|2717' or `EntityMap`  like '2717|%'"
     }
 
-    function get_entry_cont($tag,$entityname,$page_num=1, $results_per_page=15)
+    function get_entry_cont($tag,$entityname,$page_num=1, $results_per_page=15,$sortment)
     {
     	if ($page_num < 1)
         {
             $page_num = 1;
         }
 
-        $result = $this->db->query("SELECT * FROM Entity WHERE MATCH ($tag) AGAINST ('+$entityname' IN BOOLEAN MODE) AND Merged=0 ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+        $result = $this->db->query("SELECT * FROM Entity WHERE MATCH ($tag) AGAINST ('+$entityname' IN BOOLEAN MODE) AND Merged=0 AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }
 
-    function get_entry_cont2($tag,$entityname,$page_num=1, $results_per_page=15)
+    function get_entry_cont2($tag,$entityname,$page_num=1, $results_per_page=15, $sortment)
     {
     	if ($page_num < 1)
         {
             $page_num = 1;
         }
-        $result = $this->db->query("SELECT * FROM Entity WHERE $tag like '$entityname,%' OR $tag like '%,$entityname,%'  ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+        $result = $this->db->query("SELECT * FROM Entity WHERE $tag like '$entityname,%' OR $tag like '%,$entityname,%' AND Name like '$sortment%'  ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }
     
-    function get_entry_cont3($tag,$entityname,$page_num=1, $results_per_page=15)
-    {
+    function get_entry_cont3($tag,$entityname,$page_num=1, $results_per_page=15, $sortment)
+    {    //    echo($page_num);
     	if ($page_num < 1)
         {
             $page_num = 1;
         }
-        $result = $this->db->query("SELECT * FROM Entity WHERE $tag = $entityname ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+
+        $result = $this->db->query("SELECT * FROM Entity WHERE $tag = $entityname AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }

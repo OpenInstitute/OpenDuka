@@ -707,6 +707,7 @@
                 haveState = (window.location.hash.substring(0, 7) === '#/');
                 if (haveState) {
                     pageNum = parseInt(window.location.hash.replace('#/', ''), 10);
+                   
                     return { page : pageNum };
                 }
             }

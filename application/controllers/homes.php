@@ -43,27 +43,25 @@ class Homes extends CI_Controller {
 	
 	function entityTypelist($ent="",$page_num=1)
 	{
-	//echo $ent;
-	//$this->output->enable_profiler(TRUE);
+	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
+	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "A";
 		$data_head = array('page_title' => 'Search results');
 
 		$Type = isset($_GET['TypeID']) ? $_GET['TypeID'] : $ent ;
 		//$Type_ = str_replace('D','',$Type);	
 		//echo $context;exit;
 		$results_per_page=25;
-		$content = $this->home->get_entry_cont3('EntityTypeID',$Type,$page_num, $results_per_page);
-		
-	//	var_dump($content[0]);
+		$content = $this->home->get_entry_cont3('EntityTypeID',$Type,$page_num, $results_per_page, $sortment);
+
 		$list = '';
 		if (is_array($content)){
 			for($i=0;$i< count($content);$i++)
 			{
-
 				$list .= "<div class='post'><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></div>"; 
 			}		
 		}
 		$this->load->view('header',$data_head);
-		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$Type,'error' => 'List of names found','func' => 'entityTypelist'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$Type,'sortment'=>$sortment,'error' => 'List of names found','func' => 'entityTypelist'));
 
 		$this->load->view('footer');
 	}
@@ -72,6 +70,8 @@ class Homes extends CI_Controller {
 	{
 	//echo $ent;
 	//$this->output->enable_profiler(TRUE);
+ 	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
+	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "A";
 		$data_head = array('page_title' => 'Search results');
 
 		$DocType = isset($_GET['docID']) ? $_GET['docID'] : $ent ;
@@ -79,7 +79,7 @@ class Homes extends CI_Controller {
 		//$DocType_ = str_replace('D','',$DocType);		
 		//echo $context;exit;
 		$results_per_page=25;
-		$content = $this->home->get_entry_cont2('DocTypeID',$DocType,$page_num, $results_per_page);
+		$content = $this->home->get_entry_cont2('DocTypeID',$DocType,$page_num, $results_per_page, $sortment);
 	
 
 	//	var_dump($content[0]);
@@ -92,15 +92,16 @@ class Homes extends CI_Controller {
 			}		
 		}
 		$this->load->view('header',$data_head);
-		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$DocType,'error' => 'List of names found','func' => 'entityDoclist'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$DocType,'sortment'=>$sortment,'error' => 'List of names found','func' => 'entityDoclist'));
 
 		$this->load->view('footer');
 	}
 	
 	function entitylist($ent="",$page_num=1)
 	{
-	//echo $ent;
-
+	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
+	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "A";
+//echo $sortment; exit;
 	//$this->output->enable_profiler(TRUE);
 		$data_head = array('page_title' => 'Search results');
 		$EntityName = isset($_POST['search_name']) ? $_POST['search_name'] : $ent ;		
@@ -108,7 +109,7 @@ class Homes extends CI_Controller {
 	//	echo $page_num;
 		$results_per_page=25;
 
-		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page);
+		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page, $sortment);
 	/*	
 		$this->load->library('pagination');
 		$config['use_page_numbers'] = TRUE;
@@ -146,7 +147,7 @@ class Homes extends CI_Controller {
 		}
 		$this->load->view('header',$data_head);
 
-		$this->load->view('home', array('entities' => '','list' =>$list,'term' => $EntityName, 'error' => 'List of names found','func' => 'entitylist'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term' => $EntityName,'sortment'=>$sortment, 'error' => 'List of names found','func' => 'entitylist'));
 
 		$this->load->view('footer');
 	}

@@ -15,15 +15,13 @@
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
   	
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
-    	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.qtip.min.css" />
     	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.qtip.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/raphael-min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/chronoline.js"></script>
-  	
-  	  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
-
-    	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
-
+  	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
+  	    	
+  	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.qtip.min.css" />
+  	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
   	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/chronoline.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/>
@@ -63,7 +61,7 @@
          		<div class="navbar-collapse col-md-12">
          			<div class="logo col-md-6 col-lg-6" style="margin-bottom: 0;">
          				<a href="<?php echo base_url()?>">
-         					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/od-temp-orange.png">
+         				  <img class="img-responsive" src="<?php echo base_url(); ?>assets/img/od-temp-orange.png">
          				</a>
          			</div>
          			<div class="menu-items pull-right">
