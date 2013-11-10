@@ -174,24 +174,14 @@
          * @param int      curScrOffset      current scroll offset
          * @param function onCompleteHandler callback function
          * @return void
-<<<<<<< HEAD
-         */        
-        
-        function paginate(curScrOffset, onCompleteHandler)
-        {
-            var urlNextPage;
-            var PageNum = get_current_page()+1;
-//alert(PageNum);
-//alert(curScrOffset);
-            urlNextPage = $(opts.next).attr('href') + PageNum + '/';
-=======
+
          */
         function paginate(curScrOffset, onCompleteHandler)
         {
             var urlNextPage;
 
             urlNextPage = $(opts.next).attr('href');
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
             if (!urlNextPage) {
                 if (opts.noneleft) {
                     $(opts.container).find(opts.item).last().after(opts.noneleft);
@@ -204,20 +194,12 @@
                     return;
                 }
             }
-<<<<<<< HEAD
-//alert(urlNextPage);
-=======
 
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
             paging.pushPages(curScrOffset, urlNextPage);
 
             stop_scroll();
             show_loader();
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
             loadItems(urlNextPage, function (data, items) {
                 // call the onLoadItems callback
                 var result = opts.onLoadItems.call(this, items),
@@ -276,10 +258,7 @@
             delay = delay || opts.loaderDelay;
 
             $.get(url, null, function (data) {
-<<<<<<< HEAD
-          
-=======
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
                 // walk through the items on the next page
                 // and add them to the items array
                 container = $(opts.container, data).eq(0);
@@ -724,15 +703,11 @@
                 }
             }
             else {
-<<<<<<< HEAD
-                haveState = (window.location.hash.substring(0, 7) === '#/');
-                if (haveState) {
-                    pageNum = parseInt(window.location.hash.replace('#/', ''), 10);
-=======
+
                 haveState = (window.location.hash.substring(0, 7) === '#/page/');
                 if (haveState) {
                     pageNum = parseInt(window.location.hash.replace('#/page/', ''), 10);
->>>>>>> 4d4edbc405106159b2b0dd28217a570536676f76
+
                     return { page : pageNum };
                 }
             }
