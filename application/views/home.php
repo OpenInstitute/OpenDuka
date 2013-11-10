@@ -49,6 +49,18 @@ if(!isset($list) && empty($nodes))
 				<div class="organisations col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21">Organisations</a></h4>
+<!-- 					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png"></a>
+					<h4>People</h4>
+					<h5><?php echo $persons;?></h5>
+				</div>
+				<div class="tenders col-md-2 col-lg-4">
+					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png"></a>
+					<h4>Tenders</h4>
+					<h5><?php echo $Tenders;?></h5>
+				</div>
+				<div class="organisations col-md-2 col-lg-4">
+					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png"></a>
+					<h4>Organisations</h4> -->
 					<h5><?php echo $organisations;?></h5>
 				</div>
 			</div>
@@ -67,6 +79,14 @@ if(!isset($list) && empty($nodes))
 				<div class="land col-md-2 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>">Land</a></h4>
+
+<!-- 					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png"></a>
+					<h4>Contracts</h4>
+					<h5><?php echo $Contracts;?></h5>
+				</div>
+				<div class="land col-md-2 col-lg-4">
+					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png"></a>
+					<h4>Land</h4> -->
 					<h5><?php echo $Land;?></h5>
 				</div>
 			</div>
@@ -125,23 +145,56 @@ if (isset($list))
 			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
 		</form>
 	</div> <!-- #search -->
-
+<div id="sortment">
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/A"; ?>'>A</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/B"; ?>'>B</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/C"; ?>'>C</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/D"; ?>'>D</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/E"; ?>'>E</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/F"; ?>'>F</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/G"; ?>'>G</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/H"; ?>'>H</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/I"; ?>'>I</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/J"; ?>'>J</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/K"; ?>'>K</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/L"; ?>'>L</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/M"; ?>'>M</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/N"; ?>'>N</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/O"; ?>'>O</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/P"; ?>'>P</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Q"; ?>'>Q</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/R"; ?>'>R</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/S"; ?>'>S</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/T"; ?>'>T</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/U"; ?>'>U</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/V"; ?>'>V</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/W"; ?>'>W</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/X"; ?>'>X</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Y"; ?>'>Y</a>
+		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Z"; ?>'>Z</a>
+	</div>
 <?php 
 	echo "
 	<div id='content'>
-		<div class='results col-md-11 col-lg-12' id>
+		<!-- <div class='results col-md-11 col-lg-12' id>
 			$list
 		</div>
 		<div class='navigation col-md-12 col-lg-12 text-center'>
 		    <div class='previous-posts'><a href='". base_url() . index_page() ."/homes/entitylist/".$term."/'>1</div>
 		    <div class='next-posts'><a href='". base_url() . index_page() ."/homes/entitylist/".$term."/'>2</a></div>
-	      </div>
+	      </div> -->
+		<div class='results col-md-11 col-lg-12' >
+			$list
+		</div>
+		<div class='navigation col-md-12 col-lg-12 text-center' id='pagination'>
+		    <div class='previous-posts'><a href='". base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment ."/'>1</a></div>
+		    <div class='next-posts'><a href='". base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment ."/'>2</a></div>
+	        </div>
 	 </div>";
 	}
 
 if (!empty($nodes)){	
  	//echo $tree;
-
 ?>
 
 <!-- Visualisation & Timeline --> 
@@ -150,6 +203,7 @@ if (!empty($nodes)){
 		<div class="row" style="margin: 0">
 			<div class="pull-left col-md-7 col-lg-7">
 				<h2>Search results for "<?php echo $node_title; ?>"</h2>
+				<h6>Click on a node for details</h6>
 			</div>
 			<!-- Search -->
 			<div class="query pull-right">
@@ -176,7 +230,8 @@ if (!empty($nodes)){
 
 		<!-- <div id="mytimeline"></div> -->
 
-<script>
+  <script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
+<script type="text/javascript">
 
      var data = {
      		nodes: <?php echo $nodes; ?>,
@@ -211,66 +266,59 @@ if (!empty($nodes)){
 	      dataType: "json",
 	     // contentType: "application/json",
 	      success:function(d){
-	      //	alert(d);
+	      	//alert(d);
 	      	d = JSON.parse(d);
 		//  $("#entity_edit").html(data);
 		//alert(d.data[1].header[0].Link);
 		$('.inner-details').html("<ul/>");
 		l = d.data[1].header[0].Link;
 		pn = d.data[1].header[0].Name;
-		pv = d.data[1].header[0].Verb.split("||");
-		pt = d.data[1].header[0].EntPos.split("||");
-		pm = d.data[1].header[0].EntMap.split(",");
 		
-				
-		ed = d.data[1].header[0].E_D;
-		extradata = d.data[1].header[0].ExtraData;
+		extradata = d.data[0].posts[0].ExtraData;
 		extradata = rhtmlspecialchars(extradata);
-		if (ed==1){
-			$(".inner-details ul").append('<li>'+ extradata +'</li>');
-		}
-		//m = d.data[2].arraymap[0]._201.Verb;
-		am = d.data[2].arraymap[0];
+		// if (ed==1){
+		// 	$(".inner-details ul").append('<li>'+ extradata +'</li>');
+		// }
+		// //m = d.data[2].arraymap[0]._201.Verb;
+		// am = d.data[2].arraymap[0];
 		
 	
-		$.each(d.data[0].posts, function(i,post){
-			id = '_'+post.ID;
-			//alert(id);
-			//alert(am._201.Verb);
-			e = post.EntMap;
-			v = post.Verb;
-			dc = post.EffectiveDate;
-			p = post.EntPos;
+		// $.each(d.data[0].posts, function(i,post){
+		// 	id = '_'+post.ID;
+		// 	//alert(id);
+		// 	//alert(am._201.Verb);
+		// 	e = post.EntMap;
+		// 	v = post.Verb;
+		// 	dc = post.EffectiveDate;
+		// 	p = post.EntPos;
 			
 			
 			
-			if (v == '0'){
-			v='';
-				m = am[id][0]['Verb'];
-				dr = am[id][0]['Dated'];
-				//alert(m);
-				$.each(am, function(j,mv){
-			 	v += 'was '+ m + ' on '+ dr+ 'to: <br>';
-			 	});
+		// 	if (v == '0'){
+		// 	v='';
+		// 		m = am[id][0]['Verb'];
+		// 		dr = am[id][0]['Dated'];
+		// 		//alert(m);
+		// 		$.each(am, function(j,mv){
+		// 	 	v += 'was '+ m + ' on '+ dr+ 'to: <br>';
+		// 	 	});
 			 	
-		  $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span></li>');			 	
-			 } else {
+		//   $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span></li>');			 	
+		// 	 } else {
 			 
-		  $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span><span class="st-verb"> '+ p +'</span></p><p><span class="st-date">Effected Date - '+ dc +'</span></li>');		
-		  	}
-			
+		//   $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span><span class="st-verb"> '+ p +'</span></p><p><span class="st-date">Effected Date - '+ dc +'</span></li>');		
+		//   	}
 
-		});
-		
-		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a></h3>');
+		  $(".inner-details ul").append('<li>'+ extradata +'</li>');
+		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> <span style="font-size: 0.45em"><a href="#" title="Click name to see more connections">[?]</a></span></h3>');
 		  $('#center-container').removeClass("col-md-offset-2 col-lg-offset-2").addClass("col-md-offset-0 col-lg-offset-0");
 		  $('#right-container').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
 		  
 
-	      },
-	      error: function(xhr, status, error) {
-		 alert(xhr.error);
-	       }
+	     },
+	     error: function(xhr, status, error) {
+			 alert(xhr.error);
+	     }
 	    });
 
 	}

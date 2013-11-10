@@ -357,9 +357,13 @@
 	
 	#result {color: red;}
 	
+	#sortment {font-size: 14px; text-align: center; clear: both; display:block; position: relative;}
+	
 	div#cy {
 /*	  height: 600px;
 	  width: 600px;*/
+	width: 740px;
+	height: 560px;
 	  position: relative;
 	  left: 0;
 	  top: 0;

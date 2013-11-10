@@ -19,6 +19,13 @@
         particleSystem = system
         particleSystem.screenSize(canvas.width, canvas.height)
         particleSystem.screenPadding(50, 50,50,50)
+      //  alert(canvas.height);
+      //   wid = (document.body.clientWidth||window.innerWidth)/2; 
+      //   hait = (document.body.clientHeight||window.innerHeight); 
+      //   //alert (hait);
+      // //  particleSystem.screenSize(canvas.width, canvas.height)
+      //   particleSystem.screenSize(wid, hait)
+      //   particleSystem.screenPadding(5, 5,5,5)
 
         that.initMouseHandling()
 

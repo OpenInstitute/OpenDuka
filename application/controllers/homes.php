@@ -1,8 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Homes extends CI_Controller {
-
-    
        
        function __construct()
 	{
@@ -45,51 +43,26 @@ class Homes extends CI_Controller {
 	
 	function entityTypelist($ent="",$page_num=1)
 	{
-	//echo $ent;
-	//$this->output->enable_profiler(TRUE);
+	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
+	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "A";
 		$data_head = array('page_title' => 'Search results');
 
-		$Type = isset($_GET['TypeID']) ? $_GET['TypeID'] : $ent ;		
+		$Type = isset($_GET['TypeID']) ? $_GET['TypeID'] : $ent ;
+		//$Type_ = str_replace('D','',$Type);	
 		//echo $context;exit;
-		$results_per_page=15;
-		$content = $this->home->get_entry_cont('EntityTypeID',$Type,$page_num, $results_per_page);
-		
-		$this->load->library('pagination');
-		$config['use_page_numbers'] = TRUE;
-		$config['base_url'] = base_url() . index_page().'/homes/entityTypelist/'.$Type ;
-		$config['total_rows'] = $this->home->get_entry_count('EntityTypeID',$Type);
-		$config['per_page'] = $results_per_page; 
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
-		/*
-		$config['first_link'] = 'First';
-		$config['first_tag_open'] = '<li>';
-		$config['first_tag_close'] = '</li>';
-		*/
-		$config['next_link'] = '';
-		//$config['next_tag_open'] = '<li>';
-		//$config['next_tag_close'] = '</li>';
-		
-		$config['cur_tag_open'] = '<li><a href="1">';
-		$config['cur_tag_close'] = '</a></li>';
-		
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-		$config['num_links'] = 10;
-       		$config['uri_segment'] = 3;
-		$this->pagination->initialize($config); 
-		$pages = $this->pagination->create_links();
+		$results_per_page=25;
+		$content = $this->home->get_entry_cont3('EntityTypeID',$Type,$page_num, $results_per_page, $sortment);
 
-	//	var_dump($content[0]);
 		$list = '';
 		if (is_array($content)){
 			for($i=0;$i< count($content);$i++)
 			{
-				$list .= "<li><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></li>"; 
+				$list .= "<div class='post'><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></div>"; 
 			}		
 		}
 		$this->load->view('header',$data_head);
-		$this->load->view('home', array('entities' => '','list' =>$list,'pages'=>$pages,'error' => 'List of names found'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$Type,'sortment'=>$sortment,'error' => 'List of names found','func' => 'entityTypelist'));
+
 		$this->load->view('footer');
 	}
 	
@@ -97,38 +70,17 @@ class Homes extends CI_Controller {
 	{
 	//echo $ent;
 	//$this->output->enable_profiler(TRUE);
+ 	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
+	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "A";
 		$data_head = array('page_title' => 'Search results');
-		$DocType = isset($_GET['docID']) ? $_GET['docID'] : $ent ;		
-		//echo $context;exit;
-		$results_per_page=15;
-		$content = $this->home->get_entry_cont('DocTypeID',$DocType,$page_num, $results_per_page);
-		
-		$this->load->library('pagination');
-		$config['use_page_numbers'] = TRUE;
-		$config['base_url'] = base_url() . index_page().'/homes/entityDoclist/'.$DocType ;
-		$config['total_rows'] = $this->home->get_entry_count('DocTypeID',$DocType);
-		$config['per_page'] = $results_per_page; 
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
-		/*
-		$config['first_link'] = 'First';
-		$config['first_tag_open'] = '<li>';
-		$config['first_tag_close'] = '</li>';
-		*/
-		$config['next_link'] = '';
-		//$config['next_tag_open'] = '<li>';
-		//$config['next_tag_close'] = '</li>';
-		
-		$config['cur_tag_open'] = '<li><a href="1">';
-		$config['cur_tag_close'] = '</a></li>';
-		
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-		$config['num_links'] = 10;
-       		$config['uri_segment'] = 3;
-		$this->pagination->initialize($config); 
-		$pages = $this->pagination->create_links();
 
+		$DocType = isset($_GET['docID']) ? $_GET['docID'] : $ent ;
+		//echo $DocType;
+		//$DocType_ = str_replace('D','',$DocType);		
+		//echo $context;exit;
+		$results_per_page=25;
+		$content = $this->home->get_entry_cont2('DocTypeID',$DocType,$page_num, $results_per_page, $sortment);
+	
 
 	//	var_dump($content[0]);
 		$list = '';
@@ -136,26 +88,28 @@ class Homes extends CI_Controller {
 			for($i=0;$i< count($content);$i++)
 			{
 
-				$list .= "<li><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></li>"; 
+				$list .= "<div class='post'><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></div>"; 
 			}		
 		}
 		$this->load->view('header',$data_head);
-		$this->load->view('home', array('entities' => '','list' =>$list,'pages'=>$pages,'error' => 'List of names found'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$DocType,'sortment'=>$sortment,'error' => 'List of names found','func' => 'entityDoclist'));
 
 		$this->load->view('footer');
 	}
 	
 	function entitylist($ent="",$page_num=1)
 	{
-	//echo $ent;
-
-	$this->output->enable_profiler(TRUE);
+	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
+	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "A";
+//echo $sortment; exit;
+	//$this->output->enable_profiler(TRUE);
 		$data_head = array('page_title' => 'Search results');
 		$EntityName = isset($_POST['search_name']) ? $_POST['search_name'] : $ent ;		
-		$EntityName = str_replace(' ','',$EntityName);
-		echo $page_num;
-		$results_per_page=20;
-		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page);
+	//	$EntityName = str_replace(' ','',$EntityName);
+	//	echo $page_num;
+		$results_per_page=25;
+
+		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page, $sortment);
 	/*	
 		$this->load->library('pagination');
 		$config['use_page_numbers'] = TRUE;
@@ -193,7 +147,7 @@ class Homes extends CI_Controller {
 		}
 		$this->load->view('header',$data_head);
 
-		$this->load->view('home', array('entities' => '','list' =>$list,'term' => $EntityName, 'error' => 'List of names found'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term' => $EntityName,'sortment'=>$sortment, 'error' => 'List of names found','func' => 'entitylist'));
 
 		$this->load->view('footer');
 	}
@@ -268,7 +222,7 @@ class Homes extends CI_Controller {
 			  $nDate[$id] = array();
 			}
 
-			$nDate[$id][] = $nd[$dataset];
+			$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
 			
 			$NodeName = explode(':',$n[0]['Name']);
 			$ne=(int)$n[0]['EntityTypeID'];
@@ -479,6 +433,10 @@ class Homes extends CI_Controller {
 	//echo $v0 . ' - ' . $dt; exit;
 	//$this->output->enable_profiler(TRUE);
 
+	 $flds= array();
+	 $ids = array();
+	 $valz = array();
+	 
 		$dta = $this->home->get_dataset_map($dt,$v0);
 //var_dump($dta); exit;
 		foreach($dta as $k => $d){
@@ -585,53 +543,126 @@ class Homes extends CI_Controller {
 		//$this->output->enable_profiler(true); 
 
 		$n = $_POST['node'];
+		$doc = array();
 		//$cont="";
-		
+//echo $n;
 		//$cont = "<h3><a href=" . site_url('/homes/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a>&nbsp;&nbsp;<span id='connections' class='badge pull-right'>1</span></h3>";
 		$v=array();
 		$child_node = $this->home->get_node($n);
-		for($j=0; $j<sizeof($child_node); $j++){
-		$arraymap = explode(',',$child_node[$j]['EntityMap']);
-			foreach($arraymap as $key => $val){
-				$valz = explode('||',$val);
-				if(in_array($n, $valz)){ 
-					$v[] = array('ID' => $child_node[$j]['ID'], 'arraypoint' => $key );
-				}
+		//var_dump($child_node); exit;
+		//for($j=0; $j<sizeof($child_node); $j++){
+			$docmap = explode(',',$child_node[0]['DocID']);
+		//	$arraymap = explode(',',$child_node[0]['EntityMap']);
+			
+			foreach($docmap as $k => $d){
 				
+			  if(!in_array($d, $doc)){ 
+			  $doc[] = $d;
+			 // echo $k;
+			  //    $val = $arraymap[$k];
+			     // echo $val;
+			    //  $valz = explode('||',$val);
+			     // for($j=0; $j<sizeof($valz); $j++){
+				$v[] = array('ID' => $child_node[0]['ID'], 'arraypoint' => $k, 'docid' => $d);
+				//if(!in_array($n, $valz)){ 
+				//	$v[] = array('ID' => $child_node[0]['ID'], 'arraypoint' => $k, 'docid' => $d );
+				//}
+			    // }
+			  }
 			}
-		}
+		//}
 		
-		//alert($v);
+		//var_dump($v); exit;
 		$maps= '{"data":[{"posts":[';
 		//var_dump($root_node);
 		if(sizeof($v)>0){
 			for($i=0; $i<sizeof($v); $i++){
 			$id = $v[$i]['ID'];
 			$c_node = $this->home->get_entries('ID',$id);
-			$arraypoint = $v[$i]['arraypoint'];
-			
+			$doc_ref = $v[$i]['docid'];
+			//$doc_ids = explode(',',$c_node[0]['DocID']);
+			$d=0;
+			$extraData="";
 				
-			$entMaps = explode(',',$c_node[0]['EntityMap']);
-			$entMap_ref = $entMaps[$arraypoint];
-			$entPos = explode('||',$c_node[0]['EntityPosition']);
-			$entPos_ref = $entPos[$arraypoint];
-			$entVerb = explode('||',$c_node[0]['Verb']);
-			$entVerb_ref = $entVerb[$arraypoint];
-			$entDate = explode('||',$c_node[0]['EffectiveDate']);
-			$entDate_ref = $entDate[$arraypoint];
+			//for($i=0; $i<sizeof($doc_ids); $i++){
+
+				//$doc_ref = $doc_ids[$i];
+				$dataset = $this->home->get_doc($doc_ref);
+				foreach($dataset as $row){
+				$dt=$row['data_table'];
+				//echo $dt;
+				   if($dt!=""){
+						$d=1; 
+						$ds=$row['representation'];
+						$q = ($ds=="")? '*' : $ds;
+			
+						$dta = $this->home->get_dataset($dt,$q,$n);
+						//var_dump($dta[0]);
+
+						//echo sizeof($dta);
+						for($j=0; $j<sizeof($dta); $j++){
+							$extraData .= '<div class="row_head">';
+							foreach($dta[$j] as  $key => $val){
+								//foreach($cont as $key => $val){
+							  $extraData .= '<div class="col_head">';
+								$extraData .= '<div class="col1_head">'. str_replace("_"," ", $key) .'</div>';
+								$extraData .= '<div class="col2_head">'. $val .'</div>';
+							  $extraData .= '</div>';
+								//}
+							}
+							$extraData .= '</div>';
+						}
+						//echo $extraData;
+					} else {
+				    
+					$arraypoint = $v[$i]['arraypoint'];
+					$entMaps = explode(',',$c_node[0]['EntityMap']);
+					$entMap_ref = $entMaps[$arraypoint];
+					$entPos = explode('||',$c_node[0]['EntityPosition']);
+					$entPos_ref = $entPos[$arraypoint];
+					$entVerb = explode('||',$c_node[0]['Verb']);
+					$entVerb_ref = $entVerb[$arraypoint];
+					$entDate = explode('||',$c_node[0]['EffectiveDate']);
+					$entDate_ref = $entDate[$arraypoint];
+					
+					$extraData .= '<div class="row_head">';
+						$extraData .= '<div class="col_head">';
+							$extraData .= '<div class="col1_head">Name</div>';
+							$extraData .= '<div class="col2_head">'. $c_node[0]['Name'].'</div>';
+						$extraData .= '</div>';
+						
+						$extraData .= '<div class="col_head">';
+							$extraData .= '<div class="col1_head">Position</div>';
+							$extraData .= '<div class="col2_head">'. $entPos_ref.'</div>';
+						$extraData .= '</div>';
+						
+						$extraData .= '<div class="col_head">';
+							$extraData .= '<div class="col1_head">Verb</div>';
+							$extraData .= '<div class="col2_head">'. $entVerb_ref.'</div>';
+						$extraData .= '</div>';
+						
+						$extraData .= '<div class="col_head">';
+							$extraData .= '<div class="col1_head">Effective Date</div>';
+							$extraData .= '<div class="col2_head">'. $entDate_ref.'</div>';
+						$extraData .= '</div>';
+				
+					$extraData .= '</div>';
+					}
+				//}
+			}
 		
-		
-			$maps .= ' {"ID":"'. $c_node[0]['ID'] .'", "Name":"'. $c_node[0]['Name'] . '", "EntMap":"'. $entMap_ref. '","EntPos":"'. $entPos_ref. '", "Verb":"'. $entVerb_ref .'", "EffectiveDate":"'. $entDate_ref .'"},';	
+			$maps .= ' {"ID":"'. $c_node[0]['ID'] .'", "ExtraData":"'. htmlspecialchars($extraData) .'"},';	
 						
 			} 
-		} else {
-		$maps .= ' {"ID":"", "Name":"", "EntMap":"", "EntPos":"", "Verb":"", "EffectiveDate":""},';
-		}
+		} 
+		//else {
+		//$maps .= ' {"ID":"", "Name":"", "EntMap":"", "EntPos":"", "Verb":"", "EffectiveDate":""},';
+		//}
 		$maps .= ']}';
-		
+		$d=1;
 		$root_node = $this->home->get_entries('ID',$n);
-		$doc_ids = explode(',',$root_node[0]['DocID']);
-		$d=0;
+		/*$doc_ids = explode(',',$root_node[0]['DocID']);
+		
 		$extraData="";
 		
 		for($i=0; $i<sizeof($doc_ids); $i++){
@@ -665,16 +696,19 @@ class Homes extends CI_Controller {
 				//echo $extraData;
 			}
 		    }
-		}
-		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap'] . '","EntPos":"'. $root_node[0]['EntityPosition']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '", "ExtraData":"'. htmlspecialchars($extraData) .'", "E_D":"'. $d .'"}]}';
+		}*/
+		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap'] . '","EntPos":"'. $root_node[0]['EntityPosition']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '", "E_D":"'. $d .'"}]}';
+		
+		
 
+/*
 		$rd = explode('||',$root_node[0]['EffectiveDate']);
 		$rv = explode('||',$root_node[0]['Verb']);
 		$rm = explode(',', $root_node[0]['EntityMap']);
 		for($k=0; $k<sizeof($rm); $k++){
 			$v = $rv[$k];
 
-			$d = $rd[$k];
+			$d =  (isset($rd[$k])) ? $rd[$k] : '';
 
 			$m = $rm[$k];
 			$rmap = explode('||',$m);
@@ -712,12 +746,12 @@ class Homes extends CI_Controller {
 		}
 		
 		
-		
 		$maps .=', {"arraymap":['.$vb.']}'; 
+		*/
 		$maps .=']}';
 		$maps = str_replace(",]","]",$maps);
 		$maps = str_replace(",}","}",$maps);
-
+//echo $maps; exit;
 		echo json_encode($maps);
 
 	    

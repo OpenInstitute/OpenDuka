@@ -182,6 +182,15 @@
 
             urlNextPage = $(opts.next).attr('href');
 
+//          */        
+        
+//         function paginate(curScrOffset, onCompleteHandler)
+//         {
+//             var urlNextPage;
+//             var PageNum = get_current_page()+1;
+// //alert(PageNum);
+// //alert(curScrOffset);
+//             urlNextPage = $(opts.next).attr('href') + PageNum + '/';
             if (!urlNextPage) {
                 if (opts.noneleft) {
                     $(opts.container).find(opts.item).last().after(opts.noneleft);
@@ -194,7 +203,7 @@
                     return;
                 }
             }
-
+//alert(urlNextPage);
             paging.pushPages(curScrOffset, urlNextPage);
 
             stop_scroll();
@@ -703,11 +712,14 @@
                 }
             }
             else {
-
                 haveState = (window.location.hash.substring(0, 7) === '#/page/');
                 if (haveState) {
                     pageNum = parseInt(window.location.hash.replace('#/page/', ''), 10);
 
+                // haveState = (window.location.hash.substring(0, 7) === '#/');
+                // if (haveState) {
+                //     pageNum = parseInt(window.location.hash.replace('#/', ''), 10);
+                
                     return { page : pageNum };
                 }
             }

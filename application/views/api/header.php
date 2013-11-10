@@ -52,6 +52,5 @@
             <li class="divider-vertical"></li>
             <li><a href="<?php echo base_url() . index_page(); ?>">Open Duka</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+        </div> --><!--/.nav-collapse -->
     </div>

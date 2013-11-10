@@ -394,7 +394,16 @@ class Admin_model extends CI_Model {
 
 	return $this->db->query($query);
     }
+ 
+     function dataset_edit($tbl, $rep)
+    {        	
+		$this->db->where('data_table', $tbl);
+	        $this->db->set('representation', $rep, FALSE);
+	    	$this->db->update('DocUploaded');
+
+    }
     
+
     function extract_entity($fild,$tab,$docid, $verb, $UID, $DocTypeID)
     {
     

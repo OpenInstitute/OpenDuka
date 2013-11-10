@@ -6,15 +6,16 @@
   
   <div class="three_col">
 
-  	<div class="col1 trigger" name="EInsert0">Entity Insert</div>
-  	<div class="col1 trigger" name="EInsert2">Entity Edit</div>
+	<div class="col1 trigger" name="EInsert4">Insert Datasets</div>
+  	<div class="col1 trigger" name="EInsert5">Manage Dataset</div>
 
   	<?php if($this->session->userdata('user_id') ==1){ ?>
   	<div class="col1 trigger" name="EInsert1">Add User</div>
   	<?php } ?>
   	<div class="col1 trigger" name="EInsert3">Entity Merge</div>
 
-  	<div class="col1 trigger" name="EInsert4">Insert Datasets</div>
+  <!--	<div class="col1 trigger" name="EInsert0">Entity Insert</div> -->
+	<div class="col1 trigger" name="EInsert2">Entity Edit</div>
 
   </div>
 
@@ -90,7 +91,8 @@
 	   
  	</div>
 
- 	 <div id="EInsert4" class="formdata">
+ 	<div id="EInsert4" class="formdata">
+
 
 		<div id="Datasets" style="display:block;">
 		
@@ -119,6 +121,23 @@
 		</div>
 	 </div>
 
+
+	<div id="EInsert5" class="formdata">
+		<div id="Datasets" style="display:block;">
+		
+		 <img id="loading" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
+		 <div class="reg_form" style="display:block;">
+		 <?php echo form_open_multipart("", array('id' => 'DatasetAdd')); ?>
+		 <p>
+		  <label for="dataset_name" class="textfield">Dataset:</label>
+		  <select id="dataset_name" name="dataset_name" value="" /></select>
+		 </p>
+		 <?php echo form_close(); ?>
+		</div> 
+		  <div id="viwanjaEdit"></div>
+		</div>
+	 </div>
+
  </div>
 
 
@@ -134,6 +153,18 @@ $("#table_name").change(function() {
 		}
 	});
 });
+
+
+$("#dataset_name").change(function() {
+	$("#dataset_name option:selected").each(function() {
+	val = $(this).text();
+		if (val != 'Select Table'){
+			//alert(val);
+			field_list_edit(val);
+		}
+	});
+});
+
 
 $(".trigger").click(function() {
  
@@ -162,6 +193,13 @@ $(".trigger").click(function() {
  		$("#form_title").html('<h3>Dataset Insert</h3>');
  		ListDocCat();
  	}
+
+
+	if (name=='EInsert5'){
+ 		$("#form_title").html('<h3>Manage Dataset</h3>');
+ 		ListDataset();
+ 	}
+
 	
 	$(".three_col").fadeOut("slow");
 	$(".backlink").fadeIn("slow");
@@ -376,8 +414,8 @@ $(".DatasetAdd").click(function() {
 	alert("The Table name needs to be more than 5 characters");
 	return false;
 	}
-
-  $.ajaxFileUpload ({
+  	
+  	$.ajaxFileUpload ({
 
 		url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
 		secureuri:false,
@@ -525,6 +563,24 @@ function ListTables() {
     });	
 }
 
+function ListDataset() {
+ 
+    $.ajax({
+      url: "<?php echo base_url();?>index.php/admin/ListTable",
+      type: "post",
+      async: false, 
+      data: "",
+      success:function(data){
+      	//alert(data);
+          $("#dataset_name").html(data);
+          $("#result").html("select table");
+      },
+      error:function(){
+          alert("failure");
+          $("#result").html('there is error while listing tables');
+      }
+    });	
+}
 
 function ListDocCat() {
  
@@ -555,24 +611,22 @@ function field_list(meza,DocType){
 	      success:function(data){
 	      	//alert(data);
 
-		  $("#viwanja").html(data);
-		  
+		 $("#viwanja").html(data);
 		   
-         $(".selectfield").click(function(){
+		 $(".selectfield").click(function(){
 	
-	    var op = $(this).parent().find(':checkbox').attr('checked');
-	    $(':checkbox', this).each(function() {
-		this.checked = !this.checked;
-	    });
-	   var verbcont  = $("div#verbs").html();
-	    if (op) {
-   
-	    	$(this).parent().find('.selectverb').html(verbcont);
-	    } else { 
-	    	$(this).parent().find('.selectverb').html('');
-	    }
-//alert(verbcont);
-	});
+		   var op = $(this).parent().find(':checkbox').attr('checked');
+		    $(':checkbox', this).each(function() {
+			this.checked = !this.checked;
+		    });
+		   var verbcont  = $("div#verbs").html();
+		    if (op) {
+		    	$(this).parent().find('.selectverb').html(verbcont);
+		    } else { 
+		    	$(this).parent().find('.selectverb').html('');
+		    }
+	//alert(verbcont);
+		});
 
 	
 		  $("#result").html("select fields");
@@ -583,6 +637,16 @@ function field_list(meza,DocType){
 	      }
 	 });
 
+}
+
+	
+		  $("#result").html("select fields");
+	      },
+	      error:function(){
+		  alert("failure");
+		  $("#result").html('there is error while listing fields');
+	      }
+	 });
 }
 
 function EntityExtract() {

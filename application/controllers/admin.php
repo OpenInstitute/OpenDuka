@@ -293,7 +293,8 @@ class Admin extends CI_Controller {
      	$stabs = $this->input->post('STab');
      	$dtype = $this->input->post('DocType');
    	$list = "<form id='DatasetInsert' action='' method='post'>";
-   	$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
+
+   	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
    	
    	$doctype = $this->admin_model->get_doctype();
    	//var_dump($doctype);
@@ -324,7 +325,37 @@ class Admin extends CI_Controller {
 	$list = empty($list) ? "Sorry No Data" : $list;
 	
 	echo $list;
-    }    
+    }
+    
+    function ListFieldEdit(){
+     //$this->output->enable_profiler(TRUE); 
+     	$stabs = $this->input->post('STab');
+
+   	$list = "<form id='DatasetEdit' action='' method='post'>";
+   	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
+   	
+   	$list .= "<div class='spacer'><div style='width: 300px;'>Select field to show Entity</div></div>";
+   	$viwanja = $this->admin_model->get_fields($stabs);
+    	foreach ($viwanja as $kiwanja) {
+		if (substr($kiwanja->name, -3) != '_E_') {
+
+			$list .= "<div class='spacer parent'><input style='width: 20px;' class='selectfield' type='checkbox' name='DataField[]' value='".$kiwanja->name."'>";
+	   		$list .= $kiwanja->name ."</div>";
+	   	}
+	}	
+	//  echo $kiwanja->type;
+	//  echo $kiwanja->max_length;
+	//  echo $kiwanja->primary_key;
+	 $list .= '<div class="spacer">
+	 <input type="hidden" value="'. $stabs .'" name="tablename"/>
+	 <input type="button" class="EntityRead" value="Submit" onclick="DatasetRead()"/></div>';
+	 $list .= '</form>';
+	
+	$list = empty($list) ? "Sorry No Data" : $list;
+	
+	echo $list;
+    }
+    
     
     function EntityExtract(){
     //$this->output->enable_profiler(TRUE); 
@@ -346,19 +377,38 @@ class Admin extends CI_Controller {
     	for($i=0; $i<sizeof($viwanja); $i++){
 
 		$this->admin_model->fieldcheck($viwanja[$i], $table_name);
-    	     	$l .= $this->admin_model->extract_entity($viwanja[$i], $table_name, $DocID, $Verb[$i], $this->session->userdata('user_id'), $DocumentType);
+
+    	     	$l += $this->admin_model->extract_entity($viwanja[$i], $table_name, $DocID, $Verb[$i], $this->session->userdata('user_id'), $DocumentType);
+
     	}
     		
 	$list = empty($list) ? "Sorry No Records Submitted" : $list .$l ;
 	echo $list;
     }
     
+
+
+   function DatasetRead(){
+   // $this->output->enable_profiler(TRUE); 
+   
+   	$tbl = $this->input->post('tablename');
+   	$DataField = $this->input->post('DataField');
+   	
+   	$flds = (count($DataField) > 0) ? "'".implode(', ', $DataField) ."'" : '*';
+       	$list ="Records Submitted ";
+
+    	$this->admin_model->dataset_edit($tbl, $flds);
+
+    }
+    
+   
     function DatasetAdd(){
    // $this->output->enable_profiler(TRUE);
     
     //$this->load->library('upload');
     
     $allowed = "/[^a-z0-9\\040\\.\\-\\_\\\\]/i";
+
    $TblName =  $this->input->post('TblName');
 
     $TblName = preg_replace($allowed,"",$TblName);
@@ -438,7 +488,9 @@ class Admin extends CI_Controller {
 		    $num = count($data);
 	
 			for ($c=0; $c < $num; $c++) {
-			    $columnnames[]= "`". str_replace(" ", "_", trim($data[$c]))."` varchar(255)";
+
+			    $columnnames[]= "`". str_replace(".","",str_replace("/","_", str_replace(" ", "_", trim($data[$c])))) ."` varchar(255)";
+
 			}
    		fclose($handle);
 		   // echo $i;
@@ -459,13 +511,16 @@ class Admin extends CI_Controller {
 		$linearray = array();
 
 		//create table, columns
-		$columnnames = array();
+
+		//$columnnames = array();
+
 		$row = 1;
 		$fieldseparator = ",";
 		$lineseparator = "\n";
 		
 		$handle = fopen($filename, "r");
 		$csvcontent = fread($handle,$size);
+
 		//var_dump(explode($lineseparator,$csvcontent));
 
 		foreach(explode($lineseparator,$csvcontent) as $line) {
@@ -497,6 +552,7 @@ class Admin extends CI_Controller {
 						$query = "insert into $TblName values('$linemysql');";
 						}
 				}
+
 		//$queries .= $query . "\n";
 
 	//echo $queries; exit;

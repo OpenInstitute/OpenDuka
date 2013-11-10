@@ -8,7 +8,6 @@
   </div>
   <div class="row container">
     <div class="signup col-md-7 col-lg-7 col-md-offset-3 col-lg-offset-3">
-
       <form class="form-horizontal" method="post" action="api/request_key">
         <div class="control-group">
           <label label-default="label-default" class="control-label label-default" for="inputEmail">Email</label>
@@ -31,6 +30,7 @@
           <div class="controls">
             <input type="text" id="inputOrganisation" placeholder="Organisation" name="organization">
           </div>
+        </div>
         <br />
 
         <div class="control-group">
@@ -48,7 +48,6 @@
           </div>
         </div>
         <br>
-        <br />
         <div class="control-group">
           <div class="controls">
             <button type="button submit" class="btn btn-success">Get Key</button>

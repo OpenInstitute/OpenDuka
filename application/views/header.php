@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 	<meta http-equiv="X-UA-Compatible" content="IE=9"> 
-
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $page_title;?></title>
@@ -15,19 +13,15 @@
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor-tween.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/graphics.js"></script>
-
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
-
   	
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
-    	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.qtip.min.css" />
     	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.qtip.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/raphael-min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/chronoline.js"></script>
 
   	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
-
   	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/chronoline.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
 	<!-- <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/> -->
@@ -52,7 +46,6 @@
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url();?>assets/ico/favicon-72.png">
                     <link rel="apple-touch-icon-precomposed" href="<?php echo base_url();?>assets/ico/favicon-57.png">
                                    <link rel="shortcut icon" href="<?php echo base_url();?>assets/ico/favicon-16.png">
-
 	<script type="text/javascript">
 		function showDiv() {
 		   document.getElementById('vis_checkbox').style.display = "block";
@@ -93,8 +86,8 @@
           <li><a href="<?php echo base_url() . index_page(); ?>">Home</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/about">About</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/api">API</a></li>
-          <li><a href="#blog">Blog</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
