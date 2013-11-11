@@ -36,17 +36,17 @@ if(!isset($list) && empty($nodes))
 		<div class="stats col-md-6 col-lg-6">
 			<h3>In Our Database</h3>
 			<div class="figures row">
-				<div class="people col-md-2 col-lg-4">
+				<div class="people col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22">People</a></h4>
 					<h5><?php echo $persons;?></h5>
 				</div>
-				<div class="tenders col-md-2 col-lg-4">
+				<div class="tenders col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">Tenders</a></h4>
 					<h5><?php echo $Tenders;?></h5>
 				</div>
-				<div class="organisations col-md-2 col-lg-4">
+				<div class="organisations col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21">Organisations</a></h4>
 <!-- 					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png"></a>
@@ -66,17 +66,17 @@ if(!isset($list) && empty($nodes))
 			</div>
 			<br />
 			<div class="figures row">
-				<div class="cases col-md-2 col-lg-4">
+				<div class="cases col-md-4 col-lg-4 hidden-xs hidden-sm">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $CasesID; ?>">Cases</a></h4>
 					<h5><?php echo $Cases;?></h5>
 				</div>
-				<div class="grants col-md-2 col-lg-4">
+				<div class="grants col-md-4 col-lg-4 hidden-xs hidden-sm">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>">Contracts</a></h4>
 					<h5><?php echo $Contracts;?></h5>
 				</div>
-				<div class="land col-md-2 col-lg-4">
+				<div class="land col-md-4 col-lg-4 hidden-xs hidden-sm">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>">Land</a></h4>
 
@@ -118,10 +118,10 @@ if(!isset($list) && empty($nodes))
 	<div id="partners" class="row">
 		<h2>Launched in partnership with</h2>
 		<div id="partner-logos">
-			<a href="http://www.africatti.org/" target="blank" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<a href="http://www.africatti.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-lg-offset-3 col-md-offset-3">
 				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg">
 			</a>
-			<a href="http://www.kenyalaw.org/" target="blank" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<a href="http://www.kenyalaw.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
 				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg" style="margin-top:20px">
 			</a>
 		</div>

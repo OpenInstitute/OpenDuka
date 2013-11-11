@@ -36,6 +36,10 @@ a {
   padding-right: 0 !important;
 }
 
+.navbar-collapse {
+  border: none;
+}
+
 #search input[type="text"] {
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
