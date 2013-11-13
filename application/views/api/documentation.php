@@ -2,9 +2,9 @@
 	<div class="row documentation">
 		<div class="bs-docs-sidebar col-md-3 col-lg-3">
 			<ul class="nav nav-list bs-docs-sidenav affix">
-				<li class="active"><a href="#keys"><i class="icon-chevron-right"></i> API Key</a></li>
-				<li><a href="#searchbyname"><i class="icon-chevron-right"></i> Search By Name</a></li>
-				<li><a href="#retrievebyid"><i class="icon-chevron-right"></i> Retrieve Entity By ID</a></li>
+				<li class="active"><a href="#keys"><i class="fa fa-chevron-right"></i> API Key</a></li>
+				<li><a href="#searchbyname"><i class="fa fa-chevron-right"></i> Search By Name</a></li>
+				<li><a href="#retrievebyid"><i class="fa fa-chevron-right"></i> Retrieve Entity By ID</a></li>
 			</ul>
 		</div>
 		<div class="col-md-9 col-lg-9">

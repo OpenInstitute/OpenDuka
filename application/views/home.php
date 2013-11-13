@@ -33,67 +33,38 @@ if(!isset($list) && empty($nodes))
 	<div id="datapop" class="row">
 
 		<!-- Stats -->
-		<div class="stats col-md-6 col-lg-6">
+		<div class="stats col-md-4 col-lg-4">
 			<h3>In Our Database</h3>
 			<div class="figures row">
-				<div class="people col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="people col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22">People</a></h4>
 					<h5><?php echo $persons;?></h5>
 				</div>
-				<div class="tenders col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
-					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">Tenders</a></h4>
-					<h5><?php echo $Tenders;?></h5>
-				</div>
-				<div class="organisations col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+				<div class="organisations col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21">Organisations</a></h4>
-<!-- 					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png"></a>
-					<h4>People</h4>
-					<h5><?php echo $persons;?></h5>
-				</div>
-				<div class="tenders col-md-2 col-lg-4">
-					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png"></a>
-					<h4>Tenders</h4>
-					<h5><?php echo $Tenders;?></h5>
-				</div>
-				<div class="organisations col-md-2 col-lg-4">
-					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png"></a>
-					<h4>Organisations</h4> -->
 					<h5><?php echo $organisations;?></h5>
 				</div>
 			</div>
 			<br />
 			<div class="figures row">
-				<div class="cases col-md-4 col-lg-4 hidden-xs hidden-sm">
-					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
-					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $CasesID; ?>">Cases</a></h4>
-					<h5><?php echo $Cases;?></h5>
+				<div class="tenders col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">Tenders</a></h4>
+					<h5><?php echo $Tenders;?></h5>
 				</div>
-				<div class="grants col-md-4 col-lg-4 hidden-xs hidden-sm">
+				<div class="grants col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>">Contracts</a></h4>
 					<h5><?php echo $Contracts;?></h5>
-				</div>
-				<div class="land col-md-4 col-lg-4 hidden-xs hidden-sm">
-					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
-					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>">Land</a></h4>
-
-<!-- 					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png"></a>
-					<h4>Contracts</h4>
-					<h5><?php echo $Contracts;?></h5>
-				</div>
-				<div class="land col-md-2 col-lg-4">
-					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png"></a>
-					<h4>Land</h4> -->
-					<h5><?php echo $Land;?></h5>
 				</div>
 			</div>
 		</div><!-- .stats -->
 
 		<!-- Latest -->
-		<div class="popular col-md-5 col-lg-6">
+		<div class="latest col-md-4 col-lg-4">
 			<h3>Latest Entries</h3>
 			<div class="topfive">
 				<ol>
@@ -102,10 +73,20 @@ if(!isset($list) && empty($nodes))
 				
 				</ol>
 			</div>
+		</div><!-- .latest -->
+
+		<!-- Popular -->
+		<div class="popular col-md-4 col-lg-4">
+			<h3>Popular Entries</h3>
+			<div class="topfive">
+				<ol>
+					<?php echo $latest_list;?>
+				</ol>
+			</div>
 		</div><!-- .popular -->
 
 		<!-- Disclaimer -->
-		<div class="disclaimer col-md-9 col-lg-12">
+		<div class="disclaimer col-md-12 col-lg-12">
 			<p>
 				Our database contains information on people, companies and organisations, as well as their linkages at specified periods of time.
 				While we make every attempt to make this information as accurate as possible, we take no responsibility for its authenticity.
@@ -126,6 +107,38 @@ if(!isset($list) && empty($nodes))
 			</a>
 		</div>
 	</div><!-- #partners -->
+
+	<div id="twitter-feed" class="row">
+		<section>
+			<h2><i class="fa fa-twitter"></i></h2>
+			<ul class="divided col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2">
+				<li>
+					<article class="tweet">
+						Amet nullam fringilla nibh nulla convallis tique ante sociis accumsan.
+						<span class="timestamp">5 minutes ago</span>
+					</article>
+				</li>
+				<li>
+					<article class="tweet">
+						Hendrerit rutrum quisque.
+						<span class="timestamp">30 minutes ago</span>
+					</article>
+				</li>
+				<li>
+					<article class="tweet">
+						Curabitur donec nulla massa laoreet nibh. Lorem praesent montes.
+						<span class="timestamp">3 hours ago</span>
+					</article>
+				</li>
+				<li>
+					<article class="tweet">
+						Lacus natoque cras rhoncus curae dignissim ultricies. Convallis orci aliquet.
+						<span class="timestamp">5 hours ago</span>
+					</article>
+				</li>
+			</ul>
+		</section>
+	</div>
 
 <?php 
 }
