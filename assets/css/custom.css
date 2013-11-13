@@ -220,7 +220,7 @@ a {
   position: absolute; bottom: 6%;
 }
 
-#search, #datapop {
+#search, #datapop, #disclaimer {
   background: url('../../assets/img/pw_pattern.png') repeat fixed transparent;
   margin: 0;
   padding-top: 40px;
@@ -292,6 +292,10 @@ a {
   text-transform: uppercase;
 }
 
+.stats.col-md-4.col-lg-4 > h3 {
+  margin-bottom: 24px;
+}
+
 .stats {
   text-align: center;
   text-transform: uppercase;
@@ -307,12 +311,11 @@ a {
   color: #666;
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 24px;
 }
 
 .stats h5 {
   font-family: 'Monda', sans-serif;
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
 }
 
@@ -341,7 +344,7 @@ a {
 }
 
 .figures {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .topfive {
@@ -351,7 +354,7 @@ a {
 
 .topfive ol li {
   color: #666;
-  font-size: 22px;
+  font-size: 18px;
   font-family: 'Monda', sans-serif;
   font-weight: 700;
   line-height: 36px;
@@ -365,7 +368,7 @@ a {
   line-height: 1.8;
 }
 
-.disclaimer {
+#disclaimer {
   color: #999;
   font-family: 'Istok Web', sans-serif;
   font-size: 14px;
@@ -414,6 +417,30 @@ a {
   color: #666;
 }
 
+p.interact {
+  display: none;
+}
+
+.user span {
+  display: none;
+}
+
+.user img {
+  position: relative;
+  display: inline-block;
+  /*background: #2b252c;*/
+  /*color: #fff;*/
+  border-radius: 100%;
+  width: 3em;
+  height: 3em;
+  line-height: 3em;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.user img:before {
+}
+
 ul.divided {
     list-style: none;
 }
@@ -450,7 +477,7 @@ section:last-child, article:last-child {
   text-align: center;
 }
 
-.timestamp {
+.timePosted {
   color: rgba(128,128,128,0.75);
 }
 
