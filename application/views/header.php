@@ -24,7 +24,7 @@
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
   	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/chronoline.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
-	<!-- <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/> -->
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/>
 
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/docs.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"/>

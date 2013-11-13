@@ -214,12 +214,12 @@ if (!empty($nodes)){
 
 	<div id="visualisation">
 		<div class="row" style="margin: 0">
-			<div class="pull-left col-md-7 col-lg-7">
+			<div class="col-md-6 col-lg-6">
 				<h2>Search results for "<B><?php echo $node_title; ?></B>"</h2>
 				<h6>Click on a node for details</h6>
 			</div>
 			<!-- Search -->
-			<div class="query pull-right">
+			<div class="query col-md-6 col-lg-6" style="margin-top:0.8em;">
 				<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
 					<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
 					<input type="submit" name="submit" value="Go" class="btn btn-warning" />
@@ -229,8 +229,8 @@ if (!empty($nodes)){
 
 		<!-- Visualisation -->
 		<div id="container_vis" class="row" style="margin: 0">
-			<div id="center-container" class="col-md-8 col-md-offset-2 col-lg-offset-2 col-lg-8">
-				<canvas id="cy" width="740" height="560"></canvas>
+			<div id="center-container" class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+				<canvas id="cy" width="600" height="600"></canvas>
 			</div>
 			<div id="right-container" class="col-md-offset-0 col-lg-offset-0 hide">
 				<div class="inner-header"></div>
