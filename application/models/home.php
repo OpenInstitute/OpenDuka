@@ -50,8 +50,9 @@ class Home extends CI_Model {
     {
 		$this->db->select();
 		$this->db->from('Entity');  
-		$this->db->order_by('ID','desc'); 
-		$this->db->limit(10); 
+		$this->db->order_by('ID','desc');
+		$this->db->where('Merged', '0'); 
+		$this->db->limit(10);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -187,7 +188,7 @@ class Home extends CI_Model {
         {
             $page_num = 1;
         }
-        $result = $this->db->query("SELECT * FROM Entity WHERE $tag like '$entityname,%' OR $tag like '%,$entityname,%' AND Name like '$sortment%'  ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+        $result = $this->db->query("SELECT * FROM Entity WHERE $tag like '$entityname,%'  AND Name like '$sortment%' OR $tag like '%,$entityname,%' AND Name like '$sortment%'  ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }

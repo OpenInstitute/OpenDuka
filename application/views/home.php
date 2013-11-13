@@ -179,7 +179,7 @@ if (!empty($nodes)){
 	<div id="visualisation">
 		<div class="row" style="margin: 0">
 			<div class="pull-left col-md-7 col-lg-7">
-				<h2>Search results for "<?php echo $node_title; ?>"</h2>
+				<h2>Search results for "<B><?php echo $node_title; ?></B>"</h2>
 				<h6>Click on a node for details</h6>
 			</div>
 			<!-- Search -->
@@ -209,9 +209,7 @@ if (!empty($nodes)){
 		<!-- Timeline -->
 
 		<!-- <div id="mytimeline"></div> -->
-
-
-  <script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
 <script type="text/javascript">
 
 
@@ -260,11 +258,16 @@ if (!empty($nodes)){
 		extradata = rhtmlspecialchars(extradata);
 
 		  $(".inner-details ul").append('<li>'+ extradata +'</li>');
-		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> <span style="font-size: 0.45em"><a href="#" title="Click name to see more connections">[?]</a></span></h3>');
+		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> <span style="font-size: 0.45em" class="tiptext">[?]<span class="description">Click heading to get further relationship</span></span></h3>');
 		  $('#center-container').removeClass("col-md-offset-2 col-lg-offset-2").addClass("col-md-offset-0 col-lg-offset-0");
 		  $('#right-container').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
+		
 		  
-
+		$(".tiptext").mouseover(function() {
+		    $(this).children(".description").show();
+		}).mouseout(function() {
+		    $(this).children(".description").hide();
+		});
 	     },
 	     error: function(xhr, status, error) {
 			 alert(xhr.error);
