@@ -36,9 +36,20 @@ if(!isset($list) && empty($nodes))
 		<div class="stats col-md-6 col-lg-6">
 			<h3>In Our Database</h3>
 			<div class="figures row">
-				<div class="people col-md-2 col-lg-4">
-
-					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png"></a>
+				<div class="people col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22">People</a></h4>
+					<h5><?php echo $persons;?></h5>
+				</div>
+				<div class="tenders col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">Tenders</a></h4>
+					<h5><?php echo $Tenders;?></h5>
+				</div>
+				<div class="organisations col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21">Organisations</a></h4>
+<!-- 					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png"></a>
 					<h4>People</h4>
 					<h5><?php echo $persons;?></h5>
 				</div>
@@ -49,28 +60,33 @@ if(!isset($list) && empty($nodes))
 				</div>
 				<div class="organisations col-md-2 col-lg-4">
 					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png"></a>
-					<h4>Organisations</h4>
-
+					<h4>Organisations</h4> -->
 					<h5><?php echo $organisations;?></h5>
 				</div>
 			</div>
 			<br />
 			<div class="figures row">
-				<div class="cases col-md-2 col-lg-4">
+				<div class="cases col-md-4 col-lg-4 hidden-xs hidden-sm">
 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $CasesID; ?>">Cases</a></h4>
 					<h5><?php echo $Cases;?></h5>
 				</div>
-				<div class="grants col-md-2 col-lg-4">
+				<div class="grants col-md-4 col-lg-4 hidden-xs hidden-sm">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>">Contracts</a></h4>
+					<h5><?php echo $Contracts;?></h5>
+				</div>
+				<div class="land col-md-4 col-lg-4 hidden-xs hidden-sm">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
+					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>">Land</a></h4>
 
-					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png"></a>
+<!-- 					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png"></a>
 					<h4>Contracts</h4>
 					<h5><?php echo $Contracts;?></h5>
 				</div>
 				<div class="land col-md-2 col-lg-4">
 					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png"></a>
-					<h4>Land</h4>
-
+					<h4>Land</h4> -->
 					<h5><?php echo $Land;?></h5>
 				</div>
 			</div>
@@ -102,11 +118,11 @@ if(!isset($list) && empty($nodes))
 	<div id="partners" class="row">
 		<h2>Launched in partnership with</h2>
 		<div id="partner-logos">
-			<a href="http://www.africatti.org/" target="blank">
-				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" style="margin-left:-10px;">
+			<a href="http://www.africatti.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-lg-offset-3 col-md-offset-3">
+				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg">
 			</a>
-			<a href="http://www.kenyalaw.org/" target="blank">
-				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg">
+			<a href="http://www.kenyalaw.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg" style="margin-top:20px">
 			</a>
 		</div>
 	</div><!-- #partners -->
@@ -160,6 +176,13 @@ if (isset($list))
 <?php 
 	echo "
 	<div id='content'>
+		<!-- <div class='results col-md-11 col-lg-12' id>
+			$list
+		</div>
+		<div class='navigation col-md-12 col-lg-12 text-center'>
+		    <div class='previous-posts'><a href='". base_url() . index_page() ."/homes/entitylist/".$term."/'>1</div>
+		    <div class='next-posts'><a href='". base_url() . index_page() ."/homes/entitylist/".$term."/'>2</a></div>
+	      </div> -->
 		<div class='results col-md-11 col-lg-12' >
 			$list
 		</div>
@@ -193,11 +216,8 @@ if (!empty($nodes)){
 
 		<!-- Visualisation -->
 		<div id="container_vis" class="row" style="margin: 0">
-
-
 			<div id="center-container" class="col-md-8 col-md-offset-2 col-lg-offset-2 col-lg-8">
 				<canvas id="cy" width="740" height="560"></canvas>
-
 			</div>
 			<div id="right-container" class="col-md-offset-0 col-lg-offset-0 hide">
 				<div class="inner-header"></div>
@@ -209,9 +229,10 @@ if (!empty($nodes)){
 		<!-- Timeline -->
 
 		<!-- <div id="mytimeline"></div> -->
-<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
-<script type="text/javascript">
 
+<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
+
+<script type="text/javascript">
 
      var data = {
      		nodes: <?php echo $nodes; ?>,
@@ -229,7 +250,7 @@ if (!empty($nodes)){
     $(nav).bind('mode', sys.renderer.switchMode)
     nav.init()*/
 	function NodeStory(nodeid) {
-
+		// abort any pending request
 	//alert(nodeid);
 	
 	$( "#cy" ).attr({width: "600" , height: "600" });
@@ -256,6 +277,38 @@ if (!empty($nodes)){
 		
 		extradata = d.data[0].posts[0].ExtraData;
 		extradata = rhtmlspecialchars(extradata);
+		// if (ed==1){
+		// 	$(".inner-details ul").append('<li>'+ extradata +'</li>');
+		// }
+		// //m = d.data[2].arraymap[0]._201.Verb;
+		// am = d.data[2].arraymap[0];
+		
+	
+		// $.each(d.data[0].posts, function(i,post){
+		// 	id = '_'+post.ID;
+		// 	//alert(id);
+		// 	//alert(am._201.Verb);
+		// 	e = post.EntMap;
+		// 	v = post.Verb;
+		// 	dc = post.EffectiveDate;
+		// 	p = post.EntPos;
+			
+			
+			
+		// 	if (v == '0'){
+		// 	v='';
+		// 		m = am[id][0]['Verb'];
+		// 		dr = am[id][0]['Dated'];
+		// 		//alert(m);
+		// 		$.each(am, function(j,mv){
+		// 	 	v += 'was '+ m + ' on '+ dr+ 'to: <br>';
+		// 	 	});
+			 	
+		//   $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span></li>');			 	
+		// 	 } else {
+			 
+		//   $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span><span class="st-verb"> '+ p +'</span></p><p><span class="st-date">Effected Date - '+ dc +'</span></li>');		
+		//   	}
 
 		  $(".inner-details ul").append('<li>'+ extradata +'</li>');
 		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> <span style="font-size: 0.45em" class="tiptext">[?]<span class="description">Click heading to get further relationship</span></span></h3>');

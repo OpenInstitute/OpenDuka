@@ -1,4 +1,3 @@
-
 <div id="api" class="row" style="padding-top: 90px">
   <div class="jumbotron col-lg-12 col-md-12">
     <h1>OpenDuka API</h1>
@@ -8,11 +7,7 @@
     </p>
   </div>
   <div class="row container">
-    <div class="signup col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
-        <div class="ribbon col-md-3 col-lg-3">
-          <h3 class="flag">Sign up for an API key</h3>
-        </div>
-
+    <div class="signup col-md-7 col-lg-7 col-md-offset-3 col-lg-offset-3">
       <form class="form-horizontal" method="post" action="api/request_key">
         <div class="control-group">
           <label label-default="label-default" class="control-label label-default" for="inputEmail">Email</label>
@@ -20,16 +15,14 @@
             <input type="text" id="inputEmail" placeholder="Email" name="email">
           </div>
         </div>
-
         <br />
 
         <div class="control-group">
-          <label label-default="label-default" class="control-label label-default" for="inputName">Full Names</label>
+          <label label-default="label-default" class="control-label label-default" for="inputName">Full Name</label>
           <div class="controls">
             <input type="text" id="inputName" placeholder="Name" name="name">
           </div>
         </div>
-
         <br />
 
         <div class="control-group">
@@ -38,7 +31,6 @@
             <input type="text" id="inputOrganisation" placeholder="Organisation" name="organization">
           </div>
         </div>
-
         <br />
 
         <div class="control-group">
@@ -47,7 +39,6 @@
             <input type="url" id="inputURL" placeholder="URL" name="url">
           </div>
         </div>
-
         <br />
 
         <div class="control-group">
@@ -57,12 +48,9 @@
           </div>
         </div>
         <br>
-
-        <br />
-
         <div class="control-group">
           <div class="controls">
-            <button type="submit" class="btn btn-default">Get Key</button>
+            <button type="button submit" class="btn btn-success">Get Key</button>
           </div>
         </div>
       </form>

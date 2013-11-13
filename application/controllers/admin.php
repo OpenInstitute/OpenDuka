@@ -296,7 +296,6 @@ class Admin extends CI_Controller {
    	$list = "<form id='DatasetInsert' action='' method='post'>";
 
    	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
-
    	
    	//$doctype = $this->admin_model->get_doctype();
    	//var_dump($doctype);
@@ -403,7 +402,7 @@ class Admin extends CI_Controller {
 
     }
     
-    
+   
     function DatasetAdd(){
    // $this->output->enable_profiler(TRUE);
     

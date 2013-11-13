@@ -8,7 +8,6 @@
 
 	<div class="col1 trigger" name="EInsert4">Insert Datasets</div>
   	<div class="col1 trigger" name="EInsert5">Manage Dataset</div>
-  	
 
   	<?php if($this->session->userdata('user_id') ==1){ ?>
   	<div class="col1 trigger" name="EInsert1">Add User</div>
@@ -123,7 +122,6 @@
 	 </div>
 
 
-
 	<div id="EInsert5" class="formdata">
 		<div id="Datasets" style="display:block;">
 		
@@ -139,7 +137,6 @@
 		  <div id="viwanjaEdit"></div>
 		</div>
 	 </div>
-
 
  </div>
 
@@ -417,7 +414,6 @@ $(".DatasetAdd").click(function() {
 	alert("The Table name needs to be more than 5 characters");
 	return false;
 	}
-
   	
   	$.ajaxFileUpload ({
 
@@ -567,7 +563,6 @@ function ListTables() {
     });	
 }
 
-
 function ListDataset() {
  
     $.ajax({
@@ -586,7 +581,6 @@ function ListDataset() {
       }
     });	
 }
-
 
 function ListDocCat() {
  
@@ -645,25 +639,8 @@ function field_list(meza,DocType){
 
 }
 
-function DatasetRead(){
-
-
-	var $form = $("#DatasetEdit");
-	// let's select and cache all the fields
-    	var $inputs = $form.find("input, select, textarea");
-    	// serialize the data in the form
-   	var serializedData = $form.serialize();
-   	 
-	$.ajax({
-	      url: "<?php echo base_url();?>index.php/admin/DatasetRead",
-	      type: "post",
-	      async: false, 
-	      data: serializedData,
-	      success:function(data){
-	      	//alert(data);
-		 $("#viwanjaEdit").html(data);
 	
-		 $("#result").html("select fields to show");
+		  $("#result").html("select fields");
 	      },
 	      error:function(){
 		  alert("failure");
@@ -671,27 +648,6 @@ function DatasetRead(){
 	      }
 	 });
 }
-
-function field_list_edit(meza){
-	//alert(table);
-	$.ajax({
-	      url: "<?php echo base_url();?>index.php/admin/ListFieldEdit",
-	      type: "post",
-	      async: false, 
-	      data: {STab : meza},
-	      success:function(data){
-	      	//alert(data);
-		 $("#viwanjaEdit").html(data);
-	
-		 $("#result").html("select fields to show");
-	      },
-	      error:function(){
-		  alert("failure");
-		  $("#result").html('there is error while listing fields');
-	      }
-	 });
-}
-
 
 function EntityExtract() {
 

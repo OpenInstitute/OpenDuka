@@ -404,7 +404,6 @@ class Admin_model extends CI_Model {
     }
     
 
-
     function extract_entity($fild,$tab,$docid, $verb, $UID, $DocTypeID)
     {
     

@@ -1,4 +1,4 @@
-<div id="about-us" class="col-md-12 col-lg-12">
+<div id="about-us" class="row">
 	<h1>About Us</h1>
 	<hr >
 	<div class="col-md-12 col-lg-12">
@@ -18,13 +18,13 @@
 		</p>
 		<br />
 	</div>
-	<div class="col-md-12 col-lg-12">
-		<a href="http://www.africatti.org/" target="blank">
+	<div class="row">
+		<a href="http://www.africatti.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-lg-offset-3 col-md-offset-3">
 			<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg">
 		</a>
 		
-		<a href="http://www.kenyalaw.org/" target="blank">
-			<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg">
+		<a href="http://www.kenyalaw.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+			<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg" style="margin-top:20px">
 		</a>
 	</div>
 	<div class="col-md-12 col-lg-12" style="margin-top:25px">

@@ -207,7 +207,7 @@
 	}
 	
 	
-	div.row_head {
+	/*div.row_head {
 		display: block;
 		width: 300px;
 		position: relative;
@@ -241,10 +241,10 @@
 		padding: 3px;
 		text-align: left;
 		vertical-align: top;
-	}
+	} */
 	
 	p.footer{
-/*		text-align: right;
+/* 		text-align: right;
 		font-size: 11px;
 		border-top: 1px solid #D0D0D0;
 		line-height: 32px;
@@ -360,15 +360,15 @@
 	#sortment {font-size: 14px; text-align: center; clear: both; display:block; position: relative;}
 	
 	div#cy {
+/*	  height: 600px;
+	  width: 600px;*/
 	width: 740px;
 	height: 560px;
 	  position: relative;
 	  left: 0;
 	  top: 0;
 	  display: block;
-
 	  border: #000 1px solid;
-
 	}
 	
 	div#titlenode{
@@ -405,9 +405,7 @@
 #left-container, 
 #right-container, 
 #center-container {
-
 /*    height:559px;*/
-
 /*    position: relative;
     top:0;*/
 }
@@ -442,8 +440,6 @@
 }*/
 
 #center-container {
-
-
 /*    width:800px;*/
     /*background-color: #fff;
 
