@@ -33,7 +33,7 @@
   <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-theme.min.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/custom.css"/>
 	<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Caudex:400,700|Lato:400,700|Raleway:400,500,700|Merriweather:400,300,700|Monteserrat:400,700|Istok+Web:400,700|Monda:400,700|Roboto:400,700"/>
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet"/>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -78,7 +78,9 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand pull-left" href="<?php echo base_url() . index_page(); ?>">
+
           <img src="<?php echo base_url();?>assets/img/odlogo-200x50.png">
+
         </a>
       </div>
       <div class="collapse navbar-collapse menu-items pull-right">

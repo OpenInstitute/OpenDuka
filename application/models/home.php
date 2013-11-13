@@ -52,7 +52,17 @@ class Home extends CI_Model {
 		$this->db->from('Entity');  
 		$this->db->order_by('ID','desc');
 		$this->db->where('Merged', '0'); 
-		$this->db->limit(10);
+		$this->db->limit(5);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
+    function get_popular_entry()
+    {
+		$this->db->select();
+		$this->db->from('Entity');
+		$this->db->order_by('MostVisited','desc'); 
+		$this->db->limit(5);
         $query = $this->db->get();
         return $query->result_array();
     }

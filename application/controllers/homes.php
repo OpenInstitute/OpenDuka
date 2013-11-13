@@ -29,12 +29,21 @@ class Homes extends CI_Controller {
 				$list .= "<li><a href=" .site_url('/homes/tree/'.$latestlist[$i]['ID']). ">". $latestlist[$i]['Name'] . "</a></li>"; 
 			}		
 		}
+		
+		$popularlist = $this->home->get_popular_entry();
+		$Plist="";
+		if (is_array($popularlist)){
+			for($i=0;$i< count($popularlist);$i++)
+			{
+				$Plist .= "<li><a href=" .site_url('/homes/tree/'.$popularlist[$i]['ID']). ">". $popularlist[$i]['Name'] . "</a></li>"; 
+			}		
+		}
 
 		for($i=0;$i< count($docTypes);$i++)
 		{
 		 $docs= array_merge(array($docTypes[$i]['DocType'] =>  $docTypes[$i]['CatTot'], $docTypes[$i]['DocType'].'ID' =>  $docTypes[$i]['DocTypeID'] ), $docs);
 		}
-		$docs = array_merge(array('organisations' => $organisations, 'persons' => $persons,'latest_list' => $list,'error' => ''), $docs);
+		$docs = array_merge(array('organisations' => $organisations, 'persons' => $persons,'latest_list' => $list,'popular_list' => $Plist,'error' => ''), $docs);
 //var_dump($docs); exit;
 		$this->load->view('header',$data_head);
 		$this->load->view('home', $docs);
