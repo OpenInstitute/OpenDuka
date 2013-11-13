@@ -297,13 +297,13 @@ class Admin extends CI_Controller {
 
    	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
    	
-   	//$doctype = $this->admin_model->get_doctype();
+   	$doctype = $this->admin_model->get_doctype();
    	//var_dump($doctype);
-   	//$list .= "<div class='spacer'>Document Type  <select name='DocumentType'";
-   	//for($j=0;$j< count($doctype);$j++){
-	//	$list .= "<option value='". $doctype[$j]['ID']."'>". $doctype[$j]['DocTypeName'] ."</option>";
-	//}
-   	//$list .= "</select></div>";
+   	$list .= "<div class='spacer'>Document Type  <select name='DocumentType'";
+   	for($j=0;$j< count($doctype);$j++){
+		$list .= "<option value='". $doctype[$j]['ID']."'>". $doctype[$j]['DocTypeName'] ."</option>";
+	}
+   	$list .= "</select></div>";
    	$list .= "<div class='spacer'></div>";
    	$list .= "<div class='spacer'><div style='width: 300px;'>Select field to Extract Entity</div></div>";
    	$viwanja = $this->admin_model->get_fields($stabs);

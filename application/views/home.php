@@ -145,7 +145,7 @@ if (isset($list))
 			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
 		</form>
 	</div> <!-- #search -->
-<div id="sortment">
+	<div id="sortment">
 		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/A"; ?>'>A</a>
 		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/B"; ?>'>B</a>
 		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/C"; ?>'>C</a>
@@ -176,13 +176,7 @@ if (isset($list))
 <?php 
 	echo "
 	<div id='content'>
-		<!-- <div class='results col-md-11 col-lg-12' id>
-			$list
-		</div>
-		<div class='navigation col-md-12 col-lg-12 text-center'>
-		    <div class='previous-posts'><a href='". base_url() . index_page() ."/homes/entitylist/".$term."/'>1</div>
-		    <div class='next-posts'><a href='". base_url() . index_page() ."/homes/entitylist/".$term."/'>2</a></div>
-	      </div> -->
+		
 		<div class='results col-md-11 col-lg-12' >
 			$list
 		</div>
@@ -225,7 +219,7 @@ if (!empty($nodes)){
 				<div class="inner-details col-md-11 col-lg-12"></div>
 			</div>
 		</div>
-</div>
+	</div> <!-- #visualisation end -->
 		<!-- Timeline -->
 
 		<!-- <div id="mytimeline"></div> -->

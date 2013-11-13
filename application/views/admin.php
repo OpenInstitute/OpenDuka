@@ -137,9 +137,8 @@
 		  <div id="viwanjaEdit"></div>
 		</div>
 	 </div>
-
- </div>
-
+   </div>
+</div>
 
 <script>
 $('.formdata').hide();
@@ -640,15 +639,7 @@ function field_list(meza,DocType){
 }
 
 	
-		  $("#result").html("select fields");
-	      },
-	      error:function(){
-		  alert("failure");
-		  $("#result").html('there is error while listing fields');
-	      }
-	 });
-}
-
+		
 function EntityExtract() {
 
     $("#result").html('');

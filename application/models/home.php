@@ -75,7 +75,7 @@ class Home extends CI_Model {
     
     function update_document($data)
     {
-	  $this->db->where('DocID', $data['DocID']);        
+	 $this->db->where('DocID', $data['DocID']);        
         $this->db->update('DocUploaded', $data);
     }
    
@@ -278,6 +278,13 @@ class Home extends CI_Model {
 		}     
         $query = $this->db->get();
         return $query->result_array();
+    }
+    
+    function mostvisited($id)
+    {
+	$this->db->where('ID', $id);
+	$this->db->set('MostVisited' , 'MostVisited'+1); 
+        $this->db->update('Entity');
     }
 
 }

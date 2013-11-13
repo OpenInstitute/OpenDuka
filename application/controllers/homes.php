@@ -172,6 +172,9 @@ class Homes extends CI_Controller {
 		
 		$noMerge = $this->home->get_entries('ID',$v0);
 		$v0 = ($noMerge[0]['Merged']==1)? $noMerge[0]['MergedTo'] : $v0;
+		
+		$MostVisited = $this->home->mostvisited($v0);
+		
 		$weed = array();
 		$fruit = array();
 		$node_arr = "";
