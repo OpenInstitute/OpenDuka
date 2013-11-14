@@ -9,22 +9,23 @@
 	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/wysiwyg.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.validate.js"></script>
-	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/jquery.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor-tween.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/graphics.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
   	
-  	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
+
     	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.qtip.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/raphael-min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/chronoline.js"></script>
-
-  	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
-	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
+	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
+  	
+  	<link type="text/css"  rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
   	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/chronoline.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
-	<!-- <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/> -->
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/> 
 
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/docs.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"/>

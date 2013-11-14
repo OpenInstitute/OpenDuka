@@ -21,7 +21,7 @@ class Homes extends CI_Controller {
 		
 		//echo serialize($docs); exit;
 		
-		$latestlist = $this->home->get_lastest_entry();
+		$latestlist = $this->home->get_latest_entry();
 		$list="";
 		if (is_array($latestlist)){
 			for($i=0;$i< count($latestlist);$i++)
@@ -109,7 +109,7 @@ class Homes extends CI_Controller {
 	function entitylist($ent="",$page_num=1)
 	{
 	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
-	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "A";
+	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "";
 //echo $sortment; exit;
 	//$this->output->enable_profiler(TRUE);
 		$data_head = array('page_title' => 'Search results');

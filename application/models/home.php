@@ -46,7 +46,7 @@ class Home extends CI_Model {
     }
     
     
-    function get_lastest_entry()
+    function get_latest_entry()
     {
 		$this->db->select();
 		$this->db->from('Entity');  
