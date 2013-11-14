@@ -154,61 +154,66 @@ if (isset($list))
 ?>
 
 <!-- Results -->
-	<div id="search-results" class="col-md-6 col-lg-6">
-		<h2>Search results</h2>
-	</div>
-	<!-- Search -->
-	<div class="query pull-right" style="padding-top: 80px; padding-right: 10px;">
-		<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
-			<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
-			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
-		</form>
-	</div> <!-- #search -->
-	<div id="sortment">
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/A"; ?>'>A</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/B"; ?>'>B</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/C"; ?>'>C</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/D"; ?>'>D</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/E"; ?>'>E</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/F"; ?>'>F</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/G"; ?>'>G</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/H"; ?>'>H</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/I"; ?>'>I</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/J"; ?>'>J</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/K"; ?>'>K</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/L"; ?>'>L</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/M"; ?>'>M</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/N"; ?>'>N</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/O"; ?>'>O</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/P"; ?>'>P</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Q"; ?>'>Q</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/R"; ?>'>R</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/S"; ?>'>S</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/T"; ?>'>T</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/U"; ?>'>U</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/V"; ?>'>V</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/W"; ?>'>W</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/X"; ?>'>X</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Y"; ?>'>Y</a>
-		<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Z"; ?>'>Z</a>
-	</div>
-<?php 
-	echo "
-	<div id='content'>
-		
-		<div class='results col-md-11 col-lg-12' >
-			$list
+	<div id="search-results">
+		<div class="row">
+			<div class="col-md-6 col-lg-6">
+				<h2>Search results</h2>
+			</div>
+			<!-- Search -->
+			<div class="query col-md-6 col-lg-6" style="padding-top: 24px;">
+				<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
+					<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
+					<input type="submit" name="submit" value="Go" class="btn btn-warning" />
+				</form>
+			</div> <!-- #search -->
 		</div>
-		<div class='navigation col-md-12 col-lg-12 text-center' id='pagination'>
-		    <div class='previous-posts'><a href='". base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment ."/'>1</a></div>
-		    <div class='next-posts'><a href='". base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment ."/'>2</a></div>
-	        </div>
-	 </div>";
-	}
+		<div class="row">
+			<div id="sortment">
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/A"; ?>'>A</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/B"; ?>'>B</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/C"; ?>'>C</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/D"; ?>'>D</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/E"; ?>'>E</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/F"; ?>'>F</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/G"; ?>'>G</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/H"; ?>'>H</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/I"; ?>'>I</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/J"; ?>'>J</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/K"; ?>'>K</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/L"; ?>'>L</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/M"; ?>'>M</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/N"; ?>'>N</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/O"; ?>'>O</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/P"; ?>'>P</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Q"; ?>'>Q</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/R"; ?>'>R</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/S"; ?>'>S</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/T"; ?>'>T</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/U"; ?>'>U</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/V"; ?>'>V</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/W"; ?>'>W</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/X"; ?>'>X</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Y"; ?>'>Y</a>
+				<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Z"; ?>'>Z</a>
+			</div>
+		</div>
+		<?php 
+			echo "
+			<div class='row'>
+				<div class='results col-md-12 col-lg-12' >
+					$list
+				</div>
+				<div class='navigation col-md-12 col-lg-12 text-center' id='pagination'>
+				    <div class='previous-posts'><a href='". base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment ."/'>1</a></div>
+				    <div class='next-posts'><a href='". base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment ."/'>2</a></div>
+			    </div>
+			 </div>
+		</div>";
+		}
 
-if (!empty($nodes)){	
- 	//echo $tree;
-?>
+		if (!empty($nodes)){	
+		 	//echo $tree;
+		?>
 
 <!-- Visualisation & Timeline --> 
 
