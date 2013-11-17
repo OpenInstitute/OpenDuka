@@ -123,7 +123,8 @@ if(!isset($list) && empty($nodes))
 	</div><!-- #partners -->
 
 	<div id="twitter-feed" class="row">
-		<h2><a href="http://twitter.com/Open_Institute"><i class="fa fa-twitter"></i></a></h2>
+		<h2><a href="http://twitter.com/OpenDuka"><i class="fa fa-twitter"></i></a></h2>
+		<a href="http://twitter.com/OpenDuka">Follow @OpenDuka</a>
 		<br />
 		<section>
 			<div id="feed"></div>
@@ -131,7 +132,7 @@ if(!isset($list) && empty($nodes))
 	</div>
 	<script type="text/javascript" src="assets/js/twitterFetcher_v10_min.js"></script>
 	<script>
-		twitterFetcher.fetch('377530888927473664', '', 3, true, false, true, '', true, handleTweets);
+		twitterFetcher.fetch('402150804695416832', '', 3, true, false, true, '', true, handleTweets);
 			function handleTweets(tweets){
 				var x = tweets.length;
 				var n = 0;
