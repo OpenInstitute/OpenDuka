@@ -360,6 +360,15 @@
 	
 	#sortment {font-size: 14px; text-align: center; clear: both; display:block; position: relative;}
 	
+	div#cy {
+	position: inherit;
+	  left: 0;
+	  top: 0;
+	  display: block;
+	text-align: left;
+	  border: #000 1px solid;
+
+	}
 	
 	div#titlenode{
 		font-weight: bold;
@@ -430,7 +439,6 @@
 /*#right-container h4{
     text-indent:8px;
 }*/
-
 #center-container {
 
 
