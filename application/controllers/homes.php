@@ -241,7 +241,7 @@ class Homes extends CI_Controller {
 			$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
 			
 			$NodeName = explode(':',$n[0]['Name']);			
-			$nFilter .= ($alpha == 0 ) ? "'". str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0]))) . "_".$id ."'," : null;
+			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0]))) . "_".$id ."," : null;
 			//echo($NodeName[0]);
 			$ne=(int)$n[0]['EntityTypeID'];
 			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';

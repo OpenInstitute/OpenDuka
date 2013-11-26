@@ -238,8 +238,11 @@ if (!empty($nodes)){
 
 		<!-- Visualisation -->
 		<div id="container_vis" class="row" style="margin: 0">
-			<div id="center-container" class="col-md-8 col-md-offset-0 col-lg-8 col-lg-offset-0">
+			<div id="center-container" class="">
 				<canvas id="cy"></canvas>
+			</div>
+			<div id="right-container-top" class="col-md-offset-0 col-lg-offset-0 hide">
+				<a href="javascript:cleardata();" id="contentdata">Show Background</a>
 			</div>
 			<div id="right-container" class="col-md-offset-0 col-lg-offset-0 hide">
 				<div class="inner-header"></div>
@@ -252,7 +255,7 @@ if (!empty($nodes)){
 
 		<!-- <div id="mytimeline"></div> -->
 
-
+	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
 
 <script type="text/javascript">
 
@@ -264,22 +267,30 @@ if (!empty($nodes)){
      		}
   // Initialise arbor
     var sys = arbor.ParticleSystem()
-    sys.parameters({stiffness:900, repulsion:2000, gravity:true, dt:0.015})
-    sys.renderer = Renderer("#cy",[<?php echo $hidden_nodes; ?>])
+    sys.parameters({stiffness:900, repulsion:4000, gravity:true, dt:0.015})
+    sys.renderer = Renderer("#cy","<?php echo $hidden_nodes; ?>","<?php echo base_url();?>assets/img/")
     sys.graft(data)
     /*, '<?php echo base_url() ;?>assets/img/'
     var nav = Nav("#nav")
     $(sys.renderer).bind('navigate', nav.navigate)
     $(nav).bind('mode', sys.renderer.switchMode)
     nav.init()*/
+    function cleardata() {
+			
+	  		$('#right-container').slideToggle('slow');
+	  		var text = $('#contentdata').text();
+    			$('#contentdata').text(
+        			text == "Show Background" ? "Show Node Detail" : "Show Background");
+
+		}
 	function NodeStory(nodeid) {
 		// abort any pending request
 	//alert(nodeid);
 	
-	$( "#cy" ).attr({width: "600" , height: "600" });
+	
 	    /*clear result div*/
 	   $(".inner-details").html('');
-	    // setup some local variables
+	    // setuyakuap some local variables
 	    
 
 	    $.ajax({
@@ -300,50 +311,23 @@ if (!empty($nodes)){
 		
 		extradata = d.data[0].posts[0].ExtraData;
 		extradata = rhtmlspecialchars(extradata);
-		// if (ed==1){
-		// 	$(".inner-details ul").append('<li>'+ extradata +'</li>');
-		// }
-		// //m = d.data[2].arraymap[0]._201.Verb;
-		// am = d.data[2].arraymap[0];
 		
-	
-		// $.each(d.data[0].posts, function(i,post){
-		// 	id = '_'+post.ID;
-		// 	//alert(id);
-		// 	//alert(am._201.Verb);
-		// 	e = post.EntMap;
-		// 	v = post.Verb;
-		// 	dc = post.EffectiveDate;
-		// 	p = post.EntPos;
-			
-			
-			
-		// 	if (v == '0'){
-		// 	v='';
-		// 		m = am[id][0]['Verb'];
-		// 		dr = am[id][0]['Dated'];
-		// 		//alert(m);
-		// 		$.each(am, function(j,mv){
-		// 	 	v += 'was '+ m + ' on '+ dr+ 'to: <br>';
-		// 	 	});
-			 	
-		//   $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span></li>');			 	
-		// 	 } else {
-			 
-		//   $(".inner-details ul").append('<li><span class="st-verb">'+ v +'</span> <span class="st-name">'+ post.Name +'</span><span class="st-verb"> '+ p +'</span></p><p><span class="st-date">Effected Date - '+ dc +'</span></li>');		
-		//   	}
-
+		//$( "#cy" ).attr({width: "720" , height: "600" });
+		$("#cy").addClass("col-md-offset-0 col-lg-offset-0");
 		  $(".inner-details ul").append('<li>'+ extradata +'</li>');
 		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> <span style="font-size: 0.45em" class="tiptext">[?]<span class="description">Click heading to get further relationship</span></span></h3>');
-		  $('#center-container').removeClass("col-md-offset-2 col-lg-offset-2").addClass("col-md-offset-0 col-lg-offset-0");
+		  $('#center-container').addClass("col-md-8 col-md-offset-0 col-lg-8 col-lg-offset-0");
 		  $('#right-container').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
-		
+		  
+		  $('#right-container-top').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
+		//$("#right-container-top").html('');
 		  
 		$(".tiptext").mouseover(function() {
 		    $(this).children(".description").show();
 		}).mouseout(function() {
 		    $(this).children(".description").hide();
 		});
+		
 	     },
 	     error: function(xhr, status, error) {
 			 alert(xhr.error);
@@ -351,7 +335,8 @@ if (!empty($nodes)){
 	    });
 
 	}
-	
+		
+		
 function rhtmlspecialchars(str) {
  if (typeof(str) == "string") {
   str = str.replace(/&gt;/ig, ">");

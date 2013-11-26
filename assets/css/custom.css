@@ -259,13 +259,10 @@ a {
   text-transform: uppercase;
 }
 
-<<<<<<< HEAD
-#search-results, #admin-board, #login-form {
-  background: #fff;
-=======
+
 #search-results, #admin-board, #login-form, #contact-us {
   /*background: #e7e7e7;*/
->>>>>>> faf1b66bcb0f6194550049499137a6de982509a6
+
   margin: 0;
   padding-left: 20px;
   padding-top: 60px;
@@ -534,6 +531,7 @@ section:last-child, article:last-child {
   border: 1px #E6E6E6 solid;
   overflow: auto; 
   text-align: center;
+  z-index: 40;
 }
 
 #right-container {

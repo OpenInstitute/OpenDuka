@@ -1,17 +1,20 @@
 //(function(){
   
- var Renderer = function(elt, hNodes){
+ var Renderer = function(elt, hN,path){
     var dom = $(elt)
+   // alert(hN);
     var canvas = dom.get(0)
     var ctx = canvas.getContext("2d");
     var gfx = arbor.Graphics(canvas)
     var sys = null
-
+var imagepath = path
+   var hNodes = String(hN).split(",");
+  //alert(hNodes[1]):
     var _vignette = null
     var selected = null,
         nearest = null,
         _mouseP = null;
-//alert(hNodes);
+
     
     var that = {
       init:function(pSystem){
@@ -23,11 +26,18 @@
       //alert (hait);
       //  sys.screenSize(canvas.width, canvas.height)
         sys.screenSize(wid,hait)
-      	sys.screenPadding(5,5,5,5)
+      	sys.screenPadding(36,60,36,60)
         $(window).resize(that.resize)
         that.resize()
         that._initMouseHandling()
-
+	// Preload all images into the node object
+        sys.eachNode(function(node, pt) {
+          if(node.data.image) {  
+         // alert(imagepath + node.data.image);
+            node.data.imageob = new Image()
+            node.data.imageob.src = imagepath + node.data.image
+          }
+        } )
        // if (document.referrer.match(/echolalia|atlas|halfviz/)){
           // if we got here by hitting the back button in one of the demos, 
           // start with the demos section pre-selected
@@ -49,17 +59,27 @@
           gfx.line(p1, p2, {stroke:"#b2b19d", width:2, alpha:edge.target.data.alpha})
         })
         sys.eachNode(function(node, pt){
-          var w = Math.max(20, 20+gfx.textWidth(node.name) )
+          var w = Math.max(10, 5+gfx.textWidth(node.name) )
           if (node.data.alpha===0) return
           /*if (node.data.shape=='dot'){
             gfx.oval(pt.x-w/2, pt.y-w/2, w, w, {fill:node.data.color, alpha:node.data.alpha})
             gfx.text(node.name, pt.x, pt.y+7, {color:"white", align:"center", font:"Arial", size:12})
             gfx.text(node.name, pt.x, pt.y+7, {color:"white", align:"center", font:"Arial", size:12})
           }else{*/
+           // Load extra info
+          var imageob = node.data.imageob
+          var imageH = node.data.image_h
+          var imageW = node.data.image_w
+          var radius = parseInt(node.data.radius) 
+          
             gfx.rect(pt.x-w/2, pt.y-8, w, 20, 4, {fill:node.data.color, alpha:node.data.alpha})
             gfx.text(node.data.label, pt.x, pt.y+9, {color:"white", align:"center", font:"Arial", size:12})
             gfx.text(node.data.label, pt.x, pt.y+9, {color:"white", align:"center", font:"Arial", size:12})
          // }
+          if (imageob){
+              // Images are cached 
+              ctx.drawImage(imageob, pt.x-(imageW/2), pt.y+radius/2, imageW, imageH)
+            }
         })
         that._drawVignette()
       },
@@ -68,7 +88,8 @@
         var w = canvas.width
         var h = canvas.height
         var r = 0
-
+        //$( "#cy" ).attr({width: w , height: "600" });
+//alert(w);
         if (!_vignette){
           var top = ctx.createLinearGradient(0,0,0,r)
           top.addColorStop(0, "#e0e0e0")
@@ -105,6 +126,7 @@
       },
       
       switchSection:function(newSection){
+      //alert(sys.getEdgesFrom(newSection).source);
         var parent = sys.getEdgesFrom(newSection)[0].source
         var children = $.map(sys.getEdgesFrom(newSection), function(edge){
           return edge.target
@@ -135,7 +157,7 @@
         var oldmass = 1
 
         var _section = null
-//alert(hNodes);
+
         var handler = {
           moved:function(e){
             var pos = $(canvas).offset();
@@ -144,7 +166,7 @@
 
             if (!nearest.node) return false
 
-            if (nearest.node.data.shape!='dot'){
+            /* if (nearest.node.data.shape!='dot'){
               selected = (nearest.distance < 50) ? nearest : null
               if (selected){
                  dom.addClass('linkable')
@@ -154,7 +176,12 @@
                  dom.removeClass('linkable')
                 // window.status = ''
               }
-            }else  if ($.inArray(nearest.node.name, [hNodes]) >=0 ){
+            }else */ 
+          //  alert(nearest.node.name);
+          // alert(hNodes.length);
+           
+           // alert($.inArray(nearest.node.name, hNodes));
+            if ($.inArray(nearest.node.name, hNodes) >=0 ){
               if (nearest.node.name!=_section){
                 _section = nearest.node.name
                 that.switchSection(_section)
