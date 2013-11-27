@@ -8,7 +8,7 @@
  * https://raw.github.com/webcreate/infinite-ajax-scroll/master/MIT-LICENSE.txt
  */
 
-(function ($) {
+jQuery(function($) {
 
     'use strict';
 
@@ -174,23 +174,12 @@
          * @param int      curScrOffset      current scroll offset
          * @param function onCompleteHandler callback function
          * @return void
-
          */
         function paginate(curScrOffset, onCompleteHandler)
         {
             var urlNextPage;
 
             urlNextPage = $(opts.next).attr('href');
-
-//          */        
-        
-//         function paginate(curScrOffset, onCompleteHandler)
-//         {
-//             var urlNextPage;
-//             var PageNum = get_current_page()+1;
-// //alert(PageNum);
-// //alert(curScrOffset);
-//             urlNextPage = $(opts.next).attr('href') + PageNum + '/';
             if (!urlNextPage) {
                 if (opts.noneleft) {
                     $(opts.container).find(opts.item).last().after(opts.noneleft);
@@ -203,7 +192,7 @@
                     return;
                 }
             }
-//alert(urlNextPage);
+
             paging.pushPages(curScrOffset, urlNextPage);
 
             stop_scroll();
@@ -267,7 +256,6 @@
             delay = delay || opts.loaderDelay;
 
             $.get(url, null, function (data) {
-
                 // walk through the items on the next page
                 // and add them to the items array
                 container = $(opts.container, data).eq(0);
@@ -715,11 +703,6 @@
                 haveState = (window.location.hash.substring(0, 7) === '#/page/');
                 if (haveState) {
                     pageNum = parseInt(window.location.hash.replace('#/page/', ''), 10);
-
-                // haveState = (window.location.hash.substring(0, 7) === '#/');
-                // if (haveState) {
-                //     pageNum = parseInt(window.location.hash.replace('#/', ''), 10);
-                
                     return { page : pageNum };
                 }
             }
@@ -754,7 +737,6 @@
          * @param string url
          * @return void
          */
-        
         this.pushState = function (stateObj, title, url)
         {
             var hash;
@@ -763,7 +745,7 @@
                 history.pushState({ ias : stateObj }, title, url);
             }
             else {
-                hash = (stateObj.page > 0 ? '/' + stateObj.page : '');
+                hash = (stateObj.page > 0 ? '#/page/' + stateObj.page : '');
                 window.location.hash = hash;
             }
 
@@ -788,4 +770,4 @@
             }
         };
     };
-})(jQuery);
+});

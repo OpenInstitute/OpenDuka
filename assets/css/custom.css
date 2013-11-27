@@ -259,8 +259,10 @@ a {
   text-transform: uppercase;
 }
 
+
 #search-results, #admin-board, #login-form, #contact-us {
   /*background: #e7e7e7;*/
+
   margin: 0;
   padding-left: 20px;
   padding-top: 60px;
@@ -377,7 +379,7 @@ a {
 
 .topfive a {
   color: #00AAD4;
-  font-size: 22 px;
+  font-size: 22px;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   line-height: 1.8;
@@ -529,6 +531,7 @@ section:last-child, article:last-child {
   border: 1px #E6E6E6 solid;
   overflow: auto; 
   text-align: center;
+  z-index: 40;
 }
 
 #right-container {

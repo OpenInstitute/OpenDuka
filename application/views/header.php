@@ -5,27 +5,29 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $page_title;?></title>
-	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/jquery.js"></script>
-	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
-	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/wysiwyg.js"></script>
+	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.js"></script>
+
+
+	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/wysiwyg.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.validate.js"></script>
-	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/jquery.js"></script>
-	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
+
 	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor-tween.js"></script>
+	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/graphics.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
   	
-  	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
-    	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.qtip.min.js"></script>
+  	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.qtip.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/raphael-min.js"></script>
-  	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/chronoline.js"></script>
 
-  	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
-	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
-  	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/chronoline.css"/>
-	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/wysiwyg.css"/>
-	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/styles.css"/>
 
+
+	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.min.js"></script>
+
+  	
+  	<link type="text/css"  rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/wysiwyg.css"/>
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/styles.css"/> 
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/docs.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"/>
   <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.min.css"/>
@@ -54,16 +56,16 @@
 		}
 	</script>
 	 <script type="text/javascript">
-        $(document).ready(function() {
+
             jQuery.ias({
-                container : '.results',
+                container : '.matokeo',
                 item: '.post',
-                pagination: '#content .navigation',
+                pagination: '#fruits .mfuatilio',
                 next: '.next-posts a',
                 loader: '<img src="<?php echo base_url();?>assets/img/loader.gif"/>',
                 triggerPageThreshold: 2
             });
-        });
+
     </script>
 </head>
 

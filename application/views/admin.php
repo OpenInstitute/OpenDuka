@@ -127,7 +127,7 @@
 		
 		 <img id="loading" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
 		 <div class="reg_form" style="display:block;">
-		 <?php echo form_open_multipart("", array('id' => 'DatasetAdd')); ?>
+		 <?php echo form_open_multipart("", array('id' => 'DatasetEdit')); ?>
 		 <p>
 		  <label for="dataset_name" class="textfield">Dataset:</label>
 		  <select id="dataset_name" name="dataset_name" value="" /></select>
