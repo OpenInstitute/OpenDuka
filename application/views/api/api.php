@@ -7,7 +7,7 @@
     </p>
   </div>
   <div class="row container">
-    <div class="signup col-md-7 col-lg-7 col-md-offset-4 col-lg-offset-4">
+    <div class="signup col-md-7 col-lg-7 col-md-offset-4 col-lg-offset-3">
       <form class="form-horizontal" method="post" action="api/request_key">
         <div class="control-group">
           <label label-default="label-default" class="control-label label-default" for="inputEmail">Email</label>

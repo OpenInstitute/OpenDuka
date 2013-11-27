@@ -118,14 +118,14 @@ if(!isset($list) && empty($nodes))
 				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg">
 			</a>
 			<a href="http://www.kenyalaw.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.jpg" style="margin-top:20px">
+				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.png" style="margin-top:20px">
 			</a>
 		</div>
 	</div><!-- #partners -->
 
 	<div id="twitter-feed" class="row">
 		<h2><a href="http://twitter.com/OpenDuka"><i class="fa fa-twitter"></i></a></h2>
-		<a href="http://twitter.com/OpenDuka">Follow @OpenDuka</a>
+		<a href="http://twitter.com/OpenDuka">Follow @OpenDuka on Twitter</a>
 		<br />
 		<section>
 			<div id="feed"></div>
