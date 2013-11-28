@@ -217,8 +217,8 @@ class Homes extends CI_Controller {
 		$node_arr = $tree_data['nodes'];
 		$edges .= $tree_data['edges'];
 		
-		$cid[22]= array('col'=>'#00CCCC', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
-		$cid[21]= array('col'=>'#00a650', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
+		$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
+		$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
 		$node_arr= $this->clean_array(explode(',',$node_arr)); 
 //var_dump($node_arr);
 		for($k=0; $k<count($node_arr); $k++){
@@ -324,7 +324,6 @@ class Homes extends CI_Controller {
 						//array_push($weed, $two['fruit'][$i]);
 						$edges .= $three['edges'];
 						$node_arr .= $three['nodearray'];
-						
 						//$weed[]= $two['weed'];
 						//$weed = array_merge(array_diff($weed,array($two['fruit'][$i])));
 					}
@@ -609,28 +608,43 @@ class Homes extends CI_Controller {
 				$dataset = $this->home->get_doc($doc_ref);
 				foreach($dataset as $row){
 				$dt=$row['data_table'];
+				$dtID=$row['DocTypeID'];
+				$dataCat = $this->home->get_docType($dtID);
 				//echo $dt;
 				   if($dt!=""){
 						$d=1; 
 						$ds=$row['representation'];
 						$q = ($ds=="")? '*' : $ds;
-			
-						$dta = $this->home->get_dataset($dt,$q,$n);
-						//var_dump($dta[0]);
 
+
+						$dta = $this->home->get_dataset($dt,$q,$n);
+					//	var_dump($dta);
+						$k = (sizeof($dta[0])>11) ? 1 : (int)(12/sizeof($dta[0])) ;
+						$i=1;
 						//echo sizeof($dta);
-						for($j=0; $j<sizeof($dta); $j++){
-							$extraData .= '<div class="row_head">';
-							foreach($dta[$j] as  $key => $val){
-								//foreach($cont as $key => $val){
-							  $extraData .= '<div class="col_head">';
-								$extraData .= '<div class="col1_head">'. str_replace("_"," ", $key) .'</div>';
-								$extraData .= '<div class="col2_head">'. $val .'</div>';
-							  $extraData .= '</div>';
-								//}
+						
+						$extraData .= '<div class="category"><h2>'.$dataCat[0]['DocTypeName'].'</h2>';
+						$extraData .= '<div class="row_head row">';	
+							foreach($dta[0] as  $key => $val){
+							$extraData .= '<div class="col1_head col-md-'.$k.' col-lg-'.$k.'">'. str_replace("_"," ", $key) .'</div>';
+							
+							if($i==12){break;}
+							++$i;
 							}
-							$extraData .= '</div>';
+						$extraData .= '</div>';
+						
+						for($j=0; $j<sizeof($dta); $j++){
+						$i=1;
+						//$extraData .= '<br>';
+						$extraData .= '<div class="row_head row">';
+							foreach($dta[$j] as  $key => $val){
+							$extraData .= '<div class=" col-md-'.$k.' col-lg-'.$k.'">'. $val .'</div>';
+							if($i==12){break;}
+							++$i;
+							}
+						$extraData .= '</div>';	
 						}
+						$extraData .= '</div>';	
 						//echo $extraData;
 					} else {
 				    
@@ -644,6 +658,7 @@ class Homes extends CI_Controller {
 					$entDate = explode('||',$c_node[0]['EffectiveDate']);
 					$entDate_ref = $entDate[$arraypoint];
 					
+					$extraData .= '<div class="category"><h2>'. $dataCat[0]['DocTypeName']. '</h2>';
 					$extraData .= '<div class="row_head">';
 						$extraData .= '<div class="col_head">';
 							$extraData .= '<div class="col1_head">Name</div>';
@@ -665,6 +680,7 @@ class Homes extends CI_Controller {
 							$extraData .= '<div class="col2_head">'. $entDate_ref.'</div>';
 						$extraData .= '</div>';
 				
+					$extraData .= '</div>';
 					$extraData .= '</div>';
 					}
 				//}

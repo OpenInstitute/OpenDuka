@@ -68,7 +68,7 @@ var imagepath = path
           }else{*/
            // Load extra info
           var imageob = node.data.imageob
-          var imageH = node.data.image_h
+          var imageH = node.data.image_h-3
           var imageW = node.data.image_w
           var radius = parseInt(node.data.radius) 
           
@@ -76,10 +76,11 @@ var imagepath = path
             gfx.text(node.data.label, pt.x, pt.y+9, {color:"white", align:"center", font:"Arial", size:12})
             gfx.text(node.data.label, pt.x, pt.y+9, {color:"white", align:"center", font:"Arial", size:12})
          // }
-          if (imageob){
+       /*   if (imageob){
               // Images are cached 
               ctx.drawImage(imageob, pt.x-(imageW/2), pt.y+radius/2, imageW, imageH)
             }
+           */
         })
         that._drawVignette()
       },

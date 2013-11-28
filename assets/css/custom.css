@@ -98,7 +98,7 @@ a {
   background: #EEEEEE; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjY2NjY2MiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-  background: -moz-linear-gradient(top, #EEEEEE 0%, #FFFFFF 100%); /* FF3.6+ */
+  background: -moz-lineardr-gradient(top, #EEEEEE 0%, #FFFFFF 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EEEEEE), color-stop(100%,#FFFFFF)); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(top, #EEEEEE 0%,#FFFFFF 100%); /* Chrome10+,Safari5.1+ */
   background: -o-linear-gradient(top, #EEEEEE 0%,#FFFFFF 100%); /* Opera 11.10+ */
@@ -527,16 +527,23 @@ section:last-child, article:last-child {
 }
 
 #right-container, #top-container {
-  background: rgba(0,0,0,0.05);
+  background: #E3E3E3;
   border: 1px #E6E6E6 solid;
   overflow: auto; 
   text-align: center;
   z-index: 40;
 }
 
-#right-container {
+#right-container-top {
   float: right;
   right: 0;
+}
+
+
+#right-container {
+  /* float: right;
+  right: 0;*/
+  padding: 10px 0 30px 0;
 }
 
 .hide {
@@ -547,9 +554,9 @@ section:last-child, article:last-child {
 #right-container, 
 #mobi-center-container,
 #desktop-center-container {
-  height: 600px;
+
   position: relative;
-  top: 0;
+  
 }
 
 #top-container {
@@ -607,13 +614,27 @@ section:last-child, article:last-child {
 
 .col1_head {
   font-weight: bold;
+  float: left;
+  text-align: left;
+  vertical-align:top;
+  padding: 3px;
 }
 
 .col2_head {
+  float: left;
+  padding: 3px;
+  text-align: left;
+  vertical-align: top;
 }
 
 .row_head {
-  margin-bottom: 2em;
+  display: block;
+  position: relative;
+  padding: 10px 0 10px 0;
+  border-bottom: 1px #ccc solid;
+  clear: both;
+  word-wrap: break-word;
+  
 }
 
 #footer {
@@ -733,3 +754,11 @@ body.api {
 .bs-docs-sidenav.affix {
   top: 60px;
 }
+
+.switch{
+ width: 15%;
+ float: right;
+ padding: 5px;
+}
+
+

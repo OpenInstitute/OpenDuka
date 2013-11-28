@@ -206,8 +206,8 @@ if (isset($list))
 		</div>
 		<div class="mfuatilio col-md-12 col-lg-12 text-center" id="pagination">
 		  <ul>
-		    <li><a href='<?php echo base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment; ?>/'>.</a></li>
-		    <li class="next-posts"><a href='<?php echo base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment; ?>/'>.</a></li>
+		    <li><a href='<?php echo base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment; ?>/'></a></li>
+		    <li class="next-posts"><a href='<?php echo base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment; ?>/'></a></li>
 		   </ul>
 		</div>
 	 </div>
@@ -242,14 +242,17 @@ if (!empty($nodes)){
 				<canvas id="cy"></canvas>
 			</div>
 			<div id="right-container-top" class="col-md-offset-0 col-lg-offset-0 hide">
-				<a href="javascript:cleardata();" id="contentdata">Show Background</a>
+				<a href="#" id="contentdata">
+				<img class="switch" id="switch" src="<?php echo base_url(); ?>assets/img/on.png">
+				</a>
 			</div>
-			<div id="right-container" class="col-md-offset-0 col-lg-offset-0 hide">
+			
+		</div>
+		<div id="right-container" class="col-md-12 col-12 hide">
 				<div class="inner-header"></div>
 				<hr />
-				<div class="inner-details col-md-11 col-lg-12"></div>
+				<div class="inner-details col-md-12 col-lg-12"></div>
 			</div>
-		</div>
 	</div> <!-- #visualisation end -->
 		<!-- Timeline -->
 
@@ -275,14 +278,23 @@ if (!empty($nodes)){
     $(sys.renderer).bind('navigate', nav.navigate)
     $(nav).bind('mode', sys.renderer.switchMode)
     nav.init()*/
-    function cleardata() {
-			
-	  		$('#right-container').slideToggle('slow');
-	  		var text = $('#contentdata').text();
-    			$('#contentdata').text(
-        			text == "Show Background" ? "Show Node Detail" : "Show Background");
-
-		}
+   // function cleardata() {
+	$("#contentdata").click(function(){
+	
+	//var text = $('#contentdata').html;
+	
+	
+	var src1 = "<?php echo base_url(); ?>assets/img/off.png";
+	var src2 = "<?php echo base_url(); ?>assets/img/on.png";
+	
+	   var src = $('#contentdata img').attr('src');
+	   //alert(src);
+	   if(src == src1){$('#contentdata img').attr('src',src2);}
+	   else{$('#contentdata img').attr('src',src1);}
+	   
+	   $('#right-container').toggle( "slide" );
+	});
+	//	}
 	function NodeStory(nodeid) {
 		// abort any pending request
 	//alert(nodeid);
@@ -316,8 +328,8 @@ if (!empty($nodes)){
 		$("#cy").addClass("col-md-offset-0 col-lg-offset-0");
 		  $(".inner-details ul").append('<li>'+ extradata +'</li>');
 		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> <span style="font-size: 0.45em" class="tiptext">[?]<span class="description">Click heading to get further relationship</span></span></h3>');
-		  $('#center-container').addClass("col-md-8 col-md-offset-0 col-lg-8 col-lg-offset-0");
-		  $('#right-container').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
+		  // $('#center-container').addClass("col-md-8 col-md-offset-0 col-lg-8 col-lg-offset-0");
+		  $('#right-container').removeClass("hide");
 		  
 		  $('#right-container-top').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
 		//$("#right-container-top").html('');

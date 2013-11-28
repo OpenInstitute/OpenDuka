@@ -296,5 +296,18 @@ class Home extends CI_Model {
 	$this->db->set('MostVisited' , 'MostVisited'+1); 
         $this->db->update('Entity');
     }
+    
+    function get_docType($id)
+    {
+    
+    	//is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
+		$this->db->select();
+		$this->db->from('DocumentType');
+		$this->db->where('ID', $id);
+		//if($this->db->count_all_results()>0){  
+	        $query = $this->db->get();
+	        return $query->result_array();
+	      //} else {return '';}
+    }
 
 }
