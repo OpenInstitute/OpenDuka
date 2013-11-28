@@ -624,8 +624,8 @@ class Homes extends CI_Controller {
 							foreach($dta[$j] as  $key => $val){
 								//foreach($cont as $key => $val){
 							  $extraData .= '<div class="col_head">';
-								$extraData .= '<div class="col1_head">'. str_replace("_"," ", $key) .'</div>';
-								$extraData .= '<div class="col2_head">'. $val .'</div>';
+								$extraData .= '<div class="col1_head col-md-4 col-lg-4">'. str_replace("_"," ", $key) .'</div>';
+								$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $val .'</div>';
 							  $extraData .= '</div>';
 								//}
 							}
@@ -646,23 +646,23 @@ class Homes extends CI_Controller {
 					
 					$extraData .= '<div class="row_head">';
 						$extraData .= '<div class="col_head">';
-							$extraData .= '<div class="col1_head">Name</div>';
-							$extraData .= '<div class="col2_head">'. $c_node[0]['Name'].'</div>';
+							$extraData .= '<div class="col1_head col-md-4 col-lg-4">Name</div>';
+							$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $c_node[0]['Name'].'</div>';
 						$extraData .= '</div>';
 						
 						$extraData .= '<div class="col_head">';
-							$extraData .= '<div class="col1_head">Position</div>';
-							$extraData .= '<div class="col2_head">'. $entPos_ref.'</div>';
+							$extraData .= '<div class="col1_head col-md-4 col-lg-4">Position</div>';
+							$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $entPos_ref.'</div>';
 						$extraData .= '</div>';
 						
 						$extraData .= '<div class="col_head">';
-							$extraData .= '<div class="col1_head">Verb</div>';
-							$extraData .= '<div class="col2_head">'. $entVerb_ref.'</div>';
+							$extraData .= '<div class="col1_head col-md-4 col-lg-4">Verb</div>';
+							$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $entVerb_ref.'</div>';
 						$extraData .= '</div>';
 						
 						$extraData .= '<div class="col_head">';
-							$extraData .= '<div class="col1_head">Effective Date</div>';
-							$extraData .= '<div class="col2_head">'. $entDate_ref.'</div>';
+							$extraData .= '<div class="col1_head col-md-4 col-lg-4">Effective Date</div>';
+							$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $entDate_ref.'</div>';
 						$extraData .= '</div>';
 				
 					$extraData .= '</div>';

@@ -209,9 +209,10 @@
 	
 	div.row_head {
 		display: block;
-		width: 300px;
+		/*width: 300px;*/
 		position: relative;
-		margin-top: 5px;
+		/*margin-top: 5px;*/
+		padding-bottom: 10px;
 		border-bottom: 1px #ccc solid;
 		clear: both;
 		
@@ -225,24 +226,25 @@
 	
 	div.col_head div{
 		display: inline;
+		margin-bottom: 10px;
 	}
 	
-	div.col1_head{
+	/*div.col1_head{
 		float: left;
 		width: 95px;
 		text-align: left;
 		vertical-align:top;
 		padding: 3px;
 
-	}
+	}*/
 	
-	div.col2_head{
+	/*div.col2_head{
 		float: right;
 		width: 200px;
 		padding: 3px;
 		text-align: left;
 		vertical-align: top;
-	}
+	}*/
 	
 	p.footer{
 /*		text-align: right;
