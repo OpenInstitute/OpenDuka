@@ -218,14 +218,14 @@ a {
   text-shadow: 0 0 8px #000;
 }
 
-.description h4 {
+.tagline-description h4 {
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
   font-weight: 400;
   text-shadow: 0 0 5px #000;
 }
 
-.description {
+.tagline-description {
   background-color: rgba(50, 50, 50,.7);
   padding-left: 2%;
   position: absolute; bottom: 6%;
@@ -260,9 +260,8 @@ a {
 }
 
 
-#search-results, #admin-board, #login-form, #contact-us {
+#search-results, #admin-board, #login-form, #contact-us, #visualisation {
   /*background: #e7e7e7;*/
-
   margin: 0;
   padding-left: 20px;
   padding-top: 60px;
@@ -564,12 +563,12 @@ section:last-child, article:last-child {
 }
 
 .inner-header {
-  padding-left: 20px;
+  /*padding-left: 20px;*/
 }
 
 .inner-details {
   margin-top: 10px;
-  padding: 0 10px 0 30px;
+  /*padding: 0 10px 0 30px;*/
 }
 
 .inner-details h4 {
@@ -594,8 +593,10 @@ section:last-child, article:last-child {
 }
 
 .inner-details li {
-  border-bottom: 1px solid #FAFAFA;
-  margin: 0 0 20px 0;
+  /*border-bottom: 1px solid #FAFAFA;*/
+  /*margin: 0 0 10px 0;*/
+  word-wrap: break-word;
+  text-align: left;
 }
 
 .inner-details ol, .inner-details ul, .inner-details li {

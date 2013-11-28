@@ -206,7 +206,7 @@
 		width: 800px;
 	}
 	
-	
+
 	
 	div.col_head {
 		display: block;
@@ -216,6 +216,7 @@
 	
 	div.col_head div{
 		display: inline;
+		margin-bottom: 10px;
 	}
 	
 	p.footer{

@@ -10,7 +10,7 @@ if(!isset($list) && empty($nodes))
 		<div class="tagline col-md-12 col-lg-12">
 			<h2>The freely accessible database of information on Kenyan entities</h2>
 		</div>
-		<div class="description col-md-12 col-lg-12">
+		<div class="tagline-description col-md-12 col-lg-12">
 			<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
 		</div>
 	</div>
@@ -125,7 +125,7 @@ if(!isset($list) && empty($nodes))
 
 	<div id="twitter-feed" class="row">
 		<h2><a href="http://twitter.com/OpenDuka"><i class="fa fa-twitter"></i></a></h2>
-		<a href="http://twitter.com/OpenDuka">Follow @OpenDuka</a>
+		<a href="http://twitter.com/OpenDuka">Follow @OpenDuka on Twitter</a>
 		<br />
 		<section>
 			<div id="feed"></div>
@@ -222,13 +222,13 @@ if (!empty($nodes)){
 <!-- Visualisation & Timeline --> 
 
 	<div id="visualisation">
-		<div class="row" style="margin: 0">
-			<div class="col-md-6 col-lg-6">
+		<div class="row">
+			<div class="col-md-6 col-lg-6 pull-left">
 				<h2>Search results for "<B><?php echo $node_title; ?></B>"</h2>
 				<h6>Click on a node for details</h6>
 			</div>
 			<!-- Search -->
-			<div class="query col-md-6 col-lg-6" style="margin-top:0.8em;">
+			<div class="query pull-right" style="margin-top:0.8em;">
 				<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
 					<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
 					<input type="submit" name="submit" value="Go" class="btn btn-warning" />
@@ -237,10 +237,11 @@ if (!empty($nodes)){
 		</div>
 
 		<!-- Visualisation -->
-		<div id="container_vis" class="row" style="margin: 0">
-			<div id="center-container" class="">
+		<div id="container_vis" class="row">
+			<div id="center-container" class="col-md-8 col-lg-8">
 				<canvas id="cy"></canvas>
 			</div>
+
 			<div id="right-container-top" class="col-md-offset-0 col-lg-offset-0 hide">
 				<a href="#" id="contentdata">
 				<img class="switch" id="switch" src="<?php echo base_url(); ?>assets/img/on.png">
@@ -252,6 +253,7 @@ if (!empty($nodes)){
 				<div class="inner-header"></div>
 				<hr />
 				<div class="inner-details col-md-12 col-lg-12"></div>
+
 			</div>
 	</div> <!-- #visualisation end -->
 		<!-- Timeline -->
@@ -325,13 +327,15 @@ if (!empty($nodes)){
 		extradata = rhtmlspecialchars(extradata);
 		
 		//$( "#cy" ).attr({width: "720" , height: "600" });
-		$("#cy").addClass("col-md-offset-0 col-lg-offset-0");
+		// $("#cy").addClass("col-md-offset-0 col-lg-offset-0");
 		  $(".inner-details ul").append('<li>'+ extradata +'</li>');
-		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> <span style="font-size: 0.45em" class="tiptext">[?]<span class="description">Click heading to get further relationship</span></span></h3>');
+		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> </h3><span style="font-size: 0.45em" class="tiptext">[?]</span><span class="description">Click heading to get further relationship</span>');
+
 		  // $('#center-container').addClass("col-md-8 col-md-offset-0 col-lg-8 col-lg-offset-0");
 		  $('#right-container').removeClass("hide");
+
 		  
-		  $('#right-container-top').removeClass("hide col-md-offset-0 col-lg-offset-0").addClass("col-md-4 col-lg-4");
+		  $('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");
 		//$("#right-container-top").html('');
 		  
 		$(".tiptext").mouseover(function() {
