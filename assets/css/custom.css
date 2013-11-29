@@ -418,7 +418,7 @@ a {
   margin-right: auto;
 }
 
-#twitter-feed {
+.social {
   background-color: #ECF1F1;
   margin: 0;
   overflow: hidden;
@@ -429,7 +429,7 @@ a {
   text-align: center;
 }
 
-.fa-twitter {
+.fa-twitter, .fa-pencil {
   color: #666;
 }
 
@@ -525,13 +525,13 @@ section:last-child, article:last-child {
   background: transparent;
 }
 
-#right-container, #top-container {
+/*#right-container, #top-container {
   background: #E3E3E3;
   border: 1px #E6E6E6 solid;
   overflow: auto; 
   text-align: center;
   z-index: 40;
-}
+}*/
 
 #right-container-top {
   float: right;
@@ -542,7 +542,11 @@ section:last-child, article:last-child {
 #right-container {
   /* float: right;
   right: 0;*/
-  padding: 10px 0 30px 0;
+  /*padding: 10px 0 30px 0;*/
+}
+
+.panel-heading a {
+  font-weight: bold;
 }
 
 .hide {

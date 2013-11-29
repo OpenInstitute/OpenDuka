@@ -123,14 +123,34 @@ if(!isset($list) && empty($nodes))
 		</div>
 	</div><!-- #partners -->
 
-	<div id="twitter-feed" class="row">
-		<h2><a href="http://twitter.com/OpenDuka"><i class="fa fa-twitter"></i></a></h2>
-		<a href="http://twitter.com/OpenDuka">Follow @OpenDuka on Twitter</a>
-		<br />
-		<section>
-			<div id="feed"></div>
-		</section>
-	</div>
+	<!-- <div class="social" class="row">
+		<div id="blog-feed" class="col-md-6 col-lg-6">
+			<h2><i class="fa fa-pencil"></i></h2>
+			<div class="post">
+				<a><h3>Open Duka is the future</h3>
+				<p>Lorem ipsum</p>
+				<a>Read more</a>
+			</a>
+			</div>
+			<hr />
+			<div class="post">
+				<a><h3>Open Duka is the future</h3>
+				<p>Lorem ipsum</p>
+				<a>Read more</a>
+			</a>
+			</div>
+		</div>
+		<div id="twitter-feed" class="col-md-6 col-lg 6">
+			<h2><a href="http://twitter.com/OpenDuka"><i class="fa fa-twitter"></i></a></h2>
+			<a href="http://twitter.com/OpenDuka">Follow @OpenDuka on Twitter</a>
+			<br />
+			<section>
+				<div id="feed"></div>
+			</section>
+		</div>
+	</div> -->
+
+
 	<script type="text/javascript" src="assets/js/twitterFetcher_v10_min.js"></script>
 	<script>
 		twitterFetcher.fetch('402150804695416832', '', 3, true, false, true, '', true, handleTweets);
@@ -238,7 +258,7 @@ if (!empty($nodes)){
 
 		<!-- Visualisation -->
 		<div id="container_vis" class="row">
-			<div id="center-container" class="col-md-8 col-lg-8">
+			<div id="center-container" class="col-md-12 col-lg-12">
 				<canvas id="cy"></canvas>
 			</div>
 
@@ -246,144 +266,170 @@ if (!empty($nodes)){
 				<a href="#" id="contentdata">
 				<img class="switch" id="switch" src="<?php echo base_url(); ?>assets/img/on.png">
 				</a>
-			</div>
-			
+			</div>	
 		</div>
-		<div id="right-container" class="col-md-12 col-12 hide">
-				<div class="inner-header"></div>
-				<hr />
-				<div class="inner-details col-md-12 col-lg-12"></div>
-
+		<div id="right-container" class="hide panel panel-default">
+				<div class="panel-heading"></div>
+				<div class="panel-body"></div>
+				<div class="col-md-12 col-lg-12">
+					<div class="category"><span class="label label-info">Gazette</span></div>
+					<table class="table table-hover table-condensed relationships">
+						<thead>
+							<tr>
+							  <th>Col 1</th>
+							  <th>Col 2</th>
+							  <th>Col 3</th>
+							  <th>Col 4</th>
+							</tr>
+						</thead>
+						<tr>
+						  <td>Info 1</td>
+						  <td>Info 2</td>
+						  <td>Info 3</td>
+						  <td>Info 4</td>
+						</tr>
+						<tr>
+						  <td>Info 1</td>
+						  <td>Info 2</td>
+						  <td>Info 3</td>
+						  <td>Info 4</td>
+						</tr>
+					</table>
+					<div class="category"><span class="label label-success">Contract</span></div>
+					<table class="table table-hover table-condensed relationships">
+						<thead>
+							<tr>
+							  <th>Col 1</th>
+							  <th>Col 2</th>
+							  <th>Col 3</th>
+							  <th>Col 4</th>
+							  <th>Col 5</th>
+							  <th>Col 6</th>
+							  <th>Col 4</th>
+							  <th>Col 5</th>
+							  <th>Col 6</th>
+							</tr>
+						</thead>
+						<tr>
+						  <td>Info 1</td>
+						  <td>Info 2</td>
+						  <td>Info 3</td>
+						  <td>Info 1</td>
+						  <td>Info 2</td>
+						  <td>Info 3</td>
+						  <td>Info 1</td>
+						  <td>Info 2</td>
+						  <td>Info 3</td>
+						</tr>
+						<tr>
+						  <td>Info 1</td>
+						  <td>Info 2</td>
+						  <td>Info 3</td>
+						  <td>Info 1</td>
+						  <td>Info 2</td>
+						  <td>Info 3</td>
+						  <td>Info 1</td>
+						  <td>Info 2</td>
+						  <td>Info 3</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 	</div> <!-- #visualisation end -->
-		<!-- Timeline -->
-
-		<!-- <div id="mytimeline"></div> -->
+		
 
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
+		var data = {
+			nodes: <?php echo $nodes; ?>,
+			edges: <?php echo $edges; ?>
+     	}
 
-     var data = {
-     		nodes: <?php echo $nodes; ?>,
-     		edges: <?php echo $edges; ?>
-     		
-     		}
-  // Initialise arbor
-    var sys = arbor.ParticleSystem()
-    sys.parameters({stiffness:900, repulsion:4000, gravity:true, dt:0.015})
-    sys.renderer = Renderer("#cy","<?php echo $hidden_nodes; ?>","<?php echo base_url();?>assets/img/")
-    sys.graft(data)
-    /*, '<?php echo base_url() ;?>assets/img/'
-    var nav = Nav("#nav")
-    $(sys.renderer).bind('navigate', nav.navigate)
-    $(nav).bind('mode', sys.renderer.switchMode)
-    nav.init()*/
-   // function cleardata() {
-	$("#contentdata").click(function(){
+  		// Initialise arbor
+	    var sys = arbor.ParticleSystem()
+	    sys.parameters({stiffness:900, repulsion:4000, gravity:true, dt:0.015})
+	    sys.renderer = Renderer("#cy","<?php echo $hidden_nodes; ?>","<?php echo base_url();?>assets/img/")
+	    sys.graft(data)
+
+		
+		$("#contentdata").click(function(){	
+		
+		var src1 = "<?php echo base_url(); ?>assets/img/off.png";
+		var src2 = "<?php echo base_url(); ?>assets/img/on.png";
 	
-	//var text = $('#contentdata').html;
-	
-	
-	var src1 = "<?php echo base_url(); ?>assets/img/off.png";
-	var src2 = "<?php echo base_url(); ?>assets/img/on.png";
-	
-	   var src = $('#contentdata img').attr('src');
-	   //alert(src);
-	   if(src == src1){$('#contentdata img').attr('src',src2);}
-	   else{$('#contentdata img').attr('src',src1);}
-	   
-	   $('#right-container').toggle( "slide" );
-	});
-	//	}
-	function NodeStory(nodeid) {
+		var src = $('#contentdata img').attr('src');
+
+		if(src == src1) {
+			$('#contentdata img').attr('src',src2);
+			}
+		else {
+			$('#contentdata img').attr('src',src1);
+			}
+			$('#right-container').toggle( "slide" );
+		});
+
+		
+		function NodeStory(nodeid) {
 		// abort any pending request
-	//alert(nodeid);
+		//alert(nodeid);
 	
 	
-	    /*clear result div*/
-	   $(".inner-details").html('');
-	    // setuyakuap some local variables
-	    
+		/*clear result div*/
+		$(".inner-details").html('');
+		// setuyakuap some local variables
 
-	    $.ajax({
-	      url: "<?php echo base_url();?>index.php/homes/node_data",
-	      type: "POST",
-	      data: {node: nodeid},
-	     // async: false,
-	      dataType: "json",
-	     // contentType: "application/json",
-	      success:function(d){
-	      	//alert(d);
-	      	d = JSON.parse(d);
-		//  $("#entity_edit").html(data);
-		//alert(d.data[1].header[0].Link);
-		$('.inner-details').html("<ul/>");
-		l = d.data[1].header[0].Link;
-		pn = d.data[1].header[0].Name;
+
+		$.ajax( {
+			url: "<?php echo base_url();?>index.php/homes/node_data",
+			type: "POST",
+			data: {node: nodeid},
+			// async: false,
+			dataType: "json",
+			// contentType: "application/json",
+			success:function(d) {
+				//alert(d);
+				d = JSON.parse(d);
+				//  $("#entity_edit").html(data);
+				// alert(d.data[1].header[0].Link);
+				$('.inner-details').html("<ul/>");
+				l = d.data[1].header[0].Link;
+				pn = d.data[1].header[0].Name;
 		
-		extradata = d.data[0].posts[0].ExtraData;
-		extradata = rhtmlspecialchars(extradata);
-		
-		//$( "#cy" ).attr({width: "720" , height: "600" });
-		// $("#cy").addClass("col-md-offset-0 col-lg-offset-0");
-		  $(".inner-details ul").append('<li>'+ extradata +'</li>');
-		  $(".inner-header").html('<h3><a href="'+ l +'">'+ pn +'</a> </h3><span style="font-size: 0.45em" class="tiptext">[?]</span><span class="description">Click heading to get further relationship</span>');
+				extradata = d.data[0].posts[0].ExtraData;
+				extradata = rhtmlspecialchars(extradata);
 
-		  // $('#center-container').addClass("col-md-8 col-md-offset-0 col-lg-8 col-lg-offset-0");
-		  $('#right-container').removeClass("hide");
-
-		  
-		  $('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");
-		//$("#right-container-top").html('');
-		  
-		$(".tiptext").mouseover(function() {
-		    $(this).children(".description").show();
-		}).mouseout(function() {
-		    $(this).children(".description").hide();
-		});
-		
-	     },
-	     error: function(xhr, status, error) {
-			 alert(xhr.error);
-	     }
-	    });
-
-	}
+				$(".inner-details ul").append('<li>'+ extradata +'</li>');
+				$(".panel-heading").html('<a href="'+ l +'">'+ pn +'</a>');
+				$('#right-container').removeClass("hide"); 
+				$('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");
+				  
+				$(".tiptext").mouseover(function() {
+				    $(this).children(".description").show();
+				}).mouseout(function() {
+				    $(this).children(".description").hide();
+				});
+				
+			     },
+			     error: function(xhr, status, error) {
+					 alert(xhr.error);
+			     }
+			    });
+			}	
 		
 		
-function rhtmlspecialchars(str) {
- if (typeof(str) == "string") {
-  str = str.replace(/&gt;/ig, ">");
-  str = str.replace(/&lt;/ig, "<");
-  str = str.replace(/&#039;/g, "'");
-  str = str.replace(/&quot;/ig, '"');
-  str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
-  }
- return str;
- }
-	/*
+		function rhtmlspecialchars(str) {
+		if (typeof(str) == "string") {
+			str = str.replace(/&gt;/ig, ">");
+			str = str.replace(/&lt;/ig, "<");
+			str = str.replace(/&#039;/g, "'");
+			str = str.replace(/&quot;/ig, '"');
+			str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
+		}
+			return str;
+		}
 
-var events = [<?php // echo $events; ?>];
-var sections = [<?php // echo $sections; ?>];
-
-       var timeline1 = new Chronoline(document.getElementById("mytimeline"), events, {
-		visibleSpan: DAY_IN_MILLISECONDS * 366,
-		animated: true,
-		tooltips: true,
-		defaultStartDate: new Date(2012, 3, 5),
-		sections: sections,
-		sectionLabelAttrs: {'fill': '#997e3d', 'font-weight': 'bold'},
-		labelInterval: isHalfMonth,
-		hashInterval: isHalfMonth,
-		scrollLeft: prevQuarter,
-		scrollRight: nextQuarter,
-		floatingSubLabels: false,
-		});
-
-	$('#to-today').click(function(){timeline1.goToToday();});
-   */
 </script>
 
 <?php } ?>
