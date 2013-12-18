@@ -1,6 +1,6 @@
 <?php
 
-class Home extends CI_Model {
+class Tree extends CI_Model {
 
     var $title   = '';
     var $content = '';

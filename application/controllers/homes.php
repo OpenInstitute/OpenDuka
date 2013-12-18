@@ -286,7 +286,7 @@ class Homes extends CI_Controller {
 		
 		$vis_filter = $this->filter_data($node_arr);
 	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle,  'filter_form'=> $vis_filter,  'hidden_nodes'=> $nFilter);
+		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle,  'filter_form'=> $vis_filter,  'hidden_nodes'=> $nFilter,  'nodeid'=> $v0);
 		
 		$data_head = array('page_title' => 'Visualisation');
 
@@ -575,13 +575,13 @@ class Homes extends CI_Controller {
 			foreach($docmap as $k => $d){
 				
 			  if(!in_array($d, $doc)){ 
-			  $doc[] = $d;
+			  $doc[] = ($d != "") ? $d : null ;
 			 // echo $k;
 			  //    $val = $arraymap[$k];
 			     // echo $val;
 			    //  $valz = explode('||',$val);
 			     // for($j=0; $j<sizeof($valz); $j++){
-				$v[] = array('ID' => $child_node[0]['ID'], 'arraypoint' => $k, 'docid' => $d);
+			//	$v[] = array('ID' => $child_node[0]['ID'], 'arraypoint' => $k, 'docid' => $d);
 				//if(!in_array($n, $valz)){ 
 				//	$v[] = array('ID' => $child_node[0]['ID'], 'arraypoint' => $k, 'docid' => $d );
 				//}
@@ -590,19 +590,20 @@ class Homes extends CI_Controller {
 			}
 		//}
 		
-		//var_dump($v); exit;
+		//var_dump($doc); echo sizeof($doc); exit;
+		$extraData="";
 		$maps= '{"data":[{"posts":[';
 		//var_dump($root_node);
-		if(sizeof($v)>0){
-			for($i=0; $i<sizeof($v); $i++){
-			$id = $v[$i]['ID'];
+		if(sizeof($doc)>0){
+			for($i=0; $i<sizeof($doc); $i++){
+			$id = $n;
 			$c_node = $this->home->get_entries('ID',$id);
-			$doc_ref = $v[$i]['docid'];
+			$doc_ref = $doc[$i];
 			//$doc_ids = explode(',',$c_node[0]['DocID']);
 			$d=0;
-			$extraData="";
+			
 				
-			//for($i=0; $i<sizeof($doc_ids); $i++){
+			if ($doc_ref!= null){
 
 				//$doc_ref = $doc_ids[$i];
 				$dataset = $this->home->get_doc($doc_ref);
@@ -616,81 +617,52 @@ class Homes extends CI_Controller {
 						$ds=$row['representation'];
 						$q = ($ds=="")? '*' : $ds;
 
-
 						$dta = $this->home->get_dataset($dt,$q,$n);
 					//	var_dump($dta);
-						$k = (sizeof($dta[0])>11) ? 1 : (int)(12/sizeof($dta[0])) ;
-						$i=1;
+						//$k = (sizeof($dta[0])>11) ? 1 : (int)(12/sizeof($dta[0])) ;
+						//$i=1;
 						//echo sizeof($dta);
 						
-						$extraData .= '<div class="category"><h2>'.$dataCat[0]['DocTypeName'].'</h2>';
-						$extraData .= '<div class="row_head row">';	
+						$extraData .= '<div class="category"><span class="label label-info">'.$dataCat[0]['DocTypeName'].'</span></div>';
+						$extraData .= '<table class="table table-hover table-condensed relationships">';
+						$extraData .= '<thead>';	
 							foreach($dta[0] as  $key => $val){
-							$extraData .= '<div class="col1_head col-md-'.$k.' col-lg-'.$k.'">'. str_replace("_"," ", $key) .'</div>';
-							
-							if($i==12){break;}
-							++$i;
+								if (substr($key,-3,3)=='_E_') {
+						   	  		$Entity_id[]= $key;
+						  		}
+						  		else{
+							$extraData .= '<th>'. str_replace("_"," ", $key) .'</th>';
+								}
+
 							}
-						$extraData .= '</div>';
-						
+						$extraData .= '</thead>';
+
 						for($j=0; $j<sizeof($dta); $j++){
-						$i=1;
+						//$i=1;
 						//$extraData .= '<br>';
-						$extraData .= '<div class="row_head row">';
+						$extraData .= '<tr>';
+						
 							foreach($dta[$j] as  $key => $val){
-
-							$extraData .= '<div class=" col-md-'.$k.' col-lg-'.$k.'">'. $val .'</div>';
-							if($i==12){break;}
-							++$i;
-
+								if (substr($key,-3,3)!='_E_') {
+								$kd=$key."_E_";
+								  $extraData .= in_array($kd, $Entity_id) ? '<td><a href="'. $dta[$j][$kd].'">'. $val .'</a></td>' : '<td>'. $val .'</td>' ;
+								}
+							//if($i==12){break;}
+							//++$i;
 							}
-						$extraData .= '</div>';	
+						$extraData .= '</tr>';	
 						}
-						$extraData .= '</div>';	
+						$extraData .= '</table>';	
 						//echo $extraData;
-					} else {
-				    
-					$arraypoint = $v[$i]['arraypoint'];
-					$entMaps = explode(',',$c_node[0]['EntityMap']);
-					$entMap_ref = $entMaps[$arraypoint];
-					$entPos = explode('||',$c_node[0]['EntityPosition']);
-					$entPos_ref = $entPos[$arraypoint];
-					$entVerb = explode('||',$c_node[0]['Verb']);
-					$entVerb_ref = $entVerb[$arraypoint];
-					$entDate = explode('||',$c_node[0]['EffectiveDate']);
-					$entDate_ref = $entDate[$arraypoint];
-					
-					$extraData .= '<div class="category"><h2>'. $dataCat[0]['DocTypeName']. '</h2>';
-					$extraData .= '<div class="row_head">';
-						$extraData .= '<div class="col_head">';
-							$extraData .= '<div class="col1_head col-md-4 col-lg-4">Name</div>';
-							$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $c_node[0]['Name'].'</div>';
-						$extraData .= '</div>';
-						
-						$extraData .= '<div class="col_head">';
-							$extraData .= '<div class="col1_head col-md-4 col-lg-4">Position</div>';
-							$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $entPos_ref.'</div>';
-						$extraData .= '</div>';
-						
-						$extraData .= '<div class="col_head">';
-							$extraData .= '<div class="col1_head col-md-4 col-lg-4">Verb</div>';
-							$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $entVerb_ref.'</div>';
-						$extraData .= '</div>';
-						
-						$extraData .= '<div class="col_head">';
-							$extraData .= '<div class="col1_head col-md-4 col-lg-4">Effective Date</div>';
-							$extraData .= '<div class="col2_head col-md-8 col-lg-8">'. $entDate_ref.'</div>';
-						$extraData .= '</div>';
-				
-					$extraData .= '</div>';
-					$extraData .= '</div>';
-					}
-				//}
+					} 
 			}
 		
-			$maps .= ' {"ID":"'. $c_node[0]['ID'] .'", "ExtraData":"'. htmlspecialchars($extraData) .'"},';	
+			//$maps .= ' {"ID":"'. $c_node[0]['ID'] .'", "ExtraData":"'. htmlspecialchars($extraData) .'"},';	
 						
+			}
 			} 
+			$maps .= ' { "ExtraData":"'. htmlspecialchars($extraData) .'"}';	
+			
 		} 
 		//else {
 		//$maps .= ' {"ID":"", "Name":"", "EntMap":"", "EntPos":"", "Verb":"", "EffectiveDate":""},';
@@ -698,93 +670,10 @@ class Homes extends CI_Controller {
 		$maps .= ']}';
 		$d=1;
 		$root_node = $this->home->get_entries('ID',$n);
-		/*$doc_ids = explode(',',$root_node[0]['DocID']);
 		
-		$extraData="";
-		
-		for($i=0; $i<sizeof($doc_ids); $i++){
-		$doc_ref = $doc_ids[$i];
-		
-		$dataset = $this->home->get_doc($doc_ref);
-		foreach($dataset as $row){
-		$dt=$row['data_table'];
-		//echo $dt;
-		   if($dt!=""){
-				$d=1; 
-				$ds=$row['representation'];
-				$q = ($ds=="")? '*' : $ds;
-			
-				$dta = $this->home->get_dataset($dt,$q,$n);
-				//var_dump($dta[0]);
-
-				//echo sizeof($dta);
-				for($j=0; $j<sizeof($dta); $j++){
-					$extraData .= '<div class="row_head">';
-					foreach($dta[$j] as  $key => $val){
-						//foreach($cont as $key => $val){
-					  $extraData .= '<div class="col_head">';
-						$extraData .= '<div class="col1_head">'. $key .'</div>';
-						$extraData .= '<div class="col2_head">'. $val .'</div>';
-					  $extraData .= '</div>';
-						//}
-					}
-					$extraData .= '</div>';
-				}
-				//echo $extraData;
-			}
-		    }
-		}*/
 		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap'] . '","EntPos":"'. $root_node[0]['EntityPosition']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '", "E_D":"'. $d .'"}]}';
 		
 		
-
-/*
-		$rd = explode('||',$root_node[0]['EffectiveDate']);
-		$rv = explode('||',$root_node[0]['Verb']);
-		$rm = explode(',', $root_node[0]['EntityMap']);
-		for($k=0; $k<sizeof($rm); $k++){
-			$v = $rv[$k];
-
-			$d =  (isset($rd[$k])) ? $rd[$k] : '';
-
-			$m = $rm[$k];
-			$rmap = explode('||',$m);
-			if(sizeof($rmap)>0){
-				for($l=0; $l<sizeof($rmap); $l++){
-					$nid = $rmap[$l];
-					//if ( !isset($r[$nid]) ) {
-					  $r[$nid][] = array('Verb'=>$v, 'Dated'=>$d);
-					//}
-					//$r[$nid]['Verb'][] = $v;
-					//$r[$nid]['Dated'][] = $d;
-				}
-			} else {
-				//if ( !isset($r[$m]) ) {
-				  $r[$m][] = array('Verb'=>$v, 'Dated'=>$d);
-				//}
-				//$r[$m]['Verb'][] = $v;
-				//$r[$m]['Dated'][] = $d;
-			}
-		}
-		
-		$vb = "";
-		foreach($r as $key => $val){
-			if ($key!=""){
-				$vb .= '{"_'.$key .'":[';
-				if (is_array($val)){
-				
-					foreach($val as $vk => $v){
-					$vb .= '{"Verb":"'. $v['Verb'].'","Dated":"'. $v['Dated']. '"},';
-					}
-				} 
-				
-				$vb .= ']},';
-			}	
-		}
-		
-		
-		$maps .=', {"arraymap":['.$vb.']}'; 
-		*/
 		$maps .=']}';
 		$maps = str_replace(",]","]",$maps);
 		$maps = str_replace(",}","}",$maps);

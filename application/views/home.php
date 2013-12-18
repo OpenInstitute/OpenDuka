@@ -261,7 +261,9 @@ if (!empty($nodes)){
 			<div id="center-container" class="col-md-12 col-lg-12">
 				<canvas id="cy"></canvas>
 			</div>
-
+			<div>
+			&lt;iframe src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;
+			</div>
 			<div id="right-container-top" class="col-md-offset-0 col-lg-offset-0 hide">
 				<a href="#" id="contentdata">
 				<img class="switch" id="switch" src="<?php echo base_url(); ?>assets/img/on.png">
@@ -271,70 +273,8 @@ if (!empty($nodes)){
 		<div id="right-container" class="hide panel panel-default">
 				<div class="panel-heading"></div>
 				<div class="panel-body"></div>
-				<div class="col-md-12 col-lg-12">
-					<div class="category"><span class="label label-info">Gazette</span></div>
-					<table class="table table-hover table-condensed relationships">
-						<thead>
-							<tr>
-							  <th>Col 1</th>
-							  <th>Col 2</th>
-							  <th>Col 3</th>
-							  <th>Col 4</th>
-							</tr>
-						</thead>
-						<tr>
-						  <td>Info 1</td>
-						  <td>Info 2</td>
-						  <td>Info 3</td>
-						  <td>Info 4</td>
-						</tr>
-						<tr>
-						  <td>Info 1</td>
-						  <td>Info 2</td>
-						  <td>Info 3</td>
-						  <td>Info 4</td>
-						</tr>
-					</table>
-					<div class="category"><span class="label label-success">Contract</span></div>
-					<table class="table table-hover table-condensed relationships">
-						<thead>
-							<tr>
-							  <th>Col 1</th>
-							  <th>Col 2</th>
-							  <th>Col 3</th>
-							  <th>Col 4</th>
-							  <th>Col 5</th>
-							  <th>Col 6</th>
-							  <th>Col 4</th>
-							  <th>Col 5</th>
-							  <th>Col 6</th>
-							</tr>
-						</thead>
-						<tr>
-						  <td>Info 1</td>
-						  <td>Info 2</td>
-						  <td>Info 3</td>
-						  <td>Info 1</td>
-						  <td>Info 2</td>
-						  <td>Info 3</td>
-						  <td>Info 1</td>
-						  <td>Info 2</td>
-						  <td>Info 3</td>
-						</tr>
-						<tr>
-						  <td>Info 1</td>
-						  <td>Info 2</td>
-						  <td>Info 3</td>
-						  <td>Info 1</td>
-						  <td>Info 2</td>
-						  <td>Info 3</td>
-						  <td>Info 1</td>
-						  <td>Info 2</td>
-						  <td>Info 3</td>
-						</tr>
-					</table>
-				</div>
-			</div>
+				<div class="col-md-12 col-lg-12" id="inner_details"></div>
+		</div>
 	</div> <!-- #visualisation end -->
 		
 
@@ -345,7 +285,7 @@ if (!empty($nodes)){
 		var data = {
 			nodes: <?php echo $nodes; ?>,
 			edges: <?php echo $edges; ?>
-     	}
+     		}
 
   		// Initialise arbor
 	    var sys = arbor.ParticleSystem()
@@ -393,14 +333,15 @@ if (!empty($nodes)){
 				d = JSON.parse(d);
 				//  $("#entity_edit").html(data);
 				// alert(d.data[1].header[0].Link);
-				$('.inner-details').html("<ul/>");
+				
 				l = d.data[1].header[0].Link;
 				pn = d.data[1].header[0].Name;
 		
 				extradata = d.data[0].posts[0].ExtraData;
-				extradata = rhtmlspecialchars(extradata);
-
-				$(".inner-details ul").append('<li>'+ extradata +'</li>');
+				extradata = rhtmlspecialchars( extradata );
+				//alert(extradata);
+				$("#inner_details").html( extradata );
+				//$("#inner_details").append( extradata );
 				$(".panel-heading").html('<a href="'+ l +'">'+ pn +'</a>');
 				$('#right-container').removeClass("hide"); 
 				$('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");

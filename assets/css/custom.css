@@ -543,6 +543,7 @@ section:last-child, article:last-child {
   /* float: right;
   right: 0;*/
   /*padding: 10px 0 30px 0;*/
+  overflow: auto;
 }
 
 .panel-heading a {
@@ -611,6 +612,11 @@ section:last-child, article:last-child {
 .inner-details .status .st-verb {
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.mfuatilio ul li {
+
+  list-style: none;
 }
 
 .st-verb {
