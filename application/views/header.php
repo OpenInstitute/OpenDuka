@@ -10,7 +10,7 @@
 
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/wysiwyg.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.validate.js"></script>
-
+	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor-tween.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/graphics.js"></script>
@@ -22,7 +22,7 @@
 
 
 	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.min.js"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
 
   	
   	<link type="text/css"  rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
@@ -55,7 +55,7 @@
 		  	element.scrollIntoView(true);
 		}
 	</script>
-	 <script type="text/javascript">
+	<script type="text/javascript">
 
             jQuery.ias({
                 container : '.matokeo',
@@ -66,7 +66,7 @@
                 triggerPageThreshold: 2
             });
 
-    </script>
+    	</script>
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar">

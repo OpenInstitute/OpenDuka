@@ -217,9 +217,9 @@ class Admin extends CI_Controller {
     			$list="<form id='EntityMerge' action='' method='post'><div class='spacer'><div style='width: 400px;'>Entity</div><div style='width: 200px;'>Unique Box <br/>'P.O. Box NNN'</div><div style='width: 200px;'>Start:End Date</div></div>";
 			for($i=0;$i< count($content);$i++)
 			{
-			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><input style='width: 20px;' type='checkbox' name='Merge[]' value='".$content[$i]['ID']."'>";
+			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><input style='width: 20px;' type='checkbox' name='Merge[]' value='". $content[$i]['ID'] . "'>";
 			
-			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'>" . $content[$i]['UniqueInfo'] ."</div><div style='width: 200px;'>" .$content[$i]['EffectiveDate'] .'</div></div>'; 
+			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'>" . $content[$i]['UniqueInfo'] ."</div><div style='width: 200px;'>" . $content[$i]['EffectiveDate'] .'</div></div>'; 
 			
 			}		
 			$list.='<input type="hidden" value="" name="EntityIDS"/><input type="button" class="EntityUpdate" value="Submit" onclick="EntityMerge()"/></form>';
@@ -296,7 +296,6 @@ class Admin extends CI_Controller {
    	$list = "<form id='DatasetInsert' action='' method='post'>";
 
    	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
-   	
    	$doctype = $this->admin_model->get_doctype();
    	//var_dump($doctype);
    	$list .= "<div class='spacer'>Document Type  <select name='DocumentType'";
@@ -331,25 +330,32 @@ class Admin extends CI_Controller {
     function ListFieldEdit(){
      //$this->output->enable_profiler(TRUE); 
      	$stabs = $this->input->post('STab');
-
-   	$list = "<form id='DatasetEdit' action='' method='post'>";
+	$doc_info = $this->admin_model->get_document_ref($stabs);
+	$representation = explode(",",(str_replace(" ","",(str_replace("`","",$doc_info[0]['representation'])))));
+//echo($stabs);
+	//var_dump($doc_info); exit;
+   	$list = "<form id='DatasetEditForm' action='' method='post'>";
    	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
    	
    	$list .= "<div class='spacer'><div style='width: 300px;'>Select field to show Entity</div></div>";
    	$viwanja = $this->admin_model->get_fields($stabs);
     	foreach ($viwanja as $kiwanja) {
 		if (substr($kiwanja->name, -3) != '_E_') {
-
-			$list .= "<div class='spacer parent'><input style='width: 20px;' class='selectfield' type='checkbox' name='DataField[]' value='".$kiwanja->name."'>";
+			$name = $kiwanja->name;
+			$list .= "<div class='spacer parent'>";
+			if (in_array($name, $representation)) {
+			$list .= "<input style='width: 20px;' type='checkbox' name='DataField[]' class='fild' checked value='".$kiwanja->name."'>";
+			} else {
+			$list .= "<input style='width: 20px;' type='checkbox' name='DataField[]' class='fild' value='".$kiwanja->name."'>";			
+			}
 	   		$list .= $kiwanja->name ."</div>";
 	   	}
 	}	
-	//  echo $kiwanja->type;
-	//  echo $kiwanja->max_length;
-	//  echo $kiwanja->primary_key;
+	
 	 $list .= '<div class="spacer">
-	 <input type="hidden" value="'. $stabs .'" name="tablename"/>
-	 <input type="button" class="EntityRead" value="Submit" onclick="DatasetRead()"/></div>';
+			 <input type="hidden" value="'. $stabs .'" name="tablename"/>
+			 <input type="button" class="DatasetEditBT" value="Submit" id="DatasetEditBT"/>
+		   </div>';
 	 $list .= '</form>';
 	
 	$list = empty($list) ? "Sorry No Data" : $list;
@@ -389,13 +395,13 @@ class Admin extends CI_Controller {
     
 
 
-   function DatasetRead(){
-   // $this->output->enable_profiler(TRUE); 
+   function DatasetEdit(){
+  //  $this->output->enable_profiler(TRUE); 
    
    	$tbl = $this->input->post('tablename');
    	$DataField = $this->input->post('DataField');
-   	
-   	$flds = (count($DataField) > 0) ? "'".implode(', ', $DataField) ."'" : '*';
+   //	echo $tbl; exit;
+   	$flds = (count($DataField) > 0) ? "'".implode(',', $DataField) ."'" : '*';
        	$list ="Records Submitted ";
 
     	$this->admin_model->dataset_edit($tbl, $flds);

@@ -278,7 +278,7 @@ if (!empty($nodes)){
 	</div> <!-- #visualisation end -->
 		
 
-	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
+
 
 	<script type="text/javascript">
 

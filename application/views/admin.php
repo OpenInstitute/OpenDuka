@@ -164,6 +164,14 @@ $("#dataset_name").change(function() {
 	});
 });
 
+$(".backlink").click(function() {
+	$(".backlink").fadeOut("slow");
+	$(".three_col").fadeIn("slow");
+	
+	$('.formdata').hide();
+	$('#form_title').hide();
+	$("#result").hide("slow");
+});
 
 $(".trigger").click(function() {
  
@@ -171,7 +179,7 @@ $(".trigger").click(function() {
  
 	$('.formdata').hide();
         var name = $(this).attr('name');
-      	//alert(name);
+      //	alert(name);
 	$('#'+name +'.formdata').show();
 	
 	if (name=='EInsert0'){
@@ -193,25 +201,17 @@ $(".trigger").click(function() {
  		ListDocCat();
  	}
 
-
 	if (name=='EInsert5'){
+		
  		$("#form_title").html('<h3>Manage Dataset</h3>');
  		ListDataset();
  	}
-
+	$('#form_title').show();
 	
 	$(".three_col").fadeOut("slow");
 	$(".backlink").fadeIn("slow");
 });
 
-$(".backlink").click(function() {
-	$(".backlink").fadeOut("slow");
-	$(".three_col").fadeIn("slow");
-	
-	$('.formdata').hide();
-	$('#form_title').hide();
-	$("#result").hide("slow");
-});
 
 
 $(".EntityAdd").click(function() {
@@ -618,6 +618,7 @@ function field_list(meza,DocType){
 		    $(':checkbox', this).each(function() {
 			this.checked = !this.checked;
 		    });
+		    
 		   var verbcont  = $("div#verbs").html();
 		    if (op) {
 		    	$(this).parent().find('.selectverb').html(verbcont);
@@ -625,6 +626,7 @@ function field_list(meza,DocType){
 		    	$(this).parent().find('.selectverb').html('');
 		    }
 	//alert(verbcont);
+	
 		});
 
 	
@@ -638,7 +640,87 @@ function field_list(meza,DocType){
 
 }
 
+
+function field_list_edit(meza){
+	//alert(meza);
+	$.ajax({
+	      url: "<?php echo base_url();?>index.php/admin/ListFieldEdit",
+	      type: "post",
+	      async: false, 
+	      data: {STab : meza},
+	      success:function(data){
+	      	//alert(data);
+
+		 $("#viwanjaEdit").html(data);
+		   
+		 $(".selectfield").click(function(){
 	
+		   var op = $(this).parent().find(':checkbox').attr('checked');
+		    $(':checkbox', this).each(function() {
+			this.checked = !this.checked;
+		    });
+		    /*
+		   var verbcont  = $("div#verbs").html();
+		    if (op) {
+		    	$(this).parent().find('.selectverb').html(verbcont);
+		    } else { 
+		    	$(this).parent().find('.selectverb').html('');
+		    }*/
+		//alert(verbcont);
+		});
+		
+		$("#DatasetEditBT").click(function(){
+			var $form = $("#DatasetEditForm");
+			var $inputs = $form.find("input, select, textarea");
+		    // serialize the data in the form
+		    var forminfo = $form.serialize();
+		   // alert (forminfo);
+			DatasetEdit(forminfo);
+		});
+		
+		$("#result").html("select fields");
+	      },
+	      
+	      error:function(){
+		  alert("failure");
+		  $("#result").html('there is error while listing fields');
+	      }
+	 });
+	 
+	 
+		
+
+}
+	
+function DatasetEdit(serializedData) {
+
+    $("#result").html('');
+    // setup some local variables
+   // var $form = $("#DatasetEdit");
+    
+	// let's select and cache all the fields
+   // var $inputs = $form.find("input, select, textarea");
+    // serialize the data in the form
+  //  var serializedData = $form.serialize();
+     /* Send the data using post and put the results in a div */
+    $.ajax({
+      url: "<?php echo base_url();?>index.php/admin/DatasetEdit",
+      type: "post",
+      async: false, 
+      data: serializedData,
+      success:function(dat){
+
+         $("#result").html(dat);
+        
+        // $("#result").html("Update Done");
+      },
+      error:function(d){
+          alert("failure"+d);
+          $("#result").html('there is error while submit');
+      }
+    });	
+}
+
 		
 function EntityExtract() {
 

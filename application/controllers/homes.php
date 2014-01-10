@@ -52,13 +52,16 @@ class Homes extends CI_Controller {
 	
 	function entityTypelist($ent="",$page_num=1)
 	{
+	//$this->output->enable_profiler(TRUE);
+
+	//echo(parse_url("http://foo?bar#fizzbuzz",PHP_URL_FRAGMENT));
 	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
 	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "A";
 		$data_head = array('page_title' => 'Search results');
 
 		$Type = isset($_GET['TypeID']) ? $_GET['TypeID'] : $ent ;
 		//$Type_ = str_replace('D','',$Type);	
-		//echo $context;exit;
+		//echo $this->uri->segment(5);exit;
 		$results_per_page=25;
 		$content = $this->home->get_entry_cont3('EntityTypeID',$Type,$page_num, $results_per_page, $sortment);
 
@@ -220,13 +223,14 @@ class Homes extends CI_Controller {
 		$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
 		$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
 		$node_arr= $this->clean_array(explode(',',$node_arr)); 
-//var_dump($node_arr);
+	//var_dump($node_arr);
 		for($k=0; $k<count($node_arr); $k++){
 			$nDetail = explode('|',$node_arr[$k]);
-		//	var_dump($nDetail);
+			//var_dump($nDetail);
 			$id = $nDetail[0];
 			$dataset = $nDetail[1];
 			$alpha = $nDetail[2];
+			$filter = $nDetail[3];
 			$shape = ($alpha == 1 ) ? 'dot' : 'rectangle';
 
 			//echo $dataset;
@@ -241,7 +245,7 @@ class Homes extends CI_Controller {
 			$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
 			
 			$NodeName = explode(':',$n[0]['Name']);			
-			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0]))) . "_".$id ."," : null;
+			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_",$NodeName[0]))) . "_".$id ."," : null;
 			//echo($NodeName[0]);
 			$ne=(int)$n[0]['EntityTypeID'];
 			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
@@ -286,7 +290,7 @@ class Homes extends CI_Controller {
 		
 		$vis_filter = $this->filter_data($node_arr);
 	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle,  'filter_form'=> $vis_filter,  'hidden_nodes'=> $nFilter,  'nodeid'=> $v0);
+		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'filter_form'=> $vis_filter,  'hidden_nodes'=> $nFilter, 'nodeid'=> $v0);
 		
 		$data_head = array('page_title' => 'Visualisation');
 
@@ -299,7 +303,7 @@ class Homes extends CI_Controller {
 	function tree_init($v0,$weed){
 	
 	$edges = "";
-		$one = $this->tree_schema($v0, $weed,"1");
+		$one = $this->tree_schema($v0, $weed,"1","1");
 		
 		$nodetitle = $one['nodetitle'];
 		//$weed = $one['weed'];
@@ -311,7 +315,7 @@ class Homes extends CI_Controller {
 		//echo sizeof($one['fruit']);
 		if (sizeof($one['fruit'])>0) {
 			for($i=0; $i< (sizeof($one['fruit'])); $i++){
-				$two = $this->tree_schema($one['fruit'][$i],$weed,"1");
+				$two = $this->tree_schema($one['fruit'][$i],$weed,"1","1");
 				array_push($weed, $one['fruit'][$i]);
 				//var_dump($two); exit;
 				$edges .= $two['edges'];
@@ -320,7 +324,7 @@ class Homes extends CI_Controller {
 				  //echo 'tuko '. var_dump($weed) .'second array';exit;
 					for($j=0; $j< (sizeof($two['fruit'])); $j++){
 					
-						$three = $this->tree_schema($two['fruit'][$j], $weed,"0");
+						$three = $this->tree_schema($two['fruit'][$j], $weed,"0","1");
 						//array_push($weed, $two['fruit'][$i]);
 						$edges .= $three['edges'];
 						$node_arr .= $three['nodearray'];
@@ -341,7 +345,7 @@ class Homes extends CI_Controller {
 	}
 	
 	
-	function tree_schema($v, $weed,$alpha){
+	function tree_schema($v, $weed,$alpha, $filter){
 		$fruit= array();
 		$valz = array();
 		$node_array = "";//$node_arr . ',';
@@ -371,7 +375,7 @@ class Homes extends CI_Controller {
 		}
 	//	var_dump($valz); 
 		//echo count($valz);//exit;
-		$tree = $this->tree_build($valz,$v,$alpha);
+		$tree = $this->tree_build($valz,$v,$alpha,$filter);
 		$node_array = $tree['node_arr'];
 		$edges = $tree['edges'];
 		$fruit = $tree['fruit'];
@@ -382,6 +386,7 @@ class Homes extends CI_Controller {
 		$level= array();
 		$level['nodetitle']=$nodetitle;
 		$level['nodearray']= $node_array;
+		$level['filter']=$filter;
 		$level['alpha']=$alpha;
 		$level['edges']=$edges;
 		$level['fruit']=$fruit;
@@ -390,7 +395,7 @@ class Homes extends CI_Controller {
 	}
 	
 	
-	function tree_build($branch,$stem,$alpha){
+	function tree_build($branch,$stem,$alpha, $filter){
 	//var_dump($branch);// exit;
 		//echo $stem; exit;
 		$fruit= array();
@@ -405,7 +410,7 @@ class Homes extends CI_Controller {
 		$edges = "";
 		//echo sizeof($branch);
 	//	echo (!in_array(array($stem), explode(',',$node_array)))?  'true - '.$stem:  'false';
-		$node_array = $stem . '|0 |' . $alpha.',';
+		$node_array = $stem . '|0|' . $alpha.'|0,';
 		if ( !isset($stm) ) {
 		$stm[] = $stem;
  		$edges .= "'" . str_replace(".","",str_replace(" ","_",$root_Name[0]))."_". $stm[0] . "':{";
@@ -422,7 +427,7 @@ class Homes extends CI_Controller {
 		 		$child_Name = explode(':',$child[$i]['Name']);
 				$edges .= "'". str_replace(".","",str_replace(" ","_",$child_Name[0])) ."_". $child[$i]['ID']."':{},";
 			
-				$node_array .=  $child[$i]['ID'] .'|'. $branch[$k]['dataset'] .'|' . $alpha . ',' ;
+				$node_array .=  $child[$i]['ID'] .'|'. $branch[$k]['dataset'] .'|' . $alpha . '|1,' ;
 				$fruit[] = $child[$i]['ID'];
 			
 				
@@ -436,7 +441,7 @@ class Homes extends CI_Controller {
 		unset($stm);			
 		}
 		//var_dump(explode(',',$node_array)); 
-		//$tree['nodes'] = $nodes;
+		$tree['filter'] = $filter;
 		$tree['node_arr'] = $node_array;
 		$tree['edges'] = $edges;
 		$tree['fruit'] = $fruit;
@@ -475,11 +480,11 @@ class Homes extends CI_Controller {
 		 	}
 		}
 		
-		$one = $this->tree_build($valz,$v0,1);
+		$one = $this->tree_build($valz,$v0,1,0);
 		//var_dump($one); exit;
 		$nt = $this->home->get_entries('ID',$v0);
 		$nodetitle = $nt[0]['Name'];
-		$tr = array('nodes'=>$one['node_arr'], 'edges'=>$one['edges'], 'nodeTitle' => $nodetitle);
+		$tr = array('nodes'=>$one['node_arr'], 'edges'=>$one['edges'], 'nodeTitle' => $nodetitle, 'alpha'=>1, 'filter'=>$one['filter']);
 		return $tr;	
 	}
 

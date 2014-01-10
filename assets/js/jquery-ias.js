@@ -8,7 +8,7 @@
  * https://raw.github.com/webcreate/infinite-ajax-scroll/master/MIT-LICENSE.txt
  */
 
-jQuery(function($) {
+(function ($) {
 
     'use strict';
 
@@ -770,4 +770,4 @@ jQuery(function($) {
             }
         };
     };
-});
+})(jQuery);

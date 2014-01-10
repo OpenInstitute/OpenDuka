@@ -13,6 +13,16 @@ class Admin_model extends CI_Model {
         parent::__construct();
     }
     
+    function get_document_ref($DocName)
+    {
+		$this->db->select();
+		$this->db->from('DocUploaded');    
+		$this->db->where('title', trim($DocName));   
+        	$query = $this->db->get();
+
+	        return $query->result_array();
+    }
+    
     function get_document_entry($DocName)
     {
 		$this->db->select('ID');
@@ -27,6 +37,7 @@ class Admin_model extends CI_Model {
 		}
 		return null;
     }
+
 
 
     function insert_document($DocName, $DocType=1)

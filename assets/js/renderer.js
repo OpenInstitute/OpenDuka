@@ -7,8 +7,8 @@
     var ctx = canvas.getContext("2d");
     var gfx = arbor.Graphics(canvas)
     var sys = null
-var imagepath = path
-   var hNodes = String(hN).split(",");
+    var imagepath = path
+    var hNodes = String(hN).split(",");
   //alert(hNodes[1]):
     var _vignette = null
     var selected = null,
