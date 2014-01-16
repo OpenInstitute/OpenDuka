@@ -11,7 +11,10 @@ if(!isset($list) && empty($nodes))
 			<h2>The freely accessible database of information on Kenyan entities</h2>
 		</div>
 		<div class="tagline-description col-md-12 col-lg-12">
-			<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership structure of the world they live in, demonstrating the practical applications of open information for normal citizens.</h4>
+			<div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
+				<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership 
+				structure of the world they live in, demonstrating the practical applications of open information for normal citizens</h4>
+			</div>
 		</div>
 	</div>
 	 
@@ -19,14 +22,16 @@ if(!isset($list) && empty($nodes))
 
 	<!-- Search -->
 	<div id="search" class="row">
-		<h2>Search</h2>
-		<p><?php echo $error;?></p>
-		<?php // echo language(); ?>
-		<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
-			<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
-			<br />
-			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
-		</form>
+		<div class="container">
+			<h2>Search</h2>
+			<p><?php echo $error;?></p>
+			<?php // echo language(); ?>
+			<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
+				<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
+				<br />
+				<input type="submit" name="submit" value="Go" class="btn btn-warning" />
+			</form>
+		</div>
 	</div> <!-- #search -->
 
 	<!-- Stats and Latest -->
@@ -100,7 +105,7 @@ if(!isset($list) && empty($nodes))
 
 	<div id="disclaimer" class="row">
 		<!-- Disclaimer -->
-		<div class="col-md-12 col-lg-12">
+		<div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
 			<p>
 				Our database contains information on people, companies and organisations, as well as their linkages at specified periods of time.
 				While we make every attempt to make this information as accurate as possible, we take no responsibility for its authenticity.
@@ -243,12 +248,12 @@ if (!empty($nodes)){
 
 	<div id="visualisation">
 		<div class="row">
-			<div class="col-md-6 col-lg-6 pull-left">
+			<div class="col-md-8 col-lg-8 pull-left">
 				<h2>Search results for "<B><?php echo $node_title; ?></B>"</h2>
 				<h6>Click on a node for details</h6>
 			</div>
 			<!-- Search -->
-			<div class="query pull-right" style="margin-top:0.8em;">
+			<div class="query col-md-4 col-lg-4" style="margin-top:0.8em;">
 				<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
 					<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
 					<input type="submit" name="submit" value="Go" class="btn btn-warning" />
@@ -261,9 +266,9 @@ if (!empty($nodes)){
 			<div id="center-container" class="col-md-12 col-lg-12">
 				<canvas id="cy"></canvas>
 			</div>
-			<div>
-			&lt;iframe src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;
-			</div>
+			<!-- <div>
+				<p>&lt;iframe src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;</p>
+			</div> -->
 			<div id="right-container-top" class="col-md-offset-0 col-lg-offset-0 hide">
 				<a href="#" id="contentdata">
 				<img class="switch" id="switch" src="<?php echo base_url(); ?>assets/img/on.png">

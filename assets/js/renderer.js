@@ -45,9 +45,9 @@
        // }
       },
       resize:function(){
-        canvas.width = .75*(document.body.clientWidth||window.innerWidth);//$(window).width()
+        canvas.width = .95*(document.body.clientWidth||window.innerWidth);//$(window).width()
        // alert(canvas.width);
-        canvas.height = .75* (document.body.clientHeight||window.innerHeight);//.75* $(window).height()
+        canvas.height = .6* (document.body.clientHeight||window.innerHeight);//.75* $(window).height()
         sys.screen({size:{width:canvas.width, height:canvas.height}})
         _vignette = null
         that.redraw()
