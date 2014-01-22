@@ -10,7 +10,7 @@ html, body {
 }
 
 body {
-  background-color: #FAFAFA !important;
+  /*background-color: #FAFAFA !important;*/
   font-family: 'Raleway', sans-serif;
 }
 
@@ -38,6 +38,10 @@ a {
 
 .navbar-collapse {
   border: none;
+}
+
+body .container {
+  padding: 0 10px 0 10px;
 }
 
 #search input[type="text"] {
@@ -76,6 +80,7 @@ a {
   min-height: 100%;
   height: auto !important;
   height: 100%;
+  margin: 0 auto -10px;
   width: 100%;
   padding: 0 !important;
   position: relative;
@@ -192,9 +197,9 @@ a {
 
 #content {
   background-color: #FFF;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  /*-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
      -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);*/
   margin: 0;
 }
 
@@ -501,7 +506,7 @@ section:last-child, article:last-child {
 
 #visualisation {
   background: url('../../assets/img/fabric_of_squares_gray.png') repeat fixed transparent !important;
-  padding: 60px 10px 30px 10px;
+  padding: 30px 10px 30px 10px;
 }
 
 #visualisation h2 {
