@@ -26,7 +26,7 @@
       //alert (hait);
       //  sys.screenSize(canvas.width, canvas.height)
         sys.screenSize(wid,hait)
-      	sys.screenPadding(36,60,36,60)
+      	sys.screenPadding(20,150,20,150)
         $(window).resize(that.resize)
         that.resize()
         that._initMouseHandling()
@@ -45,9 +45,9 @@
        // }
       },
       resize:function(){
-        canvas.width = .75*(document.body.clientWidth||window.innerWidth);//$(window).width()
+        canvas.width = .95*(document.body.clientWidth||window.innerWidth);//$(window).width()
        // alert(canvas.width);
-        canvas.height = .75* (document.body.clientHeight||window.innerHeight);//.75* $(window).height()
+        canvas.height = .6* (document.body.clientHeight||window.innerHeight);//.75* $(window).height()
         sys.screen({size:{width:canvas.width, height:canvas.height}})
         _vignette = null
         that.redraw()

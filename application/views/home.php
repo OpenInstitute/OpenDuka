@@ -261,9 +261,16 @@ if (!empty($nodes)){
 			<div id="center-container" class="col-md-12 col-lg-12">
 				<canvas id="cy"></canvas>
 			</div>
-			<div>
-			&lt;iframe src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;
+			<div id="embed">
+			<span class="embed">Embed visualisation</span>
+			<form action="http://www.openduka.org/" id="embedform">
+			<p><br/>
+			<label for="pagelinkcode">Cut and paste the following code to embed</label></p>
+			<textarea  id="pagelinkcode"  title="Select the text here, click your right mouse button, click the Copy menu item, and paste it into your web page in HTML source mode" onclick="this.focus();this.select();" readonly="readonly">
+&lt;iframe width="100%" height="100%" src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;</textarea>
+			</form>
 			</div>
+			<a name="data_content"></a>
 			<div id="right-container-top" class="col-md-offset-0 col-lg-offset-0 hide">
 				<a href="#" id="contentdata">
 				<img class="switch" id="switch" src="<?php echo base_url(); ?>assets/img/on.png">
@@ -272,8 +279,8 @@ if (!empty($nodes)){
 		</div>
 		<div id="right-container" class="hide panel panel-default">
 				<div class="panel-heading"></div>
-				<div class="panel-body"></div>
-				<div class="col-md-12 col-lg-12" id="inner_details"></div>
+				<div class="panel-body">
+				<div class="col-md-12 col-lg-12" id="inner_details"></div></div>
 		</div>
 	</div> <!-- #visualisation end -->
 		
@@ -310,6 +317,10 @@ if (!empty($nodes)){
 			$('#right-container').toggle( "slide" );
 		});
 
+		$(".embed").click(function(){
+		
+			$('#embedform').toggle( "slide" );
+		});
 		
 		function NodeStory(nodeid) {
 		// abort any pending request
@@ -361,15 +372,17 @@ if (!empty($nodes)){
 		
 		
 		function rhtmlspecialchars(str) {
-		if (typeof(str) == "string") {
-			str = str.replace(/&gt;/ig, ">");
-			str = str.replace(/&lt;/ig, "<");
-			str = str.replace(/&#039;/g, "'");
-			str = str.replace(/&quot;/ig, '"');
-			str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
+			if (typeof(str) == "string") {
+				str = str.replace(/&gt;/ig, ">");
+				str = str.replace(/&lt;/ig, "<");
+				str = str.replace(/&#039;/g, "'");
+				str = str.replace(/&quot;/ig, '"');
+				str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
+			}
+				return str;
 		}
-			return str;
-		}
+		
+
 
 </script>
 
