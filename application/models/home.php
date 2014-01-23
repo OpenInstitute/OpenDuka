@@ -223,6 +223,15 @@ class Home extends CI_Model {
 		$query = $this->db->get();
      		return $query->num_rows();
    }
+   
+   function get_entry_count_b($tag,$entityname,$tag2, $sortment){
+    		$this->db->select();
+		$this->db->from('Entity');
+		$this->db->where($tag,$entityname);
+		$this->db->like($tag2,$sortment,'after');
+		$query = $this->db->get();
+     		return $query->num_rows();
+   }
     
     function get_entry2($tag,$docid)
     {

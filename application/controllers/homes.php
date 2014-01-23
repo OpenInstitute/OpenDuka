@@ -7,6 +7,7 @@ class Homes extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form','url'));
 		$this->load->database();
+		$this->load->library('pagination');
 		$this->load->model('home');
 
 	}
@@ -63,6 +64,33 @@ class Homes extends CI_Controller {
 		//$Type_ = str_replace('D','',$Type);	
 		//echo $this->uri->segment(5);exit;
 		$results_per_page=25;
+		
+		$config['use_page_numbers'] = TRUE;
+		$config['base_url'] = base_url() . index_page().'/homes/entityTypelist/'.$Type.'/'.$sortment ;
+		$config['total_rows'] = $this->home->get_entry_count_b('EntityTypeID',$Type,'Name' ,$sortment);
+		$config['per_page'] = $results_per_page; 
+		$config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+		
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<div>';
+		$config['first_tag_close'] = '</div>';
+		/*
+		$config['next_link'] = '';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		*/
+		$config['cur_tag_open'] = '<li><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['num_links'] = 20; 
+       		$config['uri_segment'] = 5;
+		$this->pagination->initialize($config); 
+		$pages = $this->pagination->create_links();
+		//echo $config['total_rows']; exit;
+		
 		$content = $this->home->get_entry_cont3('EntityTypeID',$Type,$page_num, $results_per_page, $sortment);
 
 		$list = '';
@@ -73,7 +101,7 @@ class Homes extends CI_Controller {
 			}		
 		}
 		$this->load->view('header',$data_head);
-		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$Type,'sortment'=>$sortment,'error' => 'List of names found','func' => 'entityTypelist'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$Type,'sortment'=>$sortment,'error' => 'List of names found','func' => 'entityTypelist', 'pages' => $pages));
 
 		$this->load->view('footer');
 	}
@@ -90,7 +118,34 @@ class Homes extends CI_Controller {
 		//echo $DocType;
 		//$DocType_ = str_replace('D','',$DocType);		
 		//echo $context;exit;
+
 		$results_per_page=25;
+		
+		$config['use_page_numbers'] = TRUE;
+		$config['base_url'] = base_url() . index_page().'/homes/entityDoclist/'.$DocType.'/'.$sortment ;
+		$config['total_rows'] = $this->home->get_entry_count_b('DocTypeID',$DocType.',','Name' ,$sortment);
+		$config['per_page'] = $results_per_page; 
+		$config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+		
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<div>';
+		$config['first_tag_close'] = '</div>';
+		/*
+		$config['next_link'] = '';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		*/
+		$config['cur_tag_open'] = '<li><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['num_links'] = 20; 
+       		$config['uri_segment'] = 5;
+		$this->pagination->initialize($config); 
+		$pages = $this->pagination->create_links();
+		//echo $config['total_rows']; exit;
 		$content = $this->home->get_entry_cont2('DocTypeID',$DocType,$page_num, $results_per_page, $sortment);
 	
 
@@ -104,15 +159,15 @@ class Homes extends CI_Controller {
 			}		
 		}
 		$this->load->view('header',$data_head);
-		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$DocType,'sortment'=>$sortment,'error' => 'List of names found','func' => 'entityDoclist'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term'=>$DocType,'sortment'=>$sortment,'error' => 'List of names found','func' => 'entityDoclist', 'pages' => $pages));
 
 		$this->load->view('footer');
 	}
 	
 	function entitylist($ent="",$page_num=1)
 	{
-	$page_num=($this->uri->segment(5)!="") ? $this->uri->segment(5) : '1';
-	$sortment = ($this->uri->segment(4)!="") ? $this->uri->segment(4) : "";
+	$page_num=($this->uri->segment(4)!="") ? $this->uri->segment(4) : '1';
+	$sortment = ($this->uri->segment(5)!="") ? $this->uri->segment(5) : "";
 //echo $sortment; exit;
 	//$this->output->enable_profiler(TRUE);
 		$data_head = array('page_title' => 'Search results');
@@ -120,35 +175,33 @@ class Homes extends CI_Controller {
 	//	$EntityName = str_replace(' ','',$EntityName);
 	//	echo $page_num;
 		$results_per_page=25;
-
-		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page, $sortment);
-	/*	
-		$this->load->library('pagination');
+		
 		$config['use_page_numbers'] = TRUE;
-		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'.$EntityName ;
+		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'. $EntityName ;
 		$config['total_rows'] = $this->home->get_entry_count('Name',$EntityName);
 		$config['per_page'] = $results_per_page; 
 		$config['full_tag_open'] = '<ul class="pagination">';
 		$config['full_tag_close'] = '</ul>';
-		/*
+		
 		$config['first_link'] = 'First';
-		$config['first_tag_open'] = '<li>';
-		$config['first_tag_close'] = '</li>';
-		
+		$config['first_tag_open'] = '<div>';
+		$config['first_tag_close'] = '</div>';
+		/*
 		$config['next_link'] = '';
-		//$config['next_tag_open'] = '<li>';
-		//$config['next_tag_close'] = '</li>';
-		
-		$config['cur_tag_open'] = '<li><a href="1">';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		*/
+		$config['cur_tag_open'] = '<li><a href="#">';
 		$config['cur_tag_close'] = '</a></li>';
 		
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
-		$config['num_links'] = 10;
-       		$config['uri_segment'] = 3;
+		$config['num_links'] = 20; 
+       		$config['uri_segment'] = 4;
 		$this->pagination->initialize($config); 
 		$pages = $this->pagination->create_links();
-*/
+		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page, $sortment);
+//echo $this->uri->segment(4); exit;
 	//	var_dump($content[0]);
 		$list = '';
 		if (is_array($content)){
@@ -159,7 +212,7 @@ class Homes extends CI_Controller {
 		}
 		$this->load->view('header',$data_head);
 
-		$this->load->view('home', array('entities' => '','list' =>$list,'term' => $EntityName,'sortment'=>$sortment, 'error' => 'List of names found','func' => 'entitylist'));
+		$this->load->view('home', array('entities' => '','list' =>$list,'term' => $EntityName,'sortment'=>$sortment, 'error' => 'List of names found','func' => 'entitylist', 'pages' => $pages));
 
 		$this->load->view('footer');
 	}

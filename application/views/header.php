@@ -22,10 +22,9 @@
 
 
 	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ias.js"></script>
+	
 
   	
-  	<link type="text/css"  rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.ias.css" />
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/wysiwyg.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/styles.css"/> 
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/docs.css"/>
@@ -55,18 +54,7 @@
 		  	element.scrollIntoView(true);
 		}
 	</script>
-	<script type="text/javascript">
-
-            jQuery.ias({
-                container : '.matokeo',
-                item: '.post',
-                pagination: '#fruits .mfuatilio',
-                next: '.next-posts a',
-                loader: '<img src="<?php echo base_url();?>assets/img/loader.gif"/>',
-                triggerPageThreshold: 2
-            });
-
-    	</script>
+	
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar">

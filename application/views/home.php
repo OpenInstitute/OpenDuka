@@ -226,14 +226,11 @@ if (isset($list))
 	</div>
 	
 	<div class="row" id="fruits">
-		<div class="matokeo col-md-12 col-lg-12" >
-	            <?php echo $list ?>
+		<div class="col-md-12 col-lg-12" >
+	            <?php echo $list; ?>
 		</div>
-		<div class="mfuatilio col-md-12 col-lg-12 text-center" id="pagination">
-		  <ul>
-		    <li><a href='<?php echo base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment; ?>/'></a></li>
-		    <li class="next-posts"><a href='<?php echo base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment; ?>/'></a></li>
-		   </ul>
+		<div class="col-md-12 col-lg-12 text-center">
+		    <?php echo $pages; ?>
 		</div>
 	 </div>
 </div>
