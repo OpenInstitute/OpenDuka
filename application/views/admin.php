@@ -92,8 +92,6 @@
  	</div>
 
  	<div id="EInsert4" class="formdata">
-
-
 		<div id="Datasets" style="display:block;">
 		
 		 <img id="loading" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
@@ -118,7 +116,7 @@
 		 <?php echo form_close(); ?>
 		</div> 
 		  <div id="viwanja"></div>
-		</div>
+	       </div>
 	 </div>
 
 
@@ -402,7 +400,7 @@ $(".DatasetAdd").click(function() {
     /*clear result div*/
    $("#result").html('');
     // setup some local variables
-    $("#DatasetAdd")
+    $("#loading")
 	.ajaxStart(function(){
 		$(this).show();
 	})
@@ -414,22 +412,23 @@ $(".DatasetAdd").click(function() {
 	return false;
 	}
   	
-  	$.ajaxFileUpload ({
-
+  	$.ajaxFileUpload({
+  	
 		url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
 		secureuri:false,
 		fileElementId:'fileToUpload',
 		dataType: 'json',
 		data:{TblName: $("#TblName").val(), DocumentType:$("#cat_name").val()},
+		
 		success: function (data, status)
 		{
+		
 			if(typeof(data.error) != 'undefined')
 			{
 				if(data.error != '')
 				{
 					alert(data.error);
-				}else
-				{
+				} else	{
 					alert(data.msg);
 					field_list($("#TblName").val(), $("#cat_name").val());
 				}
@@ -439,7 +438,7 @@ $(".DatasetAdd").click(function() {
 		{
 			alert(e);
 		}
-	})
+	});
 
 	return false;
 
@@ -517,6 +516,12 @@ function EntityMerge() {
 	{
 	    checked.push(parseInt($(this).val()));
 	});
+
+	var radioanswer = 'none';
+	if ($('.radioEnt:checked').val() != null) {           
+	   Ent_id = $('input[name=radioEnt]:checked').val();
+	   //alert(Ent_id);
+	}
 	
 	if (checked.length>1){
 	//alert(checked);
@@ -524,7 +529,7 @@ function EntityMerge() {
 		      url: "<?php echo base_url();?>index.php/admin/EntityMerger",
 		      type: "post",
 		      async: false,
-		      data: {MergeEnt : checked+""},
+		      data: {MergeEnt : checked+"",MergeTo : Ent_id},
 		      success:function(d){
 		      	//alert(data);
 			  $("#entity_merge").html(d);
@@ -543,6 +548,19 @@ function EntityMerge() {
 			
 }
 
+/*if($("input:radio[name='radioEnt']").is(":checked")) {
+// alert('tuko');
+ 
+// } 
+ $('input:radio').change(
+    function(){
+        alert('changed');   
+    }
+);      
+$("input:radio[class='radioEnt']").change(function(){
+alert('Something is checked.');
+});
+*/
 function ListTables() {
  
     $.ajax({

@@ -231,19 +231,25 @@ class Homes extends CI_Controller {
 		return $new_arr;
 	}
 	
-
 	function tree($v0) {
 		//$this->output->enable_profiler(TRUE);  
 		
 		$noMerge = $this->home->get_entries('ID',$v0);
+		//var_dump($noMerge); exit;
+	if(sizeof($noMerge)>=1){
 		$v0 = ($noMerge[0]['Merged']==1)? $noMerge[0]['MergedTo'] : $v0;
 		
 		$MostVisited = $this->home->mostvisited($v0);
 		
 		$weed = array();
 		$fruit = array();
+		$tree_n = array();
+		$tree_e = array();
+		$tree_d = array();
 		$nFilter = "";
 		$node_arr = "";
+		$tree_ee = "";
+		$tree_nn = "";
 		$alpha = 1;
 		$nodes = "{";
 		$edges = "{";
@@ -251,6 +257,7 @@ class Homes extends CI_Controller {
 		
 		$dta = $this->home->get_entries('ID',$v0);
 		$docs = explode(',', $dta[0]['DocID']);
+		$docs = $this->clean_array($docs);
 		//var_dump($docs); exit;
 		
 		foreach($docs as $d){
@@ -261,17 +268,58 @@ class Homes extends CI_Controller {
 			$q=$row['representation'];
 			
 			  $tree_data = ($dt == "") ? $this->tree_init($v0,$weed) : $this->dataset_extract($dt,$v0);
-			
+				//array_push($tree_d,$tree_data);
+				
+				$tree_n[] = $tree_data['nodes'];
+				$tree_e[] = $tree_data['edges'];
+				
 			}
-			//var_dump($tree_data); exit;
+			//$tree_n = array_merge_recursive($tree_n);
+			$tree_e=array_merge_recursive($tree_e);
+			
+			 
 		}
+		//$tree_n = $this->flatten($tree_n);
 		
+			foreach ($tree_n as $value)
+			{
+			    if (!$tree_n)
+			    {
+				$tree_nn = $value;
+			    }
+			    else
+			    {
+				$tree_nn .=  $value;
+				//echo $value;
+			    }
+			}
+			//echo($tree_nn); exit;
+			foreach ($tree_e as $value)
+			{
+			    if (!$tree_e)
+			    {
+				$tree_ee = $value;
+			    }
+			    else
+			    {
+				$tree_ee .=  $value;
+				//echo $value;
+			    }
+			}
+			//
+		
+		$core_node = '\''. str_replace(' ','_',$tree_data['nodeTitle']) . '_' .$v0 . '\'';
+		$tree_ee =  str_replace('},'.$core_node.':{','',$tree_ee);
+		//echo $core_node;
+		//echo($tree_ee);
 		//exit;
+
 		
 		//var_dump($tree_data); exit;
 		$nodetitle = $tree_data['nodeTitle'];
-		$node_arr = $tree_data['nodes'];
-		$edges .= $tree_data['edges'];
+		$node_arr .= $tree_nn;//$tree_data['nodes'];
+		
+		$edges .= $tree_ee;//$tree_data['edges'];
 		
 		$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
 		$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
@@ -306,11 +354,14 @@ class Homes extends CI_Controller {
 			if(!isset($nID[$id])){
 				$nID[$id] = array();
 				$nodeid[]=$id;
+				//str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0])))
+				$node_name = preg_replace('/[^a-z\d ]/i', '', $NodeName[0]);
+				$node_name = str_replace(' ','_',$node_name);
 				if($id == $v0){
 				//$col='#FF0000';
-				$node[$id][] = "'". str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0]))) . "_".$id ."':{'color':'#FF0000','shape':'".$shape ."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['selectedimg']."','image_h':30,'link':'', 'label': '". $NodeName[0] ."'}";
+				$node[$id][] = "'". $node_name . "_".$id ."':{'color':'#FF0000','shape':'".$shape ."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['selectedimg']."','image_h':30,'link':'', 'label': '". $NodeName[0] ."'}";
 				 } else {
-				$node[$id][] = "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'". $shape ."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'link':'','image_w':30, 'label': '". $NodeName[0] ."'}";
+				$node[$id][] = "'". $node_name . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'". $shape ."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'link':'','image_w':30, 'label': '". $NodeName[0] ."'}";
 				 }				
 				
 			}
@@ -344,13 +395,18 @@ class Homes extends CI_Controller {
 		$vis_filter = $this->filter_data($node_arr);
 	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
 		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'filter_form'=> $vis_filter,  'hidden_nodes'=> $nFilter, 'nodeid'=> $v0);
-		
-		$data_head = array('page_title' => 'Visualisation');
-
+	
+	$data_head = array('page_title' => 'Visualisation');
+	
 	$this->load->view('header',$data_head);
 	$this->load->view('home',$content);
 	$this->load->view('footer');
-		
+	
+	} //-----end of size of v0 ---------	
+	//$data_head = array('page_title' => 'Visualisation');
+	else {
+		$this->index();
+		}
 	}
 	
 	function tree_init($v0,$weed){
@@ -466,8 +522,10 @@ class Homes extends CI_Controller {
 		$node_array = $stem . '|0|' . $alpha.'|0,';
 		if ( !isset($stm) ) {
 		$stm[] = $stem;
- 		$edges .= "'" . str_replace(".","",str_replace(" ","_",$root_Name[0]))."_". $stm[0] . "':{";
-
+		//$edge_name = str_replace(".","",str_replace(" ","_",$root_Name[0]));
+		$edge_name = preg_replace('/[^a-z\d ]/i', '', $root_Name[0]);
+		$edge_name = str_replace(' ','_',$edge_name);
+ 		$edges .= "'" . $edge_name ."_". $stm[0] . "':{";
 		}
 		//	echo sizeof($branch). ',';
 		for($k=0;$k<count($branch); $k++){
@@ -478,12 +536,12 @@ class Homes extends CI_Controller {
 	 			
 		 	   for($i=0; $i < sizeof($child); $i++){
 		 		$child_Name = explode(':',$child[$i]['Name']);
-				$edges .= "'". str_replace(".","",str_replace(" ","_",$child_Name[0])) ."_". $child[$i]['ID']."':{},";
-			
+		 		//str_replace(".","",str_replace(" ","_",$child_Name[0]))
+		 		$edge_name = preg_replace('/[^a-z\d ]/i', '', $child_Name[0]);
+				$edge_name = str_replace(' ','_',$edge_name);
+				$edges .= "'". $edge_name ."_". $child[$i]['ID']."':{},";
 				$node_array .=  $child[$i]['ID'] .'|'. $branch[$k]['dataset'] .'|' . $alpha . '|1,' ;
 				$fruit[] = $child[$i]['ID'];
-			
-				
 			    }
 			}
 			if($k==10) break;
@@ -634,16 +692,7 @@ class Homes extends CI_Controller {
 				
 			  if(!in_array($d, $doc)){ 
 			  $doc[] = ($d != "") ? $d : null ;
-			 // echo $k;
-			  //    $val = $arraymap[$k];
-			     // echo $val;
-			    //  $valz = explode('||',$val);
-			     // for($j=0; $j<sizeof($valz); $j++){
-			//	$v[] = array('ID' => $child_node[0]['ID'], 'arraypoint' => $k, 'docid' => $d);
-				//if(!in_array($n, $valz)){ 
-				//	$v[] = array('ID' => $child_node[0]['ID'], 'arraypoint' => $k, 'docid' => $d );
-				//}
-			    // }
+			 
 			  }
 			}
 		//}

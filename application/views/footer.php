@@ -41,10 +41,6 @@
         <!-- <p>Page rendered in <strong>{elapsed_time}</strong> seconds</p> -->
       </div><!-- .footer -->
 
-
-</div>
-
-</div>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

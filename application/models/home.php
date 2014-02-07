@@ -116,6 +116,7 @@ class Home extends CI_Model {
 		//$this->db->limit(10);   
 		//if($this->db->count_all_results()>0){  
 	        $query = $this->db->get();
+	       // $this->db->_error_message(); 
 	        return $query->result_array();
 	      //} else {return '';}
     }
@@ -136,6 +137,7 @@ class Home extends CI_Model {
     {
     	is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid);
     	$this->db->select();
+    	
 	$this->db->from('Entity'); 
 		//if (is_array($nid)){ echo 'true';} else { echo 'false';}
 		

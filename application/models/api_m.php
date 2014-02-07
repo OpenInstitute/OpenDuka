@@ -8,7 +8,7 @@ class Api_m extends CI_Model {
 			$result = $result->result_array();
 			$result = $result['0'];
 				if($result['au_confirmed']!='0'){
-					return "The confirmation token has already been used. Please check your email for you API key";
+					return "The confirmation token has already been used. Please check your email for your API key";
 				}else{
 					$key = md5($email.$app);
 					$this->load->library('encrypt');
@@ -17,7 +17,7 @@ class Api_m extends CI_Model {
 					}else{
 						$api_key = $result['au_email'].$result['au_url'].str_replace(' ', '', $result['au_joined']);
 						
-						$api_key = hash($this->encrypt->encode($api_key));
+						$api_key = $this->encrypt->encode($api_key);
 						//now we have a key
 						$this->db->query("update api_users set au_key='$api_key', au_confirmed='1' where au_email='$email' and au_url='$app'");
 						mail($email, 'OpenDuka API key', 'Your API key is :'.$api_key);
@@ -67,5 +67,84 @@ class Api_m extends CI_Model {
 		}else{
 			return false;
 		}
+	}
+	
+	function get_entry_cont($tag,$entityname)
+    	{
+	    	
+		$this->db->like($tag,$entityname);
+		$this->db->select('ID,Name');
+		$this->db->from('Entity');
+		$this->db->where('Merged', 0);
+		//$this->db->limit(10);   
+		//if($this->db->count_all_results()>0){  
+	        $query = $this->db->get();
+	        return $query->result_array();
+	
+    	}
+    	
+    	function get_entries($field,$var)
+   	{
+    		$this->db->where($field,$var); 
+		$this->db->select();
+		$this->db->from('Entity');
+		$this->db->where('Merged', 0);
+		//$this->db->limit(10);   
+		//if($this->db->count_all_results()>0){  
+	        $query = $this->db->get();
+	        return $query->result_array();
+	      //} else {return '';}
+    	}
+    	
+    	function get_docType($id)
+	{
+	    
+	    	//is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
+		$this->db->select();
+		$this->db->from('DocumentType');
+		$this->db->where('ID', $id);
+		//if($this->db->count_all_results()>0){  
+		$query = $this->db->get();
+		return $query->result_array();
+	      //} else {return '';}
+	}
+	
+	function get_doc($docid)
+    	{
+    
+    	//is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
+		$this->db->select();
+		$this->db->from('DocUploaded');
+		$this->db->join('DocumentType','DocumentType.ID = DocUploaded.DocTypeID');
+		$this->db->where('DocUploaded.ID', $docid);
+		//if($this->db->count_all_results()>0){  
+	        $query = $this->db->get();
+	        return $query->result_array();
+	      //} else {return '';}
+    	}
+    	
+    	function get_dataset($tbl,$q,$id)
+	{
+	    $ar=array();
+	    $ra=array();
+	    $flds = $this->db->field_data($tbl);
+		    foreach($flds as $f ) {
+		    	if (substr($f->name,-3,3)=='_E_') {
+		   	 $Entity_id[]= $f->name;
+		  	}/* else {
+		  	 $Entity_field[]= $f->name;
+		  	}*/
+		  	$Entity_field[]= $f->name;
+	    	    }
+	    	$qu = ($q=='*') ? implode(',',$Entity_field) : $q .','. implode(',',$Entity_id);
+	   // echo $qu;
+			$this->db->select($qu);
+			$this->db->from($tbl);
+			$this->db->limit(50); 
+				foreach($Entity_id as $r){		
+				$this->db->or_where($r,$id); 
+				}     
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 }

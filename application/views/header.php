@@ -7,7 +7,7 @@
 	<title><?php echo $page_title;?></title>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.js"></script>
 
-
+	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/wysiwyg.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.validate.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
@@ -15,15 +15,8 @@
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/graphics.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/renderer.js"></script>
-  	
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.qtip.min.js"></script>
   	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/raphael-min.js"></script>
-
-
-
-	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
-	
-
   	
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/wysiwyg.css"/>
 	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/styles.css"/> 
@@ -85,6 +78,6 @@
     </div>
   </div>
 
-	<div id="body" class="container">
-		<div id="content" class="row">
+  <div id="body" class="container">
+    <div id="content" class="row">
 
