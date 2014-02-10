@@ -1,11 +1,11 @@
-/*!
+/**
  * Infinite Ajax Scroll, a jQuery plugin
- * Version 1.0.2
+ * Version 1.0.0
  * https://github.com/webcreate/infinite-ajax-scroll
  *
  * Copyright (c) 2011-2013 Jeroen Fiege
  * Licensed under MIT:
- * https://raw.github.com/webcreate/infinite-ajax-scroll/master/MIT-LICENSE.txt
+ * http://webcreate.nl/license
  */
 
 (function ($) {
@@ -47,15 +47,8 @@
                 opts.onPageChange.call(this, pageNum, pageUrl, scrollOffset);
             });
 
-            if (opts.triggerPageThreshold > 0) {
-                // setup scroll and hide pagination
-                reset();
-            } else if ($(opts.next).attr('href')) {
-                var curScrOffset = util.getCurrentScrollOffset(opts.scrollContainer);
-                show_trigger(function () {
-                    paginate(curScrOffset);
-                });
-            }
+            // setup scroll and hide pagination
+            reset();
 
             // load and scroll to previous page
             if (hist && hist.havePage()) {
@@ -382,8 +375,8 @@
             }
 
             $('a', trigger)
-                .unbind('click')
-                .bind('click', function () { remove_trigger(); callback.call(); return false; })
+                .off('click')
+                .on('click', function () { remove_trigger(); callback.call(); return false; })
             ;
 
             return trigger;
@@ -397,13 +390,9 @@
             var trigger = get_trigger(callback),
                 el;
 
-            if (opts.customTriggerProc !== false) {
-                opts.customTriggerProc(trigger);
-            } else {
-                el = $(opts.container).find(opts.item).last();
-                el.after(trigger);
-                trigger.fadeIn();
-            }
+            el = $(opts.container).find(opts.item).last();
+            el.after(trigger);
+            trigger.fadeIn();
         }
 
         /**
@@ -437,8 +426,7 @@
         beforePageChange: function () {},
         onLoadItems: function () {},
         onRenderComplete: function () {},
-        customLoaderProc: false,
-        customTriggerProc: false
+        customLoaderProc: false
     };
 
     // utility module
@@ -552,6 +540,7 @@
                 scrOffset = curPagebreak[0];
                 urlPage = curPagebreak[1];
                 changePageHandler.call({}, curPageNum, scrOffset, urlPage); // @todo fix for window height
+                
             }
 
             lastPageNum = curPageNum;

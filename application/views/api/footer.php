@@ -1,3 +1,5 @@
+	</div>
+</div>
 <!--end of container -->
     <!-- Footer
     ================================================== -->
@@ -40,9 +42,7 @@
       </div><!-- .footer -->
 
 
-</div>
 
-</div>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
