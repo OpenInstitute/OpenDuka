@@ -255,7 +255,7 @@ class Admin_model extends CI_Model {
 		$this->db->from('Entity');
 		$this->db->like('Name', $STerm);
 		$this->db->where('Merged',0);
-		$this->db->limit(25);
+		$this->db->limit(15);
 		$this->db->order_by("UniqueInfo", "desc");
         	$query = $this->db->get();
         	return $query->result_array();

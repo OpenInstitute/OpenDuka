@@ -10,16 +10,11 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/wysiwyg.css"/>
-	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/styles.css"/> 
-	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/docs.css"/>
-	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"/>
-  <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.min.css"/>
-  <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-theme.css"/>
-  <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-theme.min.css"/>
-	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/custom.css"/>
-	<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Caudex:400,700|Lato:400,700|Raleway:400,500,700|Merriweather:400,300,700|Monteserrat:400,700|Istok+Web:400,700|Monda:400,700|Roboto:400,700"/>
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/docs.css"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/css/custom.css"/>
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Caudex:400,700|Lato:400,700|Raleway:400,500,700|Merriweather:400,300,700|Monteserrat:400,700|Istok+Web:400,700|Monda:400,700|Roboto:400,700"/>
+    <link href="<?php echo base_url();?>assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -60,5 +55,3 @@
         </div> <!--/.nav-collapse -->
       </div>
     </div>
-    <div id="body" class="container">
-	<div id="content" class="row">

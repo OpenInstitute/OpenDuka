@@ -1,27 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	
 class api extends CI_Controller {
-	
-	
-	public function __construct()   {
-            parent::__construct();
-            // Your own constructor code
-             $this->load->helper(array('form','url'));
-             $this->load->library('form_validation');
-             $this->load->library(array('session'));
-             $this->load->database();
-            
-             
-             date_default_timezone_set('Africa/Nairobi');
-		
-       }
-       public function index(){
+	public function index(){
 		$data['title'] = "API Home";
 		$this->load->view('api/header', $data);
 		$this->load->view('api/api', $data);
 		$this->load->view('api/footer');
 	}
-       
 	public function request_key(){
 		$data['title'] = "Request API Key";
 		
@@ -51,6 +36,7 @@ class api extends CI_Controller {
 	}
 	public function search(){
 		$this->load->model('api_m');
+		$this->load->model('tree');
 		if((!isset($_GET['key']))||(!isset($_GET['term']))){
 			$result = array("error"=>"missing key and or search term");
 			print (json_encode($result));
@@ -61,7 +47,7 @@ class api extends CI_Controller {
 				//return result
 				$EntityName = $_GET['term'];		
 				//echo $context;exit;
-				$content = $this->api_m->get_entry_cont('Name',$EntityName);
+				$content = $this->tree->get_entry_cont('Name',$EntityName);
 				//var_dump($content[0]);
 				$list = array();
 				if (is_array($content)){
@@ -79,6 +65,7 @@ class api extends CI_Controller {
 	}
 	public function entity(){
 		$this->load->model('api_m');
+		$this->load->model('tree');
 		if((!isset($_GET['key']))||(!isset($_GET['id']))){
 			$result = array("error"=>"missing key and or entity id");
 			print (json_encode($result));
@@ -86,43 +73,8 @@ class api extends CI_Controller {
 			//check key validity
 			if($this->api_m->valid_key($_GET['key']))
 			{
-				$doc = array();
-				$result = $this->api_m->get_entries('ID',$_GET['id']);
-				$docmap = explode(',',$result[0]['DocID']);
-				foreach($docmap as $k => $d){
-				
-				  if(!in_array($d, $doc)){ 
-				  	$doc[] = ($d != "") ? $d : null ;
-				  }
-				}
-				
-				$maps= '{"data":[';
-				//var_dump($root_node);
-				if(sizeof($doc)>0){
-					for($i=0; $i<sizeof($doc); $i++){
-					$doc_ref = $doc[$i];
-					if (isset($doc_ref)){
-					$dataset = $this->api_m->get_doc($doc_ref);
-					//var_dump($dataset); 
-				$maps.= '{"dataset_type":[{"'. $dataset[0]['DocTypeName'] .'": [{"dataset":';	
-					$dt=$dataset[0]['data_table'];
-					$dtID=$dataset[0]['DocTypeID'];
-						if($dt!=""){
-							$d=1; 
-							$ds=$dataset[0]['representation'];
-							$q = ($ds=="")? '*' : $ds;
-
-							$dta = $this->api_m->get_dataset($dt,$q,$_GET['id']);
-				$maps.=			json_encode($dta);
-							
-						}
-				$maps.= '}]}]},';
-					}
-					}
-				}
-				$maps.= "]}";
-				$maps = str_replace(",]","]",$maps);
-				print ($maps);
+				$result = $this->tree->get_entries('ID',$_GET['id']);
+				print (json_encode($result));
 			}else{
 				$result = array("error"=>"key provided is not valid");
 				print (json_encode($result));

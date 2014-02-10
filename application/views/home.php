@@ -117,15 +117,8 @@ if(!isset($list) && empty($nodes))
 
 	<!-- Partners -->
 	<div id="partners" class="row">
-		
-		<div id="dev-logos">
-		<h2>Developed by</h2>
-			<a href="http://www.openinstitute.com/" target="blank" class="col-lg-12 col-md-12 col-sm-12">
-				<img class="img-responsive" style="max-height:100px !important" src="<?php echo base_url(); ?>assets/img/oi-grey-lg.png">
-			</a>
-		</div>
-		<div id="partner-logos">
 		<h2>Launched in partnership with</h2>
+		<div id="partner-logos">
 			<a href="http://www.africatti.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-lg-offset-3 col-md-offset-3">
 				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg">
 			</a>
@@ -233,11 +226,14 @@ if (isset($list))
 	</div>
 	
 	<div class="row" id="fruits">
-		<div class="col-md-12 col-lg-12" >
-	            <?php echo $list; ?>
+		<div class="matokeo col-md-12 col-lg-12" >
+	            <?php echo $list ?>
 		</div>
-		<div class="col-md-12 col-lg-12 text-center">
-		    <?php echo $pages; ?>
+		<div class="mfuatilio col-md-12 col-lg-12 text-center" id="pagination">
+		  <ul>
+		    <li><a href='<?php echo base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment; ?>/'></a></li>
+		    <li class="next-posts"><a href='<?php echo base_url() . index_page() ."/homes/".$func."/".$term ."/".$sortment; ?>/'></a></li>
+		   </ul>
 		</div>
 	 </div>
 </div>

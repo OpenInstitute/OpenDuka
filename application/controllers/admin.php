@@ -214,12 +214,12 @@ class Admin extends CI_Controller {
 	$list="";
     		if (is_array($content)){
 	    		
-    			$list="<form id='EntityMerge' action='' method='post'><div class='spacer'><div style='width: 400px;'>Entity</div><div style='width: 200px;'>Merge To</div></div>";
+    			$list="<form id='EntityMerge' action='' method='post'><div class='spacer'><div style='width: 400px;'>Entity</div><div style='width: 200px;'>Unique Box <br/>'P.O. Box NNN'</div><div style='width: 200px;'>Start:End Date</div></div>";
 			for($i=0;$i< count($content);$i++)
 			{
 			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><input style='width: 20px;' type='checkbox' name='Merge[]' value='". $content[$i]['ID'] . "'>";
 			
-			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'><input style='width: 20px;' type='radio' class='radioEnt' name='radioEnt' value='". $content[$i]['ID'] . "'></div></div>"; 
+			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'>" . $content[$i]['UniqueInfo'] ."</div><div style='width: 200px;'>" . $content[$i]['EffectiveDate'] .'</div></div>'; 
 			
 			}		
 			$list.='<input type="hidden" value="" name="EntityIDS"/><input type="button" class="EntityUpdate" value="Submit" onclick="EntityMerge()"/></form>';
@@ -234,26 +234,25 @@ class Admin extends CI_Controller {
    //  $this->output->enable_profiler(TRUE); 
    
    	$valz = $this->input->post('MergeEnt');
-     	$RootID = $this->input->post('MergeTo');
+     
    	$MergeIds= explode(',',$valz);
-   	if(!in_array($RootID, $MergeIds)){
-   	$RootID='';
-   	}
+   	//var_dump($MergeIds);
+    	//$data=array();
+    	//var $Ids;
     	$j=0;
     	for($i=0; $i<sizeof($MergeIds); $i++){
-	    	if($RootID==''){
+	    	if($i==0){
 	    	  $RootID = $MergeIds[$i];
 	    	} else {
-	    		if ($MergeIds[$i] != $RootID){		
-	    	     	  $this->admin_model->merge_entity($MergeIds[$i], $RootID);
-	    	     	  $this->admin_model->reference_entity($MergeIds[$i], $RootID);
-	    	     	}
+	    				
+    	     	  $this->admin_model->merge_entity($MergeIds[$i], $RootID);
+    	     	  $this->admin_model->reference_entity($MergeIds[$i], $RootID);
     	     	}
     	 ++$j;
     	}
     		
    		//$list= empty($list) ? "Sorry No Data" : $list;
-   		echo "<h3>". $j . " Merged</h3>";
+   		//echo $j . " Merged";
     }
     
      function ListDocCat(){
@@ -413,16 +412,16 @@ class Admin extends CI_Controller {
     function DatasetAdd(){
    // $this->output->enable_profiler(TRUE);
     
-   // $this->load->library('upload');
+    //$this->load->library('upload');
     
-    //$allowed = "/[^a-z0-9\\040\\.\\-\\_\\\\]/i";
+    $allowed = "/[^a-z0-9\\040\\.\\-\\_\\\\]/i";
 
-    //$TblName =  $this->input->post('TblName');
+   $TblName =  $this->input->post('TblName');
 
-  //  $TblName = preg_replace($allowed,"",$TblName);
+    $TblName = preg_replace($allowed,"",$TblName);
     
   
-   // $DocumentType = $this->input->post('DocumentType');
+    $DocumentType = $this->input->post('DocumentType');
     $error = "";
     $msg = "";
 
@@ -486,7 +485,7 @@ class Admin extends CI_Controller {
 		/* This can dump data in the wrong fields if this extra field does not exist in the table
 		/********************************/
 		$addauto = 1;
-
+		
 		$filename = $_FILES['fileToUpload']['tmp_name'];
 	  	$size = filesize($filename);
 	  	if (($handle = fopen($filename, "r")) !== FALSE) {
