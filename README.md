@@ -7,4 +7,6 @@ This information will provide citizens, journalists, and civic activists with a 
 
 The project aims to scrape data from various sources that range from shareholder information, procurement information, legal cases and company information.
 
-The current pilot is being launched in Kenya in partnership with the Kenya National Law Review and funded by A.T.T.I.
+The current pilot is being launched in Kenya in partnership with the National Council of Law Reporting and funded by A.T.T.I.
+
+This will be expanded to other sources of corporate data and the site will incorporate visualizations that will be able to show linkages of the data.
