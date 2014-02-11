@@ -45,7 +45,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand pull-left" href="<?php echo base_url() . index_page(); ?>">
-            <img src="<?php echo base_url();?>assets/img/odlogo-200x50.png">
+            <img src="<?php echo base_url();?>assets/img/od-beta-teal.png">
           </a>
         </div>
         <div class="collapse navbar-collapse menu-items pull-right">
