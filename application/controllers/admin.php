@@ -150,12 +150,12 @@ class Admin extends CI_Controller {
 	$list="";
     		if (is_array($content)){
 	    		
-    			$list="<div class='spacer'><div style='width: 400px;'>Entity</div><div style='width: 200px;'>Unique Box <br/>'P.O. Box NNN'</div><div style='width: 200px;'>Start:End Date</div></div>";
+    			$list="<div class='spacer'><div style='width: 400px;'>Entity</div><div style='width: 200px;'>Unique Box <br/>'P.O. Box NNN'</div></div>";
 			for($i=0;$i< count($content);$i++)
 			{
 			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><a onclick='javascript:EntityUpdate(".$content[$i]['ID'].")' href='#'>Edit</a>";
 			
-			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'>" . $content[$i]['UniqueInfo'] ."</div><div style='width: 200px;'>" .$content[$i]['EffectiveDate'] .'</div></div>'; 
+			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'>" . $content[$i]['UniqueInfo'] ."</div></div>"; 
 			
 			}		
 			
@@ -172,7 +172,7 @@ class Admin extends CI_Controller {
     		
     	$content = $this->admin_model->get_entity($id);	
     	//var_dump($content);exit;
-    		$list="<form id='EntityUpdateForm' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div><div class='datefield'>Start:End Date</div><div class='select'>Verb</div></div>";
+    		$list="<form id='EntityUpdateForm' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div></div>";
 		
 			$list .= "<div class='spacer'><select class='select' name='type'><option value='22'";
 			
@@ -181,7 +181,7 @@ class Admin extends CI_Controller {
 			$list .= ">Person</option><option value='21'";
 				if ($content[0]['EntityTypeID']==21){ $list .= "selected";}
 			
-			$list .= ">Organization</option></select><input type='text' id='entity' name='entity' value='".$content[0]['Name']."'  class='textfield' required /><input type='text' id='position' name='position' value='".$content[0]['EntityPosition']."'  class='addrfield' /><input type='text' id='address' name='address' value='".$content[0]['UniqueInfo']."'  class='addrfield' /><input type='text' id='startdate' name='startdate' value='".$content[0]['EffectiveDate']."' class='datefield'/><select class='select' name='verb'><option selected value='" . $content[0]['Verb'] . "'>" . $content[0]['Verb'] . "</option>". $this->verb_words() ."</select><input type='hidden' value='".$content[0]['ID']."' name='ID'/>"; 
+			$list .= ">Organization</option></select><input type='text' id='entity' name='entity' value='".$content[0]['Name']."'  class='textfield' required /><input type='text' id='address' name='address' value='".$content[0]['UniqueInfo']."'  class='addrfield' /><input type='hidden' value='".$content[0]['ID']."' name='ID'/>"; 
 				
 			$list.="<input type='button' class='EntityUpdate' value='Submit' onclick='EntityUpdater()'/></div>	</form>";	
 		
@@ -195,12 +195,12 @@ class Admin extends CI_Controller {
  // $this->output->enable_profiler(TRUE);  
     	
 	$data['ID'] = $this->input->post('ID');
-	$data['EntityPosition'] = $this->input->post('position');
+	//$data['EntityPosition'] = $this->input->post('position');
 	$data['EntityTypeID'] = $this->input->post('type');
 	$data['Name'] = trim(str_replace("'","`",$this->input->post('entity')));
 	$data['UniqueInfo'] = trim(str_replace("'","`",$this->input->post('address')));
-	$data['EffectiveDate'] = trim(str_replace("'","`",$this->input->post('startdate')));
-	$data['Verb'] = $this->input->post('verb');
+	//$data['EffectiveDate'] = trim(str_replace("'","`",$this->input->post('startdate')));
+	//$data['Verb'] = $this->input->post('verb');
 	
 	$this->admin_model->update_entity($data);
 
@@ -417,7 +417,7 @@ class Admin extends CI_Controller {
     
     //$allowed = "/[^a-z0-9\\040\\.\\-\\_\\\\]/i";
 
-    //$TblName =  $this->input->post('TblName');
+    $TblName =  $this->input->post('TblName');
 
   //  $TblName = preg_replace($allowed,"",$TblName);
     
@@ -426,7 +426,7 @@ class Admin extends CI_Controller {
     $error = "";
     $msg = "";
 
-	//echo $TblName;
+	echo $TblName; exit;
 	$table_check = $this->admin_model->get_tables();
 	if(in_array($TblName, $table_check)){
 		$msg .= "Sorry the table ".$TblName." already exists. Please insert another name.";

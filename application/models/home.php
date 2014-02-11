@@ -305,7 +305,7 @@ class Home extends CI_Model {
     function mostvisited($id)
     {
 	$this->db->where('ID', $id);
-	$this->db->set('MostVisited' , 'MostVisited'+1); 
+	$this->db->set('MostVisited' , 'MostVisited+1',FALSE); 
         $this->db->update('Entity');
     }
     

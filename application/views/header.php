@@ -61,9 +61,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand pull-left" href="<?php echo base_url() . index_page(); ?>">
-
           <img src="<?php echo base_url();?>assets/img/od-beta-teal.png">
-
         </a>
       </div>
       <div class="collapse navbar-collapse menu-items pull-right">
@@ -72,7 +70,7 @@
           <li><a href="<?php echo base_url() . index_page(); ?>/about">About</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/api">API</a></li>
           <li><a href="#">Blog</a></li>
-          <li><a href="<?php echo base_url() . index_page(); ?>/contact">Contact</a></li>
+          <li><a href="<?php echo base_url() . index_page(); ?>/contact">Feedback</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
