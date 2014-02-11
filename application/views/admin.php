@@ -356,7 +356,7 @@ function EntityUpdate(id) {
       success:function(data){
       	//alert(data);
           $("#entity_edit").html(data);
-          $("#result").html("Update Done");
+
       },
       error:function(data){
          // alert(data.error);
@@ -411,30 +411,31 @@ $(".DatasetAdd").click(function() {
 	alert("The Table name needs to be more than 5 characters");
 	return false;
 	}
-  	
+
   	$.ajaxFileUpload({
   	
 		url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
 		secureuri:false,
-		fileElementId:'fileToUpload',
+		type: 'POST',
+		fileElementId: 'fileToUpload',
 		dataType: 'json',
-		data:{TblName: $("#TblName").val(), DocumentType:$("#cat_name").val()},
+		data:{TblName: $("#TblName").val(), DocumentType: $("#cat_name").val()},
 		
-		success: function (data, status)
+		success: function (dat, status)
 		{
-		
-			if(typeof(data.error) != 'undefined')
+		alert(dat);
+			if(typeof(dat.error) != 'undefined')
 			{
-				if(data.error != '')
+				if(dat.error != '')
 				{
-					alert(data.error);
+					alert(dat.error);
 				} else	{
-					alert(data.msg);
+					alert(dat.msg);
 					field_list($("#TblName").val(), $("#cat_name").val());
 				}
 			}
 		},
-		error: function (data, status, e)
+		error: function (dat, status, e)
 		{
 			alert(e);
 		}

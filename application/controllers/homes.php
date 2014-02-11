@@ -235,12 +235,12 @@ class Homes extends CI_Controller {
 		//$this->output->enable_profiler(TRUE);  
 		
 		$noMerge = $this->home->get_entries('ID',$v0);
-		//var_dump($noMerge); exit;
+		
 	if(sizeof($noMerge)>=1){
 		$v0 = ($noMerge[0]['Merged']==1)? $noMerge[0]['MergedTo'] : $v0;
 		
 		$MostVisited = $this->home->mostvisited($v0);
-		
+		//var_dump($MostVisited); exit;
 		$weed = array();
 		$fruit = array();
 		$tree_n = array();
@@ -259,10 +259,10 @@ class Homes extends CI_Controller {
 		$docs = explode(',', $dta[0]['DocID']);
 		$docs = $this->clean_array($docs);
 		//var_dump($docs); exit;
-		
+		$e=0;
 		foreach($docs as $d){
 			$doc = $this->home->get_doc($d);
-			
+			//echo $e;
 			foreach($doc as $row){
 			$dt=$row['data_table'];
 			$q=$row['representation'];
@@ -274,11 +274,22 @@ class Homes extends CI_Controller {
 				$tree_e[] = $tree_data['edges'];
 				
 			}
+			if ($e==0){
+			$pos = strpos($tree_e[0],"{");
+    			$phrase = substr($tree_e[0], 0, $pos+1);
+    			} else {
+    			$tree_e[$e] = str_replace($phrase,",",$tree_e[$e]);
+    			}
 			//$tree_n = array_merge_recursive($tree_n);
-			$tree_e=array_merge_recursive($tree_e);
+			//$tree_e=array_merge_recursive($tree_e);
+		
 			
-			 
+			$e++; 
 		}
+		//$pos = strpos($tree_e[0],"{");
+    		//$phrase = substr($tree_e[0], 0, $pos+1);
+    		//echo $phrase; 
+		//var_dump($tree_e); exit;
 		//$tree_n = $this->flatten($tree_n);
 		
 			foreach ($tree_n as $value)
@@ -310,6 +321,7 @@ class Homes extends CI_Controller {
 		
 		$core_node = '\''. str_replace(' ','_',$tree_data['nodeTitle']) . '_' .$v0 . '\'';
 		$tree_ee =  str_replace('},'.$core_node.':{','',$tree_ee);
+		$tree_ee =  str_replace('},,','',$tree_ee);
 		//echo $core_node;
 		//echo($tree_ee);
 		//exit;
@@ -320,7 +332,7 @@ class Homes extends CI_Controller {
 		$node_arr .= $tree_nn;//$tree_data['nodes'];
 		
 		$edges .= $tree_ee;//$tree_data['edges'];
-		
+		//echo $edges;
 		$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
 		$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
 		$node_arr= $this->clean_array(explode(',',$node_arr)); 
@@ -346,8 +358,8 @@ class Homes extends CI_Controller {
 			$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
 			
 			$NodeName = explode(':',$n[0]['Name']);			
-			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_",$NodeName[0]))) . "_".$id ."," : null;
-			//echo($NodeName[0]);
+			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_", str_replace("  ","",$NodeName[0])))) . "_".$id ."," : null;
+			//echo($nFilter);
 			$ne=(int)$n[0]['EntityTypeID'];
 			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
 			
@@ -394,7 +406,7 @@ class Homes extends CI_Controller {
 		
 		$vis_filter = $this->filter_data($node_arr);
 	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'filter_form'=> $vis_filter,  'hidden_nodes'=> $nFilter, 'nodeid'=> $v0);
+		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'filter_form'=> $vis_filter, 'hidden_nodes'=> $nFilter, 'nodeid'=> $v0);
 	
 	$data_head = array('page_title' => 'Visualisation');
 	

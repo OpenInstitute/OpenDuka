@@ -2,7 +2,7 @@
   <div class="jumbotron col-lg-12 col-md-12">
     <h1>OpenDuka API</h1>
     <p class="lead">
-      OpenDuka API as an extension that gives developers backend access to information
+      OpenDuka API has an extension that gives developers backend access to information
       on Kenyan entities.
     </p>
   </div>
