@@ -15,11 +15,16 @@ This will be expanded to other sources of corporate data and the site will incor
 Installation
 ============
 
-Download the files to a folder.
+Install CodeIgnighter. Download it at https://github.com/EllisLab/CodeIgniter and follow installation documentation.
 
-Change the config.php in the config folder to reflect the web instance you are running.
+Download OpenDuka files to the CodIgniter instance folder.
+
+Edit the config.php in the application/config folder to reflect the web instance you are running.
 
 Upload and reconstruct the database from the openduka_alpha.sql file.
+
+Edit the database.php in the application/config folder to reflect the database instance you are running.
+
 
 License
 =======
