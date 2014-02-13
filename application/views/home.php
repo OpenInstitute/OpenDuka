@@ -42,40 +42,52 @@ if(!isset($list) && empty($nodes))
 			<h3>In Our Database</h3>
 			<div class="figures row" style="margin-top:20px">
 				<div class="people col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
-					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22">People</a></h4>
-					<h5><?php echo $persons; ?></h5>
+					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22">
+						<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
+						<h4>People</h4>
+						<h5><?php echo $persons; ?></h5>
+					</a>
 				</div>
 				<div class="organisations col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
-					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21">Organisations</a></h4>
-					<h5><?php echo $organisations; ?></h5>
+					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21">
+						<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
+						<h4>Organisations</h4>
+						<h5><?php echo $organisations; ?></h5>
+					</a>
 				</div>
 			</div>
 			<br />
 			<div class="figures row">
 				<div class="tenders col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
-					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">Tenders</a></h4>
-					<h5><?php echo $Tenders; ?></h5>
+					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">
+						<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
+						<h4>Tenders</h4>
+						<h5><?php echo $Tenders; ?></h5>
+					</a>
 				</div>
 				<div class="grants col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
-					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>">Contracts</a></h4>
-					<h5><?php echo $Contracts; ?></h5>
+					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>">
+						<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
+						<h4>Contracts</h4>
+						<h5><?php echo $Contracts; ?></h5>
+					</a>
 				</div>
 			</div>
 			<br />
 			<div class="figures row">
 				<div class="cases hidden-xs hidden-sm col-md-6 col-lg-6">
- 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
- 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $CasesID; ?>">Cases</a></h4>
- 					<h5><?php echo $Cases; ?></h5>
+					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $CasesID; ?>">
+	 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
+	 					<h4>Cases</h4>
+	 					<h5><?php echo $Cases; ?></h5>
+ 					</a>
  				</div>
  				<div class="land hidden-xs hidden-sm col-md-6 col-lg-6">
- 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
- 					<h4><a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>">Land</a></h4>
- 					<h5><?php echo $Land; ?></h5>
+ 					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>">
+	 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
+	 					<h4>Land</h4>
+	 					<h5><?php echo $Land; ?></h5>
+	 				</a>
  				</div>
 			</div>
 		</div><!-- .stats -->
@@ -134,51 +146,6 @@ if(!isset($list) && empty($nodes))
 			</a>
 		</div>
 	</div><!-- #partners -->
-
-	<!-- <div class="social" class="row">
-		<div id="blog-feed" class="col-md-6 col-lg-6">
-			<h2><i class="fa fa-pencil"></i></h2>
-			<div class="post">
-				<a><h3>Open Duka is the future</h3>
-				<p>Lorem ipsum</p>
-				<a>Read more</a>
-			</a>
-			</div>
-			<hr />
-			<div class="post">
-				<a><h3>Open Duka is the future</h3>
-				<p>Lorem ipsum</p>
-				<a>Read more</a>
-			</a>
-			</div>
-		</div>
-		<div id="twitter-feed" class="col-md-6 col-lg 6">
-			<h2><a href="http://twitter.com/OpenDuka"><i class="fa fa-twitter"></i></a></h2>
-			<a href="http://twitter.com/OpenDuka">Follow @OpenDuka on Twitter</a>
-			<br />
-			<section>
-				<div id="feed"></div>
-			</section>
-		</div>
-	</div> -->
-
-
-	<script type="text/javascript" src="assets/js/twitterFetcher_v10_min.js"></script>
-	<script>
-		twitterFetcher.fetch('402150804695416832', '', 3, true, false, true, '', true, handleTweets);
-			function handleTweets(tweets){
-				var x = tweets.length;
-				var n = 0;
-				var element = document.getElementById('feed');
-				var html = '<ul class="divided col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2">';
-				while(n < x) {
-					html += '<li><article class="tweet">' + tweets[n] + '</article></li>';
-					n++;
-				}
-				html += '</ul>';
-					element.innerHTML = html;
-	      	}
-	</script>
 
 <?php 
 }
@@ -253,7 +220,7 @@ if (!empty($nodes)){
 	<div id="visualisation">
 		<div class="row">
 			<div class="col-md-8 col-lg-8 pull-left">
-				<h2>Search results for "<B><?php echo $node_title; ?></B>"</h2>
+				<h2>Search results for "<strong><?php echo $node_title; ?></strong>"</h2>
 				<h6>Click on a node for details</h6>
 			</div>
 			<!-- Search -->
@@ -270,17 +237,32 @@ if (!empty($nodes)){
 			<div id="center-container" class="col-md-12 col-lg-12">
 				<canvas id="cy"></canvas>
 			</div>
-<a name="data_content"></a>
-			<div id="embed">
-			<span class="embed">Embed visualisation</span>
-			<form action="http://www.openduka.org/" id="embedform">
-			<p><br/>
-			<label for="pagelinkcode">Cut and paste the following code to embed</label></p>
-			<textarea  id="pagelinkcode"  title="Select the text here, click your right mouse button, click the Copy menu item, and paste it into your web page in HTML source mode" onclick="this.focus();this.select();" readonly="readonly">
-&lt;iframe width="100%" height="100%" src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;</textarea>
-			</form>
+
+			<a name="data_content"></a>
+			<div id="embed-code" class="col-md-5 col-lg-5">
+				<!-- Button trigger modal -->
+				<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#embed">Embed visualisation</button>
+
+				<!-- Modal -->
+				<div class="modal" id="embed" tabindex="-1" role="dialog" aria-labelledby="embedLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				        <h4 class="modal-title" id="embedLabel">Embed Visualisation</h4>
+				      </div>
+				      <div class="modal-body">
+				        <p><strong>Cut and paste the following code</strong></p>
+						<br />
+						<p class="embed">&lt;iframe width="100%" height="100%" src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;</p>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
 			</div>
-			
 
 			<div id="right-container-top" class="col-md-offset-0 col-lg-offset-0 hide">
 				<a href="#" id="contentdata">
@@ -289,9 +271,10 @@ if (!empty($nodes)){
 			</div>	
 		</div>
 		<div id="right-container" class="hide panel panel-default">
-				<div class="panel-heading"></div>
-				<div class="panel-body">
-				<div class="col-md-12 col-lg-12" id="inner_details"></div></div>
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<div class="col-md-12 col-lg-12" id="inner_details"></div>
+			</div>
 		</div>
 	</div> <!-- #visualisation end -->
 		
@@ -355,7 +338,7 @@ if (!empty($nodes)){
 				d = JSON.parse(d);
 				//  $("#entity_edit").html(data);
 				// alert(d.data[1].header[0].Link);
-				//$("div#right-container").scrollTop(300);\
+
 				var target = $('[name=data_content]');
 				$('html,body').animate({scrollTop: target.offset().top}, 1000);
 				

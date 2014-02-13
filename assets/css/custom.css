@@ -43,6 +43,14 @@ max-height: 80px;
   border: none;
 }
 
+.navbar-brand {
+  padding: 5px !important;
+}
+
+.navbar-brand img {
+  max-height: 80px;
+}
+
 body .container {
   padding: 0 10px 0 10px;
 }
@@ -170,7 +178,7 @@ body .container {
 }
 
 .menu-items .nav > li > a {
-  padding: 35px 15px 20px !important;
+  padding: 40px 20px 30px !important;
 }
 
 .menu-items a {
@@ -326,6 +334,10 @@ body .container {
   text-transform: uppercase;
 }
 
+.stats a {
+  text-decoration: none;
+}
+
 .stats img {
   margin-bottom: 12px;
   max-width: 45px;
@@ -344,27 +356,35 @@ body .container {
   font-weight: 700;
 }
 
-.people {
+.stats h4:hover {
+  color: #999;
+}
+
+.stats a:hover {
+  text-decoration: none;
+}
+
+.people h5 {
   color: #B0BC2A;
 }
 
-.cases {
+.cases h5 {
   color: #800080;
 }
 
-.organisations {
+.organisations h5 {
   color: #FF5555;
 }
 
-.tenders {
+.tenders h5 {
   color: #37abc8;
 }
 
-.land {
+.land h5 {
   color: #419ce8;
 }
 
-.grants {
+.grants h5 {
   color: #ff510a;
 }
 
@@ -570,10 +590,14 @@ section:last-child, article:last-child {
   right: 0;*/
   /*padding: 10px 0 30px 0;*/
   overflow:scroll;
-  height: 360px;
+  /*height: 360px;*/
 }
 
-#embed {
+.modal-body {
+  padding: 20px 20px 0 20px !important;
+}
+
+/*#embed {
 	border: 1px solid green;
 	font-family: "Courier New", Courier, monospace;
 	font-size: 95%;
@@ -589,7 +613,7 @@ section:last-child, article:last-child {
 #pagelinkcode {
 	width: 100%;
 	padding: 20px 0 0 20px;
-}
+}*/
 
 .panel-heading a {
   font-weight: bold;
@@ -719,7 +743,7 @@ section:last-child, article:last-child {
 }
 
 .social-media img {
-  height: 32px; width: 32px;
+  height: 26px; width: auto;
   margin-right: 10px;
 }
 
