@@ -36,6 +36,9 @@ a {
   padding-right: 0 !important;
 }
 
+.navbar-brand img {
+max-height: 80px;
+}
 .navbar-collapse {
   border: none;
 }

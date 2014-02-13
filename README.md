@@ -10,3 +10,18 @@ The project aims to scrape data from various sources that range from shareholder
 The current pilot is being launched in Kenya in partnership with the National Council of Law Reporting and funded by A.T.T.I.
 
 This will be expanded to other sources of corporate data and the site will incorporate visualizations that will be able to show linkages of the data.
+
+
+Installation
+============
+
+Download the files to a folder.
+
+Change the config.php in the config folder to reflect the web instance you are running.
+
+Upload and reconstruct the database from the openduka_alpha.sql file.
+
+License
+=======
+
+Open Duka by Open Institute is licensed under a Creative Commons Attribution-NonCommercial 3.0 Unported License.

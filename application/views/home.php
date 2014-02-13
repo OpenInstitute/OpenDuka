@@ -270,7 +270,7 @@ if (!empty($nodes)){
 			<div id="center-container" class="col-md-12 col-lg-12">
 				<canvas id="cy"></canvas>
 			</div>
-
+<a name="data_content"></a>
 			<div id="embed">
 			<span class="embed">Embed visualisation</span>
 			<form action="http://www.openduka.org/" id="embedform">
@@ -280,7 +280,7 @@ if (!empty($nodes)){
 &lt;iframe width="100%" height="100%" src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;</textarea>
 			</form>
 			</div>
-			<a name="data_content"></a>
+			
 
 			<div id="right-container-top" class="col-md-offset-0 col-lg-offset-0 hide">
 				<a href="#" id="contentdata">
@@ -355,6 +355,9 @@ if (!empty($nodes)){
 				d = JSON.parse(d);
 				//  $("#entity_edit").html(data);
 				// alert(d.data[1].header[0].Link);
+				//$("div#right-container").scrollTop(300);\
+				var target = $('[name=data_content]');
+				$('html,body').animate({scrollTop: target.offset().top}, 1000);
 				
 				l = d.data[1].header[0].Link;
 				pn = d.data[1].header[0].Name;
@@ -364,7 +367,7 @@ if (!empty($nodes)){
 				//alert(extradata);
 				$("#inner_details").html( extradata );
 				//$("#inner_details").append( extradata );
-				$(".panel-heading").html('<a href="'+ l +'">'+ pn +'</a>');
+				$(".panel-heading").html('<a href="'+ l +'#node">'+ pn +'</a>');
 				$('#right-container').removeClass("hide"); 
 				$('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");
 				  
@@ -373,7 +376,7 @@ if (!empty($nodes)){
 				}).mouseout(function() {
 				    $(this).children(".description").hide();
 				});
-				
+								
 			     },
 			     error: function(xhr, status, error) {
 					 alert(xhr.error);

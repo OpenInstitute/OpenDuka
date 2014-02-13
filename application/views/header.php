@@ -62,7 +62,7 @@
         </button>
         <a class="navbar-brand pull-left" href="<?php echo base_url() . index_page(); ?>">
 
-          <img style="height: 70px;" src="<?php echo base_url();?>assets/img/od-beta.png">
+          <img src="<?php echo base_url();?>assets/img/od-beta-teal.png">
 
         </a>
       </div>
