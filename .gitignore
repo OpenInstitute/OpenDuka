@@ -2,28 +2,21 @@
 .project
 .settings
 
-*.DS_Store
-Raw/*
-
 # ignore generated html files,
 *.html
 
-# ignore objects and archives, anywhere in the tree.
-*.[oa]
-    
-# Security Purposes
+*.DS_Store
+Raw/*
 
-# Code Igniter Ignore
-*/config/development
-*/logs/log-*.php
-*/logs/!index.html
-*/cache/*
-*/cache/!index.html
-*.project
-/Raw
-/user_guide
-/assets/Gazettes
+# exclude everything except directory application
+*.[oa]
 *~
+*
+!application
+application/*
+!application/views
+!application/models
+!application/controllers
 
 application/config/database.php
 application/config/config.php

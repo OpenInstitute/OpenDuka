@@ -232,7 +232,7 @@ class Homes extends CI_Controller {
 	}
 	
 	function tree($v0) {
-		//$this->output->enable_profiler(TRUE);  
+		$this->output->enable_profiler(TRUE);  
 		
 		$noMerge = $this->home->get_entries('ID',$v0);
 		
@@ -266,8 +266,8 @@ class Homes extends CI_Controller {
 			foreach($doc as $row){
 			$dt=$row['data_table'];
 			$q=$row['representation'];
-			
-			  $tree_data = ($dt == "") ? $this->tree_init($v0,$weed) : $this->dataset_extract($dt,$v0);
+				//$tree_data = ($dt == "") ? $this->tree_init($v0,$weed) : $this->dataset_extract($dt,$v0);
+			  $tree_data = $this->dataset_extract($dt,$v0);
 				//array_push($tree_d,$tree_data);
 				
 				$tree_n[] = $tree_data['nodes'];
@@ -349,7 +349,6 @@ class Homes extends CI_Controller {
 			//echo $dataset;
 			$n = $this->home->get_entries('ID',$id);
 			//$nID[$id] = $id;
-			$nd = explode('||',$n[0]['EffectiveDate']);
 			//var_dump($nd);
 			if ( !isset($nDate[$id]) ) {
 			  $nDate[$id] = array();
@@ -358,7 +357,7 @@ class Homes extends CI_Controller {
 			$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
 			
 			$NodeName = explode(':',$n[0]['Name']);			
-			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_", str_replace("  ","",$NodeName[0])))) . "_".$id ."," : null;
+			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_", str_replace("  ","",str_replace("/","_",$NodeName[0]))))) . "_".$id ."," : null;
 			//echo($nFilter);
 			$ne=(int)$n[0]['EntityTypeID'];
 			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
@@ -536,7 +535,7 @@ class Homes extends CI_Controller {
 		$stm[] = $stem;
 		//$edge_name = str_replace(".","",str_replace(" ","_",$root_Name[0]));
 		$edge_name = preg_replace('/[^a-z\d ]/i', '', $root_Name[0]);
-		$edge_name = str_replace(' ','_',$edge_name);
+		$edge_name = str_replace(' ','_',str_replace('/','_',$edge_name));
  		$edges .= "'" . $edge_name ."_". $stm[0] . "':{";
 		}
 		//	echo sizeof($branch). ',';
@@ -737,12 +736,12 @@ class Homes extends CI_Controller {
 						$q = ($ds=="")? '*' : $ds;
 
 						$dta = $this->home->get_dataset($dt,$q,$n);
-					//	var_dump($dta);
+						//var_dump($dta);
 						//$k = (sizeof($dta[0])>11) ? 1 : (int)(12/sizeof($dta[0])) ;
 						//$i=1;
 						//echo sizeof($dta);
 						
-						$extraData .= '<div class="category"><span class="label label-info">'.$dataCat[0]['DocTypeName'].'</span></div>';
+						$extraData .= '<div class="category"><span class="label" style="background-color: '.$dataCat[0]['IconColor'].';">'.$dataCat[0]['DocTypeName'].'</span></div>';
 						$extraData .= '<table class="table table-hover table-condensed relationships">';
 						$extraData .= '<thead>';	
 							foreach($dta[0] as  $key => $val){
@@ -762,9 +761,13 @@ class Homes extends CI_Controller {
 						$extraData .= '<tr>';
 						
 							foreach($dta[$j] as  $key => $val){
-								if (substr($key,-3,3)!='_E_') {
-								$kd=$key."_E_";
-								  $extraData .= in_array($kd, $Entity_id) ? '<td><a href="'. $dta[$j][$kd].'">'. $val .'</a></td>' : '<td>'. $val .'</td>' ;
+								if (substr($key,-3,3)=='_E_') {
+								//$kd=$key;
+								  $extraData .= '<td><a href="'. $dta[$j][$key].'">'. $val .'</a></td>' ;
+								}
+								else
+								{
+								 $extraData .= '<td>'. $val .'</td>' ;
 								}
 							//if($i==12){break;}
 							//++$i;
@@ -790,7 +793,7 @@ class Homes extends CI_Controller {
 		$d=1;
 		$root_node = $this->home->get_entries('ID',$n);
 		
-		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap'] . '","EntPos":"'. $root_node[0]['EntityPosition']. '", "Verb":"'. $root_node[0]['Verb'] .'", "EffectiveDate":"'. $root_node[0]['EffectiveDate'] .'", "Link":"' . site_url('/homes/tree/'.$n) . '", "E_D":"'. $d .'"}]}';
+		$maps .=', {"header":[{"ID":"'. $root_node[0]['ID'] .'", "Name":"'. $root_node[0]['Name'] . '", "EntMap":"'. $root_node[0]['EntityMap'] . '", "Link":"' . site_url('/homes/tree/'.$n) . '", "E_D":"'. $d .'"}]}';
 		
 		
 		$maps .=']}';

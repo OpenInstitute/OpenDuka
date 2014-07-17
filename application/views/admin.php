@@ -94,17 +94,17 @@
  	<div id="EInsert4" class="formdata">
 		<div id="Datasets" style="display:block;">
 		
-		 <img id="loading" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
+		 <img id="loading1" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
 		 <div class="reg_form" style="display:block;">
 		 <?php echo form_open_multipart("", array('id' => 'DatasetAdd')); ?>
-		 <p>
+		<!-- <p>
 		  <label for="cat_name" class="textfield">Category:</label>
 		  <select id="cat_name" name="cat_name" value="" /></select>
 		  </p>
 		  <p>
 		  <label for="TblName" class="textfield">Dataset Name:</label>
 		 <input type="text" id="TblName" name="TblName" value="" />
-		 </p>
+		 </p> -->
 		  <p>
 		  Upload a comma separated CSV document. Please ensure that it has atleast 2 columns that contain Entity Names.	
 		   <label for="fileToUpload" class="textfield">Select File:</label>
@@ -398,73 +398,59 @@ function EntityUpdater() {
 $(".DatasetAdd").click(function() {
 	// abort any pending request
     /*clear result div*/
+    //alert('tuko');
    $("#result").html('');
+   
     // setup some local variables
-    $("#loading")
-	.ajaxStart(function(){
-		$(this).show();
-	})
-	.ajaxComplete(function(){
-		$(this).hide();
-	});
-	if ($("#TblName").val().length<=4){
-	alert("The Table name needs to be more than 5 characters");
-	return false;
-	}
+	//if ($("#TblName").val().length<=4){
+	//alert("The Table name needs to be more than 5 characters");
+	//return false;
+	//}
+//alert ($("#TblName").val());
+//alert ($("#cat_name").val());
 
-  	$.ajaxFileUpload({
-  	
-		url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
-		secureuri:false,
-		type: 'POST',
-		fileElementId: 'fileToUpload',
-		dataType: 'json',
-		data:{TblName: $("#TblName").val(), DocumentType: $("#cat_name").val()},
-		
-		success: function (dat, status)
-		{
-		alert(dat);
-			if(typeof(dat.error) != 'undefined')
-			{
-				if(dat.error != '')
+		$.ajaxFileUpload({
+				//url:'/contents/ajaxfileupload/doajaxfileupload.php',
+				url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
+				secureuri:false,
+				fileElementId:'fileToUpload',
+				//type: 'post',
+				dataType: 'json',
+				//data:{TblName: $("#TblName").val(), DocumentType: $("#cat_name").val()},
+				beforeSend:function()
 				{
-					alert(dat.error);
-				} else	{
-					alert(dat.msg);
-					field_list($("#TblName").val(), $("#cat_name").val());
+					$("#loading1").show();
+				},
+				complete:function()
+				{
+					$("#loading1").hide();
+				},				
+				success: function (data, status)
+				{
+				$("#result").html(data.msg);
+				$(".reg_form").html('');
+				field_list('NewTable', '1');
+				//alert(data.msg);
+					/*if(typeof(data.error) != 'undefined')
+					{
+						if(data.error != '')
+						{
+							alert(data.error);
+						}else
+						{
+							
+						}
+					}*/
+				},
+				error: function (data, status, e)
+				{
+					alert(e);
 				}
 			}
-		},
-		error: function (dat, status, e)
-		{
-			alert(e);
-		}
-	});
+		);
+		
+		return false;
 
-	return false;
-
-	// let's select and cache all the fields
-/*    var $inputs = $form.find("input, select, textarea"); /
-    // serialize the data in the form
-    var serializedData = $form.serialize();
-     /* Send the data using post and put the results in a div 
-     alert (serializedData);
-    $.ajax({
-      url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
-      type: "post",
-      enctype: 'multipart/form-data',
-      async: false, 
-      data: serializedData,
-      success:function(data){
-      	//alert(data);
-          $("#result").html(data);
-      },
-      error:function(){
-          alert("failure");
-          $("#result").html('there is error while submit');
-      }
-    });
-*/
 });
 
 
@@ -521,9 +507,11 @@ function EntityMerge() {
 	var radioanswer = 'none';
 	if ($('.radioEnt:checked').val() != null) {           
 	   Ent_id = $('input[name=radioEnt]:checked').val();
-	   //alert(Ent_id);
+	   
+	} else {
+		Ent_id = $("input[name='Merge[]']:checked").val();
 	}
-	
+	//alert(Ent_id); exit;
 	if (checked.length>1){
 	//alert(checked);
 		$.ajax({
@@ -610,7 +598,7 @@ function ListDocCat() {
       success:function(data){
       	//alert(data);
           $("#cat_name").html(data);
-          $("#result").html("Select Category");
+         // $("#result").html("Select Category");
       },
       error:function(){
           alert("failure");
@@ -744,29 +732,40 @@ function DatasetEdit(serializedData) {
 function EntityExtract() {
 
     $("#result").html('');
-    // setup some local variables
     var $form = $("#DatasetInsert");
 	// let's select and cache all the fields
     var $inputs = $form.find("input, select, textarea");
     // serialize the data in the form
     var serializedData = $form.serialize();
+   
+    var checked = [] ;
+	$("input[name='Extract[]']:checked").each(function ()
+	{
+	    checked.push(parseInt($(this).val()));
+	});
+	
+	if (checked.length < 2 ) { alert("Please select at-least two fields to extract entities from!");}	
+	
+	else {
+    // setup some local variables
      /* Send the data using post and put the results in a div */
-    $.ajax({
-      url: "<?php echo base_url();?>index.php/admin/EntityExtract",
-      type: "post",
-      async: false, 
-      data: serializedData,
-      success:function(dat){
+		    $.ajax({
+		      url: "<?php echo base_url();?>index.php/admin/EntityExtract",
+		      type: "post",
+		      async: false, 
+		      data: serializedData,
+		      success:function(dat){
 
-         $("#result").html(dat);
-        
-        // $("#result").html("Update Done");
-      },
-      error:function(d){
-          alert("failure"+d);
-          $("#result").html('there is error while submit');
-      }
-    });	
+			 $("#result").html(dat);
+		       		//ListDataset();
+			 $("#result").html("Update Done");
+		      },
+		      error:function(d){
+			  alert("failure"+d);
+			  $("#result").html('there is error while submit');
+		      }
+		    });	
+	}
 }
 
 

@@ -1044,7 +1044,7 @@ form.bs-docs-example {
   }
 
   /* Examples: modal */
-  /*.modal-example .modal {
+/*  .modal-example .modal {
     position: relative;
     top: auto;
     right: auto;

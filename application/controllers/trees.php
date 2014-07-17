@@ -123,7 +123,7 @@ class Trees extends CI_Controller {
 			//echo $dataset;
 			$n = $this->tree->get_entries('ID',$id);
 			//$nID[$id] = $id;
-			$nd = explode('||',$n[0]['EffectiveDate']);
+			//$nd = explode('||',$n[0]['EffectiveDate']);
 			//var_dump($nd);
 			if ( !isset($nDate[$id]) ) {
 			  $nDate[$id] = array();

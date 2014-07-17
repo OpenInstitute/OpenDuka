@@ -4,10 +4,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"> 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name=”twitter:site” content=”@OpenDuka”>
 	<title><?php echo $page_title;?></title>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.js"></script>
 
-	<script language="javascript" type="text/javascript" src="<?php echo base_url();?>assets/js/ajaxfileupload.js"></script>
+
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/wysiwyg.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.validate.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
@@ -69,7 +70,8 @@
           <li><a href="<?php echo base_url() . index_page(); ?>">Home</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/about">About</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/api">API</a></li>
-          <li><a href="#">Blog</a></li>
+          <li><a href="http://openinstitute.com/category/open-duka/">Blog</a></li>
+          <li><a href="<?php echo base_url() . index_page(); ?>/faq">FAQ</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/contact">Feedback</a></li>
         </ul>
       </div><!--/.nav-collapse -->

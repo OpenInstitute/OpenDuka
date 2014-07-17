@@ -10,17 +10,18 @@ class Api_m extends CI_Model {
 				if($result['au_confirmed']!='0'){
 					return "The confirmation token has already been used. Please check your email for your API key";
 				}else{
-					$key = md5($email.$app);
-					$this->load->library('encrypt');
-					if($key!=$this->encrypt->decode($code)){
+				
+				$salt = 'openduka';	
+					$key = md5($email.$app.$salt);
+					//echo $key;
+					if($code!=$key){
 						return "Wrong confirmation code! Please check your confirmation message for the correct confirmation url.";
 					}else{
 						$api_key = $result['au_email'].$result['au_url'].str_replace(' ', '', $result['au_joined']);
-						
-						$api_key = $this->encrypt->encode($api_key);
+						$api_key = md5($api_key);
 						//now we have a key
 						$this->db->query("update api_users set au_key='$api_key', au_confirmed='1' where au_email='$email' and au_url='$app'");
-						mail($email, 'OpenDuka API key', 'Your API key is :'.$api_key);
+						mail($email, 'OpenDuka API key', 'Your API key is :[ '. $api_key .']');
 						//print $api_key;
 						return "API key sent to your email address!";
 					}
@@ -28,7 +29,9 @@ class Api_m extends CI_Model {
 		}
 	}
 	public function request_key($post){
-		if(isset($post['email'])){	
+		if(isset($post['email'])){
+		//$key = md5($post['email'].$post['url']."openduka");
+		//echo $key;
 			if(($post['email']=='')||($post['organization']=='')||($post['name']=='')||($post['url']=='')||($post['desc']=='')){
 				return "All fields are required!";
 			}else{
@@ -46,11 +49,10 @@ class Api_m extends CI_Model {
 				}else{
 					$this->db->query("insert into api_users(`au_email`, `au_organization`, `au_url`, `au_name`, `au_description`)values('$post[email]', '$post[organization]', '$post[url]', '$post[name]', '$post[desc]')");
 					
-					$key = md5($post['email'].$post['url']);
-					$this->load->library('encrypt');
-					$code = $this->encrypt->encode($key);
-					//print $code;
-					mail($post['email'], 'OpenDuka API Confirmation', 'Click on this link to confirm your email address: '.base_url().'index.php/api/confirm?code='.$code.'&email='.$post['email'].'&app='.$post['url']);
+					$salt = 'openduka';
+					$key = md5($post['email'].$post['url'].$salt);
+					//print $key;
+					mail($post['email'], 'OpenDuka API Confirmation', 'Click on this link to confirm your email address: '.base_url().'index.php/api/confirm?code='.$key.'&email='.$post['email'].'&app='.$post['url']);
 					return "Check email address for confirmation!";
 				}
 		

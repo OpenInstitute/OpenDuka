@@ -155,7 +155,7 @@ class Admin extends CI_Controller {
 			{
 			$list .= "<div class='spacer' style='background-color: #cccccc; border:#eee 1px solid;'><a onclick='javascript:EntityUpdate(".$content[$i]['ID'].")' href='#'>Edit</a>";
 			
-			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div><div style='width: 200px;'>" . $content[$i]['UniqueInfo'] ."</div></div>"; 
+			$list .= "<div style='width: 380px;'>" . $content[$i]['Name'] . "</div></div>"; 
 			
 			}		
 			
@@ -172,7 +172,7 @@ class Admin extends CI_Controller {
     		
     	$content = $this->admin_model->get_entity($id);	
     	//var_dump($content);exit;
-    		$list="<form id='EntityUpdateForm' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div><div class='addrfield'>Unique Box <br/>'P.O. Box NNN'</div></div>";
+    		$list="<form id='EntityUpdateForm' action='' method='post'><div class='spacer'><div class='select'>Type</div><div class='textfield'>Entity</div></div>";
 		
 			$list .= "<div class='spacer'><select class='select' name='type'><option value='22'";
 			
@@ -181,7 +181,7 @@ class Admin extends CI_Controller {
 			$list .= ">Person</option><option value='21'";
 				if ($content[0]['EntityTypeID']==21){ $list .= "selected";}
 			
-			$list .= ">Organization</option></select><input type='text' id='entity' name='entity' value='".$content[0]['Name']."'  class='textfield' required /><input type='text' id='address' name='address' value='".$content[0]['UniqueInfo']."'  class='addrfield' /><input type='hidden' value='".$content[0]['ID']."' name='ID'/>"; 
+			$list .= ">Organization</option></select><input type='text' id='entity' name='entity' value='".$content[0]['Name']."'  class='textfield' required /><input type='hidden' value='".$content[0]['ID']."' name='ID'/>"; 
 				
 			$list.="<input type='button' class='EntityUpdate' value='Submit' onclick='EntityUpdater()'/></div>	</form>";	
 		
@@ -198,7 +198,7 @@ class Admin extends CI_Controller {
 	//$data['EntityPosition'] = $this->input->post('position');
 	$data['EntityTypeID'] = $this->input->post('type');
 	$data['Name'] = trim(str_replace("'","`",$this->input->post('entity')));
-	$data['UniqueInfo'] = trim(str_replace("'","`",$this->input->post('address')));
+	//$data['UniqueInfo'] = trim(str_replace("'","`",$this->input->post('address')));
 	//$data['EffectiveDate'] = trim(str_replace("'","`",$this->input->post('startdate')));
 	//$data['Verb'] = $this->input->post('verb');
 	
@@ -208,9 +208,11 @@ class Admin extends CI_Controller {
 	
 	
     function EntityMergeSearch(){
+    //$this->output->enable_profiler(TRUE);
    	$SearchTerm=$this->input->post('STerm');
     	
     	$content = $this->admin_model->search_entry($SearchTerm);
+    	//var_dump($content); exit;
 	$list="";
     		if (is_array($content)){
 	    		
@@ -295,8 +297,11 @@ class Admin extends CI_Controller {
      	$stabs = $this->input->post('STab');
      	$dtype = $this->input->post('DocType');
    	$list = "<form id='DatasetInsert' action='' method='post'>";
-
-   	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
+	
+	if ($stabs=='NewTable'){
+   	$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> { e.g. PublicAwardeds}</div>";
+   	}
+   	
    	$doctype = $this->admin_model->get_doctype();
    	//var_dump($doctype);
    	$list .= "<div class='spacer'>Document Type  <select name='DocumentType'";
@@ -318,9 +323,8 @@ class Admin extends CI_Controller {
 	//  echo $kiwanja->max_length;
 	//  echo $kiwanja->primary_key;
 	 $list .= '<div class="spacer">
-	 <input type="hidden" value="'. $dtype .'" name="DocumentType"/>
-	 <input type="hidden" value="'. $stabs .'" name="tablename"/><input type="button" class="EntityExtract" value="Submit" onclick="EntityExtract()"/></div>';
-	 $list .= '<div id="verbs" style="visibility:hidden;"><select name="Verb[]"><option value="" selected>No verb</option> '. $this->verb_words() .'</select></div>';
+	 <input type="button" class="EntityExtract" value="Submit" onclick="EntityExtract()"/></div>';
+	// $list .= '<div id="verbs" style="visibility:hidden;"><select name="Verb[]"><option value="" selected>No verb</option> '. $this->verb_words() .'</select></div>';
 	 $list .= '</form>';
 	
 	$list = empty($list) ? "Sorry No Data" : $list;
@@ -368,14 +372,15 @@ class Admin extends CI_Controller {
     function EntityExtract(){
     //$this->output->enable_profiler(TRUE); 
    
-   	$table_name = $this->input->post('tablename');
+   	//$table_name = $this->input->post('tablename');
    	$DocumentType = $this->input->post('DocumentType');
-   	$Verb = $this->input->post('Verb');
-   	$DocName = $this->input->post('DocName');
+   	//$Verb = $this->input->post('Verb');
+   	$DocName = str_replace(' ', '_', $this->input->post('DocName'));
    	$viwanja = $this->input->post('Extract');
    	
+   	$this->admin_model->table_name_change('NewTable', $DocName);
+   	
    	$DocID = $this->admin_model->get_document_entry($DocName) ? : $this->admin_model->insert_document($DocName, $DocumentType);
-	
 	
 	//var_dump($viwanja);
 	//var_dump($Verb);
@@ -384,9 +389,9 @@ class Admin extends CI_Controller {
     	$l=0;
     	for($i=0; $i<sizeof($viwanja); $i++){
 
-		$this->admin_model->fieldcheck($viwanja[$i], $table_name);
+		$this->admin_model->fieldcheck($viwanja[$i], $DocName);
 
-    	     	$l += $this->admin_model->extract_entity($viwanja[$i], $table_name, $DocID, $Verb[$i], $this->session->userdata('user_id'), $DocumentType);
+    	     	$l += $this->admin_model->extract_entity($viwanja[$i], $DocName, $DocID, $this->session->userdata('user_id'), $DocumentType);
 
     	}
     		
@@ -417,66 +422,68 @@ class Admin extends CI_Controller {
     
     //$allowed = "/[^a-z0-9\\040\\.\\-\\_\\\\]/i";
 
-    $TblName =  $this->input->post('TblName');
-
-  //  $TblName = preg_replace($allowed,"",$TblName);
+    $TblName =  'NewTable';//$this->input->post('TblName');  
+    $DocumentType = 1;//$this->input->post('DocumentType');
     
-  
-   // $DocumentType = $this->input->post('DocumentType');
     $error = "";
     $msg = "";
-
-	echo $TblName; exit;
-	$table_check = $this->admin_model->get_tables();
+	//$this->upload->do_upload('fileToUpload') ;
+	//	$msg .=  $TblName . "no tab name"; //exit;
+	/*$table_check = $this->admin_model->get_tables();
 	if(in_array($TblName, $table_check)){
 		$msg .= "Sorry the table ".$TblName." already exists. Please insert another name.";
 	}
 	if($DocumentType==0){
 		$msg .= "Please select a category.";
 	}
-	
+	*/
 	$fileElementName = 'fileToUpload';
+	//$msg .=$_FILES[$fileElementName]['error'];
+	
 	if(!empty($_FILES[$fileElementName]['error']))
 	{
 		switch($_FILES[$fileElementName]['error'])
 		{
 
 			case '1':
-				$error = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+				$msg .= 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
 				break;
 			case '2':
-				$error = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+				$msg .= 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
 				break;
 			case '3':
-				$error = 'The uploaded file was only partially uploaded';
+				$msg .= 'The uploaded file was only partially uploaded';
 				break;
 			case '4':
-				$error = 'No file was uploaded here.';
+				$msg .= 'No file was uploaded here.';
 				break;
 
 			case '6':
-				$error = 'Missing a temporary folder';
+				$msg .= 'Missing a temporary folder';
 				break;
 			case '7':
-				$error = 'Failed to write file to disk';
+				$msg .= 'Failed to write file to disk';
 				break;
 			case '8':
-				$error = 'File upload stopped by extension';
+				$msg .= 'File upload stopped by extension';
 				break;
 			case '999':
 			default:
-				$error = 'No error code avaiable';
+				$msg = '';//'No error code avaiable';
 		}
-	}elseif(empty($_FILES['fileToUpload']['tmp_name']) || $_FILES['fileToUpload']['tmp_name'] == 'none')
+	}
+	//$msg .= $_FILES[$fileElementName]['tmp_name'];
+	if(empty($_FILES[$fileElementName]['tmp_name']) || $_FILES[$fileElementName]['tmp_name'] == 'none')
 	{
-		$error = 'No file was uploaded..';
-	} else {
+		$msg .= 'No file was uploaded..';
+	} 
+	//else {
 	
 	//		$msg .= " File Name: " . $_FILES['fileToUpload']['name'] . ", ";
 	//		$msg .= " File Size: " . @filesize($_FILES['fileToUpload']['tmp_name']);	
-		//for security reason, we force to remove all uploaded file
+	//for security reason, we force to remove all uploaded file
 	
-		if ($msg==""){
+	if ($msg==''){
 		
 		/********************************/
 		/* Would you like to add an ampty field at the beginning of these records?
@@ -487,7 +494,7 @@ class Admin extends CI_Controller {
 		/********************************/
 		$addauto = 1;
 
-		$filename = $_FILES['fileToUpload']['tmp_name'];
+		$filename = $_FILES[$fileElementName]['tmp_name'];
 	  	$size = filesize($filename);
 	  	if (($handle = fopen($filename, "r")) !== FALSE) {
 	  	$data = fgetcsv($handle, 1000, ",");
@@ -506,7 +513,7 @@ class Admin extends CI_Controller {
 		
 		$columnames = implode(", ", $columnnames);
 		$columnames ="id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id),".$columnames;
-		// echo $columnames; exit;
+		//echo $columnames; exit;
 		$NewTable = $this->admin_model->create_table($TblName, $columnames);
 		//$NewTable=1;
 		if (!$NewTable){
@@ -566,27 +573,29 @@ class Admin extends CI_Controller {
 	//echo $queries; exit;
 				$insert = $this->admin_model->populate_table($query);
 
-				if(!$insert){ $skipped++; $error = "$skipped were not inserted";}
+				if(!$insert){ $skipped++; $msg .= " $skipped were not inserted";}
 
 			}
 		}
 		
-    		$q =  "insert into DocUploaded (title, doc_id, DocTypeID,data_table) values('$TblName', '".date('Ymd')."-$TblName',$DocumentType,'$TblName');";
-    		$this->admin_model->populate_table($q);
+    		//$q =  "insert into DocUploaded (title, doc_id, DocTypeID,data_table) values('$TblName', '".date('Ymd')."-$TblName',$DocumentType,'$TblName');";
+    		//$this->admin_model->populate_table($q);
     		
 		 $msg .= "Successfully Imported";
 		 
 		//	var_dump($_FILES['fileToUpload']['tmp_name']);	
-		@unlink($_FILES['fileToUpload']);	
+		@unlink($_FILES[$fileElementName]);	
 		}	
-	}	
+	}
+	
+		
 	echo "{";
-	echo	"error: '" . $error . "',\n";
+	//echo	"error: '" . $error . "',\n";
 	echo	"msg: '" . $msg . "'\n";
 	echo "}";
 	
    //	exit;
-   	}
+   	//}
     }
 
 }

@@ -50,12 +50,13 @@
         </div>
         <div class="collapse navbar-collapse menu-items pull-right">
           <ul class="nav navbar-nav nav-pills">
+            <li><a href="<?php echo base_url() . index_page(); ?>">Home</a></li>
             <li><a href="<?php echo base_url() . index_page(); ?>/api">API</a></li>
             <li><a href="<?php echo base_url() . index_page(); ?>/api/documentation">Documentation</a></li>
             <li><a href="https://www.github.com/OpenInstitute/OpenDuka">Github</a></li>
-            <li><a href="#">Blog</a></li>
-            <li class="divider-vertical"></li>
-            <li><a href="<?php echo base_url() . index_page(); ?>">Open Duka</a></li>
+            <!-- <li><a href="#">Blog</a></li> -->
+            <!-- <li class="divider-vertical"></li>
+            <li><a href="<?php echo base_url() . index_page(); ?>">Open Duka</a></li> -->
           </ul>
         </div> <!--/.nav-collapse -->
       </div>

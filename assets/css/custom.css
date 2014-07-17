@@ -631,7 +631,7 @@ section:last-child, article:last-child {
 #desktop-center-container {
 
   position: relative;
-  
+  height: 300px;
 }
 
 #top-container {
@@ -755,16 +755,17 @@ body.api {
   text-shadow: none;
 }
 
-#about-us, #contact-us {
+#about-us, #contact-us , #faq h1{
   padding: 20px 0;
   text-align: center;
 }
 
-#about-us p {
+#about-us p, #faq p {
   font-size: 16px;
   font-weight: 400;
   line-height: 2;
 }
+
 
 #about-us a.oi {
   color: #FB6300 !important;
@@ -780,6 +781,11 @@ body.api {
   font-size: 20px;
 }
 
+#faq{
+  padding: 20px 0;
+  text-align: left;
+}
+
 #api {
   background: url('../../assets/img/escheresque_ste.png') repeat fixed transparent;
   text-align: center;
@@ -792,6 +798,10 @@ body.api {
   text-shadow: 0 0 3px #000;
 }
 
+.question {
+ text-decoration: italic;
+ font-weight: bold;
+}
 .signup{
   font-size: 14px;
   position: relative;

@@ -220,7 +220,7 @@ if (!empty($nodes)){
 	<div id="visualisation">
 		<div class="row">
 			<div class="col-md-8 col-lg-8 pull-left">
-				<h2>Search results for "<strong><?php echo $node_title; ?></strong>"</h2>
+				<h2>Search results for "<B><?php echo $node_title; ?></B>"</h2>
 				<h6>Click on a node for details</h6>
 			</div>
 			<!-- Search -->
@@ -253,7 +253,6 @@ if (!empty($nodes)){
 				      </div>
 				      <div class="modal-body">
 				        <p><strong>Cut and paste the following code</strong></p>
-						<br />
 						<p class="embed">&lt;iframe width="100%" height="100%" src="<?php echo base_url() . index_page();?>/trees/index/<?php echo $nodeid; ?>"&gt;&lt;/iframe&gt;</p>
 				      </div>
 				      <div class="modal-footer">
@@ -283,10 +282,10 @@ if (!empty($nodes)){
 
 	<script type="text/javascript">
 
-		var data = {
-			nodes: <?php echo $nodes; ?>,
-			edges: <?php echo $edges; ?>
-     		}
+	var data = {
+		nodes: <?php echo $nodes; ?>,
+		edges: <?php echo $edges; ?>
+	}
 
   		// Initialise arbor
 	    var sys = arbor.ParticleSystem()
@@ -338,7 +337,7 @@ if (!empty($nodes)){
 				d = JSON.parse(d);
 				//  $("#entity_edit").html(data);
 				// alert(d.data[1].header[0].Link);
-
+				//$("div#right-container").scrollTop(300);\
 				var target = $('[name=data_content]');
 				$('html,body').animate({scrollTop: target.offset().top}, 1000);
 				
@@ -350,7 +349,7 @@ if (!empty($nodes)){
 				//alert(extradata);
 				$("#inner_details").html( extradata );
 				//$("#inner_details").append( extradata );
-				$(".panel-heading").html('<a href="'+ l +'#node">'+ pn +'</a>');
+				$(".panel-heading").html('<img src="<?php echo base_url();?>assets/img/Network.png" style="height: 25px;" > <a href="'+ l +'#node">'+ pn +'</a>');
 				$('#right-container').removeClass("hide"); 
 				$('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");
 				  

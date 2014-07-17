@@ -135,6 +135,7 @@ class Home extends CI_Model {
     
     function get_node($nodeid)
     {
+    
     	is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid);
     	$this->db->select();
     	
@@ -189,7 +190,7 @@ class Home extends CI_Model {
             $page_num = 1;
         }
 
-        $result = $this->db->query("SELECT * FROM Entity WHERE MATCH ($tag) AGAINST ('+$entityname' IN BOOLEAN MODE) AND Merged=0 AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+        $result = $this->db->query("SELECT * FROM Entity WHERE $tag LIKE '%$entityname%' AND Merged=0 AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }
@@ -262,44 +263,64 @@ class Home extends CI_Model {
     {
     $ar=array();
     $ra=array();
+    $c=0;
+    $qid = (int)$id;
     $flds = $this->db->field_data($tbl);
 	    foreach($flds as $f ) {
 	    	if (substr($f->name,-3,3)=='_E_') {
-	   	 $Entity_id[]= $f->name;
-	  	}/* else {
+	   	// $Entity_id[]= $f->name;
+	   	 
+	   		if ($c==0) {
+				$l = "where  ".$f->name." LIKE '%".$qid."%'"; 
+			} else {
+				$l .= " or ". $f->name. " LIKE '%".$qid."%'";  
+			}
+				$c++;
+	  	} else {
 	  	 $Entity_field[]= $f->name;
-	  	}*/
-	  	$Entity_field[]= $f->name;
+	  	}
+	  	//$Entity_field[]= $f->name;
     	    }
-    	$qu = ($q=='*') ? implode(',',$Entity_field) : $q .','. implode(',',$Entity_id);
-   // echo $qu;
-		$this->db->select($qu);
+    	$qu = ($q=='*') ? implode(',',$Entity_field) : $q ;
+    //echo $qid;
+     $result = $this->db->query("SELECT $qu FROM $tbl $l ");
+     return $query = $result->result_array();
+		/*$this->db->select($qu);
 		$this->db->from($tbl);
 		$this->db->limit(50); 
-			foreach($Entity_id as $r){		
-			$this->db->or_where($r,$id); 
+			foreach($Entity_id as $r){	
+				if ($c==0) {
+				$this->db->like("$r", "$qid"); 
+				} else {
+				$this->db->or_like($r, $qid, 'before'); 
+				}
+				$c++;
 			}     
         $query = $this->db->get();
-        return $query->result_array();
+        return $query->result_array();*/
     }
     
     function get_dataset_map($tbl, $id)
     {
     $Entity_id=array();
-    $Entity_name=array();
+    $Entity_name= "";//array();
+    $c=0;
     $flds = $this->db->field_data($tbl);
 	    foreach($flds as $f ) {
 	    	if (substr($f->name,-3,3)=='_E_') {
-	   	 $Entity_name[]= $f->name;
+	    	$Entity_name .= $f->name .",";
+			if ($c==0) {
+				$l = "where  ".$f->name." LIKE '%".$id."%'"; 
+			} else {
+				$l .= " or ". $f->name. " LIKE '%".$id."%'";  
+			}
+				$c++;
 	  	}
     	    }
-	$this->db->select($Entity_name);
-	$this->db->from($tbl);
-		foreach($Entity_name as $r){		
-		$this->db->or_where($r, $id); 
-		}     
-        $query = $this->db->get();
-        return $query->result_array();
+    	   // echo $Entity_name ;
+    	    $Entity_name = substr($Entity_name,0,-1);
+	$result = $this->db->query("SELECT $Entity_name FROM $tbl $l ");
+     	return $query = $result->result_array();
     }
     
     function mostvisited($id)
