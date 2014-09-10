@@ -3,7 +3,7 @@
     <h1>OpenDuka API</h1>
     <p class="lead">
       OpenDuka API has an extension that gives developers backend access to information
-      on Kenyan entities.
+      on Kenyan entities..
     </p>
   </div>
   <div class="row container">
