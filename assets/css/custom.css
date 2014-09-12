@@ -215,10 +215,10 @@ body .container {
 }
 
 #cityscape {
-  background: url('../../assets/img/bikenews.jpg') 0 0 no-repeat;
+  background: url('../../assets/img/nbiskyview.jpg') 0 0 no-repeat;
   background-size: cover;
   color: #FFF;
-  height: 340px;
+  height: 640px;
   margin: 0px;
   position: relative;
   text-align: center;
@@ -853,4 +853,131 @@ body.api {
  padding: 5px;
 }
 
+/*Footer*/
+ .pad{
+  background-image: url('../img/sandpaper.png');
+  clear: both;
+  height:300px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+ }
+.oi_icon{
+    margin: auto;
+    width: 200px;
+    height: 60px;
+}
 
+/* resize images */
+.oi_icon img {
+    width: 100%;
+    height: auto;
+}
+
+.atti_icon{
+    width: 120px;
+    height: 60px;
+}
+
+/* resize images */
+.atti_icon img {
+    width: 100%;
+    height: auto;
+}
+.klr_icon{
+  padding-top: 10px;
+    width: 250px;
+    height: 60px;
+}
+
+/* resize images */
+.klr_icon img {
+    width: 100%;
+    height: auto;
+}
+
+#partners {
+  background: #FEFEFE;
+  background-color: transparent;
+  color: #000000;
+  margin: 0;
+  text-align: center;
+}
+
+#partners div h3 {
+  color: #000000;
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  text-align: center; 
+  display: block;
+  clear: both;
+  margin-top: 10px;
+}
+
+
+#partners > div {
+  display: block;
+  text-align: center; 
+  clear: both;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/** The about oi part of the footer*/
+#partnersoi {
+  background: #FEFEFE;
+  background-color: transparent;
+  color: #000000;
+  margin: 0;
+  
+}
+
+#partnersoi div h3 {
+  color: #000000;
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  text-align: center; 
+  display: block;
+  clear: both;
+  margin-top: 10px;
+}
+
+.marg{
+  margin-left:auto;
+  margin-right: auto;
+}
+
+/*Search-Bar*/
+.search-bar{
+            width:70%;
+            height: 100px;
+            margin-left:15%;
+            display: block;
+            background: transparent; /* The Fallback */
+            background: rgba(39, 39, 40, 0.5);  
+            padding-top: 35px;
+            padding-right: 10px;
+            padding-left: 10px;
+
+            /*Border radius*/
+              -webkit-border-radius: 10px;
+              -moz-border-radius: 10px;
+              border-radius: 10px;
+               
+
+          }
+.q{float:left;}
+
+/* search input*/
+.input {
+  font-size: x-large;
+  color: #FFFFFF; 
+  text-align: center; 
+ border-style: none none solid none; 
+  border-color: #cccccc; 
+  border-width: 1px; 
+}
+.input:focus {
+  color: #00AAD4;
+  border-color: #00AAD4;}
