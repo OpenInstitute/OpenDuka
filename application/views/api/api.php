@@ -58,3 +58,5 @@
     </div>
   </div>
 </div>
+
+<?php include('<?php echo base_url(); ?>/application/views/footer.php'); ??>
