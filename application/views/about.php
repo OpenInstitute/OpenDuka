@@ -23,7 +23,7 @@
 			This will be expanded to other sources of corporate data and the site will incorporate visualizations that will be able to show linkages of the data.
 		</p>
 	</div>
-	<!-- Partners -->
+	<!-- Partners --
 	<div id="partners" class="row">
 		
 		<div id="dev-logos">
@@ -41,6 +41,6 @@
 				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.png" style="margin-top:20px">
 			</a>
 		</div>
-	</div><!-- #partners -->
+	</div>-- #partners -->
 	
 </div>
