@@ -166,7 +166,7 @@ class Admin_model extends CI_Model {
 			$this->db->order_by("ID", "desc"); 
 			$query1 = $this->db->get();
 			
-		       return $query1->result_array();
+		    return $query1->result_array();
 		}
 
 		return null;
@@ -192,7 +192,7 @@ class Admin_model extends CI_Model {
     }
     
     
-    function get_entries($tag,$var)
+    function get_entries($tag, $var)
     {
 		$this->db->select();
 		$this->db->from($tag);
@@ -336,11 +336,10 @@ class Admin_model extends CI_Model {
      
     function fieldcheck($fil,$tab)
     {
-	if(!$this->db->field_exists($fil.'_E_',$tab)){
-		$fieldname = $fil.'_E_';
-		$this->db->query("ALTER TABLE $tab  ADD COLUMN $fieldname VARCHAR(250)");	
-	}
-	      
+    	$fieldname = $fil .'_E_';
+		if(!$this->db->field_exists($fieldname,$tab)){
+			$this->db->query("ALTER TABLE $tab  ADD COLUMN `$fieldname` VARCHAR(250) NOT NULL DEFAULT  '0,'");	
+		}
     }
     
     function create_table($tbl, $flds)
@@ -352,7 +351,7 @@ class Admin_model extends CI_Model {
     function alter_table($fild,$tbl)
     {
 	if(!$this->db->field_exists($fild,$tbl)){
-		$this->db->query("ALTER TABLE $tbl  ADD COLUMN $fild  VARCHAR(250)");	
+		$this->db->query("ALTER TABLE $tbl  ADD COLUMN `$fild`  VARCHAR(250)");	
 	}
 	      
     }
@@ -377,8 +376,8 @@ class Admin_model extends CI_Model {
     function dataset_edit($tbl, $rep)
     {        	
 		$this->db->where('data_table', $tbl);
-	        $this->db->set('representation', $rep, FALSE);
-	    	$this->db->update('DocUploaded');
+	    $this->db->set('representation', $rep, FALSE);
+	    $this->db->update('DocUploaded');
 
     }
     
@@ -386,19 +385,54 @@ class Admin_model extends CI_Model {
     function extract_entity($fild,$tab,$docid, $UID, $DocTypeID)
     {
     
-    	$fieldname = $fild.'_E_';
-	$this->db->select($fild);
-	$this->db->distinct();
-	$this->db->from($tab); 
-	$this->db->where($fieldname,'0');
-	$query = $this->db->get();
+    $fieldname = $fild .'_E_';
+   // echo "SELECT * FROM $tab WHERE `$fieldname` LIKE '0,'"; exit;
+    $query = $this->db->query("SELECT DISTINCT * FROM $tab WHERE `$fieldname` = '0,'");  
+	//$this->db->select();
+	//$this->db->distinct();
+	//$this->db->from($tab); 
+	//$this->db->where($fieldname,);
+	//$query = $this->db->get();
 	$k=0;
+	
 	if ($query->num_rows() > 0)
 	{
-	
-	$entity=$query->result_array();
-	    for($i=0;$i<$query->num_rows(); $i++)
-	      {
+		$q=$query->result_array();
+//var_dump($q); exit;
+		   for($i=0;$i<sizeof($q); $i++)
+		   {
+			//echo $q[$i][$fild]; exit;   
+		  	$EID = '';
+				foreach(explode(',',$q[$i][$fild]) as $entity) {
+		    		if ($entity != '') {
+			    	$this->db->select();
+					$this->db->from('Entity'); 
+					$this->db->where('Name', $entity);
+					$this->db->where('Merged', 0);
+					$this->db->limit(1);
+					$query = $this->db->get();
+					if ($query->num_rows() > 0)
+					{ 
+					$Entity = $query->result_array();
+					$EID .=	$Entity[0]['ID'] .',';
+					//$docs = explode(',', $Entity[0]['DocID'];
+					}
+					else {
+					$data['DocID'] =  $docid .",";
+					$data['Name'] =  $entity;
+			    		$this->db->insert('Entity',$data);
+			    		$EID .= $this->db->insert_id() .',';
+					}
+			
+		    		}
+		    	}
+		    	
+		    	
+		    	 $this->db->query("UPDATE $tab SET `$fieldname` = CONCAT(`". $fieldname."`,'". $EID ."') WHERE id =". $q[$i]['id'] ); 
+		    	//exit;
+		    }
+		  
+	    /*
 	      
 	     // echo($entity[2][$fild]); exit;
 		$data['DocID'] = $docid . ",";
@@ -416,7 +450,7 @@ class Admin_model extends CI_Model {
 	    	$this->db->where($fild, $entity[$i][$fild]);
 	    	$this->db->update($tab, $dta);
 	      $k++;
-	      }
+	      } */
 	}
 
 	return $k;

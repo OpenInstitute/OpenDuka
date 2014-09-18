@@ -232,7 +232,7 @@ class Homes extends CI_Controller {
 	}
 	
 	function tree($v0) {
-		$this->output->enable_profiler(TRUE);  
+		//$this->output->enable_profiler(TRUE);  
 		
 		$noMerge = $this->home->get_entries('ID',$v0);
 		
@@ -304,7 +304,7 @@ class Homes extends CI_Controller {
 				//echo $value;
 			    }
 			}
-			//echo($tree_nn); exit;
+			
 			foreach ($tree_e as $value)
 			{
 			    if (!$tree_e)
@@ -319,15 +319,18 @@ class Homes extends CI_Controller {
 			}
 			//
 		
-		$core_node = '\''. str_replace(' ','_',$tree_data['nodeTitle']) . '_' .$v0 . '\'';
+		$core_node = '\''. str_replace(' ','_',str_replace('/','',$tree_data['nodeTitle'])) . '_' .$v0 . '\'';
+		//echo($core_node); exit;
 		$tree_ee =  str_replace('},'.$core_node.':{','',$tree_ee);
-		$tree_ee =  str_replace('},,','',$tree_ee);
+		$tree_ee =  str_replace('},,', '', $tree_ee);
+		$tree_ee =  str_replace(',},', '}', $tree_ee);
 		//echo $core_node;
 		//echo($tree_ee);
 		//exit;
-
+//echo $tree_ee; exit;
 		
 		//var_dump($tree_data); exit;
+		
 		$nodetitle = $tree_data['nodeTitle'];
 		$node_arr .= $tree_nn;//$tree_data['nodes'];
 		
@@ -336,10 +339,10 @@ class Homes extends CI_Controller {
 		$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
 		$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
 		$node_arr= $this->clean_array(explode(',',$node_arr)); 
-	//var_dump($node_arr);
+	//var_dump($node_arr); exit;
 		for($k=0; $k<count($node_arr); $k++){
 			$nDetail = explode('|',$node_arr[$k]);
-			//var_dump($nDetail);
+			//var_dump($nDetail); exit;
 			$id = $nDetail[0];
 			$dataset = $nDetail[1];
 			$alpha = $nDetail[2];
@@ -349,7 +352,7 @@ class Homes extends CI_Controller {
 			//echo $dataset;
 			$n = $this->home->get_entries('ID',$id);
 			//$nID[$id] = $id;
-			//var_dump($nd);
+			//var_dump($n); exit;
 			if ( !isset($nDate[$id]) ) {
 			  $nDate[$id] = array();
 			}
@@ -359,11 +362,12 @@ class Homes extends CI_Controller {
 			$NodeName = explode(':',$n[0]['Name']);			
 			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_", str_replace("  ","",str_replace("/","_",$NodeName[0]))))) . "_".$id ."," : null;
 			//echo($nFilter);
-			$ne=(int)$n[0]['EntityTypeID'];
+			$ne=((int)$n[0]['EntityTypeID']==0) ? '22': (int)$n[0]['EntityTypeID'];
 			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
 			
 			if(!isset($nID[$id])){
 				$nID[$id] = array();
+				$node[$id] = array();
 				$nodeid[]=$id;
 				//str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0])))
 				$node_name = preg_replace('/[^a-z\d ]/i', '', $NodeName[0]);
@@ -373,7 +377,8 @@ class Homes extends CI_Controller {
 				$node[$id][] = "'". $node_name . "_".$id ."':{'color':'#FF0000','shape':'".$shape ."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['selectedimg']."','image_h':30,'link':'', 'label': '". $NodeName[0] ."'}";
 				 } else {
 				$node[$id][] = "'". $node_name . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'". $shape ."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'link':'','image_w':30, 'label': '". $NodeName[0] ."'}";
-				 }				
+				 }
+				// var_dump($node[$id]);				
 				
 			}
 			
@@ -585,17 +590,28 @@ class Homes extends CI_Controller {
 		$dta = $this->home->get_dataset_map($dt,$v0);
 //var_dump($dta); exit;
 		foreach($dta as $k => $d){
+		
 			foreach($d as $j => $f){ $flds[]= $j; }
+			
 			break;
 		}
 		
 		foreach($flds as $f){
+		 
 			for($i=0; $i<sizeof($dta); $i++){
-				$ids[] = $dta[$i][$f];
-			}
+			$e = explode(',', $dta[$i][$f]);
+				for($j=0; $j<sizeof($e); $j++){
+				$ids[] = $e[$j];
+				}
+				//var_dump($dta);
+				//$ids[] = $dta[$i][$f];
+				
+				//array_push($weed,$v0);
+			} 
 		}
-		$ids = $this->clean_array($ids);
 		
+		$ids = $this->clean_array($ids);
+		//var_dump($ids); exit;
 		foreach ($ids as $i){
 			if($i != $v0){
 		 	$valz[] = array('ID'=>$i,'dataset'=>'0');
@@ -689,6 +705,7 @@ class Homes extends CI_Controller {
 
 		$n = $_POST['node'];
 		$doc = array();
+		$Entity_id = array();
 		//$cont="";
 //echo $n;
 		//$cont = "<h3><a href=" . site_url('/homes/tree/'.$root_node[0]['ID']). ">". $root_node[0]['Name'] ."</a>&nbsp;&nbsp;<span id='connections' class='badge pull-right'>1</span></h3>";
@@ -700,14 +717,14 @@ class Homes extends CI_Controller {
 		//	$arraymap = explode(',',$child_node[0]['EntityMap']);
 			
 			foreach($docmap as $k => $d){
-				
+		//		echo $d; exit;
 			  if(!in_array($d, $doc)){ 
 			  $doc[] = ($d != "") ? $d : null ;
 			 
 			  }
 			}
 		//}
-		
+		//var_dump($doc); exit;
 		//var_dump($doc); echo sizeof($doc); exit;
 		$extraData="";
 		$maps= '{"data":[{"posts":[';
@@ -715,31 +732,35 @@ class Homes extends CI_Controller {
 		if(sizeof($doc)>0){
 			for($i=0; $i<sizeof($doc); $i++){
 			$id = $n;
-			$c_node = $this->home->get_entries('ID',$id);
+			//$c_node = $this->home->get_entries('ID',$id);
+			//var_dump($c_node); exit;
 			$doc_ref = $doc[$i];
 			//$doc_ids = explode(',',$c_node[0]['DocID']);
 			$d=0;
-			
 				
 			if ($doc_ref!= null){
 
 				//$doc_ref = $doc_ids[$i];
 				$dataset = $this->home->get_doc($doc_ref);
+				//var_dump($dataset[0]);
 				foreach($dataset as $row){
 				$dt=$row['data_table'];
+				//echo $dt;
 				$dtID=$row['DocTypeID'];
 				$dataCat = $this->home->get_docType($dtID);
-				//echo $dt;
+				//var_dump($dataCat);
+				//echo $n;
 				   if($dt!=""){
 						$d=1; 
 						$ds=$row['representation'];
 						$q = ($ds=="")? '*' : $ds;
-
+						//echo $dt;
 						$dta = $this->home->get_dataset($dt,$q,$n);
-						//var_dump($dta);
+						//$dta = $d[0];
+						//var_dump($dta); exit;
 						//$k = (sizeof($dta[0])>11) ? 1 : (int)(12/sizeof($dta[0])) ;
 						//$i=1;
-						//echo sizeof($dta);
+						//echo sizeof($dta[0]);
 						
 						$extraData .= '<div class="category"><span class="label" style="background-color: '.$dataCat[0]['IconColor'].';">'.$dataCat[0]['DocTypeName'].'</span></div>';
 						$extraData .= '<table class="table table-hover table-condensed relationships">';
@@ -751,10 +772,9 @@ class Homes extends CI_Controller {
 						  		else{
 							$extraData .= '<th>'. str_replace("_"," ", $key) .'</th>';
 								}
-
 							}
 						$extraData .= '</thead>';
-
+						//var_dump($Entity_id);
 						for($j=0; $j<sizeof($dta); $j++){
 						//$i=1;
 						//$extraData .= '<br>';
@@ -763,7 +783,7 @@ class Homes extends CI_Controller {
 							foreach($dta[$j] as  $key => $val){
 								if (substr($key,-3,3)=='_E_') {
 								//$kd=$key;
-								  $extraData .= '<td><a href="'. $dta[$j][$key].'">'. $val .'</a></td>' ;
+							//	 $extraData .= '<td><a href="'. $dta[$j][$key].'">'. $val .'</a></td>' ;
 								}
 								else
 								{
@@ -783,7 +803,7 @@ class Homes extends CI_Controller {
 						
 			}
 			} 
-			$maps .= ' { "ExtraData":"'. htmlspecialchars($extraData) .'"}';	
+			$maps .= ' { "ExtraData":"'. htmlspecialchars(str_replace( "\n", "<br/>",str_replace( "\t", "",$extraData))) .'"}';	
 			
 		} 
 		//else {
@@ -801,7 +821,6 @@ class Homes extends CI_Controller {
 		$maps = str_replace(",}","}",$maps);
 //echo $maps; exit;
 		echo json_encode($maps);
-
 	    
 	}	
 	

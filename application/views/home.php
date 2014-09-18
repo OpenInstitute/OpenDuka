@@ -325,46 +325,49 @@ if (!empty($nodes)){
 		// setuyakuap some local variables
 
 
-		$.ajax( {
-			url: "<?php echo base_url();?>index.php/homes/node_data",
-			type: "POST",
-			data: {node: nodeid},
-			// async: false,
-			dataType: "json",
-			// contentType: "application/json",
-			success:function(d) {
-				//alert(d);
-				d = JSON.parse(d);
-				//  $("#entity_edit").html(data);
-				// alert(d.data[1].header[0].Link);
-				//$("div#right-container").scrollTop(300);\
-				var target = $('[name=data_content]');
-				$('html,body').animate({scrollTop: target.offset().top}, 1000);
+			$.ajax( {
+				url: "<?php echo base_url();?>index.php/homes/node_data",
+				type: "POST",
+				data: {node: nodeid},
+				// async: false,
+				dataType: "json",
+				//contentType: "application/json",
+				success:function(d) {				
+					//alert(d);
 				
-				l = d.data[1].header[0].Link;
-				pn = d.data[1].header[0].Name;
+					//alert(d.length);
+					//d =JSON.stringify(d);
+					d = JSON.parse(d);
+					//  $("#entity_edit").html(data);
+					// alert(d.data[0].posts);
+					//$("div#right-container").scrollTop(300);\
+					var target = $('[name=data_content]');
+					$('html,body').animate({scrollTop: target.offset().top}, 1000);
+				
+					l = d.data[1].header[0].Link;
+					pn = d.data[1].header[0].Name;
 		
-				extradata = d.data[0].posts[0].ExtraData;
-				extradata = rhtmlspecialchars( extradata );
-				//alert(extradata);
-				$("#inner_details").html( extradata );
-				//$("#inner_details").append( extradata );
-				$(".panel-heading").html('<img src="<?php echo base_url();?>assets/img/Network.png" style="height: 25px;" > <a href="'+ l +'#node">'+ pn +'</a>');
-				$('#right-container').removeClass("hide"); 
-				$('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");
-				  
-				$(".tiptext").mouseover(function() {
-				    $(this).children(".description").show();
-				}).mouseout(function() {
-				    $(this).children(".description").hide();
-				});
+					extradata = d.data[0].posts[0].ExtraData;
+					extradata = rhtmlspecialchars( extradata );
+					//alert(extradata);
+					$("#inner_details").html( extradata );
+					//$("#inner_details").append( extradata );
+					$(".panel-heading").html('<img src="<?php echo base_url();?>assets/img/Network.png" style="height: 25px;" > <a href="'+ l +'#node">'+ pn +'</a>');
+					$('#right-container').removeClass("hide"); 
+					$('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");
+					  
+					$(".tiptext").mouseover(function() {
+					    $(this).children(".description").show();
+					}).mouseout(function() {
+					    $(this).children(".description").hide();
+					});
 								
-			     },
-			     error: function(xhr, status, error) {
-					 alert(xhr.error);
-			     }
-			    });
-			}	
+				    },
+				     error: function(xhr, status, error) {
+					alert(xhr.error);
+				     }
+			});
+		}	
 		
 		
 		function rhtmlspecialchars(str) {

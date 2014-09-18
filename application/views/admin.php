@@ -14,9 +14,9 @@
   	<?php } ?>
   	<div class="col1 trigger" name="EInsert3">Entity Merge</div>
 
-  <!--	<div class="col1 trigger" name="EInsert0">Entity Insert</div> -->
+  	<div class="col1 trigger" name="EInsert0">Entity Extract</div>
 	<div class="col1 trigger" name="EInsert2">Entity Edit</div>
-
+	
   </div>
 
 <div class="backlink">
@@ -29,16 +29,34 @@
 <div class="AdminCont">
   	  <div id="EInsert0" class="formdata">
    
-	  	<div class="spacer">&nbsp;<div class="select must">Type</div><div class="textfield must">Entity</div><div class="addrfield">Position</div><div class="addrfield">Unique Box 'P.O. Box NNN'</div><div class="datefield must">Start Date<br>dd/mm/yy	</div><div class="datefield">End Date</div><div class="textfield must">Source '2013_GAZ123'</div><div class="textfield">Appointer</div></div>
-	  	
-		<?php echo form_open("", array('id' => 'EntityAdd')); ?>
-		<div class="spacer"><select class="select" name="type0"><option value="22">Person</option><option value="21" selected>Organization</option></select><input type="text" id="entity0" name="entity0" value=""  class="textfield" required/><input type="text" id="position0" name="position0" value=""  class="addrfield" /><input type="text" id="address0" name="address0" value=""  class="addrfield" /><input type="text" id="startdate0" name="startdate0" value=""  class="datefield" required/><input type="text" id="enddate0" name="enddate0" value=""  class="datefield" /><input type="text" id="src0" name="src0" value=""  class="textfield" required/><input type="text" id="appointer0" name="appointer0" value=""  class="textfield"/> -- root entity</div> 
+		<!--
+	  	<div class="spacer">&nbsp;<div class="select must">Type</div><div class="textfield must">Entity</div><div class="addrfield">Position</div><div class="addrfield">Unique Box 'P.O. Box NNN'</div><div class="datefield must">Start Date<br>dd/mm/yy	</div><div class="datefield">End Date</div><div class="textfield must">Source '2013_GAZ123'</div><div class="textfield">Appointer</div></div><div class="spacer"><select class="select" name="type0"><option value="22">Person</option><option value="21" selected>Organization</option></select><input type="text" id="entity0" name="entity0" value=""  class="textfield" required/><input type="text" id="position0" name="position0" value=""  class="addrfield" /><input type="text" id="address0" name="address0" value=""  class="addrfield" /><input type="text" id="startdate0" name="startdate0" value=""  class="datefield" required/><input type="text" id="enddate0" name="enddate0" value=""  class="datefield" /><input type="text" id="src0" name="src0" value=""  class="textfield" required/><input type="text" id="appointer0" name="appointer0" value=""  class="textfield"/> -- root entity</div> 
 		<div class="spacer"><select class="select" name="type1"><option value="22">Person</option><option value="21">Organization</option></select><input type="text" id="entity1" name="entity1" value=""  class="textfield" required /><input type="text" id="position1" name="position1" value=""  class="addrfield" /><input type="text" id="address1" name="address1" value=""  class="addrfield" /><input type="text" id="startdate1" name="startdate1" value=""  class="datefield" required/><input type="text" id="enddate1" name="enddate1" value=""  class="datefield" /><select class="select" name="verb1"><?php echo $verb_word;?></select><input type="checkbox" name="belong" id="belong" /> -- if belongs to above</div>
 		  <input type="hidden" id="items" name="items" value="2"/>
-		 <div class="elementAdd" name="EInsert0"><img tag="Add text field" src="<?php echo base_url();?>assets/img/more.png" width="40%"/></div> <br/>
-		 <div class="center">&nbsp;<input type="button" class="EntityAdd btn-primary"  value="Submit" /></div>
+		 
+		
 		  
-		 <?php echo form_close(); ?>
+		<div class="elementAdd" name="EInsert0"><img tag="Add text field" src="<?php echo base_url();?>assets/img/more.png" width="40%"/></div> <br/>
+		<div class="left"><input type="button" class="EntityAdd btn-primary"  value="Submit" /></div>
+		 -->
+		 <?php echo form_open("", array('id' => 'DatasetEntityAdd')); ?>
+		 <div id="Datasets" style="display:block;">
+		
+		 	<img id="loading" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
+			<div class="reg_form" style="display:block;">
+			 <?php echo form_open_multipart("", array('id' => 'DatasetEntityEdit')); ?>
+			 <p>
+			  <label for="dataset_entity_name" class="textfield">Dataset:</label>
+			  <select id="dataset_name" class="dataset_entity_name" name="dataset_entity_name" value="" /></select>
+			 </p>
+			 
+			 <?php echo form_close(); ?>
+			</div> 
+			<div id="viwanjaEdit"></div>
+		</div>  
+		
+		
+		<?php echo form_close(); ?>
 
 	 </div>
 	  <div id="EInsert1" class="formdata">
@@ -120,21 +138,21 @@
 	 </div>
 
 
-	<div id="EInsert5" class="formdata">
+	  <div id="EInsert5" class="formdata">
 		<div id="Datasets" style="display:block;">
-		
 		 <img id="loading" src="<?php echo base_url();?>assets/img/loading.gif" style="display:none;">
-		 <div class="reg_form" style="display:block;">
-		 <?php echo form_open_multipart("", array('id' => 'DatasetEdit')); ?>
-		 <p>
-		  <label for="dataset_name" class="textfield">Dataset:</label>
-		  <select id="dataset_name" name="dataset_name" value="" /></select>
-		 </p>
-		 <?php echo form_close(); ?>
-		</div> 
-		  <div id="viwanjaEdit"></div>
+			<div class="reg_form" style="display:block;">
+			 <?php echo form_open_multipart("", array('id' => 'DatasetEdit')); ?>
+			 <p>
+			  <label for="dataset_edit" class="textfield">Dataset:</label>
+			  <select id="dataset_edit" class="dataset_name" name="dataset_edit"/></select>
+			 </p>
+			 <?php echo form_close(); ?>
+			</div> 
+			<div id="viwanjaEntityEdit"></div>
 		</div>
 	 </div>
+	 
    </div>
 </div>
 
@@ -151,16 +169,41 @@ $("#table_name").change(function() {
 	});
 });
 
-
+//Call the name of the dataset/table
 $("#dataset_name").change(function() {
+	var name = $(this).attr('name');
+      	//alert(name);
+      	
 	$("#dataset_name option:selected").each(function() {
 	val = $(this).text();
 		if (val != 'Select Table'){
 			//alert(val);
-			field_list_edit(val);
+			if (name=='dataset_entity_name'){
+			field_list_edit_entity(val);
+			}
 		}
 	});
 });
+
+//Call the name of the dataset/table
+$("#dataset_edit").change(function() {
+	var name = $(this).attr('name');
+      	//alert(name);
+      	
+	$("#dataset_edit option:selected").each(function() {
+	val = $(this).text();
+		if (val != 'Select Table'){
+			
+			if (name=='dataset_edit'){
+			//alert(val);
+			field_list_edit(val);
+			}
+			
+		}
+	});
+});
+
+
 
 $(".backlink").click(function() {
 	$(".backlink").fadeOut("slow");
@@ -181,11 +224,14 @@ $(".trigger").click(function() {
 	$('#'+name +'.formdata').show();
 	
 	if (name=='EInsert0'){
- 		$("#form_title").html('<h3>Entity Add</h3>');
+ 		$("#form_title").html('<h3>Entity Extract</h3>');
+ 		ListDataset();
  	}
+ 	
  	if (name=='EInsert1'){
  		$("#form_title").html('<h3>User Add</h3>');
  	}
+ 	
  	if (name=='EInsert2'){
  		$("#form_title").html('<h3>Entity Edit</h3>');
  	}
@@ -202,8 +248,9 @@ $(".trigger").click(function() {
 	if (name=='EInsert5'){
 		
  		$("#form_title").html('<h3>Manage Dataset</h3>');
- 		ListDataset();
+ 		ListDatasetEdit();
  	}
+ 	
 	$('#form_title').show();
 	
 	$(".three_col").fadeOut("slow");
@@ -219,7 +266,7 @@ $(".EntityAdd").click(function() {
    $("#result").html('');
    
     // setup some local variables
-    var $form = $("#EntityAdd");
+    var $form = $("#DatasetEntityAdd");
     
     // let's select and cache all the fields
     var $inputs = $form.find("input, select, textarea");
@@ -330,8 +377,6 @@ $("#EntityEditName").keyup(function() {
 		    });
             }
         }
-  
-
 });
 
 
@@ -363,7 +408,6 @@ function EntityUpdate(id) {
           $("#result").html('there is error while submit');
       }
     });
-
 }
 
 function EntityUpdater() {
@@ -409,49 +453,49 @@ $(".DatasetAdd").click(function() {
 //alert ($("#TblName").val());
 //alert ($("#cat_name").val());
 
-		$.ajaxFileUpload({
-				//url:'/contents/ajaxfileupload/doajaxfileupload.php',
-				url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
-				secureuri:false,
-				fileElementId:'fileToUpload',
-				//type: 'post',
-				dataType: 'json',
-				//data:{TblName: $("#TblName").val(), DocumentType: $("#cat_name").val()},
-				beforeSend:function()
+	$.ajaxFileUpload({
+		//url:'/contents/ajaxfileupload/doajaxfileupload.php',
+		url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
+		secureuri:false,
+		fileElementId:'fileToUpload',
+		//type: 'post',
+		dataType: 'json',
+		//data:{TblName: $("#TblName").val(), DocumentType: $("#cat_name").val()},
+		beforeSend:function()
+		{
+			$("#loading1").show();
+		},
+		complete:function()
+		{
+			$("#loading1").hide();
+		},				
+		success: function (data, status)
+		{
+		$("#result").html(data.msg);
+		$(".reg_form").html('');
+		field_list('NewTable', '1');
+		//alert(data.msg);
+			/*if(typeof(data.error) != 'undefined')
+			{
+				if(data.error != '')
 				{
-					$("#loading1").show();
-				},
-				complete:function()
+					alert(data.error);
+				}else
 				{
-					$("#loading1").hide();
-				},				
-				success: function (data, status)
-				{
-				$("#result").html(data.msg);
-				$(".reg_form").html('');
-				field_list('NewTable', '1');
-				//alert(data.msg);
-					/*if(typeof(data.error) != 'undefined')
-					{
-						if(data.error != '')
-						{
-							alert(data.error);
-						}else
-						{
-							
-						}
-					}*/
-				},
-				error: function (data, status, e)
-				{
-					alert(e);
+					
 				}
-			}
-		);
-		
-		return false;
+			}*/
+		},
+		error: function (data, status, e)
+		{
+			alert(e);
+		}
+	});
+	
+	return false;
 
 });
+
 
 
 $("#EntityMergeName").keyup(function() {
@@ -493,8 +537,6 @@ $("#EntityMergeName").keyup(function() {
 		    });
             }
         }
-  
-
 });
 
 function EntityMerge() {
@@ -550,6 +592,7 @@ $("input:radio[class='radioEnt']").change(function(){
 alert('Something is checked.');
 });
 */
+
 function ListTables() {
  
     $.ajax({
@@ -569,6 +612,8 @@ function ListTables() {
     });	
 }
 
+
+// List of Dataset tables (EInsert0, EInsert5)
 function ListDataset() {
  
     $.ajax({
@@ -576,9 +621,9 @@ function ListDataset() {
       type: "post",
       async: false, 
       data: "",
-      success:function(data){
+      success:function(d){
       	//alert(data);
-          $("#dataset_name").html(data);
+          $("#dataset_name").html(d);
           $("#result").html("select table");
       },
       error:function(){
@@ -587,6 +632,26 @@ function ListDataset() {
       }
     });	
 }
+
+function ListDatasetEdit() {
+ 
+    $.ajax({
+      url: "<?php echo base_url();?>index.php/admin/ListTable",
+      type: "post",
+      async: false, 
+      data: "",
+      success:function(d){
+      	//alert(data);
+          $("#dataset_edit").html(d);
+          $("#result").html("select table");
+      },
+      error:function(){
+          alert("failure");
+          $("#result").html('there is error while listing tables');
+      }
+    });	
+}
+
 
 function ListDocCat() {
  
@@ -658,6 +723,54 @@ function field_list_edit(meza){
 	      success:function(data){
 	      	//alert(data);
 
+		 $("#viwanjaEntityEdit").html(data);
+		   
+		 $(".selectfield").click(function(){
+	
+		   var op = $(this).parent().find(':checkbox').attr('checked');
+		    $(':checkbox', this).each(function() {
+			this.checked = !this.checked;
+		    });
+		    /*
+		   var verbcont  = $("div#verbs").html();
+		    if (op) {
+		    	$(this).parent().find('.selectverb').html(verbcont);
+		    } else { 
+		    	$(this).parent().find('.selectverb').html('');
+		    }*/
+		//alert(verbcont);
+		});
+		
+		$("#DatasetEditBT").click(function(){
+			var $form = $("#DatasetEntityEditForm");
+			var $inputs = $form.find("input, select, textarea");
+		    // serialize the data in the form
+		    var forminfo = $form.serialize();
+		   // alert (forminfo);
+			DatasetEdit(forminfo);
+		});
+		
+		$("#result").html("select fields");
+	      },
+	      
+	      error:function(){
+		  alert("failure");
+		  $("#result").html('there is error while listing fields');
+	      }
+	 });
+}
+
+// the function is called to extract entities from datasets
+function field_list_edit_entity(meza){
+	//alert(meza);
+	$.ajax({
+	      url: "<?php echo base_url();?>index.php/admin/ListFieldEntityEdit",
+	      type: "post",
+	      async: false, 
+	      data: {STab : meza},
+	      success:function(data){
+	      	//alert(data);
+
 		 $("#viwanjaEdit").html(data);
 		   
 		 $(".selectfield").click(function(){
@@ -677,12 +790,12 @@ function field_list_edit(meza){
 		});
 		
 		$("#DatasetEditBT").click(function(){
-			var $form = $("#DatasetEditForm");
-			var $inputs = $form.find("input, select, textarea");
+		//	var $form = $("#DatasetEntityAdd");
+		//	var $inputs = $form.find("input, select, textarea");
 		    // serialize the data in the form
-		    var forminfo = $form.serialize();
-		   // alert (forminfo);
-			DatasetEdit(forminfo);
+		//    var forminfo = $form.serialize();
+		    //alert (forminfo);
+			EntityExtract();
 		});
 		
 		$("#result").html("select fields");
@@ -693,10 +806,6 @@ function field_list_edit(meza){
 		  $("#result").html('there is error while listing fields');
 	      }
 	 });
-	 
-	 
-		
-
 }
 	
 function DatasetEdit(serializedData) {
@@ -732,18 +841,17 @@ function DatasetEdit(serializedData) {
 function EntityExtract() {
 
     $("#result").html('');
-    var $form = $("#DatasetInsert");
+    var $form = $("#DatasetEntityAdd");
 	// let's select and cache all the fields
     var $inputs = $form.find("input, select, textarea");
     // serialize the data in the form
     var serializedData = $form.serialize();
    
     var checked = [] ;
-	$("input[name='Extract[]']:checked").each(function ()
-	{
+	$("input[name='Extract[]']:checked").each(function (){
 	    checked.push(parseInt($(this).val()));
 	});
-	
+	//alert(checked.length);
 	if (checked.length < 2 ) { alert("Please select at-least two fields to extract entities from!");}	
 	
 	else {
@@ -756,13 +864,13 @@ function EntityExtract() {
 		      data: serializedData,
 		      success:function(dat){
 
-			 $("#result").html(dat);
+			 	$("#result").html(dat);
 		       		//ListDataset();
-			 $("#result").html("Update Done");
+			 	$("#result").html("Update Done");
 		      },
 		      error:function(d){
-			  alert("failure"+d);
-			  $("#result").html('there is error while submit');
+			  	alert("failure"+d);
+			  	$("#result").html('there is error while submit');
 		      }
 		    });	
 	}

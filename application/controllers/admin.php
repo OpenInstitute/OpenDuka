@@ -292,6 +292,7 @@ class Admin extends CI_Controller {
     }
     
     
+    
     function ListField(){
      //$this->output->enable_profiler(TRUE); 
      	$stabs = $this->input->post('STab');
@@ -339,7 +340,7 @@ class Admin extends CI_Controller {
 	$representation = explode(",",(str_replace(" ","",(str_replace("`","",$doc_info[0]['representation'])))));
 //echo($stabs);
 	//var_dump($doc_info); exit;
-   	$list = "<form id='DatasetEditForm' action='' method='post'>";
+   	$list = "<form id='DatasetEntityEditForm' action='' method='post'>";
    	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
    	
    	$list .= "<div class='spacer'><div style='width: 300px;'>Select field to show Entity</div></div>";
@@ -349,15 +350,57 @@ class Admin extends CI_Controller {
 			$name = $kiwanja->name;
 			$list .= "<div class='spacer parent'>";
 			if (in_array($name, $representation)) {
-			$list .= "<input style='width: 20px;' type='checkbox' name='DataField[]' class='fild' checked value='".$kiwanja->name."'>";
+			$list .= "<input style='width: 20px;' type='checkbox' name='DataEntityField[]' class='fild' checked value='".$kiwanja->name."'>";
 			} else {
-			$list .= "<input style='width: 20px;' type='checkbox' name='DataField[]' class='fild' value='".$kiwanja->name."'>";			
+			$list .= "<input style='width: 20px;' type='checkbox' name='DataEntityField[]' class='fild' value='".$kiwanja->name."'>";			
 			}
 	   		$list .= $kiwanja->name ."</div>";
 	   	}
 	}	
 	
 	 $list .= '<div class="spacer">
+			 <input type="hidden" value="'. $stabs .'" name="Entitytablename"/>
+			 <input type="button" class="DatasetEditBT" value="Submit" id="DatasetEditBT"/>
+		   </div>';
+	 $list .= '</form>';
+	
+	$list = empty($list) ? "Sorry No Data" : $list;
+	
+	echo $list;
+    }
+    
+    
+    function ListFieldEntityEdit(){
+     //$this->output->enable_profiler(TRUE); 
+     	$stabs = $this->input->post('STab');
+	//$doc_info = $this->admin_model->get_document_ref($stabs);
+	//$representation = explode(",",(str_replace(" ","",(str_replace("`","",$doc_info[0]['representation'])))));
+//echo($stabs);
+	//var_dump($doc_info); exit;
+   	$list = "<form id='DatasetEditForm' action='' method='post'>";
+   	//$list .="<div class='spacer'>Document Name <input type='text' value='' name='DocName'/> {2007_PublicAwardedTenders}</div>";
+   	
+   	$list .= "<div class='spacer'><div style='width: 300px;'>Select at least 2 fields to extract Entity from. Please note that the content in the field will be taken as array having a comma as a delimeter.</div></div>";
+   	$viwanja = $this->admin_model->get_fields($stabs);
+   	
+   	foreach ($viwanja as $kiwanja) {$name[] = $kiwanja->name;}
+   	
+   	//var_dump($name);
+    	foreach ($viwanja as $kiwanja) {
+		if (substr($kiwanja->name, -3) != '_E_') {
+			$n = $kiwanja->name . '_E_';
+			$list .= "<div class='spacer parent'>";
+			if (in_array($n, $name)) {
+			$list .= "<input style='width: 20px;' type='checkbox' name='Extract[]' class='fild' checked value='".$kiwanja->name."'>";
+			} else {
+			$list .= "<input style='width: 20px;' type='checkbox' name='Extract[]' class='fild' value='".$kiwanja->name."'>";			
+			}
+	   		$list .= $kiwanja->name ."</div>";
+	   	}
+	}	
+	
+	 $list .= '<div class="spacer">
+	 		 <input type="hidden" value="2" name="DocumentType"/>
 			 <input type="hidden" value="'. $stabs .'" name="tablename"/>
 			 <input type="button" class="DatasetEditBT" value="Submit" id="DatasetEditBT"/>
 		   </div>';
@@ -370,28 +413,30 @@ class Admin extends CI_Controller {
     
     
     function EntityExtract(){
-    //$this->output->enable_profiler(TRUE); 
+   // $this->output->enable_profiler(TRUE); 
    
-   	//$table_name = $this->input->post('tablename');
+   	$table_name = $this->input->post('tablename');
    	$DocumentType = $this->input->post('DocumentType');
    	//$Verb = $this->input->post('Verb');
-   	$DocName = str_replace(' ', '_', $this->input->post('DocName'));
+   	$DocName = (strlen(trim($this->input->post('DocName'))) >= 4) ? str_replace(' ', '_', $this->input->post('DocName')) : '';
    	$viwanja = $this->input->post('Extract');
    	
-   	$this->admin_model->table_name_change('NewTable', $DocName);
+   	if (strlen($DocName) >= 4) { $this->admin_model->table_name_change('NewTable', $DocName); } 
+   	else { $DocName =$table_name; }
    	
    	$DocID = $this->admin_model->get_document_entry($DocName) ? : $this->admin_model->insert_document($DocName, $DocumentType);
 	
-	//var_dump($viwanja);
+	//var_dump($viwanja); exit;
 	//var_dump($Verb);
+	//echo $DocumentType; exit;
 
     	$list ="Records Submitted ";
     	$l=0;
     	for($i=0; $i<sizeof($viwanja); $i++){
-
+//echo $viwanja[$i]; exit;
 		$this->admin_model->fieldcheck($viwanja[$i], $DocName);
 
-    	     	$l += $this->admin_model->extract_entity($viwanja[$i], $DocName, $DocID, $this->session->userdata('user_id'), $DocumentType);
+    	$l += $this->admin_model->extract_entity($viwanja[$i], $DocName, $DocID, $this->session->userdata('user_id'), $DocumentType);
 
     	}
     		
@@ -404,12 +449,12 @@ class Admin extends CI_Controller {
    function DatasetEdit(){
   //  $this->output->enable_profiler(TRUE); 
    
-   	$tbl = $this->input->post('tablename');
-   	$DataField = $this->input->post('DataField');
-   //	echo $tbl; exit;
+   	$tbl = $this->input->post('Entitytablename');
+   	$DataField = $this->input->post('DataEntityField');
+  
    	$flds = (count($DataField) > 0) ? "'".implode(',', $DataField) ."'" : '*';
        	$list ="Records Submitted ";
-
+ 	//echo $flds; exit;
     	$this->admin_model->dataset_edit($tbl, $flds);
 
     }

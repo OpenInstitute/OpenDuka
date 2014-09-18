@@ -271,20 +271,26 @@ class Home extends CI_Model {
 	   	// $Entity_id[]= $f->name;
 	   	 
 	   		if ($c==0) {
-				$l = "where  ".$f->name." LIKE '%".$qid."%'"; 
+				$l = "where  `".$f->name."` LIKE '%,".$qid.",%'"; 
 			} else {
-				$l .= " or ". $f->name. " LIKE '%".$qid."%'";  
+				$l .= " or `". $f->name. "` LIKE '%,".$qid.",%'";  
 			}
-				$c++;
-	  	} else {
+			$c++;
+	  	} 
+	  	/*else {
 	  	 $Entity_field[]= $f->name;
-	  	}
-	  	//$Entity_field[]= $f->name;
+	  	}*/
+	  	$Entity_field[]= $f->name;
     	    }
     	$qu = ($q=='*') ? implode(',',$Entity_field) : $q ;
-    //echo $qid;
-     $result = $this->db->query("SELECT $qu FROM $tbl $l ");
-     return $query = $result->result_array();
+    	$data ="SELECT $qu FROM $tbl $l ";
+    	//echo $data;
+     $result = $this->db->query( $data );
+    // var_dump($result);
+     return  $result->result_array();
+     
+     
+
 		/*$this->db->select($qu);
 		$this->db->from($tbl);
 		$this->db->limit(50); 
@@ -308,17 +314,18 @@ class Home extends CI_Model {
     $flds = $this->db->field_data($tbl);
 	    foreach($flds as $f ) {
 	    	if (substr($f->name,-3,3)=='_E_') {
-	    	$Entity_name .= $f->name .",";
+	    	$Entity_name .= "`". $f->name ."`,";
 			if ($c==0) {
-				$l = "where  ".$f->name." LIKE '%".$id."%'"; 
+				$l = "where  `".$f->name."` LIKE '%," . $id . ",%'"; 
 			} else {
-				$l .= " or ". $f->name. " LIKE '%".$id."%'";  
+				$l .= " or `". $f->name. "` LIKE '%," . $id . ",%'";  
 			}
 				$c++;
 	  	}
     	    }
-    	   // echo $Entity_name ;
+    	    
     	    $Entity_name = substr($Entity_name,0,-1);
+    	  //  echo "SELECT $Entity_name FROM $tbl $l " ; exit;
 	$result = $this->db->query("SELECT $Entity_name FROM $tbl $l ");
      	return $query = $result->result_array();
     }
