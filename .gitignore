@@ -10,6 +10,7 @@ Raw/*
 
 # exclude everything except directory application
 *.[oa]
+*.zip
 *~
 *
 !application
