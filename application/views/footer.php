@@ -45,7 +45,7 @@
 <!--end of container -->
     <!-- Footer
     ================================================== -->
-      <div id="footer" class="navbar-inverse row">
+<!--      <div id="footer" class="navbar-inverse row">
         <div class="footer-links pull-left">
           <a href="<?php echo base_url() . index_page(); ?>/about">About Us&nbsp;</a>|
           <a>&nbsp;Terms&nbsp;</a>|
@@ -75,9 +75,79 @@
           </a>
         </div>
         <!-- <p>Page rendered in <strong>{elapsed_time}</strong> seconds</p> -->
-      </div><!-- .footer -->
+     <!-- </div><!-- .footer -->
 
 
+<html>
+<head>
+<link href="./assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="./assets/css/custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class= "container col-md-12 col-lg-12" id="pad">
+<div class = "row col-md-4 col-lg-4 marg" id="partnersoi">
+  <h3>Open Institute </h3>
+  Lorem ipsum dolor sit amet,<br/>
+   consectetur adipiscing elit. <br/>
+   Morbi eu ultricies ex, sit amet iaculis lorem.<br/>
+   Etiam sodales velit sit amet lacinia condimentum. 
+</div>
+<div class = "row col-md-4 col-lg-4">
+    <div class = "row col-md-12 marg" id="partners">
+      <h3> Developed by</h3>
+      <div class="oi_icon">
+        <img src="./assets/img/oi-grey-lg.png" alt="oi" align="middle"></img>
+      </div>
+    </div>
+    <div class="col-md-12 marg" id="partner-logos">
+      <div id="partners"><h3> In partnership with</h3></div>
+      <div class=" atti_icon col-md-6 ">
+        <img src="./assets/img/atti-logo.jpg" alt="atti" align="right"></img>
+      </div>
+      <div class="klr_icon col-md-6">
+      <img src="./assets/img/klr-logo.png" alt="klr" align="right"></img>
+    </div>
+    </div>
+  
+</div>
+<div class = "row col-md-4 col-lg-4 marg" id="partners" >
+  <form name="ml"  method="post"> 
+    <h3>Mailing List </h3>
+        <!--<h4>Name</h4>--><input type="text" name="subscriber" value="" placeholder="Enter Name" />
+      <!--<h4>Email</h4>--><input type="text" name="email" value="" placeholder="Enter email address" />
+      <input type="submit" name="submit" value="Submit" class="btn btn-warning" />
+    </form>
+
+
+
+<!--social media-->
+
+
+
+<div class="social-media pull-right">
+          <a href="https://www.facebook.com/OpenDuka"> 
+            <img src="<?php echo base_url(); ?>assets/img/facebook.png">
+          </a>
+           <a href="https://www.twitter.com/OpenDuka">
+            <img src="<?php echo base_url(); ?>assets/img/twitter.png">
+          </a>
+          <a href="https://plus.google.com/103250451649972917771/">
+            <img src="<?php echo base_url(); ?>assets/img/googleplus.png">
+          </a>
+
+          <a href="https://github.com/OpenInstitute/OpenDuka/">
+            <img src="<?php echo base_url(); ?>assets/img/github.png">
+          </a>
+</div>
+
+
+
+<!--//social media-->
+
+</div>
+</div>
+</body>
+</html>
 </div>
 
 </div>

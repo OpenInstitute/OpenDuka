@@ -791,13 +791,13 @@ body.api {
   text-align: center;
 }
 
-#api .jumbotron {
+/*#api .jumbotron {
   background: transparent;
   color: #eee;
   margin-bottom: 10px !important;
   text-shadow: 0 0 3px #000;
 }
-
+*/
 .question {
  text-decoration: italic;
  font-weight: bold;
