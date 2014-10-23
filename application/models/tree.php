@@ -23,7 +23,7 @@ class Tree extends CI_Model {
 	      //} else {return '';}
     }
     
-    function get_dataset_count()
+     function get_dataset_count()
     {
     $ar=array();
     	$this->db->select();
@@ -46,7 +46,7 @@ class Tree extends CI_Model {
     }
     
     
-    function get_latest_entry()
+   function get_latest_entry()
     {
 		$this->db->select();
 		$this->db->from('Entity');  
@@ -116,11 +116,12 @@ class Tree extends CI_Model {
 		//$this->db->limit(10);   
 		//if($this->db->count_all_results()>0){  
 	        $query = $this->db->get();
+	       // $this->db->_error_message(); 
 	        return $query->result_array();
 	      //} else {return '';}
     }
     
-     function get_mapped_entries($var)
+      function get_mapped_entries($var)
     	{
     	is_array($var) ? $this->db->where_in('Entity.ID',$var) : $this->db->where('Entity.ID',$var); 
 		$this->db->select('EntityType.EntityTypeID, EntityType.EntityType');
@@ -137,48 +138,10 @@ class Tree extends CI_Model {
     	is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid);
     	$this->db->select();
 	$this->db->from('Entity'); 
-		//if (is_array($nid)){ echo 'true';} else { echo 'false';}
 		
-		/*if (is_array($nid)){
-		$this->db->select();
-		$this->db->from('Entity');
-			foreach($nid as $nodeid ) {
-			$where = "EntityMap like '$nodeid|%' AND Merged = 0";
-			$where .= " OR EntityMap like '$nodeid,%' AND Merged = 0";
-			$where .= " OR EntityMap like '%,$nodeid,%' AND Merged = 0";
-			$where .= " OR EntityMap like '%|$nodeid,%' AND Merged = 0";
-			$where .= " OR EntityMap like '%|$nodeid|%' AND Merged = 0";
-			$where .= " OR EntityMap like '%,$nodeid|%' AND Merged = 0";
-			$where .= " OR EntityMap like '%|$nodeid' AND Merged = 0";
-			}	
-		$this->db->where($where);
 		$query = $this->db->get();
 	        return $query->result_array();
-		} else {
-		
-		$this->db->select();
-		$this->db->from('Entity');
-			$where = "EntityMap like '$nid|%' AND Merged = 0";
-			$where .= " OR EntityMap like '$nid,%' AND Merged = 0";
-			$where .= " OR EntityMap like '%,$nid,%' AND Merged = 0";
-			$where .= " OR EntityMap like '%|$nid,%' AND Merged = 0";
-			$where .= " OR EntityMap like '%|$nid|%' AND Merged = 0";
-			$where .= " OR EntityMap like '%,$nid|%' AND Merged = 0";
-			$where .= " OR EntityMap like '%|$nid' AND Merged = 0";
-			echo $where;
-		$this->db->where($where);
-		$query = $this->db->get();
-	        return $query->result_array();
-		//}
-*/
-		$query = $this->db->get();
-	        return $query->result_array();
-		//if($this->db->count_all_results()>0){  
-	        
-	      //} else {return '';}
-	      
-	   //   "SELECT `ID`,EntityMap, Verb FROM `Entity` where `EntityMap`  like '2717,%' or `EntityMap`  like '%,2717,%' or `EntityMap`  like ',2717|%' or `EntityMap`  like '%|2717|%' or `EntityMap`  like  '%|2717' or `EntityMap`  like '2717|%'"
-    }
+	}
 
     function get_entry_cont($tag,$entityname,$page_num=1, $results_per_page=15,$sortment)
     {
@@ -187,7 +150,7 @@ class Tree extends CI_Model {
             $page_num = 1;
         }
 
-        $result = $this->db->query("SELECT * FROM Entity WHERE MATCH ($tag) AGAINST ('+$entityname' IN BOOLEAN MODE) AND Merged=0 AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+        $result = $this->db->query("SELECT * FROM Entity WHERE $tag LIKE '%$entityname%' AND Merged=0 AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }
@@ -202,7 +165,6 @@ class Tree extends CI_Model {
 	return $query = $result->result_array();
 	
     }
-    
     function get_entry_cont3($tag,$entityname,$page_num=1, $results_per_page=15, $sortment)
     {    //    echo($page_num);
     	if ($page_num < 1)
@@ -247,48 +209,60 @@ class Tree extends CI_Model {
 	      //} else {return '';}
     }
     
-    function get_dataset($tbl,$q,$id)
+     function get_dataset($tbl,$q,$id)
     {
     $ar=array();
     $ra=array();
+    $c=0;
+    $qid = (int)$id;
     $flds = $this->db->field_data($tbl);
 	    foreach($flds as $f ) {
 	    	if (substr($f->name,-3,3)=='_E_') {
-	   	 $Entity_id[]= $f->name;
-	  	}/* else {
+	   	// $Entity_id[]= $f->name;
+	   	 
+	   		if ($c==0) {
+				$l = "where  `".$f->name."` LIKE '%,".$qid.",%'"; 
+			} else {
+				$l .= " or `". $f->name. "` LIKE '%,".$qid.",%'";  
+			}
+			$c++;
+	  	} 
+	  	/*else {
 	  	 $Entity_field[]= $f->name;
 	  	}*/
 	  	$Entity_field[]= $f->name;
     	    }
-    	$qu = ($q=='*') ? implode(',',$Entity_field) : $q .','. implode(',',$Entity_id);
-   // echo $qu;
-		$this->db->select($qu);
-		$this->db->from($tbl);
-		$this->db->limit(50); 
-			foreach($Entity_id as $r){		
-			$this->db->or_where($r,$id); 
-			}     
-        $query = $this->db->get();
-        return $query->result_array();
+    	$qu = ($q=='*') ? implode(',',$Entity_field) : $q ;
+    	$data ="SELECT $qu FROM $tbl $l ";
+    	//echo $data;
+     $result = $this->db->query( $data );
+    // var_dump($result);
+     return  $result->result_array();
+     
     }
     
     function get_dataset_map($tbl, $id)
     {
     $Entity_id=array();
-    $Entity_name=array();
+    $Entity_name= "";//array();
+    $c=0;
     $flds = $this->db->field_data($tbl);
 	    foreach($flds as $f ) {
 	    	if (substr($f->name,-3,3)=='_E_') {
-	   	 $Entity_name[]= $f->name;
+	    	$Entity_name .= "`". $f->name ."`,";
+			if ($c==0) {
+				$l = "where  `".$f->name."` LIKE '%," . $id . ",%'"; 
+			} else {
+				$l .= " or `". $f->name. "` LIKE '%," . $id . ",%'";  
+			}
+				$c++;
 	  	}
     	    }
-	$this->db->select($Entity_name);
-	$this->db->from($tbl);
-		foreach($Entity_name as $r){		
-		$this->db->or_where($r, $id); 
-		}     
-        $query = $this->db->get();
-        return $query->result_array();
+    	    
+    	    $Entity_name = substr($Entity_name,0,-1);
+    	  //  echo "SELECT $Entity_name FROM $tbl $l " ; exit;
+	$result = $this->db->query("SELECT $Entity_name FROM $tbl $l ");
+     	return $query = $result->result_array();
     }
     
     function mostvisited($id)

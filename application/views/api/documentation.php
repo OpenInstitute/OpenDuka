@@ -36,6 +36,7 @@
 				The above query returns a list of results like so:
 				<pre>[{"data":[{"dataset_type":[{"Gazette": [{"dataset":[{"Name":"National Council for Law Reporting","Name2":"Christine Agimba","Gazette_Number":"2013_GAZ8654","EffectiveDate":"10\/02\/13 : 10\/02\/16","Action":"0","Appointer":"Githu Muigai - Attorney General","Name_E_":"40","Name2_E_":"41"},{"Name":"Christine Agimba","Name2":"National Council for Law Reporting","Gazette_Number":"2013_GAZ8654","EffectiveDate":"10\/02\/13 : 10\/02\/16","Action":"appointed","Appointer":"","Name_E_":"41","Name2_E_":"40"}]}]}]}]}]</pre>
 			</section>
+			<div class="row"></div>
 		</div>
 	</div>
 </div>

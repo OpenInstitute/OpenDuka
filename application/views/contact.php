@@ -54,7 +54,7 @@ if(isset($_POST['submit'])) {
 <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.pack.js" type="text/javascript"></script>
 <script src="js/bootstrap-contact.js" type="text/javascript"></script>
 
-<div id="contact-us" class="row">
+<div id="contact-us" class="row ">
 
 	<h1>Feedback</h1>
 	

@@ -484,9 +484,9 @@ class Admin extends CI_Controller {
 	*/
 	$fileElementName = 'fileToUpload';
 	//$msg .=$_FILES[$fileElementName]['error'];
-	
-	if(!empty($_FILES[$fileElementName]['error']))
-	{
+	//echo $_FILES[$fileElementName]['error']; exit;
+	if(!empty($_FILES[$fileElementName]['error'])){
+		
 		switch($_FILES[$fileElementName]['error'])
 		{
 
@@ -517,6 +517,7 @@ class Admin extends CI_Controller {
 				$msg = '';//'No error code avaiable';
 		}
 	}
+	
 	//$msg .= $_FILES[$fileElementName]['tmp_name'];
 	if(empty($_FILES[$fileElementName]['tmp_name']) || $_FILES[$fileElementName]['tmp_name'] == 'none')
 	{
@@ -583,45 +584,45 @@ class Admin extends CI_Controller {
 
 		//var_dump(explode($lineseparator,$csvcontent));
 
-		foreach(explode($lineseparator,$csvcontent) as $line) {
+				foreach(explode($lineseparator,$csvcontent) as $line) {
 
-			$lines++;
-			$skipped=0;
-			if($lines>1){
-				$line = trim($line," \t");
+					$lines++;
+					$skipped=0;
+					if($lines>1){
+						$line = trim($line," \t");
 
-				$line = str_replace("\r","",$line);
+						$line = str_replace("\r","",$line);
 
-				/************************************
-				This line escapes the special character. remove it if entries are already escaped in the csv file
-				************************************/
-				$line = str_replace("'","\'",$line);
-				/*************************************/
+						/************************************
+						This line escapes the special character. remove it if entries are already escaped in the csv file
+						************************************/
+						$line = str_replace("'","\'",$line);
+						/*************************************/
 				
-				$linearray = explode($fieldseparator,$line);
-				$linearray = str_replace(",", "\,", $linearray);
-				$linearray = str_replace("'\," ,"'," ,$linearray);
-				//$linearray = preg_replace( "#[^a-zA-Z0-9,.]#", "", $linearray);
-				$linemysql = implode("','",$linearray);
-				if (strlen($linemysql)>=1){
-					if($addauto){
-						$query = "insert into $TblName values('','$linemysql');";
+						$linearray = explode($fieldseparator,$line);
+						$linearray = str_replace(",", "\,", $linearray);
+						$linearray = str_replace("'\," ,"'," ,$linearray);
+						//$linearray = preg_replace( "#[^a-zA-Z0-9,.]#", "", $linearray);
+						$linemysql = implode("','",$linearray);
+						if (strlen($linemysql)>=1){
+							if($addauto){
+								$query = "insert into $TblName values('','$linemysql');";
+								}
+							else
+							{
+								$query = "insert into $TblName values('$linemysql');";
+								}
 						}
-					else
-					{
-						$query = "insert into $TblName values('$linemysql');";
-						}
+
+				//$queries .= $query . "\n";
+
+			//echo $queries; exit;
+						$insert = $this->admin_model->populate_table($query);
+
+						if(!$insert){ $skipped++; $msg .= " $skipped were not inserted";}
+
+					}
 				}
-
-		//$queries .= $query . "\n";
-
-	//echo $queries; exit;
-				$insert = $this->admin_model->populate_table($query);
-
-				if(!$insert){ $skipped++; $msg .= " $skipped were not inserted";}
-
-			}
-		}
 		
     		//$q =  "insert into DocUploaded (title, doc_id, DocTypeID,data_table) values('$TblName', '".date('Ymd')."-$TblName',$DocumentType,'$TblName');";
     		//$this->admin_model->populate_table($q);
@@ -630,7 +631,7 @@ class Admin extends CI_Controller {
 		 
 		//	var_dump($_FILES['fileToUpload']['tmp_name']);	
 		@unlink($_FILES[$fileElementName]);	
-		}	
+		}
 	}
 	
 		

@@ -21,14 +21,13 @@
 	</div> <!-- #visualisation end -->
 		
 
-	<script language="JavaScript" type="text/javascript" src="<?php echo base_url();?>assets/js/arbor.js"></script>
 
 	<script type="text/javascript">
 
-		var data = {
-			nodes: <?php echo $nodes; ?>,
-			edges: <?php echo $edges; ?>
-     		}
+	var data = {
+		nodes: <?php echo $nodes; ?>,
+		edges: <?php echo $edges; ?>
+	}
 
   		// Initialise arbor
 	    var sys = arbor.ParticleSystem()
@@ -36,5 +35,20 @@
 	    sys.renderer = Renderer("#cy","<?php echo $hidden_nodes; ?>","<?php echo base_url();?>assets/img/")
 	    sys.graft(data)
 
+	
 		
+		
+		function rhtmlspecialchars(str) {
+			if (typeof(str) == "string") {
+				str = str.replace(/&gt;/ig, ">");
+				str = str.replace(/&lt;/ig, "<");
+				str = str.replace(/&#039;/g, "'");
+				str = str.replace(/&quot;/ig, '"');
+				str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
+			}
+				return str;
+		}
+		
+
+
 </script>

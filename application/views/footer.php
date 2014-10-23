@@ -3,6 +3,50 @@
 <!--end of container -->
     <!-- Footer
     ================================================== -->
+<!--top footer -->
+<div>
+<div class= "container col-md-12 col-lg-12 pad">
+<div class = "row col-md-4 col-lg-4 marg" id="partnersoi">
+  <h3>Sources </h3>
+        <p>
+        Our database contains information on people, companies and organisations, as well as their linkages at specified periods of time.
+        While we make every attempt to make this information as accurate as possible, we take no responsibility for its authenticity.
+        The current information is derived from the Kenya Gazette, Handsards and procurement websites. 
+        We will be incorporating more information from different sources soon. 
+      </p>  
+</div>
+<div class = "row col-md-4 col-lg-4">
+    <div class = "row col-md-12 marg" id="partners">
+      <h3> Developed by</h3>
+      <div class="oi_icon">
+        <img src="<?php echo base_url(); ?>assets/img/oi-grey-lg.png" alt="oi" align="middle"></img>
+      </div>
+    </div>
+    <div class="col-md-12 marg" id="partner-logos">
+      <div id="partners"><h3> In partnership with</h3></div>
+      <div class=" atti_icon col-md-6 ">
+        <img src="<?php echo base_url(); ?>assets/img/atti-logo.jpg" alt="atti" align="right"></img>
+      </div>
+      <div class="klr_icon col-md-6">
+      <img src="<?php echo base_url(); ?>assets/img/klr-logo.png" alt="klr" align="right"></img>
+    </div>
+    </div>
+  
+</div>
+<div class = "row col-md-4 col-lg-4 marg" id="partners" >
+  <form name="ml"  method="post"> 
+    <h3>Mailing List </h3>
+    <p>This dashboard is a work in progress (and a labour of love) for us and we shall continue to add new features and data. Sign up here if you want to keep in touch with the progress we make. </p>
+        <!--<h4>Name</h4>--><input type="text" name="subscriber" value="" placeholder="Enter Name" /></br></br>
+      <!--<h4>Email</h4>--><input type="text" name="email" value="" placeholder="Enter email address" /></br></br>
+      <input type="submit" name="submit" value="Submit" class="btn btn-primary" />
+    </form>
+</div>
+</div>
+
+<!--end of top-footer-->
+
+
       <div id="footer" class="navbar-inverse row">
         <div class="footer-links pull-left">
           <a href="<?php echo base_url() . index_page(); ?>/about">About Us&nbsp;</a>|
@@ -34,7 +78,7 @@
         </div>
         <!-- <p>Page rendered in <strong>{elapsed_time}</strong> seconds</p> -->
       </div><!-- .footer -->
-
+</div>
 
 </div>
 

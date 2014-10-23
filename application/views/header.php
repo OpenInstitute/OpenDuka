@@ -69,12 +69,19 @@
         <ul class="nav navbar-nav nav-pills">
           <li><a href="<?php echo base_url() . index_page(); ?>">Home</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/about">About</a></li>
-          <li><a href="<?php echo base_url() . index_page(); ?>/api">API</a></li>
+          <li class="drp"><a href="<?php echo base_url() . index_page(); ?>/api">API</a>
+              <ul class="fich nav">
+                <li><a href="<?php echo base_url() . index_page(); ?>/api/documentation">Documentation</a></li>
+                <li><a href="https://www.github.com/OpenInstitute/OpenDuka">Github</a></li>
+              </ul>
+          </li>
           <li><a href="http://openinstitute.com/category/open-duka/">Blog</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/faq">FAQ</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/contact">Feedback</a></li>
         </ul>
       </div><!--/.nav-collapse -->
+
+     
     </div>
   </div>
 

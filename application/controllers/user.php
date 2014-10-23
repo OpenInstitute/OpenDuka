@@ -12,13 +12,13 @@ class User extends CI_Controller{
  {
   if(($this->session->userdata('user_name')!=""))
   {
-   redirect('/admin');
+   redirect('/bckend');
   }
   else{
    $data['page_title']= 'Home';
    $this->load->view('header',$data);
    $this->load->view("registration_view.php", $data);
-   $this->load->view('footer',$data);
+ 
   }
  }
  public function login()
@@ -26,15 +26,18 @@ class User extends CI_Controller{
   $email=$this->input->post('email');
   $password=md5($this->input->post('pass'));
   $result=$this->user_model->login($email,$password);
-  if($result) redirect('/admin');
+  if($result) redirect('/bckend');
   else        $this->index();
  }
  public function thank()
  {
-  $data['page_title']= 'Thank';
-  $this->load->view('header',$data);
-  $this->load->view('admin.php', $data);
-  $this->load->view('footer',$data);
+  $data['page_title']= 'Successful';
+   $this->load->view('header',$data);
+   $this->load->view('headerbck');
+   $this->load->view('sidebar_bck');
+   $this->load->view('addUser');
+
+  
  }
  
  public function registration()

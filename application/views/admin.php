@@ -458,7 +458,7 @@ $(".DatasetAdd").click(function() {
 		url: "<?php echo base_url();?>index.php/admin/DatasetAdd",
 		secureuri:false,
 		fileElementId:'fileToUpload',
-		//type: 'post',
+		type: 'post',
 		dataType: 'json',
 		//data:{TblName: $("#TblName").val(), DocumentType: $("#cat_name").val()},
 		beforeSend:function()

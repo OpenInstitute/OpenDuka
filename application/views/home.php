@@ -10,142 +10,153 @@ if(!isset($list) && empty($nodes))
 		<div class="tagline col-md-12 col-lg-12">
 			<h2>The freely accessible database of information on Kenyan entities</h2>
 		</div>
-		<div class="tagline-description col-md-12 col-lg-12">
+		<br/><br/>
+
+			<!-- Search -->
+	<div class="row">
+		<div class="container" style= "color:#ffffff">
+			<p><?php echo $error;?></p>
+			<?php // echo language(); ?>
+		<div class="search-bar q">
+			<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
+				<div class="input-group">
+      <input type="text" name="search_name" placeholder= "Search by name, company or organisation" class="input form-control"/>
+      <span class="input-group-btn">
+      	<!--<input type="submit" value="Go!" class="btn btn-primary" />*/-->
+        <input class="btn btn-default" type="image" src="./assets/img/search-20.png" alt="Submit"/>
+      </span>
+    </div>
+			</form>
+		</div>
+		</div>
+	</div> <!-- #search -->
+
+	<div class="tagline-description col-md-12 col-lg-12">
 			<div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
 				<h4>Providing citizens, journalists, and civic activists with a practical and easy-to-use tool to understand the ownership 
 				structure of the world they live in, demonstrating the practical applications of open information for normal citizens</h4>
 			</div>
 		</div>
 	</div>
-	 
-	<!-- #cityscape -->
-
-	<!-- Search -->
-	<div id="search" class="row">
-		<div class="container">
-			<h2>Search</h2>
-			<p><?php echo $error;?></p>
-			<?php // echo language(); ?>
-			<form name="oi" action="<?php echo base_url() . index_page();?>/homes/entitylist" method="post"> 
-				<input type="text" name="search_name" value="" placeholder="Search by name, company or organisation" />
-				<br />
-				<input type="submit" name="submit" value="Go" class="btn btn-warning" />
-			</form>
-		</div>
-	</div> <!-- #search -->
-
-	<!-- Stats and Latest -->
+	
 	<div id="datapop" class="row">
 
 		<!-- Stats -->
-		<div class="stats col-md-4 col-lg-4">
+		<div class="stats col-md-12 col-lg-12">
 			<h3>In Our Database</h3>
-			<div class="figures row" style="margin-top:20px">
-				<div class="people col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+			<div class="col-md-12">
+			<!--the icons start here-->
+			<div class="row">
+				<div class="people col-md-2">
 					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/22">
 						<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/people.png">
 						<h4>People</h4>
 						<h5><?php echo $persons; ?></h5>
 					</a>
 				</div>
-				<div class="organisations col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="organisations col-md-2">
 					<a href="<?php echo base_url() . index_page();?>/homes/entityTypelist/21">
 						<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/organisations.png">
 						<h4>Organisations</h4>
 						<h5><?php echo $organisations; ?></h5>
 					</a>
 				</div>
-			</div>
-			<br />
-			<div class="figures row">
-				<div class="tenders col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">
-						<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
-						<h4>Tenders</h4>
-						<h5><?php echo $Tenders; ?></h5>
+
+				<div class="tenders col-md-2">
+				<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $TendersID; ?>">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/tenders.png">
+					<h4>Tenders</h4>
+					<h5><?php echo $Tenders; ?></h5>
 					</a>
 				</div>
-				<div class="grants col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>">
-						<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
-						<h4>Contracts</h4>
-						<h5><?php echo $Contracts; ?></h5>
+		
+				<div class="grants col-md-2">
+				<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $ContractsID; ?>">
+					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/grants.png">
+					<h4>Contracts</h4>
+					<h5><?php echo $Contracts; ?></h5>
 					</a>
 				</div>
-			</div>
-			<br />
-			<div class="figures row">
-				<div class="cases hidden-xs hidden-sm col-md-6 col-lg-6">
-					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $CasesID; ?>">
-	 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
-	 					<h4>Cases</h4>
-	 					<h5><?php echo $Cases; ?></h5>
+			
+				<div class="cases col-md-2">
+				<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $CasesID; ?>">
+	 				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/cases.png">
+	 				<h4>Cases</h4>
+	 				<h5><?php echo $Cases; ?></h5>
  					</a>
  				</div>
- 				<div class="land hidden-xs hidden-sm col-md-6 col-lg-6">
+
+ 				<div class="land col-md-2">
  					<a href="<?php echo base_url() . index_page();?>/homes/entityDoclist/<?php echo $LandID; ?>">
 	 					<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/land.png">
 	 					<h4>Land</h4>
 	 					<h5><?php echo $Land; ?></h5>
 	 				</a>
  				</div>
-			</div>
+
+
+			<!--//the icons end here-->
+		</div>	
 		</div><!-- .stats -->
+		<div class="row Iconpadding">
+			<div class="col-md-12 ">
+				<!--Trying bootstrap tabs-->
+				<div class="col-md-6">
 
-		<!-- Latest -->
-		<div class="latest col-md-4 col-lg-4">
-			<h3>Latest Entries</h3>
-			<div class="topfive">
-				<ol>
-					
-					<?php echo $latest_list;?>
+				<ul class="nav nav-tabs" role="tablist">
+				  <li class="active"><a href="#latest-entries" role="tab" data-toggle="tab">Latest Entries</a></li>
+				    <li><a href="#popular-entries" role="tab" data-toggle="tab">Popular Entries</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active topfive" id="latest-entries">
+
+  	<ol>
+								<?php echo $latest_list;?>
+							</ol>
+
+
+  </div>
+  <div class="tab-pane topfive" id="popular-entries">
+
+  	<ol>
+								<?php echo $popular_list;?>
+							</ol>
+
+  </div>
+  
+</div>
+</div>
+
 				
-				</ol>
-			</div>
-		</div><!-- .latest -->
-
-		<!-- Popular -->
-		<div class="popular col-md-4 col-lg-4">
-			<h3>Popular Entries</h3>
-			<div class="topfive">
-				<ol>
-					<?php echo $popular_list;?>
-				</ol>
-			</div>
-		</div><!-- .popular -->
-	</div> <!-- #datapop -->
-
-	<div id="disclaimer" class="row">
-		<!-- Disclaimer -->
-		<div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
+		<!--testimonials-- ONCE CHANGED, SET TWITTER AND ENTRIES TO COL-MD-4
+		<div class="col-md-4 col-lg-4">
+			<h4>Testimonials go here</h4>
 			<p>
-				Our database contains information on people, companies and organisations, as well as their linkages at specified periods of time.
-				While we make every attempt to make this information as accurate as possible, we take no responsibility for its authenticity.
-				The current information is derived from the Kenya Gazette, Handsards and procurement websites. 
-				We will be incorporating more information from different sources soon. 
-			</p>
-		</div>
-	</div><!-- .disclaimer -->
 
-	<!-- Partners -->
-	<div id="partners" class="row">
-		
-		<div id="dev-logos">
-		<h2>Developed by</h2>
-			<a href="http://www.openinstitute.com/" target="blank" class="col-lg-12 col-md-12 col-sm-12">
-				<img class="img-responsive" style="max-height:100px !important" src="<?php echo base_url(); ?>assets/img/oi-grey-lg.png">
-			</a>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu ultricies ex, sit amet iaculis lorem. Etiam sodales velit sit amet lacinia condimentum. Aenean id consequat lacus. Aenean eu libero semper eros lacinia volutpat eget eget eros. Vestibulum nec neque non dui ultricies efficitur. Aenean eleifend nisi tortor, eget molestie tortor euismod quis. Aliquam bibendum ultrices sem eget commodo. Nam eu orci sed orci rhoncus sagittis vestibulum in justo. Nulla hendrerit lobortis mauris non cursus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur fringilla purus malesuada, congue metus vel, mollis purus. Curabitur tempus pharetra tortor nec porttitor. Maecenas non fermentum nisl, vitae malesuada orci. Mauris faucibus commodo convallis. Nam sit amet ligula auctor odio dapibus mattis. Phasellus condimentum, nunc sit amet elementum placerat, justo magna varius tortor, sed maximus purus sapien sit amet ipsum.
+
+Phasellus ornare ligula sed mollis tincidunt. 
+ </p>
 		</div>
-		<div id="partner-logos">
-		<h2>Launched in partnership with</h2>
-			<a href="http://www.africatti.org/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-lg-offset-3 col-md-offset-3">
-				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/atti-logo.jpg">
-			</a>
-			<a href="http://www.kenyalaw.org/kl/" target="blank" class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-				<img class="img-responsive" src="<?php echo base_url(); ?>assets/img/klr-logo.png" style="margin-top:20px">
-			</a>
+		<!--/testimonials-->
+
+		<div class="col-md-6 col-lg-6">
+			<!--twitter widget-->
+			<a class="twitter-timeline" href="https://twitter.com/OpenDuka" data-widget-id="508898755114831872">Tweets by @OpenDuka</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			<!--//twitter widget-->
 		</div>
-	</div><!-- #partners -->
+				<!--//the mid content ends here-->
+
+			</div>
+		</div>
+
+	</div>	
+<!-- #datapop -->
+
 
 <?php 
 }

@@ -11,6 +11,200 @@ class Trees extends CI_Controller {
 		$this->load->model('tree');
 
 	}
+
+	function index($v0) {
+
+		//$this->output->enable_profiler(TRUE);  
+		//$n = $_POST['node'];
+		
+		$noMerge = $this->tree->get_entries('ID',$v0);
+		
+	if(sizeof($noMerge)>=1){
+		$v0 = ($noMerge[0]['Merged']==1)? $noMerge[0]['MergedTo'] : $v0;
+		
+		$MostVisited = $this->tree->mostvisited($v0);
+		//var_dump($MostVisited); exit;
+		$weed = array();
+		$fruit = array();
+		$tree_n = array();
+		$tree_e = array();
+		$tree_d = array();
+		$nFilter = "";
+		$node_arr = "";
+		$tree_ee = "";
+		$tree_nn = "";
+		$alpha = 1;
+		$nodes = "{";
+		$edges = "{";
+		
+		
+		$dta = $this->tree->get_entries('ID',$v0);
+		$docs = explode(',', $dta[0]['DocID']);
+		$docs = $this->clean_array($docs);
+		//var_dump($docs); exit;
+		$e=0;
+		foreach($docs as $d){
+			$doc = $this->tree->get_doc($d);
+			//echo $e;
+			foreach($doc as $row){
+			$dt=$row['data_table'];
+			$q=$row['representation'];
+				//$tree_data = ($dt == "") ? $this->tree_init($v0,$weed) : $this->dataset_extract($dt,$v0);
+			  $tree_data = $this->dataset_extract($dt,$v0);
+				//array_push($tree_d,$tree_data);
+				
+				$tree_n[] = $tree_data['nodes'];
+				$tree_e[] = $tree_data['edges'];
+				
+			}
+			if ($e==0){
+			$pos = strpos($tree_e[0],"{");
+    			$phrase = substr($tree_e[0], 0, $pos+1);
+    			} else {
+    			$tree_e[$e] = str_replace($phrase,",",$tree_e[$e]);
+    			}
+			//$tree_n = array_merge_recursive($tree_n);
+			//$tree_e=array_merge_recursive($tree_e);
+		
+			
+			$e++; 
+		}
+		//$pos = strpos($tree_e[0],"{");
+    		//$phrase = substr($tree_e[0], 0, $pos+1);
+    		//echo $phrase; 
+		//var_dump($tree_e); exit;
+		//$tree_n = $this->flatten($tree_n);
+		
+			foreach ($tree_n as $value)
+			{
+			    if (!$tree_n)
+			    {
+				$tree_nn = $value;
+			    }
+			    else
+			    {
+				$tree_nn .=  $value;
+				//echo $value;
+			    }
+			}
+			
+			foreach ($tree_e as $value)
+			{
+			    if (!$tree_e)
+			    {
+				$tree_ee = $value;
+			    }
+			    else
+			    {
+				$tree_ee .=  $value;
+				//echo $value;
+			    }
+			}
+			//
+		
+		$core_node = '\''. str_replace(' ','_',str_replace('/','',$tree_data['nodeTitle'])) . '_' .$v0 . '\'';
+		//echo($core_node); exit;
+		$tree_ee =  str_replace('},'.$core_node.':{','',$tree_ee);
+		$tree_ee =  str_replace('},,', '', $tree_ee);
+		$tree_ee =  str_replace(',},', '}', $tree_ee);
+		//echo $core_node;
+		//echo($tree_ee);
+		//exit;
+//echo $tree_ee; exit;
+		
+		//var_dump($tree_data); exit;
+		
+		$nodetitle = $tree_data['nodeTitle'];
+		$node_arr .= $tree_nn;//$tree_data['nodes'];
+		
+		$edges .= $tree_ee;//$tree_data['edges'];
+		//echo $edges;
+		$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
+		$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
+		$node_arr= $this->clean_array(explode(',',$node_arr)); 
+	//var_dump($node_arr); exit;
+		for($k=0; $k<count($node_arr); $k++){
+			$nDetail = explode('|',$node_arr[$k]);
+			//var_dump($nDetail); exit;
+			$id = $nDetail[0];
+			$dataset = $nDetail[1];
+			$alpha = $nDetail[2];
+			//$filter = $nDetail[3];
+			$shape = ($alpha == 1 ) ? 'dot' : 'rectangle';
+
+			//echo $dataset;
+			$n = $this->tree->get_entries('ID',$id);
+			//$nID[$id] = $id;
+			//var_dump($n); exit;
+			if ( !isset($nDate[$id]) ) {
+			  $nDate[$id] = array();
+			}
+
+			$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
+			
+			$NodeName = explode(':',$n[0]['Name']);			
+			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_", str_replace("  ","",str_replace("/","_",$NodeName[0]))))) . "_".$id ."," : null;
+			//echo($nFilter);
+			$ne=((int)$n[0]['EntityTypeID']==0) ? '22': (int)$n[0]['EntityTypeID'];
+			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
+			
+			if(!isset($nID[$id])){
+				$nID[$id] = array();
+				$node[$id] = array();
+				$nodeid[]=$id;
+				//str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0])))
+				$node_name = preg_replace('/[^a-z\d ]/i', '', $NodeName[0]);
+				$node_name = str_replace(' ','_',$node_name);
+				if($id == $v0){
+				//$col='#FF0000';
+				$node[$id][] = "'". $node_name . "_".$id ."':{'color':'#FF0000','shape':'".$shape ."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['selectedimg']."','image_h':30,'link':'', 'label': '". $NodeName[0] ."'}";
+				 } else {
+				$node[$id][] = "'". $node_name . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'". $shape ."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'link':'','image_w':30, 'label': '". $NodeName[0] ."'}";
+				 }
+				// var_dump($node[$id]);				
+				
+			}
+			
+		}	
+		//var_dump($nodeid);	
+		
+		
+		for($k=0; $k<count($nodeid); $k++){
+		$nid = $nodeid[$k];
+		//var_dump($nDate[$nid]);
+		$Ed="";
+		$nd=explode(',',$nDate[$nid][0]);
+		//var_dump($nd);
+			//for($j=0; $j<count($nd); $j++){ $Ed.= ' ['. $nd[$j] . ']'; }
+		 $nodes .= str_replace("'}", $Ed ."'}", $node[$nid][0]) . ',';
+		}
+		
+
+		$nodes .= "}";
+		$edges .= "}";
+		$nFilter.= "}";
+		$nodes = str_replace(",}","}",$nodes);
+		$edges = str_replace(",}","}",$edges);
+		$nFilter = str_replace(",}","",$nFilter);
+		//echo $nodes .'<br>'; 
+		//echo $edges;
+		//exit;
+		//$timeline = $this->timeline_data($v0);
+		
+		$vis_filter = $this->filter_data($node_arr);
+	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
+		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'filter_form'=> $vis_filter, 'hidden_nodes'=> $nFilter, 'nodeid'=> $v0);
+	
+	$data_head = array('page_title' => 'Visualisation');
+	
+	$this->load->view('header_entity',$data_head);
+	$this->load->view('tree',$content);
+	$this->load->view('footer_entity');
+	
+	} //-----end of size of v0 ---------	
+	//$data_head = array('page_title' => 'Visualisation');
+	
+	}
 	
 	function index1($start=0)
 	{
@@ -66,131 +260,11 @@ class Trees extends CI_Controller {
 		return $new_arr;
 	}
 	
-
-	function index($v0) {
-		//$this->output->enable_profiler(TRUE);  
-		//$n = $_POST['node'];
-		$noMerge = $this->tree->get_entries('ID',$v0);
-		$v0 = ($noMerge[0]['Merged']==1)? $noMerge[0]['MergedTo'] : $v0;
-		
-		$MostVisited = $this->tree->mostvisited($v0);
-		
-		$weed = array();
-		$fruit = array();
-		$nFilter = "";
-		$node_arr = "";
-		$alpha = 1;
-		$nodes = "{";
-		$edges = "{";
-		
-		
-		$dta = $this->tree->get_entries('ID',$v0);
-		$docs = explode(',', $dta[0]['DocID']);
-		//var_dump($docs); exit;
-		
-		foreach($docs as $d){
-			$doc = $this->tree->get_doc($d);
-			
-			foreach($doc as $row){
-			$dt=$row['data_table'];
-			$q=$row['representation'];
-			
-			  $tree_data = ($dt == "") ? $this->tree_init($v0,$weed) : $this->dataset_extract($dt,$v0);
-			
-			}
-			//var_dump($tree_data); exit;
-		}
-		
-		//exit;
-		
-		//var_dump($tree_data); exit;
-		$nodetitle = $tree_data['nodeTitle'];
-		$node_arr = $tree_data['nodes'];
-		$edges .= $tree_data['edges'];
-		
-		$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
-		$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
-		$node_arr= $this->clean_array(explode(',',$node_arr)); 
-//var_dump($node_arr);
-		for($k=0; $k<count($node_arr); $k++){
-			$nDetail = explode('|',$node_arr[$k]);
-		//	var_dump($nDetail);
-			$id = $nDetail[0];
-			$dataset = $nDetail[1];
-			$alpha = $nDetail[2];
-			$shape = ($alpha == 1 ) ? 'dot' : 'rectangle';
-
-			//echo $dataset;
-			$n = $this->tree->get_entries('ID',$id);
-			//$nID[$id] = $id;
-			//$nd = explode('||',$n[0]['EffectiveDate']);
-			//var_dump($nd);
-			if ( !isset($nDate[$id]) ) {
-			  $nDate[$id] = array();
-			}
-
-			$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
-			
-			$NodeName = explode(':',$n[0]['Name']);			
-			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0]))) . "_".$id ."," : null;
-			//echo($NodeName[0]);
-			$ne=(int)$n[0]['EntityTypeID'];
-			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
-			
-			if(!isset($nID[$id])){
-				$nID[$id] = array();
-				$nodeid[]=$id;
-				if($id == $v0){
-				//$col='#FF0000';
-				$node[$id][] = "'". str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0]))) . "_".$id ."':{'color':'#FF0000','shape':'".$shape ."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['selectedimg']."','image_h':30,'link':'', 'label': '". $NodeName[0] ."'}";
-				 } else {
-				$node[$id][] = "'". str_replace(".","",str_replace(" ","_",$NodeName[0])) . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'". $shape ."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'link':'','image_w':30, 'label': '". $NodeName[0] ."'}";
-				 }				
-				
-			}
-			
-		}	
-		//var_dump($nodeid);	
-		
-		
-		for($k=0; $k<count($nodeid); $k++){
-		$nid = $nodeid[$k];
-		//var_dump($nDate[$nid]);
-		$Ed="";
-		$nd=explode(',',$nDate[$nid][0]);
-		//var_dump($nd);
-			//for($j=0; $j<count($nd); $j++){ $Ed.= ' ['. $nd[$j] . ']'; }
-		 $nodes .= str_replace("'}", $Ed ."'}", $node[$nid][0]) . ',';
-		}
-		
-
-		$nodes .= "}";
-		$edges .= "}";
-		$nFilter.= "}";
-		$nodes = str_replace(",}","}",$nodes);
-		$edges = str_replace(",}","}",$edges);
-		$nFilter = str_replace(",}","",$nFilter);
-		//echo $nodes .'<br>'; 
-		//echo $edges;
-		//exit;
-		//$timeline = $this->timeline_data($v0);
-		
-		$vis_filter = $this->filter_data($node_arr);
-	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle,  'filter_form'=> $vis_filter,  'hidden_nodes'=> $nFilter);
-		
-		$data_head = array('page_title' => 'Visualisation');
-
-	$this->load->view('header_entity',$data_head);
-	$this->load->view('tree',$content);
-	$this->load->view('footer_entity');
-		
-	}
 	
 	function tree_init($v0,$weed){
 	
 	$edges = "";
-		$one = $this->tree_schema($v0, $weed,"1");
+		$one = $this->tree_schema($v0, $weed,"1","1");
 		
 		$nodetitle = $one['nodetitle'];
 		//$weed = $one['weed'];
@@ -202,7 +276,7 @@ class Trees extends CI_Controller {
 		//echo sizeof($one['fruit']);
 		if (sizeof($one['fruit'])>0) {
 			for($i=0; $i< (sizeof($one['fruit'])); $i++){
-				$two = $this->tree_schema($one['fruit'][$i],$weed,"1");
+				$two = $this->tree_schema($one['fruit'][$i],$weed,"1","1");
 				array_push($weed, $one['fruit'][$i]);
 				//var_dump($two); exit;
 				$edges .= $two['edges'];
@@ -211,7 +285,7 @@ class Trees extends CI_Controller {
 				  //echo 'tuko '. var_dump($weed) .'second array';exit;
 					for($j=0; $j< (sizeof($two['fruit'])); $j++){
 					
-						$three = $this->tree_schema($two['fruit'][$j], $weed,"0");
+						$three = $this->tree_schema($two['fruit'][$j], $weed,"0","1");
 						//array_push($weed, $two['fruit'][$i]);
 						$edges .= $three['edges'];
 						$node_arr .= $three['nodearray'];
@@ -232,14 +306,14 @@ class Trees extends CI_Controller {
 	}
 	
 	
-	function tree_schema($v, $weed,$alpha){
+	function tree_schema($v, $weed,$alpha, $filter){
 		$fruit= array();
 		$valz = array();
 		$node_array = "";//$node_arr . ',';
 		$nodes = "";
 		$edges = "";
 		//$node_arr = $this->clean_array($node_arr);
-		$child0_ = $this->tree->get_entries('ID',$v);
+		$child0_ = $this->home->get_entries('ID',$v);
 		$nodetitle = $child0_[0]['Name'];
 		$child0 = explode(',',$child0_[0]['EntityMap']);
 	//var_dump($v);
@@ -262,7 +336,7 @@ class Trees extends CI_Controller {
 		}
 	//	var_dump($valz); 
 		//echo count($valz);//exit;
-		$tree = $this->tree_build($valz,$v,$alpha);
+		$tree = $this->tree_build($valz,$v,$alpha,$filter);
 		$node_array = $tree['node_arr'];
 		$edges = $tree['edges'];
 		$fruit = $tree['fruit'];
@@ -273,6 +347,7 @@ class Trees extends CI_Controller {
 		$level= array();
 		$level['nodetitle']=$nodetitle;
 		$level['nodearray']= $node_array;
+		$level['filter']=$filter;
 		$level['alpha']=$alpha;
 		$level['edges']=$edges;
 		$level['fruit']=$fruit;
@@ -281,7 +356,8 @@ class Trees extends CI_Controller {
 	}
 	
 	
-	function tree_build($branch,$stem,$alpha){
+	
+	function tree_build($branch,$stem,$alpha, $filter){
 	//var_dump($branch);// exit;
 		//echo $stem; exit;
 		$fruit= array();
@@ -296,11 +372,13 @@ class Trees extends CI_Controller {
 		$edges = "";
 		//echo sizeof($branch);
 	//	echo (!in_array(array($stem), explode(',',$node_array)))?  'true - '.$stem:  'false';
-		$node_array = $stem . '|0 |' . $alpha.',';
+		$node_array = $stem . '|0|' . $alpha.'|0,';
 		if ( !isset($stm) ) {
 		$stm[] = $stem;
- 		$edges .= "'" . str_replace(".","",str_replace(" ","_",$root_Name[0]))."_". $stm[0] . "':{";
-
+		//$edge_name = str_replace(".","",str_replace(" ","_",$root_Name[0]));
+		$edge_name = preg_replace('/[^a-z\d ]/i', '', $root_Name[0]);
+		$edge_name = str_replace(' ','_',str_replace('/','_',$edge_name));
+ 		$edges .= "'" . $edge_name ."_". $stm[0] . "':{";
 		}
 		//	echo sizeof($branch). ',';
 		for($k=0;$k<count($branch); $k++){
@@ -311,12 +389,12 @@ class Trees extends CI_Controller {
 	 			
 		 	   for($i=0; $i < sizeof($child); $i++){
 		 		$child_Name = explode(':',$child[$i]['Name']);
-				$edges .= "'". str_replace(".","",str_replace(" ","_",$child_Name[0])) ."_". $child[$i]['ID']."':{},";
-			
-				$node_array .=  $child[$i]['ID'] .'|'. $branch[$k]['dataset'] .'|' . $alpha . ',' ;
+		 		//str_replace(".","",str_replace(" ","_",$child_Name[0]))
+		 		$edge_name = preg_replace('/[^a-z\d ]/i', '', $child_Name[0]);
+				$edge_name = str_replace(' ','_',$edge_name);
+				$edges .= "'". $edge_name ."_". $child[$i]['ID']."':{},";
+				$node_array .=  $child[$i]['ID'] .'|'. $branch[$k]['dataset'] .'|' . $alpha . '|1,' ;
 				$fruit[] = $child[$i]['ID'];
-			
-				
 			    }
 			}
 			if($k==10) break;
@@ -327,7 +405,7 @@ class Trees extends CI_Controller {
 		unset($stm);			
 		}
 		//var_dump(explode(',',$node_array)); 
-		//$tree['nodes'] = $nodes;
+		$tree['filter'] = $filter;
 		$tree['node_arr'] = $node_array;
 		$tree['edges'] = $edges;
 		$tree['fruit'] = $fruit;
@@ -349,28 +427,39 @@ class Trees extends CI_Controller {
 		$dta = $this->tree->get_dataset_map($dt,$v0);
 //var_dump($dta); exit;
 		foreach($dta as $k => $d){
+		
 			foreach($d as $j => $f){ $flds[]= $j; }
+			
 			break;
 		}
 		
 		foreach($flds as $f){
+		 
 			for($i=0; $i<sizeof($dta); $i++){
-				$ids[] = $dta[$i][$f];
-			}
+			$e = explode(',', $dta[$i][$f]);
+				for($j=0; $j<sizeof($e); $j++){
+				$ids[] = $e[$j];
+				}
+				//var_dump($dta);
+				//$ids[] = $dta[$i][$f];
+				
+				//array_push($weed,$v0);
+			} 
 		}
-		$ids = $this->clean_array($ids);
 		
+		$ids = $this->clean_array($ids);
+		//var_dump($ids); exit;
 		foreach ($ids as $i){
 			if($i != $v0){
 		 	$valz[] = array('ID'=>$i,'dataset'=>'0');
 		 	}
 		}
 		
-		$one = $this->tree_build($valz,$v0,1);
+		$one = $this->tree_build($valz,$v0,1,0);
 		//var_dump($one); exit;
 		$nt = $this->tree->get_entries('ID',$v0);
 		$nodetitle = $nt[0]['Name'];
-		$tr = array('nodes'=>$one['node_arr'], 'edges'=>$one['edges'], 'nodeTitle' => $nodetitle);
+		$tr = array('nodes'=>$one['node_arr'], 'edges'=>$one['edges'], 'nodeTitle' => $nodetitle, 'alpha'=>1, 'filter'=>$one['filter']);
 		return $tr;	
 	}
 
