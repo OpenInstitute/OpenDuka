@@ -12,7 +12,7 @@
 				<div class="page-header">
 					<h1>API Key</h1>
 					<p>
-					To be able to use OpenDuka's API you need an API key. You can sign up for a key <a href="&lt;?php echo base_url();?&gt;index.php/api">here</a>.<br>
+					To be able to use OpenDuka's API you need an API key. You can sign up for a key <a href="&lt;<?php echo base_url();?>&gt;index.php/api">here</a>.<br>
 					Please note that you can only have one API key per app - where an app is defined as the root URL of your application that uses this API. <br>
 					</p>
 				</div>
