@@ -19,6 +19,6 @@ application/*
 !application/models
 !application/controllers
 
-!assets/db
+!assets/*
 application/config/database.php
 application/config/config.php
