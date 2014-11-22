@@ -78,6 +78,7 @@ class api extends CI_Controller {
 		}
 	}
 	public function entity(){
+	//$this->output->enable_profiler(true); 
 		$this->load->model('api_m');
 		if((!isset($_GET['key']))||(!isset($_GET['id']))){
 			$result = array("error"=>"missing key and or entity id");
@@ -87,8 +88,10 @@ class api extends CI_Controller {
 			if($this->api_m->valid_key($_GET['key']))
 			{
 				$doc = array();
+			//	echo $_GET['id']; exit;
 				$result = $this->api_m->get_entries('ID',$_GET['id']);
 				$docmap = explode(',',$result[0]['DocID']);
+				//var_dump($docmap); exit;
 				foreach($docmap as $k => $d){
 				
 				  if(!in_array($d, $doc)){ 
@@ -97,22 +100,24 @@ class api extends CI_Controller {
 				}
 				
 				$maps= '{"data":[';
-				//var_dump($root_node);
+				//var_dump($doc);
 				if(sizeof($doc)>0){
 					for($i=0; $i<sizeof($doc); $i++){
 					$doc_ref = $doc[$i];
 					if (isset($doc_ref)){
 					$dataset = $this->api_m->get_doc($doc_ref);
-					//var_dump($dataset); 
+					
 				$maps.= '{"dataset_type":[{"'. $dataset[0]['DocTypeName'] .'": [{"dataset":';	
 					$dt=$dataset[0]['data_table'];
 					$dtID=$dataset[0]['DocTypeID'];
 						if($dt!=""){
+						
 							$d=1; 
 							$ds=$dataset[0]['representation'];
 							$q = ($ds=="")? '*' : $ds;
 
 							$dta = $this->api_m->get_dataset($dt,$q,$_GET['id']);
+							var_dump($dta); 
 				$maps.=			json_encode($dta);
 							
 						}

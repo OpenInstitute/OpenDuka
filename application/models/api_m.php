@@ -87,7 +87,7 @@ class Api_m extends CI_Model {
     	
     	function get_entries($field,$var)
    	{
-    		$this->db->where($field,$var); 
+    	$this->db->where($field,$var); 
 		$this->db->select();
 		$this->db->from('Entity');
 		$this->db->where('Merged', 0);
@@ -125,10 +125,11 @@ class Api_m extends CI_Model {
 	      //} else {return '';}
     	}
     	
-    	function get_dataset($tbl,$q,$id)
+    function get_dataset($tbl,$q,$id)
 	{
 	    $ar=array();
 	    $ra=array();
+	    $c=0;
 	    $flds = $this->db->field_data($tbl);
 		    foreach($flds as $f ) {
 		    	if (substr($f->name,-3,3)=='_E_') {
@@ -139,13 +140,30 @@ class Api_m extends CI_Model {
 		  	$Entity_field[]= $f->name;
 	    	    }
 	    	$qu = ($q=='*') ? implode(',',$Entity_field) : $q .','. implode(',',$Entity_id);
-	   // echo $qu;
+	  //  echo $qu;
 			$this->db->select($qu);
 			$this->db->from($tbl);
 			$this->db->limit(50); 
-				foreach($Entity_id as $r){		
-				$this->db->or_where($r,$id); 
-				}     
+			
+			foreach($Entity_id as $f ) {
+			//echo $f; exit;
+				if (substr($f,-3,3)=='_E_') {
+		   	// $Entity_id[]= $f->name;
+		   	 
+			   		if ($c==0) {
+						//$l = "where  `".$f->name."` LIKE '%,".$id.",%'"; 
+						$this->db->like($f,$id);
+					} else {
+						//$l .= " or `". $f->name. "` LIKE '%,".$id.",%'"; 
+						$this->db->or_like($f,$id); 
+					}
+					$c++;
+		  		} 
+		  	}
+			
+				//foreach($Entity_id as $r){		
+			//	$this->db->or_where($r,$id); 
+				//}     
 		$query = $this->db->get();
 		return $query->result_array();
 	}

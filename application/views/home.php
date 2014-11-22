@@ -281,7 +281,11 @@ if (!empty($nodes)){
 			</div>	
 		</div>
 		<div id="right-container" class="hide panel panel-default">
-			<div class="panel-heading"></div>
+			<div class="panel-heading">
+				<div class="panel-left col-lg-5"></div>
+				<div class="panel-right col-lg-5 text-right"></div>
+			</div>
+			
 			<div class="panel-body">
 				<div class="col-md-12 col-lg-12" id="inner_details"></div>
 			</div>
@@ -326,6 +330,29 @@ if (!empty($nodes)){
 			$('#embedform').toggle( "slide" );
 		});
 		
+		function dload(nodeid) { 
+		myWindow = window.open("<?php echo base_url();?>index.php/homes/excelDownload/"+nodeid, "MsgWindow", "width=400, height=100");
+		alert("Download Complete. Check your Downloads Folder. Thankyou for visiting Open Duka.");
+			/*$.ajax( {
+				url: "",
+				type: "POST",
+				data: {node: nodeid},
+				// async: false,
+				//dataType: "json",
+				//contentType: "application/json",
+				success:function(d) {
+					alert("Download Successful");
+				},
+			    error: function(xhr, status, error) {
+					alert(xhr.error);
+			    }
+			});*/
+			myWindow.close(); 
+			
+		}
+		
+			
+		
 		function NodeStory(nodeid) {
 		// abort any pending request
 		//alert(nodeid);
@@ -357,13 +384,15 @@ if (!empty($nodes)){
 				
 					l = d.data[1].header[0].Link;
 					pn = d.data[1].header[0].Name;
+					//id = d.data[1].header[0].ID;
 		
 					extradata = d.data[0].posts[0].ExtraData;
 					extradata = rhtmlspecialchars( extradata );
 					//alert(extradata);
 					$("#inner_details").html( extradata );
 					//$("#inner_details").append( extradata );
-					$(".panel-heading").html('<img src="<?php echo base_url();?>assets/img/Network.png" style="height: 25px;" > <a href="'+ l +'#node">'+ pn +'</a>');
+					$(".panel-left").html('<img src="<?php echo base_url();?>assets/img/Network.png" style="height: 25px;" > <a href="'+ l +'#node">'+ pn +'</a>');
+					$(".panel-right").html('<a href="#" onclick="dload('+ nodeid +'); return false;"><img src="<?php echo base_url();?>assets/img/download_icon.png" style="height: 25px;" > </a>');
 					$('#right-container').removeClass("hide"); 
 					$('#right-container-top').removeClass("hide").addClass("col-md-4 col-lg-4");
 					  

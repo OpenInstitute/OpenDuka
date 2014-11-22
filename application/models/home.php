@@ -139,7 +139,7 @@ class Home extends CI_Model {
     	is_array($nodeid) ? $this->db->where_in('ID',$nodeid) : $this->db->where('ID',$nodeid);
     	$this->db->select();
     	
-	$this->db->from('Entity'); 
+		$this->db->from('Entity'); 
 		//if (is_array($nid)){ echo 'true';} else { echo 'false';}
 		
 		/*if (is_array($nid)){
@@ -270,27 +270,26 @@ class Home extends CI_Model {
 	    	if (substr($f->name,-3,3)=='_E_') {
 	   	// $Entity_id[]= $f->name;
 	   	 
-	   		if ($c==0) {
-				$l = "where  `".$f->name."` LIKE '%,".$qid.",%'"; 
-			} else {
-				$l .= " or `". $f->name. "` LIKE '%,".$qid.",%'";  
-			}
-			$c++;
-	  	} 
+		   		if ($c==0) {
+					$l = "WHERE  `".$f->name."` LIKE '%,".$qid.",%'"; 
+				} else {
+					$l .= " OR `". $f->name. "` LIKE '%,".$qid.",%'";  
+				}
+				$c++;
+	  		} 
 	  	/*else {
 	  	 $Entity_field[]= $f->name;
 	  	}*/
 	  	$Entity_field[]= $f->name;
-    	    }
+    	}
+    	//echo $l;
     	$qu = ($q=='*') ? implode(',',$Entity_field) : $q ;
     	$data ="SELECT $qu FROM $tbl $l ";
-    	//echo $data;
+    	//echo $data; exit;
      $result = $this->db->query( $data );
     // var_dump($result);
      return  $result->result_array();
      
-     
-
 		/*$this->db->select($qu);
 		$this->db->from($tbl);
 		$this->db->limit(50); 

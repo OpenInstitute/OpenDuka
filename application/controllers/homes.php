@@ -876,6 +876,101 @@ class Homes extends CI_Controller {
 		
 	return $form_f;	
 	}
+	
+	function excelDownload($n) {
+	//$this->output->enable_profiler(true); 
+		
+		$child_node = $this->home->get_node($n);
+
+		$docmap = explode(',',$child_node[0]['DocID']);
+		
+		$docmap = $this->clean_array($docmap);
+		
+//var_dump($docmap); exit; 
+        // Starting the PHPExcel library
+				$this->load->library('PHPExcel');
+				$this->load->library('PHPExcel/IOFactory');
+		 		 
+				$objPHPExcel = new PHPExcel();
+				$objPHPExcel->getProperties()->setTitle("export")->setDescription("none");
+		 		
+		 		
+		if(sizeof($docmap)>0){
+		
+			for($i=0; $i<sizeof($docmap); $i++){
+			//echo $docmap[$i];exit;			
+			// Add new sheet
+			$objPHPExcel->createSheet($i); //Setting index when creating
+		 	//$objWorkSheet = $objPHPExcel->getActiveSheet();//$objPHPExcel->getSheet($i);
+		 	$objPHPExcel->setActiveSheetIndex($i);
+			$table_name = $this->home->get_doc($docmap[$i]);
+			//var_dump($table_name);
+			$tbl = $table_name[0]['data_table'];
+			$objPHPExcel->getActiveSheet()->setTitle($tbl);
+			//	echo $table_name[0]['representation']; exit;
+			$q   = ($table_name[0]['representation'] == "") ? "*" : $table_name[0]['representation'];
+			//echo $n;
+		 	$query = $this->home->get_dataset($tbl,$q,$n);
+		 	//var_dump($query);exit;
+		 	// echo sizeof($query); exit;
+		 	
+			 	//if (sizeof($query)>0) {
+			 	for($j=0; $j<sizeof($query); $j++){
+				//echo sizeof($qu); exit;	
+			
+ 			 		if ($j==0) {
+ 			 		$Entity_id =[];
+	 				$fields = [];
+						foreach($query[0] as  $key => $val){
+							if (substr($key,-3,3)=='_E_') {
+					   	  		$Entity_id[]= $key;
+					  		}
+					  		else{
+								$fields[] =  $key;//str_replace("_"," ", $key)  ;
+							}
+						}
+					//var_dump($fields); exit;	
+						// Field names in the first row
+						$col = 0;
+						foreach ($fields as $field)
+						{
+							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $field);
+							$col++;
+						}
+					
+					}
+					
+					// Fetching the table data
+					$row = 2;
+					//foreach($query[$j] as $key => $data){
+					for($k=0; $k<sizeof($query); $k++){
+					 //var_dump($query[$k]); exit;
+						$col = 0;
+						foreach($query[$k] as $field => $fdata)
+						{
+						// echo $fdata; exit;
+							if (substr($field,-3,3)!='_E_') {
+						    	$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, $fdata);
+						    }
+						    $col++;
+						}
+						$row++;
+					}
+					// Create a new worksheet, after the default sheet
+					//$objPHPExcel->createSheet($i);
+				}
+		 	}
+		}
+		$objWriter = IOFactory::createWriter($objPHPExcel, 'Excel5'); 
+		// Sending headers to force the user to download the file
+		$filename='OpenDuka_'. $n .'.xls'; //save our workbook as this file name
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+ 
+		$objWriter->save('php://output');
+	
+	}
 }
 
 /* End of file posts.php */
