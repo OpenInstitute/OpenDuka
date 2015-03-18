@@ -34,11 +34,11 @@
   
 </div>
 <div class = "row col-md-4 col-lg-4 marg" id="partners" >
-  <form name="ml"  method="post"> 
+  <form role="form" method="post" action="<?php echo base_url() . index_page(); ?>/email" id="mailinglist">
     <h3>Mailing List </h3>
-    <p>This dashboard is a work in progress (and a labour of love) for us and we shall continue to add new features and data. Sign up here if you want to keep in touch with the progress we make. </p>
-        <!--<h4>Name</h4>--><input type="text" name="subscriber" value="" placeholder="Enter Name" /></br></br>
-      <!--<h4>Email</h4>--><input type="text" name="email" value="" placeholder="Enter email address" /></br></br>
+    <p>Open Duka is a work in progress (and a labour of love) for us and we shall continue to add new features and data. Sign up here if you want to keep in touch with the progress we make.</p>
+      <input type="text" name="cname" value="" placeholder="Enter Name" class="form-control" /></br>
+      <input type="text" name="email" value="" placeholder="Enter email address" class="form-control" /></br>
       <input type="submit" name="submit" value="Submit" class="btn btn-primary" />
     </form>
 </div>
@@ -50,9 +50,13 @@
       <div id="footer" class="navbar-inverse row">
         <div class="footer-links pull-left">
           <a href="<?php echo base_url() . index_page(); ?>/about">About Us&nbsp;</a>|
+<!--
           <a>&nbsp;Terms&nbsp;</a>|
+-->
           <a href="https://github.com/OpenInstitute/OpenDuka/">&nbsp;Get the code&nbsp;</a>|
+<!--
           <a>&nbsp;Support us</a>
+-->
         </div>
 
         <div class="copyright col-md-7 col-lg-7">

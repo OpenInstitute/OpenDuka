@@ -19,7 +19,6 @@ class Admin_model extends CI_Model {
 		$this->db->from('DocUploaded');    
 		$this->db->where('title', trim($DocName));   
         	$query = $this->db->get();
-
 	        return $query->result_array();
     }
     
@@ -38,7 +37,17 @@ class Admin_model extends CI_Model {
 		return null;
     }
 
-
+	function get_document_details($DocID)
+    {
+		        	
+		$this->db->select();
+		$this->db->from('DocUploaded');
+		$this->db->where('ID ', $DocID);
+	        $query = $this->db->get();
+	        return $query->result_array();
+	      
+    }
+    
 
     function insert_document($DocName, $DocType=1)
     {
@@ -187,7 +196,7 @@ class Admin_model extends CI_Model {
     
     function update_entity($data)
     {
-	$this->db->where('ID', $data['ID']);        
+		$this->db->where('ID', $data['ID']);        
         $this->db->update('Entity', $data);
     }
     
@@ -370,7 +379,7 @@ class Admin_model extends CI_Model {
     function populate_table($query)
     {
 
-	return $this->db->query($query);
+		return $this->db->query($query);
     }
  
     function dataset_edit($tbl, $rep)
@@ -382,7 +391,7 @@ class Admin_model extends CI_Model {
     }
     
 
-    function extract_entity($fild,$tab,$docid, $UID, $DocTypeID)
+    function extract_entity($fild,$tab,$docid, $UID, $DocTypeID,$CountryID)
     {
     
     $fieldname = $fild .'_E_';
@@ -395,8 +404,8 @@ class Admin_model extends CI_Model {
 	//$query = $this->db->get();
 	$k=0;
 	
-	if ($query->num_rows() > 0)
-	{
+		if ($query->num_rows() > 0)
+		{
 		$q=$query->result_array();
 //var_dump($q); exit;
 		   for($i=0;$i<sizeof($q); $i++)
@@ -404,29 +413,45 @@ class Admin_model extends CI_Model {
 			//echo $q[$i][$fild]; exit;   
 		  	$EID = '';
 				foreach(explode(',',$q[$i][$fild]) as $entity) {
-		    		if ($entity != '') {
+		    		if (trim($entity) != '') {
 			    	$this->db->select();
 					$this->db->from('Entity'); 
-					$this->db->where('Name', $entity);
+					$this->db->where('Name', trim($entity));
 					$this->db->where('Merged', 0);
 					$this->db->limit(1);
 					$query = $this->db->get();
-					if ($query->num_rows() > 0)
-					{ 
-					$Entity = $query->result_array();
-					$EID .=	$Entity[0]['ID'] .',';
-					//$docs = explode(',', $Entity[0]['DocID'];
-					}
-					else {
-					$data['DocID'] =  $docid .",";
-					$data['Name'] =  $entity;
-			    		$this->db->insert('Entity',$data);
-			    		$EID .= $this->db->insert_id() .',';
-					}
-			
+						if ($query->num_rows() > 0)	{
+						$Entity = $query->result_array();
+						$EID .=	$Entity[0]['ID'] .',';
+						//$docs = explode(',', $Entity[0]['DocID'];
+						$docid = $Entity[0]['DocID'] . $docid;
+						$docids= $this->clean_array(explode(',', $docid));
+						
+						$doctypeid = $Entity[0]['DocTypeID'] . $DocTypeID;
+						$doctypeids= $this->clean_array(explode(',', $doctypeid));
+						
+						$countryid = $Entity[0]['CountryID'] . $CountryID;
+						$countryids= $this->clean_array(explode(',', $countryid));
+						
+								$this->db->set('DocTypeID', implode(',', $doctypeids) .',');
+								$this->db->set('DocID', implode(',', $docids) .',');
+								$this->db->set('CountryID', implode(',', $countryids) .',');
+								$this->db->set('CleanEntity', '1');
+								$this->db->where('ID', $Entity[0]['ID']);
+								$this->db->update('Entity');
+						} else {
+						
+						$data['DocID'] =  $docid .",";
+						$data['DocTypeID'] =  $DocTypeID .",";
+						$data['CountryID'] =  $CountryID .",";
+						$data['CleanEntity'] = '1';
+						$data['Name'] =  trim($entity);
+							$this->db->insert('Entity', $data);
+							$EID .= $this->db->insert_id() .',';
+						}
 		    		}
+		    		$k++;
 		    	}
-		    	
 		    	
 		    	 $this->db->query("UPDATE $tab SET `$fieldname` = CONCAT(`". $fieldname."`,'". $EID ."') WHERE id =". $q[$i]['id'] ); 
 		    	//exit;
@@ -451,10 +476,25 @@ class Admin_model extends CI_Model {
 	    	$this->db->update($tab, $dta);
 	      $k++;
 	      } */
-	}
+		}
 
 	return $k;
 	      
     }
+    
+    
+    function clean_array($arr){
+	//var_dump($arr);
+	$new_arr = array();
+		if(is_array($arr)){
+			$arr = array_unique($arr);
+			$arr = array_filter($arr);
+			
+			 foreach ($arr as $val){
+			 	$new_arr[] = $val;
+			 }	
+		}
+		return $new_arr;
+	}
     
 }

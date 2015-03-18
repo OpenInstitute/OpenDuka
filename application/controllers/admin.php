@@ -372,8 +372,8 @@ class Admin extends CI_Controller {
     
     function ListFieldEntityEdit(){
      //$this->output->enable_profiler(TRUE); 
-     	$stabs = $this->input->post('STab');
-	//$doc_info = $this->admin_model->get_document_ref($stabs);
+    $stabs = $this->input->post('STab');
+	$doc_info = $this->admin_model->get_document_ref($stabs);
 	//$representation = explode(",",(str_replace(" ","",(str_replace("`","",$doc_info[0]['representation'])))));
 //echo($stabs);
 	//var_dump($doc_info); exit;
@@ -400,7 +400,7 @@ class Admin extends CI_Controller {
 	}	
 	
 	 $list .= '<div class="spacer">
-	 		 <input type="hidden" value="2" name="DocumentType"/>
+	 		 <input type="hidden" value="'.$doc_info[0]['DocTypeID'].'" name="DocumentType"/>
 			 <input type="hidden" value="'. $stabs .'" name="tablename"/>
 			 <input type="button" class="DatasetEditBT" value="Submit" id="DatasetEditBT"/>
 		   </div>';
@@ -413,22 +413,24 @@ class Admin extends CI_Controller {
     
     
     function EntityExtract(){
-   // $this->output->enable_profiler(TRUE); 
-   
-   	$table_name = $this->input->post('tablename');
-   	$DocumentType = $this->input->post('DocumentType');
-   	//$Verb = $this->input->post('Verb');
-   	$DocName = (strlen(trim($this->input->post('DocName'))) >= 4) ? str_replace(' ', '_', $this->input->post('DocName')) : '';
-   	$viwanja = $this->input->post('Extract');
-   	
-   	if (strlen($DocName) >= 4) { $this->admin_model->table_name_change('NewTable', $DocName); } 
-   	else { $DocName =$table_name; }
-   	
-   	$DocID = $this->admin_model->get_document_entry($DocName) ? : $this->admin_model->insert_document($DocName, $DocumentType);
+	   //$this->output->enable_profiler(TRUE); 
+	   
+	   	$table_name = $this->input->post('tablename');
+	   	$DocumentType = $this->input->post('DocumentType');
+	   	//$Verb = $this->input->post('Verb');
+	   	$DocName = (strlen(trim($this->input->post('DocName'))) >= 4) ? str_replace(' ', '_', $this->input->post('DocName')) : '';
+	   	$viwanja = $this->input->post('Extract');
+	   	
+	   	if (strlen($DocName) >= 4) { $this->admin_model->table_name_change('NewTable', $DocName); } 
+	   	else { $DocName = $table_name; }
+	   	
+	   	$DocID = $this->admin_model->get_document_entry($DocName) ? : $this->admin_model->insert_document($DocName, $DocumentType);
+	   	$DocDetails = $this->admin_model->get_document_details($DocID);
+	   	$CountryID = $DocDetails[0]['CountryID'];
 	
-	//var_dump($viwanja); exit;
-	//var_dump($Verb);
-	//echo $DocumentType; exit;
+		//var_dump($viwanja); exit;
+		//var_dump($Verb);
+		//echo $DocumentType; exit;
 
     	$list ="Records Submitted ";
     	$l=0;
@@ -436,7 +438,7 @@ class Admin extends CI_Controller {
 //echo $viwanja[$i]; exit;
 		$this->admin_model->fieldcheck($viwanja[$i], $DocName);
 
-    	$l += $this->admin_model->extract_entity($viwanja[$i], $DocName, $DocID, $this->session->userdata('user_id'), $DocumentType);
+    	$l += $this->admin_model->extract_entity($viwanja[$i], $DocName, $DocID, $this->session->userdata('user_id'), $DocumentType, $CountryID);
 
     	}
     		

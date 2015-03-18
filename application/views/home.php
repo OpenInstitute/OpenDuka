@@ -12,7 +12,7 @@ if(!isset($list) && empty($nodes))
 		</div>
 		<br/><br/>
 
-			<!-- Search -->
+	<!-- Search -->
 	<div class="row">
 		<div class="container" style= "color:#ffffff">
 			<p><?php echo $error;?></p>
@@ -23,9 +23,11 @@ if(!isset($list) && empty($nodes))
       <input type="text" name="search_name" placeholder= "Search by name, company or organisation" class="input form-control"/>
       <span class="input-group-btn">
       	<!--<input type="submit" value="Go!" class="btn btn-primary" />*/-->
-        <input class="btn btn-default" type="image" src="./assets/img/search-20.png" alt="Submit"/>
+        <input class="btn btn-default" type="image" src="<?php echo base_url(); ?>/assets/img/search-20.png" alt="Submit"/>
       </span>
     </div>
+    <!--
+    <div style= "color:#000000">From region <input type="radio" value="0" checked name="countryid"> All  <input type="radio" value="1" name="countryid"> Kenya  <input type="radio" value="2" name="countryid"> Uganda  <input type="radio" value="3" name="countryid"> Tanzania</div> -->
 			</form>
 		</div>
 		</div>
@@ -178,8 +180,8 @@ if (isset($list))
 			<input type="submit" name="submit" value="Go" class="btn btn-warning" />
 		  </form>
 		</div> <!-- #search -->
-	</div>
-	<div class="row">
+	 </div>
+	<!-- <div class="row">
 		<div id="sortment">
 			<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/A"; ?>'>A</a>
 			<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/B"; ?>'>B</a>
@@ -208,12 +210,13 @@ if (isset($list))
 			<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Y"; ?>'>Y</a>
 			<a href='<?php echo base_url() . index_page() ."/homes/". $func."/".$term . "/Z"; ?>'>Z</a>
 		</div>
-	</div>
+	 </div>-->
 	
-	<div class="row" id="fruits">
+	 <div class="row" id="fruits">
 		<div class="col-md-12 col-lg-12" >
 	            <?php echo $list; ?>
 		</div>
+		<div style="clear: both;"></div>
 		<div class="col-md-12 col-lg-12 text-center">
 		    <?php echo $pages; ?>
 		</div>

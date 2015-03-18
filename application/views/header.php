@@ -77,7 +77,8 @@
           </li>
           <li><a href="http://openinstitute.com/category/open-duka/">Blog</a></li>
           <li><a href="<?php echo base_url() . index_page(); ?>/faq">FAQ</a></li>
-          <li><a href="<?php echo base_url() . index_page(); ?>/contact">Feedback</a></li>
+          <li><a href="<?php echo base_url() . index_page(); ?>/donate"   style="background-color: teal;
+  color: white !important;">Donate</a></li>
         </ul>
       </div><!--/.nav-collapse -->
 

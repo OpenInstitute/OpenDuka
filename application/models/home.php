@@ -17,6 +17,7 @@ class Home extends CI_Model {
     	
 		$this->db->select();
 		$this->db->from('Entity');
+		$this->db->where('CleanEntity',1); 
 		$this->db->where('EntityTypeID', $var);
 	       // $query = $this->db->get();
 	        return $this->db->count_all_results();
@@ -34,8 +35,9 @@ class Home extends CI_Model {
     	//var_dump($cats);
 	    for($f=0; $f<count($cats); $f++) {
 	    
-	    	$this->db->select();
+	    $this->db->select();
 		$this->db->from('Entity');
+		$this->db->where('CleanEntity',1); 
 		$this->db->like('DocTypeID', $cats[$f]['ID'].',');
 		$catCount =  $this->db->count_all_results();
 		
@@ -51,6 +53,7 @@ class Home extends CI_Model {
 		$this->db->select();
 		$this->db->from('Entity');  
 		$this->db->order_by('ID','desc');
+		$this->db->where('CleanEntity',1); 
 		$this->db->where('Merged', '0'); 
 		$this->db->limit(15);
         $query = $this->db->get();
@@ -61,6 +64,7 @@ class Home extends CI_Model {
     {
 		$this->db->select();
 		$this->db->from('Entity');
+		$this->db->where('CleanEntity',1); 
 		$this->db->order_by('MostVisited','desc'); 
 		$this->db->limit(15);
         $query = $this->db->get();
@@ -109,9 +113,11 @@ class Home extends CI_Model {
 
     function get_entries($field,$var)
     {
+   // var_dump($var); exit;
     	is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
 		$this->db->select();
 		$this->db->from('Entity');
+		$this->db->where('CleanEntity',1); 
 		$this->db->where('Merged', 0);
 		//$this->db->limit(10);   
 		//if($this->db->count_all_results()>0){  
@@ -183,14 +189,19 @@ class Home extends CI_Model {
 	   //   "SELECT `ID`,EntityMap, Verb FROM `Entity` where `EntityMap`  like '2717,%' or `EntityMap`  like '%,2717,%' or `EntityMap`  like ',2717|%' or `EntityMap`  like '%|2717|%' or `EntityMap`  like  '%|2717' or `EntityMap`  like '2717|%'"
     }
 
-    function get_entry_cont($tag,$entityname,$page_num=1, $results_per_page=15,$sortment)
+    function get_entry_cont($tag,$entityname, $countryid,$page_num=1, $results_per_page=15,$sortment)
     {
-    	if ($page_num < 1)
-        {
-            $page_num = 1;
+    	if ($page_num < 1)  {  $page_num = 1; }
+        
+        if ($sortment=="") {$sortment="";} else {$sortment = " AND Name like '$sortment%'";}
+        
+        if ($countryid ==0) { $cid = ""; } else { $cid = " AND countryid = ". $countryid; }
+        
+		if ($entityname=="") {
+        $result = $this->db->query("SELECT * FROM Entity WHERE CleanEntity=1 AND Merged=0 $cid $sortment ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+        } else {
+         $result = $this->db->query("SELECT * FROM Entity WHERE $tag LIKE '$entityname%' AND CleanEntity=1 AND Merged=0 $cid $sortment ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
         }
-
-        $result = $this->db->query("SELECT * FROM Entity WHERE $tag LIKE '%$entityname%' AND Merged=0 AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }
@@ -201,7 +212,7 @@ class Home extends CI_Model {
         {
             $page_num = 1;
         }
-        $result = $this->db->query("SELECT * FROM Entity WHERE $tag like '$entityname,%'  AND Name like '$sortment%' OR $tag like '%,$entityname,%' AND Name like '$sortment%'  ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+        $result = $this->db->query("SELECT * FROM Entity WHERE $tag like '$entityname,%'  AND Name like '$sortment%' OR $tag like '%,$entityname,%' AND CleanEntity=1 AND Name like '$sortment%'  ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }
@@ -213,24 +224,28 @@ class Home extends CI_Model {
             $page_num = 1;
         }
 
-        $result = $this->db->query("SELECT * FROM Entity WHERE $tag = $entityname AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
+        $result = $this->db->query("SELECT * FROM Entity WHERE $tag = $entityname AND CleanEntity=1 AND Name like '$sortment%' ORDER BY Name LIMIT ". ($page_num - 1) * $results_per_page .", $results_per_page");
 	return $query = $result->result_array();
 	
     }
 
 
     function get_entry_count($tag,$entityname){
-    		$this->db->select();
+    	$this->db->select();
 		$this->db->from('Entity');
-		$this->db->like($tag,$entityname); 
+		$this->db->where('CleanEntity',1); 
+		if ($entityname!=""){
+		$this->db->like($tag,$entityname,'after'); 
+		}
 		$query = $this->db->get();
      		return $query->num_rows();
    }
    
    function get_entry_count_b($tag,$entityname,$tag2, $sortment){
-    		$this->db->select();
+    	$this->db->select();
 		$this->db->from('Entity');
 		$this->db->where($tag,$entityname);
+		$this->db->where('CleanEntity',1); 
 		$this->db->like($tag2,$sortment,'after');
 		$query = $this->db->get();
      		return $query->num_rows();
@@ -241,6 +256,7 @@ class Home extends CI_Model {
 		$this->db->select();
 		$this->db->from($tag);
 		$this->db->where('DocID',$docid);  
+		
 		$this->db->limit(6);     
         $query = $this->db->get();
         return $query->result_array();
@@ -249,10 +265,10 @@ class Home extends CI_Model {
     function get_doc($docid)
     {
     
-    	//is_array($var) ? $this->db->where_in($field,$var) : $this->db->where($field,$var); 
+    	is_array($docid) ? $this->db->where_in('ID',$docid) : $this->db->where('ID', $docid); 
 		$this->db->select();
 		$this->db->from('DocUploaded');
-		$this->db->where('ID', $docid);
+		//$this->db->where('ID', $docid);
 		//if($this->db->count_all_results()>0){  
 	        $query = $this->db->get();
 	        return $query->result_array();
@@ -268,12 +284,12 @@ class Home extends CI_Model {
     $flds = $this->db->field_data($tbl);
 	    foreach($flds as $f ) {
 	    	if (substr($f->name,-3,3)=='_E_') {
-	   	// $Entity_id[]= $f->name;
+	   		 $Entity_id_E_[]= $f->name;
 	   	 
 		   		if ($c==0) {
-					$l = "WHERE  `".$f->name."` LIKE '%,".$qid.",%'"; 
+					$l = "WHERE  `". $f->name . "` LIKE '%,".$qid.",%'"; 
 				} else {
-					$l .= " OR `". $f->name. "` LIKE '%,".$qid.",%'";  
+					$l .= " OR `". $f->name . "` LIKE '%,".$qid.",%'";  
 				}
 				$c++;
 	  		} 
@@ -283,7 +299,7 @@ class Home extends CI_Model {
 	  	$Entity_field[]= $f->name;
     	}
     	//echo $l;
-    	$qu = ($q=='*') ? implode(',',$Entity_field) : $q ;
+    	$qu = ($q=='*') ? implode(',',$Entity_field) : $q .','. implode(',', $Entity_id_E_) ;
     	$data ="SELECT $qu FROM $tbl $l ";
     	//echo $data; exit;
      $result = $this->db->query( $data );
@@ -314,18 +330,18 @@ class Home extends CI_Model {
 	    foreach($flds as $f ) {
 	    	if (substr($f->name,-3,3)=='_E_') {
 	    	$Entity_name .= "`". $f->name ."`,";
-			if ($c==0) {
-				$l = "where  `".$f->name."` LIKE '%," . $id . ",%'"; 
-			} else {
-				$l .= " or `". $f->name. "` LIKE '%," . $id . ",%'";  
-			}
+				if ($c==0) {
+					$l = "where  `".$f->name."` LIKE '%," . $id . ",%'"; 
+				} else {
+					$l .= " or `". $f->name. "` LIKE '%," . $id . ",%'";  
+				}
 				$c++;
-	  	}
-    	    }
+	  		}
+    	}
     	    
-    	    $Entity_name = substr($Entity_name,0,-1);
+    	$Entity_name = substr($Entity_name,0,-1);
     	  //  echo "SELECT $Entity_name FROM $tbl $l " ; exit;
-	$result = $this->db->query("SELECT $Entity_name FROM $tbl $l ");
+		$result = $this->db->query("SELECT $Entity_name FROM $tbl $l ");
      	return $query = $result->result_array();
     }
     
@@ -348,5 +364,29 @@ class Home extends CI_Model {
 	        return $query->result_array();
 	      //} else {return '';}
     }
+    
+    function get_country($cid)
+    {
+    
+    	is_array($cid) ? $this->db->where_in('CountryID',$cid) : $this->db->where('CountryID',$cid);
+    	$this->db->select();
+    	
+		$this->db->from('Country'); 
 
+		$query = $this->db->get();
+	        return $query->result_array();
+
+    }
+    
+    function disable_entity($id) {
+    	$this->db->where('ID', $id);
+		$this->db->set('CleanEntity', '0',FALSE); 
+        $this->db->update('Entity');
+    }
+    
+    function fieldcheck($fil,$tab)
+    {
+		return $this->db->field_exists($fil,$tab);
+			
+    }
 }

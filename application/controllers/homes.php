@@ -9,6 +9,7 @@ class Homes extends CI_Controller {
 		$this->load->database();
 		$this->load->library('pagination');
 		$this->load->model('home');
+		$this->load->helper('form');
 
 	}
 	
@@ -167,48 +168,90 @@ class Homes extends CI_Controller {
 	function entitylist($ent="",$page_num=1)
 	{
 	$page_num=($this->uri->segment(4)!="") ? $this->uri->segment(4) : '1';
+	$ent = ($this->uri->segment(3)!="") ? $this->uri->segment(3) : "~";
 	$sortment = ($this->uri->segment(5)!="") ? $this->uri->segment(5) : "";
-//echo $sortment; exit;
+	$countryid = 1;
+//echo $ent;// exit;
 	//$this->output->enable_profiler(TRUE);
 		$data_head = array('page_title' => 'Search results');
-		$EntityName = isset($_POST['search_name']) ? $_POST['search_name'] : $ent ;		
-	//	$EntityName = str_replace(' ','',$EntityName);
+		$EntityName = isset($_POST['search_name']) && ($_POST['search_name']!="") ? $_POST['search_name'] : $ent ;		
+		//echo $EntityName;
+		//
 	//	echo $page_num;
-		$results_per_page=25;
+		$results_per_page=27;
 		
 		$config['use_page_numbers'] = TRUE;
-		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'. $EntityName ;
+		$config['base_url'] = base_url() . index_page().'/homes/entitylist/'. $EntityName .'/' ;
+		
+		$EntityName = str_replace('~','',$EntityName);
+		
 		$config['total_rows'] = $this->home->get_entry_count('Name',$EntityName);
 		$config['per_page'] = $results_per_page; 
 		$config['full_tag_open'] = '<ul class="pagination">';
 		$config['full_tag_close'] = '</ul>';
 		
-		$config['first_link'] = 'First';
-		$config['first_tag_open'] = '<div>';
-		$config['first_tag_close'] = '</div>';
-		/*
-		$config['next_link'] = '';
+		$config['first_link'] = 'FIRST';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		
+		$config['last_link'] = 'LAST';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$config['prev_link'] = 'PREV';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		
+		$config['next_link'] = 'NEXT';
 		$config['next_tag_open'] = '<li>';
 		$config['next_tag_close'] = '</li>';
-		*/
-		$config['cur_tag_open'] = '<li><a href="#">';
-		$config['cur_tag_close'] = '</a></li>';
+		
+		$config['cur_tag_open'] = '<li><a href="#"><b>';
+		$config['cur_tag_close'] = '</b></a></li>';
 		
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
-		$config['num_links'] = 20; 
-       		$config['uri_segment'] = 4;
+		$config['num_links'] = 5; 
+       	$config['uri_segment'] = 4;
+       	
 		$this->pagination->initialize($config); 
 		$pages = $this->pagination->create_links();
-		$content = $this->home->get_entry_cont('Name',$EntityName,$page_num, $results_per_page, $sortment);
+		
+		$content = $this->home->get_entry_cont('Name', $EntityName, $countryid, $page_num, $results_per_page, $sortment);
 //echo $this->uri->segment(4); exit;
-	//	var_dump($content[0]);
+		
 		$list = '';
 		if (is_array($content)){
-			for($i=0;$i< count($content);$i++)
-			{
-			  $list .= "<div class='post'><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></div>"; 
-			}		
+			/*if ((count($content))<15){
+				for($i=0;$i<count($content);$i++){ 
+				if ($k==3){$k=0;}
+					$list .= "<div class='post search-card'><a href=" .site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a></div>";
+					$k++; 
+				}
+					 
+			} else { */
+			$k=0;
+				for($i=0;$i < count($content);$i++)	{	
+				if ($k==3){$k=0;}
+				$countryid = explode(',', $content[$i]['CountryID']);
+				//echo $countryid; exit;
+				$countries = $this->home->get_country($countryid);
+				//var_dump($countries);exit;
+					$list .= "<div class='post col-md-4 col-lg-4'>
+								<div class='search-card'><a href=" . site_url('/homes/tree/'.$content[$i]['ID']). ">". $content[$i]['Name'] . "</a>";
+								
+						foreach($countries as $country){		
+						$list .= "<img src='". base_url() . "assets/img/". $country['CountryFlag'] . "'/>";
+								}
+					$list .= "		</div>
+							  </div>";
+					$k++; 
+				}
+				if ($k!=3) {
+				$list .= "<div class='col-md-". (3-$k)*4 ." col-lg-". (3-$k)*4 ."' style='min-height: 30px'>&nbsp;</div>";
+				}
+			//}
+					
 		}
 		$this->load->view('header',$data_head);
 
@@ -235,193 +278,208 @@ class Homes extends CI_Controller {
 		//$this->output->enable_profiler(TRUE);  
 		
 		$noMerge = $this->home->get_entries('ID',$v0);
+		 //echo sizeof($noMerge); exit;
 		
-	if(sizeof($noMerge)>=1){
-		$v0 = ($noMerge[0]['Merged']==1)? $noMerge[0]['MergedTo'] : $v0;
+		if(sizeof($noMerge)>=1){
+			$v0 = ($noMerge[0]['Merged']==1)? $noMerge[0]['MergedTo'] : $v0;
 		
-		$MostVisited = $this->home->mostvisited($v0);
-		//var_dump($MostVisited); exit;
-		$weed = array();
-		$fruit = array();
-		$tree_n = array();
-		$tree_e = array();
-		$tree_d = array();
-		$nFilter = "";
-		$node_arr = "";
-		$tree_ee = "";
-		$tree_nn = "";
-		$alpha = 1;
-		$nodes = "{";
-		$edges = "{";
+			$this->home->mostvisited($v0);
+		
+			$weed = array();
+			$fruit = array();
+			$tree_n = array();
+			$tree_e = array();
+			$tree_d = array();
+			$nFilter = "";
+			$node_arr = "";
+			$tree_ee = "";
+			$tree_nn = "";
+			$core_node="";
+			$alpha = 1;
+			$nodes = "{";
+			$edges = "{";
 		
 		
-		$dta = $this->home->get_entries('ID',$v0);
-		$docs = explode(',', $dta[0]['DocID']);
-		$docs = $this->clean_array($docs);
-		//var_dump($docs); exit;
-		$e=0;
-		foreach($docs as $d){
-			$doc = $this->home->get_doc($d);
-			//echo $e;
-			foreach($doc as $row){
-			$dt=$row['data_table'];
-			$q=$row['representation'];
-				//$tree_data = ($dt == "") ? $this->tree_init($v0,$weed) : $this->dataset_extract($dt,$v0);
-			  $tree_data = $this->dataset_extract($dt,$v0);
-				//array_push($tree_d,$tree_data);
+			$dta = $this->home->get_entries('ID',$v0);
+			$docs = explode(',', $dta[0]['DocID']);
+			$docs = $this->clean_array($docs);
+			$docexist = $this->home->get_doc($docs);
+			//var_dump($docexist); exit;
+			$e=0;
+				foreach($docexist as $doc){
+					//$doc = $this->home->get_doc($d);
+					//var_dump($doc); exit;
+				//	foreach($doc as $row){
+					$dt = $doc['data_table'];
+					$q = $doc['representation'];
+						//$tree_data = ($dt == "") ? $this->tree_init($v0,$weed) : $this->dataset_extract($dt,$v0);
+					//	echo $dt; //exit;
+					  $tree_data = $this->dataset_extract($dt,$v0);
+					 // var_dump($tree_data); exit;
+						//array_push($tree_d,$tree_data);
+						if(!empty($tree_data)){
+								$tree_n[] = $tree_data['nodes'];
+						
+						//	} 
+								if ($e==0){
+									$tree_e[] = $tree_data['edges'];
+									$pos = strpos($tree_data['edges'],"{");
+									$phrase = substr($tree_data['edges'], 0, $pos+1);
+									//echo $phrase;
+									$core_node = '\''. str_replace(' ','_',str_replace('/','',$tree_data['nodeTitle'])) . '_' .$v0 . '\'';
+									$nodetitle = $tree_data['nodeTitle'];
+								} else {
+							
+								$tree_e[] = str_replace($phrase,",",$tree_data['edges']);
+								}
+							$e++;
+							
+							
+						}
+					//$tree_n = array_merge_recursive($tree_n);
+					//$tree_e=array_merge_recursive($tree_e);
+					 
+				}
 				
-				$tree_n[] = $tree_data['nodes'];
-				$tree_e[] = $tree_data['edges'];
+				if (!empty($tree_e)){
+						//var_dump($tree_e); exit;
+					//$pos = strpos($tree_e[0],"{");
+						//$phrase = substr($tree_e[0], 0, $pos+1);
+						//echo $phrase; exit;
+			
+					//$tree_n = $this->flatten($tree_n);
+		
+						foreach ($tree_n as $value)	{
+							if (!$tree_n)
+							{
+							$tree_nn = $value;
+							}
+							else
+							{
+							$tree_nn .=  $value;
+							//echo $value;
+							}
+						}
+			
+						foreach ($tree_e as $value)	{
+							if (!$tree_e)
+							{
+							$tree_ee = $value;
+							}
+							else
+							{
+							$tree_ee .=  $value;
+							//echo $value;
+							}
+						}
+						//
+		
+					///$core_node = '\''. str_replace(' ','_',str_replace('/','',$tree_data['nodeTitle'])) . '_' .$v0 . '\'';
+					//echo $core_node; exit;
+					$tree_ee =  str_replace('},'.$core_node.':{','',$tree_ee);
+					$tree_ee =  str_replace('},,', '', $tree_ee);
+					$tree_ee =  str_replace(',},', '}', $tree_ee);
+					//echo $core_node;
+					//echo($tree_ee);
+					//exit;
+			//echo $tree_ee; exit;
+		
+					//var_dump($tree_data); exit;
+		
+			
+					$node_arr .= $tree_nn;//$tree_data['nodes'];
+		
+					$edges .= $tree_ee;//$tree_data['edges'];
+					//echo $edges;
+					$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
+					$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
+					$node_arr= $this->clean_array(explode(',',$node_arr)); 
+				//var_dump($node_arr); exit;
+					for($k=0; $k<count($node_arr); $k++){
+						$nDetail = explode('|',$node_arr[$k]);
+						//var_dump($nDetail); exit;
+						$id = $nDetail[0];
+						$dataset = $nDetail[1];
+						$alpha = $nDetail[2];
+						$filter = $nDetail[3];
+						$shape = ($alpha == 1 ) ? 'dot' : 'rectangle';
+
+						//echo $dataset;
+						$n = $this->home->get_entries('ID',$id);
+						//$nID[$id] = $id;
+						//var_dump($n); exit;
+						if ( !isset($nDate[$id]) ) {
+						  $nDate[$id] = array();
+						}
+
+						$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
+			
+						$NodeName = explode(':',$n[0]['Name']);			
+						$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_", str_replace("  ","",str_replace("/","_",$NodeName[0]))))) . "_".$id ."," : null;
+						//echo($nFilter);
+						$ne=((int)$n[0]['EntityTypeID']==0) ? '22': (int)$n[0]['EntityTypeID'];
+						//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
+			
+						if(!isset($nID[$id])){
+							$nID[$id] = array();
+							$node[$id] = array();
+							$nodeid[]=$id;
+							//str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0])))
+							$node_name = preg_replace('/[^a-z\d ]/i', '', $NodeName[0]);
+							$node_name = str_replace(' ','_',$node_name);
+							if($id == $v0){
+							//$col='#FF0000';
+							$node[$id][] = "'". $node_name . "_".$id ."':{'color':'#FF0000','shape':'".$shape ."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['selectedimg']."','image_h':30,'link':'', 'label': '". $NodeName[0] ."'}";
+							 } else {
+							$node[$id][] = "'". $node_name . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'". $shape ."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'link':'','image_w':30, 'label': '". $NodeName[0] ."'}";
+							 }
+							// var_dump($node[$id]);				
 				
-			}
-			if ($e==0){
-			$pos = strpos($tree_e[0],"{");
-    			$phrase = substr($tree_e[0], 0, $pos+1);
-    			} else {
-    			$tree_e[$e] = str_replace($phrase,",",$tree_e[$e]);
-    			}
-			//$tree_n = array_merge_recursive($tree_n);
-			//$tree_e=array_merge_recursive($tree_e);
-		
+						}
 			
-			$e++; 
-		}
-		//$pos = strpos($tree_e[0],"{");
-    		//$phrase = substr($tree_e[0], 0, $pos+1);
-    		//echo $phrase; 
-		//var_dump($tree_e); exit;
-		//$tree_n = $this->flatten($tree_n);
-		
-			foreach ($tree_n as $value)
-			{
-			    if (!$tree_n)
-			    {
-				$tree_nn = $value;
-			    }
-			    else
-			    {
-				$tree_nn .=  $value;
-				//echo $value;
-			    }
-			}
-			
-			foreach ($tree_e as $value)
-			{
-			    if (!$tree_e)
-			    {
-				$tree_ee = $value;
-			    }
-			    else
-			    {
-				$tree_ee .=  $value;
-				//echo $value;
-			    }
-			}
-			//
-		
-		$core_node = '\''. str_replace(' ','_',str_replace('/','',$tree_data['nodeTitle'])) . '_' .$v0 . '\'';
-		//echo($core_node); exit;
-		$tree_ee =  str_replace('},'.$core_node.':{','',$tree_ee);
-		$tree_ee =  str_replace('},,', '', $tree_ee);
-		$tree_ee =  str_replace(',},', '}', $tree_ee);
-		//echo $core_node;
-		//echo($tree_ee);
-		//exit;
-//echo $tree_ee; exit;
-		
-		//var_dump($tree_data); exit;
-		
-		$nodetitle = $tree_data['nodeTitle'];
-		$node_arr .= $tree_nn;//$tree_data['nodes'];
-		
-		$edges .= $tree_ee;//$tree_data['edges'];
-		//echo $edges;
-		$cid[22]= array('col'=>'#808f5a', 'shape'=>'rectangle', 'img'=>'people.png','selectedimg'=>'people-dark.png');
-		$cid[21]= array('col'=>'#ff5000', 'shape'=>'dot', 'img'=> 'organisations.png', 'selectedimg'=> 'organisations-dark.png');
-		$node_arr= $this->clean_array(explode(',',$node_arr)); 
-	//var_dump($node_arr); exit;
-		for($k=0; $k<count($node_arr); $k++){
-			$nDetail = explode('|',$node_arr[$k]);
-			//var_dump($nDetail); exit;
-			$id = $nDetail[0];
-			$dataset = $nDetail[1];
-			$alpha = $nDetail[2];
-			$filter = $nDetail[3];
-			$shape = ($alpha == 1 ) ? 'dot' : 'rectangle';
-
-			//echo $dataset;
-			$n = $this->home->get_entries('ID',$id);
-			//$nID[$id] = $id;
-			//var_dump($n); exit;
-			if ( !isset($nDate[$id]) ) {
-			  $nDate[$id] = array();
-			}
-
-			$nDate[$id][] = (isset($nd[$dataset]))? $nd[$dataset] : '' ;
-			
-			$NodeName = explode(':',$n[0]['Name']);			
-			$nFilter .= ($shape == 'dot' ) ?  str_replace(",","",str_replace(".","", str_replace(" ","_", str_replace("  ","",str_replace("/","_",$NodeName[0]))))) . "_".$id ."," : null;
-			//echo($nFilter);
-			$ne=((int)$n[0]['EntityTypeID']==0) ? '22': (int)$n[0]['EntityTypeID'];
-			//echo $col[$cid] . ' - '. $nd['ID'] .'  ';
-			
-			if(!isset($nID[$id])){
-				$nID[$id] = array();
-				$node[$id] = array();
-				$nodeid[]=$id;
-				//str_replace(",","",str_replace(".","",str_replace(" ","_",$NodeName[0])))
-				$node_name = preg_replace('/[^a-z\d ]/i', '', $NodeName[0]);
-				$node_name = str_replace(' ','_',$node_name);
-				if($id == $v0){
-				//$col='#FF0000';
-				$node[$id][] = "'". $node_name . "_".$id ."':{'color':'#FF0000','shape':'".$shape ."', 'radius':30, 'alpha': ".$alpha.",'nodeid':'".$id."','image':'".$cid[$ne]['selectedimg']."','image_h':30,'link':'', 'label': '". $NodeName[0] ."'}";
-				 } else {
-				$node[$id][] = "'". $node_name . "_". $id  ."':{'color':'". $cid[$ne]['col'] ."','shape':'". $shape ."', 'radius':30, 'alpha': ".$alpha.", 'nodeid':'".$id."','image':'".$cid[$ne]['img']."','image_h':30,'link':'','image_w':30, 'label': '". $NodeName[0] ."'}";
-				 }
-				// var_dump($node[$id]);				
-				
-			}
-			
-		}	
-		//var_dump($nodeid);	
+					}	
+					//var_dump($nodeid);	
 		
 		
-		for($k=0; $k<count($nodeid); $k++){
-		$nid = $nodeid[$k];
-		//var_dump($nDate[$nid]);
-		$Ed="";
-		$nd=explode(',',$nDate[$nid][0]);
-		//var_dump($nd);
-			//for($j=0; $j<count($nd); $j++){ $Ed.= ' ['. $nd[$j] . ']'; }
-		 $nodes .= str_replace("'}", $Ed ."'}", $node[$nid][0]) . ',';
-		}
+					for($k=0; $k<count($nodeid); $k++){
+					$nid = $nodeid[$k];
+					//var_dump($nDate[$nid]);
+					$Ed="";
+					$nd=explode(',',$nDate[$nid][0]);
+					//var_dump($nd);
+						//for($j=0; $j<count($nd); $j++){ $Ed.= ' ['. $nd[$j] . ']'; }
+					 $nodes .= str_replace("'}", $Ed ."'}", $node[$nid][0]) . ',';
+					}
 		
 
-		$nodes .= "}";
-		$edges .= "}";
-		$nFilter.= "}";
-		$nodes = str_replace(",}","}",$nodes);
-		$edges = str_replace(",}","}",$edges);
-		$nFilter = str_replace(",}","",$nFilter);
-		//echo $nodes .'<br>'; 
-		//echo $edges;
-		//exit;
-		//$timeline = $this->timeline_data($v0);
+					$nodes .= "}";
+					$edges .= "}";
+					$nFilter.= "}";
+					$nodes = str_replace(",}","}",$nodes);
+					$edges = str_replace(",}","}",$edges);
+					$nFilter = str_replace(",}","",$nFilter);
+					//echo $nodes .'<br>'; 
+					//echo $edges;
+					//exit;
+					//$timeline = $this->timeline_data($v0);
 		
-		$vis_filter = $this->filter_data($node_arr);
-	//'events' => $timeline['events'], 'sections' => $timeline['sections'],
-		$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'filter_form'=> $vis_filter, 'hidden_nodes'=> $nFilter, 'nodeid'=> $v0);
+					$vis_filter = $this->filter_data($node_arr);
+				//'events' => $timeline['events'], 'sections' => $timeline['sections'],
+					$content = array('edges' => $edges,'nodes' => $nodes,'error' => 'Entity Map', 'root' => $v0, 'node_title' => $nodetitle, 'filter_form'=> $vis_filter, 'hidden_nodes'=> $nFilter, 'nodeid'=> $v0);
 	
-	$data_head = array('page_title' => 'Visualisation');
+				$data_head = array('page_title' => 'Visualisation');
 	
-	$this->load->view('header',$data_head);
-	$this->load->view('home',$content);
-	$this->load->view('footer');
-	
-	} //-----end of size of v0 ---------	
-	//$data_head = array('page_title' => 'Visualisation');
-	else {
-		$this->index();
+				$this->load->view('header',$data_head);
+				$this->load->view('home',$content);
+				$this->load->view('footer');
+				} else {
+					$this->home->disable_entity($v0);
+					$this->index();
+					//echo "no data";
+				}
+	 //-----end of size of v0 ---------	
+		} 	else  {
+			$this->index();
 		}
 	}
 	
@@ -540,7 +598,7 @@ class Homes extends CI_Controller {
 		$stm[] = $stem;
 		//$edge_name = str_replace(".","",str_replace(" ","_",$root_Name[0]));
 		$edge_name = preg_replace('/[^a-z\d ]/i', '', $root_Name[0]);
-		$edge_name = str_replace(' ','_',str_replace('/','_',$edge_name));
+		$edge_name = str_replace(' ','_',str_replace('/','_',str_replace('\r','',$edge_name)));
  		$edges .= "'" . $edge_name ."_". $stm[0] . "':{";
 		}
 		//	echo sizeof($branch). ',';
@@ -556,16 +614,33 @@ class Homes extends CI_Controller {
 		 		$edge_name = preg_replace('/[^a-z\d ]/i', '', $child_Name[0]);
 				$edge_name = str_replace(' ','_',$edge_name);
 				$edges .= "'". $edge_name ."_". $child[$i]['ID']."':{},";
-				$node_array .=  $child[$i]['ID'] .'|'. $branch[$k]['dataset'] .'|' . $alpha . '|1,' ;
+				$node_array .= ($child[$i]['ID']>1) ? $child[$i]['ID'] .'|'. $branch[$k]['dataset'] .'|' . $alpha . '|1,' :'' ;
+				
 				$fruit[] = $child[$i]['ID'];
 			    }
 			}
-			if($k==10) break;
+			if($k==20) break;
 		}		
 		
 		if ( isset($stm) ) {
 		$edges .= "},";
 		unset($stm);			
+		}
+		$node_array = substr($node_array,0,-1);
+		if (sizeof(explode(',',$node_array))<2) {
+		
+		echo "Sorry for the inconvinience. The entity in question seems to have a disconnect. 
+			An Emaill has been disptched to the adminstrator. Please check later.";
+				
+				$emailTo = 'bugs@openinstitute.com'; // Put your own email address here
+				$subject = 'Open Duka Entity Error';
+				$headers = 'From: bugs@openinstitute.com' ;
+				$headers .='Reply-To: bugs@openinstitute.com';
+				$body = 'Entity ID: '.$stem .' has issues. Please check';
+		
+				mail($emailTo, $subject, $body, $headers);
+				sleep(5);
+		redirect('/');
 		}
 		//var_dump(explode(',',$node_array)); 
 		$tree['filter'] = $filter;
@@ -586,43 +661,47 @@ class Homes extends CI_Controller {
 	 $flds= array();
 	 $ids = array();
 	 $valz = array();
-	 
+	 $tr = array();
 		$dta = $this->home->get_dataset_map($dt,$v0);
-//var_dump($dta); exit;
-		foreach($dta as $k => $d){
 		
-			foreach($d as $j => $f){ $flds[]= $j; }
+		if (!empty($dta)){
+	//var_dump($dta); exit;
+			foreach($dta as $k => $d){
+		
+				foreach($d as $j => $f){ $flds[]= $j; }
 			
-			break;
-		}
+				break;
+			}
 		
-		foreach($flds as $f){
-		 
-			for($i=0; $i<sizeof($dta); $i++){
-			$e = explode(',', $dta[$i][$f]);
-				for($j=0; $j<sizeof($e); $j++){
-				$ids[] = $e[$j];
-				}
-				//var_dump($dta);
-				//$ids[] = $dta[$i][$f];
+			foreach($flds as $f){
+			 
+				for($i=0; $i<sizeof($dta); $i++){
+				$e = explode(',', $dta[$i][$f]);
+					for($j=0; $j<sizeof($e); $j++){
+					$ids[] = $e[$j];
+					}
+					//var_dump($dta);
+					//$ids[] = $dta[$i][$f];
 				
-				//array_push($weed,$v0);
-			} 
-		}
+					//array_push($weed,$v0);
+				} 
+			}
 		
-		$ids = $this->clean_array($ids);
-		//var_dump($ids); exit;
-		foreach ($ids as $i){
-			if($i != $v0){
-		 	$valz[] = array('ID'=>$i,'dataset'=>'0');
-		 	}
-		}
+			$ids = $this->clean_array($ids);
+			//var_dump($ids); exit;
+			foreach ($ids as $i){
+				if($i != $v0){
+			 	$valz[] = array('ID'=>$i,'dataset'=>'0');
+			 	}
+			}
 		
-		$one = $this->tree_build($valz,$v0,1,0);
-		//var_dump($one); exit;
-		$nt = $this->home->get_entries('ID',$v0);
-		$nodetitle = $nt[0]['Name'];
-		$tr = array('nodes'=>$one['node_arr'], 'edges'=>$one['edges'], 'nodeTitle' => $nodetitle, 'alpha'=>1, 'filter'=>$one['filter']);
+			$one = $this->tree_build($valz,$v0,1,0);
+			//var_dump($one); exit;
+			$nt = $this->home->get_entries('ID',$v0);
+			$nodetitle = $nt[0]['Name'];
+			$tr = array('nodes'=>$one['node_arr'], 'edges'=>$one['edges'], 'nodeTitle' => $nodetitle, 'alpha'=>1, 'filter'=>$one['filter']);
+			//var_dump($tr); exit;
+		}
 		return $tr;	
 	}
 
@@ -727,9 +806,45 @@ class Homes extends CI_Controller {
 		//var_dump($doc); exit;
 		//var_dump($doc); echo sizeof($doc); exit;
 		$extraData="";
+		$extraNav="";
 		$maps= '{"data":[{"posts":[';
 		//var_dump($root_node);
+
 		if(sizeof($doc)>0){
+			$extraNav .= '<div id="static"><ol class="breadcrumb pnav ">';
+			for($j=0; $j<sizeof($doc); $j++){
+
+				$doc_ref = $doc[$j];
+				if ($doc_ref!= null){
+
+				$dataset = $this->home->get_doc($doc_ref);
+
+				$getCat="";
+				$cat="";
+
+				
+
+				foreach($dataset as $val){				
+					$dID=$val['DocTypeID'];
+					$dcat= $this->home->get_docType($dID);
+					$cat.=$dcat[0]['DocTypeName'].',';	
+			    }			    
+
+			    $getCat = explode(",", $cat);
+			    
+
+				foreach ($getCat as $value) {
+					if ($value!="") {
+						$c=str_replace(' ', '',$value);
+						$extraNav .= '<li><a href ="#'.$c.'" class="scroll">'.$value.'</a></li>';
+					}
+					
+				}			    
+			}
+			
+			}
+			$extraNav .='</ol></div>';
+
 			for($i=0; $i<sizeof($doc); $i++){
 			$id = $n;
 			//$c_node = $this->home->get_entries('ID',$id);
@@ -740,14 +855,15 @@ class Homes extends CI_Controller {
 				
 			if ($doc_ref!= null){
 
-				//$doc_ref = $doc_ids[$i];
 				$dataset = $this->home->get_doc($doc_ref);
-				//var_dump($dataset[0]);
+				
 				foreach($dataset as $row){
 				$dt=$row['data_table'];
 				//echo $dt;
 				$dtID=$row['DocTypeID'];
 				$dataCat = $this->home->get_docType($dtID);
+
+
 				//var_dump($dataCat);
 				//echo $n;
 				   if($dt!=""){
@@ -756,38 +872,48 @@ class Homes extends CI_Controller {
 						$q = ($ds=="")? '*' : $ds;
 						//echo $dt;
 						$dta = $this->home->get_dataset($dt,$q,$n);
-						//$dta = $d[0];
 						//var_dump($dta); exit;
 						//$k = (sizeof($dta[0])>11) ? 1 : (int)(12/sizeof($dta[0])) ;
 						//$i=1;
-						//echo sizeof($dta[0]);
-						
-						$extraData .= '<div class="category"><span class="label" style="background-color: '.$dataCat[0]['IconColor'].';">'.$dataCat[0]['DocTypeName'].'</span></div>';
+						//echo sizeof($dta); exit;
+
+						if (sizeof($dta)!= 0){
+						//$extraData .= '<br id="'.$dataCat[0]['DocTypeName'].'" class="listed">';
+						$dtype=	str_replace(' ', '',$dataCat[0]['DocTypeName']);
+						$extraData .= '<div id="'.$dtype.'" class="category"><a><span class="label" style="background-color: '.$dataCat[0]['IconColor'].';">'.$dataCat[0]['DocTypeName'].'</span></a></div>';
 						$extraData .= '<table class="table table-hover table-condensed relationships">';
 						$extraData .= '<thead>';	
 							foreach($dta[0] as  $key => $val){
 								if (substr($key,-3,3)=='_E_') {
+								
 						   	  		$Entity_id[]= $key;
-						  		}
-						  		else{
-							$extraData .= '<th>'. str_replace("_"," ", $key) .'</th>';
+						   	  		
+						  		} else {
+						  		
+									$extraData .= '<th>'. str_replace("_"," ", $key) .'</th>';
+									
 								}
 							}
 						$extraData .= '</thead>';
-						//var_dump($Entity_id);
+						//echo($extraData); exit;
 						for($j=0; $j<sizeof($dta); $j++){
 						//$i=1;
 						//$extraData .= '<br>';
 						$extraData .= '<tr>';
 						
 							foreach($dta[$j] as  $key => $val){
+								$fieldname = $key .'_E_';
 								if (substr($key,-3,3)=='_E_') {
 								//$kd=$key;
 							//	 $extraData .= '<td><a href="'. $dta[$j][$key].'">'. $val .'</a></td>' ;
 								}
 								else
 								{
-								 $extraData .= '<td>'. $val .'</td>' ;
+									//if ($this->home->fieldcheck($fieldname,$dt)){
+									//$extraData .= '<td><a href="'. $dta[$j][$key].'">'. str_replace("\r","", $val)  .'</a></td>' ;
+					  				//} else {
+								 	$extraData .= '<td>'. str_replace("\r","", $val) .'</td>' ;
+								 	//}
 								}
 							//if($i==12){break;}
 							//++$i;
@@ -796,14 +922,15 @@ class Homes extends CI_Controller {
 						}
 						$extraData .= '</table>';	
 						//echo $extraData;
-					} 
+					}
+				}
 			}
-		
 			//$maps .= ' {"ID":"'. $c_node[0]['ID'] .'", "ExtraData":"'. htmlspecialchars($extraData) .'"},';	
 						
 			}
 			} 
-			$maps .= ' { "ExtraData":"'. htmlspecialchars(str_replace( "\n", "<br/>",str_replace( "\t", "",$extraData))) .'"}';	
+			$maps .= ' { "ExtraData":"'. htmlspecialchars(str_replace( "\n", "<br/>",str_replace( "\t", "",$extraData))) .'"},';	
+			$maps .= ' { "ExtraNav":"'. htmlspecialchars(str_replace( "\n", "<br/>",str_replace( "\t", "",$extraNav))) .'"}';
 			
 		} 
 		//else {
@@ -864,7 +991,7 @@ class Homes extends CI_Controller {
 	function filter_data($var){
 	
 	//var_dump($var);
-	$this->output->enable_profiler(false); 
+	//$this->output->enable_profiler(false); 
 		$form_filter = $this->home->get_mapped_entries($var);
 		$form_f ="";
 		
