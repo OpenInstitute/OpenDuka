@@ -11,12 +11,13 @@ Raw/*
 # exclude everything except directory application
 *.[oa]
 *~
-*
-!application
-application/*
-!application/views
-!application/models
-!application/controllers
+#*
+#!application
+#application/*
+#!application/views
+#!application/models
+#!application/controllers
 
 application/config/database.php
 application/config/config.php
+.idea/
